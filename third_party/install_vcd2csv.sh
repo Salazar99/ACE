@@ -8,6 +8,12 @@ cd ..
 mkdir build && cd build
 cmake -DCMAKE_BUILD_TYPE=Release ..
 make -j vcd2csv
-cp vcd2csv ../../
+cp vcd2csv ../../../vcd2csv
 cd ../../..
-rm -rf usm-t
+
+if[ -d vcd2csv] then
+    echo "vcd2csv is installed successfully"
+    rm -rf usm-t
+else
+    echo "vcd2csv is not installed"
+fi  

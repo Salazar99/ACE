@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <stdint.h>
 
 #include <algorithm>
 #include <cstdio>
@@ -9,257 +10,78 @@
 
 #include "cpptracer/tracer.hpp"
 #include "muffin_dataTypes.hpp"
-#include "test.hpp"
+#include "sqrt_newton.hpp"
 
-using Trace = std::vector<test::test_iostruct>;
+using Trace = std::vector<sqrt_newton::sqrt_newton_iostruct>;
 
 // set the inputs to random values
-void setRandomInputs(test::test_iostruct& in) {
-  in.a_1_0 = rand() % 2;
-  in.a_1_1 = rand() % 2;
-  in.a_2_0 = rand() % 2;
-  in.a_2_1 = rand() % 2;
-  in.a_3_0 = rand() % 2;
-  in.a_3_1 = rand() % 2;
-  in.a_4_0 = rand() % 2;
-  in.a_4_1 = rand() % 2;
-  in.a_5_0 = rand() % 2;
-  in.a_5_1 = rand() % 2;
-  in.a_6_0 = rand() % 2;
-  in.a_6_1 = rand() % 2;
-  in.a_7_0 = rand() % 2;
-  in.a_7_1 = rand() % 2;
-  in.a_8_0 = rand() % 2;
-  in.a_8_1 = rand() % 2;
-  in.a_9_0 = rand() % 2;
-  in.a_9_1 = rand() % 2;
-  in.a_10_0 = rand() % 2;
-  in.a_10_1 = rand() % 2;
+void setRandomInputs(sqrt_newton::sqrt_newton_iostruct& in) {
+  in.rst = rand() % 2;
+  in.start = rand() % 2;
+  in.x = rand() % 2;
 }
 
 // set the inputs from a trace sample
-void setInputsFromTraceSample(test::test_iostruct& in,
-                              const test::test_iostruct& dump) {
-  in.a_1_0 = dump.a_1_0;
-  in.a_1_1 = dump.a_1_1;
-  in.a_2_0 = dump.a_2_0;
-  in.a_2_1 = dump.a_2_1;
-  in.a_3_0 = dump.a_3_0;
-  in.a_3_1 = dump.a_3_1;
-  in.a_4_0 = dump.a_4_0;
-  in.a_4_1 = dump.a_4_1;
-  in.a_5_0 = dump.a_5_0;
-  in.a_5_1 = dump.a_5_1;
-  in.a_6_0 = dump.a_6_0;
-  in.a_6_1 = dump.a_6_1;
-  in.a_7_0 = dump.a_7_0;
-  in.a_7_1 = dump.a_7_1;
-  in.a_8_0 = dump.a_8_0;
-  in.a_8_1 = dump.a_8_1;
-  in.a_9_0 = dump.a_9_0;
-  in.a_9_1 = dump.a_9_1;
-  in.a_10_0 = dump.a_10_0;
-  in.a_10_1 = dump.a_10_1;
+void setInputsFromTraceSample(sqrt_newton::sqrt_newton_iostruct& in,
+                              const sqrt_newton::sqrt_newton_iostruct& dump) {
+  in.rst = dump.rst;
+  in.start = dump.start;
+  in.x = dump.x;
 }
 
 // returns true if two samples are equivalent
-bool checkOutput(const test::test_iostruct& golden,
-                 const test::test_iostruct& faulty) {
-  if (golden.c_1_0 != faulty.c_1_0 || golden.c_1_1 != faulty.c_1_1 ||
-      golden.c_2_0 != faulty.c_2_0 || golden.c_2_1 != faulty.c_2_1 ||
-      golden.c_3_0 != faulty.c_3_0 || golden.c_3_1 != faulty.c_3_1 ||
-      golden.c_4_0 != faulty.c_4_0 || golden.c_4_1 != faulty.c_4_1 ||
-      golden.c_5_0 != faulty.c_5_0 || golden.c_5_1 != faulty.c_5_1 ||
-      golden.c_6_0 != faulty.c_6_0 || golden.c_6_1 != faulty.c_6_1 ||
-      golden.c_7_0 != faulty.c_7_0 || golden.c_7_1 != faulty.c_7_1 ||
-      golden.c_8_0 != faulty.c_8_0 || golden.c_8_1 != faulty.c_8_1 ||
-      golden.c_9_0 != faulty.c_9_0 || golden.c_9_1 != faulty.c_9_1 ||
-      golden.c_10_0 != faulty.c_10_0 || golden.c_10_1 != faulty.c_10_1) {
+bool checkOutput(const sqrt_newton::sqrt_newton_iostruct& golden,
+                 const sqrt_newton::sqrt_newton_iostruct& faulty) {
+  if (golden.y != faulty.y || golden.done != faulty.done || golden.error != faulty.error) {
     return 0;
   }
   return 1;
 }
 
-void printSample(test::test_iostruct& in) {
-  printf("a_1_0: %d\n", in.a_1_0);
-  printf("a_1_1: %d\n", in.a_1_1);
-  printf("a_2_0: %d\n", in.a_2_0);
-  printf("a_2_1: %d\n", in.a_2_1);
-  printf("a_3_0: %d\n", in.a_3_0);
-  printf("a_3_1: %d\n", in.a_3_1);
-  printf("a_4_0: %d\n", in.a_4_0);
-  printf("a_4_1: %d\n", in.a_4_1);
-  printf("a_5_0: %d\n", in.a_5_0);
-  printf("a_5_1: %d\n", in.a_5_1);
-  printf("a_6_0: %d\n", in.a_6_0);
-  printf("a_6_1: %d\n", in.a_6_1);
-  printf("a_7_0: %d\n", in.a_7_0);
-  printf("a_7_1: %d\n", in.a_7_1);
-  printf("a_8_0: %d\n", in.a_8_0);
-  printf("a_8_1: %d\n", in.a_8_1);
-  printf("a_9_0: %d\n", in.a_9_0);
-  printf("a_9_1: %d\n", in.a_9_1);
-  printf("a_10_0: %d\n", in.a_10_0);
-  printf("a_10_1: %d\n", in.a_10_1);
-  printf("c_1_0: %d\n", in.c_1_0);
-  printf("c_1_1: %d\n", in.c_1_1);
-  printf("c_2_0: %d\n", in.c_2_0);
-  printf("c_2_1: %d\n", in.c_2_1);
-  printf("c_3_0: %d\n", in.c_3_0);
-  printf("c_3_1: %d\n", in.c_3_1);
-  printf("c_4_0: %d\n", in.c_4_0);
-  printf("c_4_1: %d\n", in.c_4_1);
-  printf("c_5_0: %d\n", in.c_5_0);
-  printf("c_5_1: %d\n", in.c_5_1);
-  printf("c_6_0: %d\n", in.c_6_0);
-  printf("c_6_1: %d\n", in.c_6_1);
-  printf("c_7_0: %d\n", in.c_7_0);
-  printf("c_7_1: %d\n", in.c_7_1);
-  printf("c_8_0: %d\n", in.c_8_0);
-  printf("c_8_1: %d\n", in.c_8_1);
-  printf("c_9_0: %d\n", in.c_9_0);
-  printf("c_9_1: %d\n", in.c_9_1);
-  printf("c_10_0: %d\n", in.c_10_0);
-  printf("c_10_1: %d\n", in.c_10_1);
+void printSample(sqrt_newton::sqrt_newton_iostruct& in) {
+  printf("rst: %d\n", in.rst);
+  printf("start: %d\n", in.start);
+  printf("x: %d\n", in.x);
+  printf("y: %d\n", in.y);
+  printf("done: %d\n", in.done);
+  printf("error: %d\n", in.error);
 }
 
 //we need to this to dump as a wire 1 bit long
-static std::vector<bool> vcd_clock = {0};
-static std::vector<bool> vcd_a_1_0 = {0};
-static std::vector<bool> vcd_a_1_1 = {0};
-static std::vector<bool> vcd_a_2_0 = {0};
-static std::vector<bool> vcd_a_2_1 = {0};
-static std::vector<bool> vcd_a_3_0 = {0};
-static std::vector<bool> vcd_a_3_1 = {0};
-static std::vector<bool> vcd_a_4_0 = {0};
-static std::vector<bool> vcd_a_4_1 = {0};
-static std::vector<bool> vcd_a_5_0 = {0};
-static std::vector<bool> vcd_a_5_1 = {0};
-static std::vector<bool> vcd_a_6_0 = {0};
-static std::vector<bool> vcd_a_6_1 = {0};
-static std::vector<bool> vcd_a_7_0 = {0};
-static std::vector<bool> vcd_a_7_1 = {0};
-static std::vector<bool> vcd_a_8_0 = {0};
-static std::vector<bool> vcd_a_8_1 = {0};
-static std::vector<bool> vcd_a_9_0 = {0};
-static std::vector<bool> vcd_a_9_1 = {0};
-static std::vector<bool> vcd_a_10_0 = {0};
-static std::vector<bool> vcd_a_10_1 = {0};
-static std::vector<bool> vcd_c_1_0 = {0};
-static std::vector<bool> vcd_c_1_1 = {0};
-static std::vector<bool> vcd_c_2_0 = {0};
-static std::vector<bool> vcd_c_2_1 = {0};
-static std::vector<bool> vcd_c_3_0 = {0};
-static std::vector<bool> vcd_c_3_1 = {0};
-static std::vector<bool> vcd_c_4_0 = {0};
-static std::vector<bool> vcd_c_4_1 = {0};
-static std::vector<bool> vcd_c_5_0 = {0};
-static std::vector<bool> vcd_c_5_1 = {0};
-static std::vector<bool> vcd_c_6_0 = {0};
-static std::vector<bool> vcd_c_6_1 = {0};
-static std::vector<bool> vcd_c_7_0 = {0};
-static std::vector<bool> vcd_c_7_1 = {0};
-static std::vector<bool> vcd_c_8_0 = {0};
-static std::vector<bool> vcd_c_8_1 = {0};
-static std::vector<bool> vcd_c_9_0 = {0};
-static std::vector<bool> vcd_c_9_1 = {0};
-static std::vector<bool> vcd_c_10_0 = {0};
-static std::vector<bool> vcd_c_10_1 = {0};
+static std::vector<bool> vcd_clk = {0};
+static std::vector<bool> vcd_rst = {0};
+static std::vector<bool> vcd_start = {0};
+static std::vector<bool> vcd_x = {0};
+static std::vector<bool> vcd_y = {0};
+static std::vector<bool> vcd_done = {0};
+static std::vector<bool> vcd_error = {0};
 
 static cpptracer::TimeScale timeStep(1, cpptracer::TimeUnit::NS);
 
 cpptracer::Tracer initVCDTrace(const std::string& name) {
-  cpptracer::Tracer tracer(name, timeStep, "test_bench");
-  tracer.addScope("test_");
+  cpptracer::Tracer tracer(name, timeStep, "sqrt_newton_bench");
+  tracer.addScope("sqrt_newton_");
 
-  tracer.addTrace(vcd_clock, "clock");
-  tracer.addTrace(vcd_a_1_0, "a_1_0");
-  tracer.addTrace(vcd_a_1_1, "a_1_1");
-  tracer.addTrace(vcd_a_2_0, "a_2_0");
-  tracer.addTrace(vcd_a_2_1, "a_2_1");
-  tracer.addTrace(vcd_a_3_0, "a_3_0");
-  tracer.addTrace(vcd_a_3_1, "a_3_1");
-  tracer.addTrace(vcd_a_4_0, "a_4_0");
-  tracer.addTrace(vcd_a_4_1, "a_4_1");
-  tracer.addTrace(vcd_a_5_0, "a_5_0");
-  tracer.addTrace(vcd_a_5_1, "a_5_1");
-  tracer.addTrace(vcd_a_6_0, "a_6_0");
-  tracer.addTrace(vcd_a_6_1, "a_6_1");
-  tracer.addTrace(vcd_a_7_0, "a_7_0");
-  tracer.addTrace(vcd_a_7_1, "a_7_1");
-  tracer.addTrace(vcd_a_8_0, "a_8_0");
-  tracer.addTrace(vcd_a_8_1, "a_8_1");
-  tracer.addTrace(vcd_a_9_0, "a_9_0");
-  tracer.addTrace(vcd_a_9_1, "a_9_1");
-  tracer.addTrace(vcd_a_10_0, "a_10_0");
-  tracer.addTrace(vcd_a_10_1, "a_10_1");
-  tracer.addTrace(vcd_c_1_0, "c_1_0");
-  tracer.addTrace(vcd_c_1_1, "c_1_1");
-  tracer.addTrace(vcd_c_2_0, "c_2_0");
-  tracer.addTrace(vcd_c_2_1, "c_2_1");
-  tracer.addTrace(vcd_c_3_0, "c_3_0");
-  tracer.addTrace(vcd_c_3_1, "c_3_1");
-  tracer.addTrace(vcd_c_4_0, "c_4_0");
-  tracer.addTrace(vcd_c_4_1, "c_4_1");
-  tracer.addTrace(vcd_c_5_0, "c_5_0");
-  tracer.addTrace(vcd_c_5_1, "c_5_1");
-  tracer.addTrace(vcd_c_6_0, "c_6_0");
-  tracer.addTrace(vcd_c_6_1, "c_6_1");
-  tracer.addTrace(vcd_c_7_0, "c_7_0");
-  tracer.addTrace(vcd_c_7_1, "c_7_1");
-  tracer.addTrace(vcd_c_8_0, "c_8_0");
-  tracer.addTrace(vcd_c_8_1, "c_8_1");
-  tracer.addTrace(vcd_c_9_0, "c_9_0");
-  tracer.addTrace(vcd_c_9_1, "c_9_1");
-  tracer.addTrace(vcd_c_10_0, "c_10_0");
-  tracer.addTrace(vcd_c_10_1, "c_10_1");
+  tracer.addTrace(vcd_clk, "clk");
+  tracer.addTrace(vcd_rst, "rst");
+  tracer.addTrace(vcd_start, "start");
+  tracer.addTrace(vcd_x, "x");
+  tracer.addTrace(vcd_y, "y");
+  tracer.addTrace(vcd_done, "done");
+  tracer.addTrace(vcd_error, "error");
 
   tracer.closeScope();
   tracer.createTrace();
   return tracer;
 }
-void updateVCDVariables(const test::test_iostruct& in) {
-  vcd_clock[0] = in.clock;
-  vcd_a_1_0[0] = in.a_1_0;
-  vcd_a_1_1[0] = in.a_1_1;
-  vcd_a_2_0[0] = in.a_2_0;
-  vcd_a_2_1[0] = in.a_2_1;
-  vcd_a_3_0[0] = in.a_3_0;
-  vcd_a_3_1[0] = in.a_3_1;
-  vcd_a_4_0[0] = in.a_4_0;
-  vcd_a_4_1[0] = in.a_4_1;
-  vcd_a_5_0[0] = in.a_5_0;
-  vcd_a_5_1[0] = in.a_5_1;
-  vcd_a_6_0[0] = in.a_6_0;
-  vcd_a_6_1[0] = in.a_6_1;
-  vcd_a_7_0[0] = in.a_7_0;
-  vcd_a_7_1[0] = in.a_7_1;
-  vcd_a_8_0[0] = in.a_8_0;
-  vcd_a_8_1[0] = in.a_8_1;
-  vcd_a_9_0[0] = in.a_9_0;
-  vcd_a_9_1[0] = in.a_9_1;
-  vcd_a_10_0[0] = in.a_10_0;
-  vcd_a_10_1[0] = in.a_10_1;
-  vcd_c_1_0[0] = in.c_1_0;
-  vcd_c_1_1[0] = in.c_1_1;
-  vcd_c_2_0[0] = in.c_2_0;
-  vcd_c_2_1[0] = in.c_2_1;
-  vcd_c_3_0[0] = in.c_3_0;
-  vcd_c_3_1[0] = in.c_3_1;
-  vcd_c_4_0[0] = in.c_4_0;
-  vcd_c_4_1[0] = in.c_4_1;
-  vcd_c_5_0[0] = in.c_5_0;
-  vcd_c_5_1[0] = in.c_5_1;
-  vcd_c_6_0[0] = in.c_6_0;
-  vcd_c_6_1[0] = in.c_6_1;
-  vcd_c_7_0[0] = in.c_7_0;
-  vcd_c_7_1[0] = in.c_7_1;
-  vcd_c_8_0[0] = in.c_8_0;
-  vcd_c_8_1[0] = in.c_8_1;
-  vcd_c_9_0[0] = in.c_9_0;
-  vcd_c_9_1[0] = in.c_9_1;
-  vcd_c_10_0[0] = in.c_10_0;
-  vcd_c_10_1[0] = in.c_10_1;
+void updateVCDVariables(const sqrt_newton::sqrt_newton_iostruct& in) {
+  vcd_clk[0] = in.clk;
+  vcd_rst[0] = in.rst;
+  vcd_start[0] = in.start;
+  vcd_x[0] = in.x;
+  vcd_y[0] = in.y;
+  vcd_done[0] = in.done;
+  vcd_error[0] = in.error;
 }
 
 bool areEquivalent(const Trace& t1, const Trace& t2) {
@@ -267,26 +89,9 @@ bool areEquivalent(const Trace& t1, const Trace& t2) {
     return false;
   }
   for (size_t i = 0; i < t1.size(); ++i) {
-    if (t1[i].a_1_0 != t2[i].a_1_0 || t1[i].a_1_1 != t2[i].a_1_1 ||
-        t1[i].a_2_0 != t2[i].a_2_0 || t1[i].a_2_1 != t2[i].a_2_1 ||
-        t1[i].a_3_0 != t2[i].a_3_0 || t1[i].a_3_1 != t2[i].a_3_1 ||
-        t1[i].a_4_0 != t2[i].a_4_0 || t1[i].a_4_1 != t2[i].a_4_1 ||
-        t1[i].a_5_0 != t2[i].a_5_0 || t1[i].a_5_1 != t2[i].a_5_1 ||
-        t1[i].a_6_0 != t2[i].a_6_0 || t1[i].a_6_1 != t2[i].a_6_1 ||
-        t1[i].a_7_0 != t2[i].a_7_0 || t1[i].a_7_1 != t2[i].a_7_1 ||
-        t1[i].a_8_0 != t2[i].a_8_0 || t1[i].a_8_1 != t2[i].a_8_1 ||
-        t1[i].a_9_0 != t2[i].a_9_0 || t1[i].a_9_1 != t2[i].a_9_1 ||
-        t1[i].a_10_0 != t2[i].a_10_0 || t1[i].a_10_1 != t2[i].a_10_1 ||
-        t1[i].c_1_0 != t2[i].c_1_0 || t1[i].c_1_1 != t2[i].c_1_1 ||
-        t1[i].c_2_0 != t2[i].c_2_0 || t1[i].c_2_1 != t2[i].c_2_1 ||
-        t1[i].c_3_0 != t2[i].c_3_0 || t1[i].c_3_1 != t2[i].c_3_1 ||
-        t1[i].c_4_0 != t2[i].c_4_0 || t1[i].c_4_1 != t2[i].c_4_1 ||
-        t1[i].c_5_0 != t2[i].c_5_0 || t1[i].c_5_1 != t2[i].c_5_1 ||
-        t1[i].c_6_0 != t2[i].c_6_0 || t1[i].c_6_1 != t2[i].c_6_1 ||
-        t1[i].c_7_0 != t2[i].c_7_0 || t1[i].c_7_1 != t2[i].c_7_1 ||
-        t1[i].c_8_0 != t2[i].c_8_0 || t1[i].c_8_1 != t2[i].c_8_1 ||
-        t1[i].c_9_0 != t2[i].c_9_0 || t1[i].c_9_1 != t2[i].c_9_1 ||
-        t1[i].c_10_0 != t2[i].c_10_0 || t1[i].c_10_1 != t2[i].c_10_1) {
+    if (t1[i].rst != t2[i].rst || t1[i].start != t2[i].start ||
+        t1[i].x != t2[i].x || t1[i].y != t2[i].y ||
+        t1[i].done != t2[i].done || t1[i].error != t2[i].error) {
       return false;
     }
   }
@@ -309,31 +114,31 @@ int main() {
 
   printf("Simulate golden\n");
 
-  test test_instance;
-  test_instance.initialize();
+  sqrt_newton sqrt_newton_instance;
+  sqrt_newton_instance.initialize();
 
   Trace golden_trace;
 
   // in case of a rst
-  test::test_iostruct in_rst_on;
-  in_rst_on.clock = clock_0;
-  test_instance.simulate(&in_rst_on, cycles_number);
+  sqrt_newton::sqrt_newton_iostruct in_rst_on;
+  in_rst_on.clk = clock_0;
+  sqrt_newton_instance.simulate(&in_rst_on, cycles_number);
 
   srand(0);
 
-  test::test_iostruct in;
+  sqrt_newton::sqrt_newton_iostruct in;
 
   for (size_t k = 0; k < traceLength; ++k) {
     clock_0 = !clock_0;
 
-    in.clock = clock_0;
+    in.clk = clock_0;
 
     // in
     if (!clock_0) {
       setRandomInputs(in);
     }
 
-    test_instance.simulate(&in, cycles_number);
+    sqrt_newton_instance.simulate(&in, cycles_number);
 
     // out
     golden_trace.push_back(in);
@@ -345,11 +150,11 @@ int main() {
   size_t faultObserved = 0;
   std::vector<size_t> uncoveredFaults;
   std::vector<Trace> faultyTraces;
-  std::cout << "Number of faults: " << test_instance.hif_fault_node.number
+  std::cout << "Number of faults: " << sqrt_newton_instance.hif_fault_node.number
             << "\n";
 
   for (muffin::fault_number = 0;
-       muffin::fault_number < test_instance.hif_fault_node.number;
+       muffin::fault_number < sqrt_newton_instance.hif_fault_node.number;
        ++muffin::fault_number) {
     Trace faulty_trace;
     muffin::hif_global_instance_counter = 0;
@@ -357,23 +162,23 @@ int main() {
            muffin::fault_number);
 
     clock_0 = 0;
-    test::test_iostruct in_rst_on;
-    in_rst_on.clock = clock_0;
-    test_instance.simulate(&in_rst_on, cycles_number);
-    test test_instance;
-    test_instance.initialize();
+    sqrt_newton::sqrt_newton_iostruct in_rst_on;
+    in_rst_on.clk = clock_0;
+    sqrt_newton_instance.simulate(&in_rst_on, cycles_number);
+    sqrt_newton sqrt_newton_instance;
+    sqrt_newton_instance.initialize();
 
-    test::test_iostruct in;
+    sqrt_newton::sqrt_newton_iostruct in;
     bool faultFound = 0;
     for (size_t k = 0; k < traceLength; ++k) {
       clock_0 = !clock_0;
 
-      in.clock = clock_0;
+      in.clk = clock_0;
       // in
       if (!clock_0) {
         setInputsFromTraceSample(in, golden_trace[k]);
       }
-      test_instance.simulate(&in, cycles_number);
+      sqrt_newton_instance.simulate(&in, cycles_number);
 
       faulty_trace.push_back(in);
 

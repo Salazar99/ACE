@@ -1,0 +1,1 @@
+/usr/bin/g++-11 -O3 -rdynamic CMakeFiles/cpptracer_test_datatypes.dir/tests/test_datatypes.cpp.o -o cpptracer_test_datatypes 

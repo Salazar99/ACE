@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.6)
 set(CMAKE_CXX_STANDARD 17)
 
-project(synthetic_case_study_1)
+project(sqrt_newton)
 
 # -----------------------------------------------------------------------------
 include_directories(
@@ -14,7 +14,7 @@ link_directories(
 )
 
 set(CMAKE_CXX_FLAGS "-O3")
-add_compile_options("-std=c++1z")
+add_compile_options("-std=c++17")
 
 #add subdirectories
 add_subdirectory(src/cpptracer)

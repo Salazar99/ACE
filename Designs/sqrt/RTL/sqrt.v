@@ -1,7 +1,6 @@
-module sqrt_newton #(
+module sqrt_newton(
     parameter WIDTH = 32,     // Bit width of the input and output
     parameter ITERATIONS = 10 // Number of Newton-Raphson iterations
-)(
     input wire clk,
     input wire rst,
     input wire start,
