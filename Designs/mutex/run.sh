@@ -1,0 +1,1 @@
+rm -rf work && vlib work && vlog -sv tb/tb.v rtl/mutex.v && vsim -c -assertdebug -voptargs=+acc work.mutex_tb -do "run -all; exit" && gtkwave mutex_tb.vcd

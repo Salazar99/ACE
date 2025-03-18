@@ -1,0 +1,275 @@
+<SYSTEM formatVersion="5.0" generationDate="15:55:23:245931" languageId="RTL" name="system" release="" revisionNumber="" tool="VERILOG2HIF">
+	<LIBRARYDEFS>
+		<LIBRARYDEF clinkage="false" languageId="RTL" name="hif_verilog_standard" standard="true"/>
+	</LIBRARYDEFS>
+	<DESIGNUNITS>
+		<DESIGNUNIT name="mutex">
+			<VIEW filename="" languageId="RTL" name="behav" standard="false">
+				<ENTITY name="Entity">
+					<PORT direction="IN" name="clk" wrapper="false">
+						<TYPE>
+							<BIT constexpr="false" logic="true" resolved="true" typeVariant="NATIVE_TYPE"/>
+						</TYPE>
+						<CODE_INFO column_number="13" file="../rtl/mutex.v" line_number="2"/>
+					</PORT>
+					<PORT direction="IN" name="in" wrapper="false">
+						<TYPE>
+							<BITVECTOR constexpr="false" logic="true" resolved="true" signed="false" typeVariant="NATIVE_TYPE">
+								<RANGE direction="DOWNTO">
+									<LEFTBOUND>
+										<INTVAL value="15"/>
+									</LEFTBOUND>
+									<RIGHTBOUND>
+										<INTVAL value="0"/>
+									</RIGHTBOUND>
+								</RANGE>
+							</BITVECTOR>
+						</TYPE>
+						<CODE_INFO column_number="18" file="../rtl/mutex.v" line_number="3"/>
+					</PORT>
+					<PORT direction="OUT" name="positive_flag" wrapper="false">
+						<VALUE>
+							<BITVAL value="X">
+								<TYPE>
+									<BIT constexpr="true" logic="true" resolved="true" typeVariant="NATIVE_TYPE"/>
+								</TYPE>
+							</BITVAL>
+						</VALUE>
+						<TYPE>
+							<BIT constexpr="false" logic="true" resolved="true" typeVariant="NATIVE_TYPE"/>
+						</TYPE>
+						<CODE_INFO column_number="24" file="../rtl/mutex.v" line_number="4"/>
+					</PORT>
+					<PORT direction="OUT" name="negative_flag" wrapper="false">
+						<VALUE>
+							<BITVAL value="X">
+								<TYPE>
+									<BIT constexpr="true" logic="true" resolved="true" typeVariant="NATIVE_TYPE"/>
+								</TYPE>
+							</BITVAL>
+						</VALUE>
+						<TYPE>
+							<BIT constexpr="false" logic="true" resolved="true" typeVariant="NATIVE_TYPE"/>
+						</TYPE>
+						<CODE_INFO column_number="2" file="../rtl/mutex.v" line_number="6"/>
+					</PORT>
+					<CODE_INFO column_number="7" file="../rtl/mutex.v" line_number="1"/>
+				</ENTITY>
+				<CONTENTS name="Architecture">
+					<STATETABLES>
+						<STATETABLE dontinitialize="false" entryStateName="" flavour="HDL" name="process" standard="false">
+							<SENSITIVITY_POS>
+								<IDENTIFIER name="clk">
+									<CODE_INFO column_number="20" file="../rtl/mutex.v" line_number="8"/>
+								</IDENTIFIER>
+							</SENSITIVITY_POS>
+							<STATES>
+								<STATE atomic="false" name="process" priority="0">
+									<ACTIONS>
+										<IF>
+											<ALT>
+												<CONDITION>
+													<CAST>
+														<VALUE>
+															<EXPRESSION operator="==">
+																<VALUE1>
+																	<CAST>
+																		<VALUE>
+																			<MEMBER>
+																				<PREFIX>
+																					<IDENTIFIER name="in">
+																						<CODE_INFO column_number="12" file="../rtl/mutex.v" line_number="9"/>
+																					</IDENTIFIER>
+																				</PREFIX>
+																				<INDEX>
+																					<INTVAL value="15"/>
+																				</INDEX>
+																				<CODE_INFO column_number="12" file="../rtl/mutex.v" line_number="9"/>
+																			</MEMBER>
+																		</VALUE>
+																		<TYPE>
+																			<BITVECTOR constexpr="false" logic="true" resolved="true" signed="false" typeVariant="NATIVE_TYPE">
+																				<RANGE direction="DOWNTO">
+																					<LEFTBOUND>
+																						<INTVAL value="31"/>
+																					</LEFTBOUND>
+																					<RIGHTBOUND>
+																						<INTVAL value="0"/>
+																					</RIGHTBOUND>
+																				</RANGE>
+																			</BITVECTOR>
+																		</TYPE>
+																	</CAST>
+																</VALUE1>
+																<VALUE2>
+																	<BITVECTORVAL VALUE="00000000000000000000000000000001">
+																		<TYPE>
+																			<BITVECTOR constexpr="true" logic="true" resolved="true" signed="false" typeVariant="NATIVE_TYPE">
+																				<RANGE direction="DOWNTO">
+																					<LEFTBOUND>
+																						<INTVAL value="31"/>
+																					</LEFTBOUND>
+																					<RIGHTBOUND>
+																						<INTVAL value="0"/>
+																					</RIGHTBOUND>
+																				</RANGE>
+																			</BITVECTOR>
+																		</TYPE>
+																	</BITVECTORVAL>
+																</VALUE2>
+																<CODE_INFO column_number="14" file="../rtl/mutex.v" line_number="9"/>
+															</EXPRESSION>
+														</VALUE>
+														<TYPE>
+															<BOOLEAN constexpr="false" typeVariant="NATIVE_TYPE"/>
+														</TYPE>
+													</CAST>
+												</CONDITION>
+												<ASSIGN>
+													<LEFTHANDSIDE>
+														<IDENTIFIER name="positive_flag">
+															<CODE_INFO column_number="15" file="../rtl/mutex.v" line_number="10"/>
+														</IDENTIFIER>
+													</LEFTHANDSIDE>
+													<RIGHTHANDSIDE>
+														<BITVAL value="0">
+															<TYPE>
+																<BIT constexpr="true" logic="true" resolved="true" typeVariant="NATIVE_TYPE"/>
+															</TYPE>
+														</BITVAL>
+													</RIGHTHANDSIDE>
+													<CODE_INFO column_number="17" file="../rtl/mutex.v" line_number="10"/>
+												</ASSIGN>
+												<ASSIGN>
+													<LEFTHANDSIDE>
+														<IDENTIFIER name="negative_flag">
+															<CODE_INFO column_number="15" file="../rtl/mutex.v" line_number="11"/>
+														</IDENTIFIER>
+													</LEFTHANDSIDE>
+													<RIGHTHANDSIDE>
+														<BITVAL value="1">
+															<TYPE>
+																<BIT constexpr="true" logic="true" resolved="true" typeVariant="NATIVE_TYPE"/>
+															</TYPE>
+														</BITVAL>
+													</RIGHTHANDSIDE>
+													<CODE_INFO column_number="17" file="../rtl/mutex.v" line_number="11"/>
+												</ASSIGN>
+												<CODE_INFO column_number="3" file="../rtl/mutex.v" line_number="9"/>
+											</ALT>
+											<ALT>
+												<CONDITION>
+													<CAST>
+														<VALUE>
+															<EXPRESSION operator="==">
+																<VALUE1>
+																	<IDENTIFIER name="in">
+																		<CODE_INFO column_number="15" file="../rtl/mutex.v" line_number="12"/>
+																	</IDENTIFIER>
+																</VALUE1>
+																<VALUE2>
+																	<BITVECTORVAL VALUE="0000000000000000">
+																		<TYPE>
+																			<BITVECTOR constexpr="true" logic="true" resolved="true" signed="false" typeVariant="NATIVE_TYPE">
+																				<RANGE direction="DOWNTO">
+																					<LEFTBOUND>
+																						<INTVAL value="15"/>
+																					</LEFTBOUND>
+																					<RIGHTBOUND>
+																						<INTVAL value="0"/>
+																					</RIGHTBOUND>
+																				</RANGE>
+																			</BITVECTOR>
+																		</TYPE>
+																	</BITVECTORVAL>
+																</VALUE2>
+																<CODE_INFO column_number="21" file="../rtl/mutex.v" line_number="12"/>
+															</EXPRESSION>
+														</VALUE>
+														<TYPE>
+															<BOOLEAN constexpr="false" typeVariant="NATIVE_TYPE"/>
+														</TYPE>
+													</CAST>
+												</CONDITION>
+												<ASSIGN>
+													<LEFTHANDSIDE>
+														<IDENTIFIER name="positive_flag">
+															<CODE_INFO column_number="15" file="../rtl/mutex.v" line_number="13"/>
+														</IDENTIFIER>
+													</LEFTHANDSIDE>
+													<RIGHTHANDSIDE>
+														<BITVAL value="0">
+															<TYPE>
+																<BIT constexpr="true" logic="true" resolved="true" typeVariant="NATIVE_TYPE"/>
+															</TYPE>
+														</BITVAL>
+													</RIGHTHANDSIDE>
+													<CODE_INFO column_number="17" file="../rtl/mutex.v" line_number="13"/>
+												</ASSIGN>
+												<ASSIGN>
+													<LEFTHANDSIDE>
+														<IDENTIFIER name="negative_flag">
+															<CODE_INFO column_number="15" file="../rtl/mutex.v" line_number="14"/>
+														</IDENTIFIER>
+													</LEFTHANDSIDE>
+													<RIGHTHANDSIDE>
+														<BITVAL value="0">
+															<TYPE>
+																<BIT constexpr="true" logic="true" resolved="true" typeVariant="NATIVE_TYPE"/>
+															</TYPE>
+														</BITVAL>
+													</RIGHTHANDSIDE>
+													<CODE_INFO column_number="17" file="../rtl/mutex.v" line_number="14"/>
+												</ASSIGN>
+												<CODE_INFO column_number="10" file="../rtl/mutex.v" line_number="12"/>
+											</ALT>
+											<DEFAULTS>
+												<ASSIGN>
+													<LEFTHANDSIDE>
+														<IDENTIFIER name="positive_flag">
+															<CODE_INFO column_number="15" file="../rtl/mutex.v" line_number="16"/>
+														</IDENTIFIER>
+													</LEFTHANDSIDE>
+													<RIGHTHANDSIDE>
+														<BITVAL value="1">
+															<TYPE>
+																<BIT constexpr="true" logic="true" resolved="true" typeVariant="NATIVE_TYPE"/>
+															</TYPE>
+														</BITVAL>
+													</RIGHTHANDSIDE>
+													<CODE_INFO column_number="17" file="../rtl/mutex.v" line_number="16"/>
+												</ASSIGN>
+												<ASSIGN>
+													<LEFTHANDSIDE>
+														<IDENTIFIER name="negative_flag">
+															<CODE_INFO column_number="15" file="../rtl/mutex.v" line_number="17"/>
+														</IDENTIFIER>
+													</LEFTHANDSIDE>
+													<RIGHTHANDSIDE>
+														<BITVAL value="0">
+															<TYPE>
+																<BIT constexpr="true" logic="true" resolved="true" typeVariant="NATIVE_TYPE"/>
+															</TYPE>
+														</BITVAL>
+													</RIGHTHANDSIDE>
+													<CODE_INFO column_number="17" file="../rtl/mutex.v" line_number="17"/>
+												</ASSIGN>
+											</DEFAULTS>
+											<CODE_INFO column_number="3" file="../rtl/mutex.v" line_number="9"/>
+										</IF>
+									</ACTIONS>
+									<CODE_INFO column_number="7" file="../rtl/mutex.v" line_number="8"/>
+								</STATE>
+							</STATES>
+							<CODE_INFO column_number="7" file="../rtl/mutex.v" line_number="8"/>
+						</STATETABLE>
+					</STATETABLES>
+					<GLOBALACTION/>
+					<CODE_INFO column_number="7" file="../rtl/mutex.v" line_number="1"/>
+				</CONTENTS>
+				<CODE_INFO column_number="7" file="../rtl/mutex.v" line_number="1"/>
+			</VIEW>
+			<CODE_INFO column_number="7" file="../rtl/mutex.v" line_number="1"/>
+		</DESIGNUNIT>
+	</DESIGNUNITS>
+</SYSTEM>

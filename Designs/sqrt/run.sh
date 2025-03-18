@@ -1,0 +1,1 @@
+rm -rf work && vlib work && vlog -sv tb/tb.v RTL/sqrt_calculator.v && vsim -c -assertdebug -voptargs=+acc work.sqrt_calculator_tb -do "run -all; exit" && gtkwave sqrt_calculator_tb.vcd

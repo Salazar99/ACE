@@ -2,3 +2,5 @@ third_party/daikon-5.8.20/
 third_party/hifsuite_linux_x86_stand_alone/
 .vscode
 third_party/vcd2csv
+Designs/*/hif/injected/build
+Designs/*/hif/injected/*.xml
