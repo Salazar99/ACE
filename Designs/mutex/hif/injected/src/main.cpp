@@ -16,7 +16,7 @@ using Trace = std::vector<mutex::mutex_iostruct>;
 
 // set the inputs to random values
 void setRandomInputs(mutex::mutex_iostruct& in) {
-  in.in = rand() % 2;
+  in.in = rand();
 }
 
 // set the inputs from a trace sample

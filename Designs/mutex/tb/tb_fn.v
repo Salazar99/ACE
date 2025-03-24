@@ -13,14 +13,16 @@ module mutex_tb;
 
     always #5  clk = ~clk; // Clock with 10 time unit period
 
+
     initial begin
-        $dumpfile("golden.vcd");
+        $dumpfile("fault_neg.vcd");
         $dumpvars(0, mutex_tb);
         
         //Initial 
         clk = 0; 
         in = 0;
         #10 
+
         // Test case 1: Positive number
         in = 16'd10;
         #10 ;

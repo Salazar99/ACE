@@ -1,5 +1,5 @@
 # vsim -c -assertdebug -voptargs="+acc" work.mutex_tb -do "run -all; exit" 
-# Start time: 15:45:16 on Mar 17,2025
+# Start time: 14:01:39 on Mar 24,2025
 # ** Note: (vsim-3812) Design is being optimized...
 # //  ModelSim SE-64 2019.4 Oct 15 2019 Linux 5.15.167.4-microsoft-standard-WSL2
 # //
@@ -18,10 +18,14 @@
 # Loading work.mutex_tb(fast)
 # Loading work.mutex(fast)
 # run -all
-# Input:    10, Positive: 1, Negative: 0
+# Input:    10, Positive: 0, Negative: 0
 # Input: 65531, Positive: 0, Negative: 1
 # Input:     0, Positive: 0, Negative: 0
-# ** Note: $finish    : tb/tb.v(31)
-#    Time: 35 ns  Iteration: 0  Instance: /mutex_tb
-# End time: 15:45:16 on Mar 17,2025, Elapsed time: 0:00:00
+# Input: 12345, Positive: 0, Negative: 0
+# Input: 53191, Positive: 0, Negative: 1
+# Input: 32767, Positive: 0, Negative: 0
+# Input: 32768, Positive: 0, Negative: 1
+# ** Note: $finish    : tb/tb_fp.v(60)
+#    Time: 100 ns  Iteration: 0  Instance: /mutex_tb
+# End time: 14:01:38 on Mar 24,2025, Elapsed time: 0:00:-1
 # Errors: 0, Warnings: 0
