@@ -1,0 +1,14 @@
+<harm>
+	<context name="mutex">
+
+		<prop exp="in" loc="a, dt"/>
+		<prop exp="DU" loc="c"/>
+        <numeric clustering="0.01WCSS,><,==,>=,<=" exp="in" loc="[dt]"/>
+
+		<template dtLimits="3D,2W,3A,3E,U" exp="G({..##1..}|-> (P0))" /> 
+
+	</context>
+</harm>
+
+
+

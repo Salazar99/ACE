@@ -1,1 +1,0 @@
-../../third_party/vcd2csv --vcd-dir ./traces --clk clk --vcd-ss mutex_tb --dump-to traces/csv
