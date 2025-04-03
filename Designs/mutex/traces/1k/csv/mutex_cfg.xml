@@ -3,7 +3,7 @@
 
 		<prop exp="in" loc="a, dt"/>
 		<prop exp="DU" loc="c"/>
-        <numeric clustering="0.01WCSS,><,==,>=,<=" exp="in" loc="[dt]"/>
+        <numeric clustering="K,0.01WCSS,<=" exp="in" loc="[dt]"/>
 
 		<template dtLimits="2D,2W,2A,100E,U,!N" exp="G({..##1..} |=> (DU==1))" /> 
 		
