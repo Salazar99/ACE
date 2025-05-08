@@ -3,9 +3,14 @@
 
 		<!-- <prop exp="in" loc="a, dt"/> -->
 		<prop exp="DU" loc="c"/>
-        <numeric clustering="0.01WCSS,><,==,>=,<=" exp="in" loc="[dt]"/>
+        <numeric clustering="K,0.01WCSS,><,==,>=,<=" exp="in" loc="[dt]"/>
 
 		<template dtLimits="3D,2W,3A,3E,U" exp="G({..##1..}|-> (P0))" /> 
+
+		<template check="1" exp="G({in > 0} |-> DU)" />
+
+		<sort name="frequency" exp="atct-afct"/>
+
 
 	</context>
 </harm>
