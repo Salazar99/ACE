@@ -1,0 +1,26 @@
+<harm>
+	<context name="default">
+
+		<prop exp="done" loc="c,dt"/>
+		<prop exp="error" loc="c,dt"/>
+		<prop exp="storm" loc="c,dt"/>
+		<prop exp="sunny" loc="c,dt"/>
+		<prop exp="snow" loc="c,dt"/>
+		<numeric clustering="K,10Max,0.01WCSS,><,==" exp="pressure" loc="c,dt"/>
+		<numeric clustering="K,10Max,0.01WCSS,><,==" exp="temperature" loc="c,dt"/>
+		<prop exp="rst_n" loc="c,dt"/>
+		<prop exp="clk" loc="c,dt"/>
+
+
+
+		<template dtLimits="5D,3W,15A,-0.1E,U" exp="G({..#1&..}|-> P0)" /> 
+
+
+
+		<sort name="causality" exp="1-afct/traceLength"/>
+		<sort name="frequency" exp="atct/traceLength"/>
+	</context>
+</harm>
+
+
+

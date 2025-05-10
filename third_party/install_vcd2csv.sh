@@ -11,7 +11,7 @@ make -j vcd2csv
 cp vcd2csv ../../../vcd2csv
 cd ../../..
 
-if[ -d vcd2csv] then
+if [ -d vcd2csv ]; then
     echo "vcd2csv is installed successfully"
     rm -rf usm-t
 else

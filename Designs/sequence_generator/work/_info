@@ -1,0 +1,162 @@
+m255
+K4
+z2
+!s11f vlog 2019.4 2019.10, Oct 15 2019
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 d/home/fabio/Desktop/ACE/Designs/sequence_generator
+T_opt
+!s11d testbench_sv_unit /home/fabio/Desktop/ACE/Designs/sequence_generator/work 1 sequence_intf 1 /home/fabio/Desktop/ACE/Designs/sequence_generator/work 
+!s110 1746429407
+V>=>2TbOd0<QI9fB1M[klL1
+04 10 4 work tbench_top fast 0
+=1-000ae431a4f1-681865df-a9fa-2fab
+o-quiet -auto_acc_if_foreign -work work +acc
+Z1 tCvgOpt 0
+n@_opt
+OL;O;2019.4;69
+vsequence_generator
+Z2 DXx6 sv_std 3 std 0 22 9oUSJO;AeEaW`l:M@^WG92
+Z3 !s110 1746429406
+!i10b 1
+!s100 iE;2B6_6_Kk_NXjZol;kA1
+!s11b O=?jjXPSo^QPlNBPO:aLV0
+I[W6iF;`P8?2WiBF>Z<R7D1
+Z4 VDg1SIo80bB@j0V0VzS_@n1
+S1
+R0
+w1746345045
+8rtl/sequence_generator.sv
+Frtl/sequence_generator.sv
+!i122 -1
+L0 2
+Z5 OL;L;2019.4;69
+r1
+!s85 0
+31
+Z6 !s108 1746429405.000000
+Z7 !s107 tb//driver.sv|tb//generator.sv|tb//transaction.sv|tb//environment.sv|tb//test.sv|tb//sequenceintf.sv|rtl/sequence_generator.sv|tb/testbench.sv|
+Z8 !s90 +incdir+tb/|-sv|tb/testbench.sv|rtl/sequence_generator.sv|
+!i113 0
+Z9 o-sv -L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
+Z10 !s92 +incdir+tb/ -sv -L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
+R1
+Ysequence_intf
+Z11 !s105 testbench_sv_unit
+Z12 DXx4 work 17 testbench_sv_unit 0 22 iD9N39]Mi@<0=ZoZFk[dC3
+R2
+R3
+!i10b 1
+!s100 4G[2Y8LAafDL5KR2dZA==3
+!s11b b]SOj5X<kfe7hNQOFn8zP3
+I0GWfGo[Bc0an_bNkSnKY31
+R4
+S1
+R0
+Z13 w1746345168
+8tb//sequenceintf.sv
+Z14 Ftb//sequenceintf.sv
+!i122 -1
+L0 1
+R5
+r1
+!s85 0
+31
+R6
+R7
+R8
+!i113 0
+R9
+R10
+R1
+vtbench_top
+R2
+R12
+R3
+R4
+r1
+!s85 0
+!i10b 1
+!s100 OVYe;0ak@ZB>QX>hh5fcd0
+IjQUoP;HSNcCX_Gf`ZKbSS2
+R11
+S1
+R0
+w1745416493
+Z15 8tb/testbench.sv
+Z16 Ftb/testbench.sv
+!i122 -1
+L0 6
+R5
+31
+R6
+R7
+R8
+!i113 0
+R9
+R10
+R1
+4test
+R2
+R12
+R3
+R4
+r1
+!s85 0
+!i10b 1
+!s100 f2VN:HCI=zH5l4BPbhF<:2
+IPgTHcNaBJWKB[Vg^ZmULe0
+R11
+S1
+R0
+w1745422796
+8tb//test.sv
+Z17 Ftb//test.sv
+!i122 -1
+L0 2
+R5
+31
+R6
+R7
+R8
+!i113 0
+R9
+R10
+R1
+Xtestbench_sv_unit
+!s115 sequence_intf
+R2
+R3
+ViD9N39]Mi@<0=ZoZFk[dC3
+r1
+!s85 0
+!i10b 1
+!s100 l=z2N:XMCMSKa4b_[W2bj2
+IiD9N39]Mi@<0=ZoZFk[dC3
+!i103 1
+S1
+R0
+R13
+R15
+R16
+R14
+R17
+Ftb//environment.sv
+Ftb//transaction.sv
+Ftb//generator.sv
+Ftb//driver.sv
+!i122 -1
+L0 1
+R5
+31
+R6
+R7
+R8
+!i113 0
+R9
+R10
+R1

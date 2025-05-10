@@ -1,0 +1,24 @@
+<harm>
+    <context name="climate_prediction_test">
+
+        <!-- <prop exp="done == 1" loc="a"/> -->
+        <numeric clustering="K,5Max,0.01WCSS,><,>=,==" exp="temperature" loc="dt"/>
+        <numeric clustering="K,5Max,0.01WCSS,><,>=,==" exp="pressure" loc="dt"/>
+        <prop exp="snow" loc="c"/>
+        <prop exp="sunny" loc="c"/>
+        <prop exp="storm" loc="c"/>
+        <prop exp="error" loc="c"/>
+        
+        
+        <!-- <template dtLimits="8A,6D,6W,-0.1E" exp="G( P0 |-> (DU == 1))" /> -->
+        <template dtLimits="8A,6D,6W,-0.1E" exp="G({..&&..}|-> (DU == 1))" />
+        
+
+        <sort name="ATCT-AFCT" exp="atct-afct"/>
+
+        <!-- <template check="1" exp="G({done} |-> (DU == 1))" /> -->
+
+
+
+    </context>
+</harm>
