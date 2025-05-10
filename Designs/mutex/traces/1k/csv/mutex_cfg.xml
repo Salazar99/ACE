@@ -1,14 +1,18 @@
 <harm>
 	<context name="mutex">
-
+	<!--
 		<prop exp="in" loc="a, dt"/>
+	-->
 		<prop exp="DU" loc="c"/>
-        <numeric clustering="K,0.01WCSS,<=" exp="in" loc="[dt]"/>
+        <numeric clustering="K,0.01WCSS,><,==,>=,<=" exp="in" loc="[dt]"/>
 
-		<template dtLimits="2D,2W,2A,100E,U,!N" exp="G({..##1..} |=> (DU==1))" /> 
+		<template dtLimits="2D,2W,2A,100E,U,!N" exp="G({..##1..} |=> (DU))" /> 
 		
-		<template check="1" exp="G({in<0 } |=> {(DU == 1)})" />
-
+		<sort name="custom1" exp="(atct-(2*afct))" />
+		<!--
+		<filter name="causality" exp="(atct-(2*afct))" threshold="0.0"/>
+		-->
+		<template check="1" exp="G({in >= 0 } |=> {(DU == 1)})" />
 	</context>
 </harm>
 
