@@ -19,7 +19,7 @@ program test(climate_intf intf);
         my_tr = new();
 
         //setting the repeat count of the generator
-        env.gen.repeat_count = 5000;
+        env.gen.repeat_count = 10000;
 
         env.gen.trans = my_tr;
         
