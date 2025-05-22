@@ -4,8 +4,8 @@ class transaction;
   rand logic [10:0] pressure;
 
   constraint valid_data {
-    temperature inside {[-12:40]};
-    pressure inside {[930:1040]};
+    temperature inside {[-30:60]};
+    pressure inside {[890:1150]};
   }
   
   //post-randomize function, displaying randomized values of items 

@@ -68,13 +68,13 @@ module climate_prediction (climate_intf intf);
                 UPDATE: begin
                     intf.done <= 1; 
                     //$display("Time: %0t | reg_temperature: %0d | reg_pressure: %0d", $time, reg_temperature, reg_pressure);
-                    if ((reg_temperature >= -10 && reg_temperature <= 10) &&
-                        (reg_pressure >= 950 && reg_pressure <= 1000)) begin
+                    if ((reg_temperature >= -20 && reg_temperature <= 10) &&
+                        (reg_pressure >= 900 && reg_pressure <= 1050)) begin
                         intf.snow <= 1; // Condition for SNOW
-                    end else if ((reg_temperature >= 11 && reg_temperature <= 25) &&
-                                 (reg_pressure >= 1000 && reg_pressure <= 1020)) begin
+                    end else if ((reg_temperature >= 11 && reg_temperature <= 50) &&
+                                 (reg_pressure >= 1051 && reg_pressure <= 1120)) begin
                         intf.sunny <= 1; // Condition for SUNNY
-                    end else if (reg_temperature > 25 && reg_pressure < 950) begin
+                    end else if (reg_temperature > 50 && reg_pressure < 900) begin
                         intf.storm <= 1; // Condition for STORM
                     end else begin
                         intf.error <= 1; // ERROR condition

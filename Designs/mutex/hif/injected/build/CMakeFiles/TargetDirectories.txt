@@ -1,6 +1,0 @@
-/home/magister/ACE/Designs/mutex/hif/injected/build/CMakeFiles/mutex.dir
-/home/magister/ACE/Designs/mutex/hif/injected/build/CMakeFiles/edit_cache.dir
-/home/magister/ACE/Designs/mutex/hif/injected/build/CMakeFiles/rebuild_cache.dir
-/home/magister/ACE/Designs/mutex/hif/injected/build/src/cpptracer/CMakeFiles/cpptracer_test_datatypes.dir
-/home/magister/ACE/Designs/mutex/hif/injected/build/src/cpptracer/CMakeFiles/edit_cache.dir
-/home/magister/ACE/Designs/mutex/hif/injected/build/src/cpptracer/CMakeFiles/rebuild_cache.dir
