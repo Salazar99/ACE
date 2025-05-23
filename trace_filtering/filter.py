@@ -29,12 +29,13 @@ class BooleanProposition(Proposition):
     def __init__(self, proposition):
         super().__init__(proposition)
     
-    def getValue(self, trace_vector):
-        if self.proposition not in trace_vector:
-            raise KeyError(f"Proposition '{self.proposition}' not found in the trace!!")
-        return trace_vector[self.proposition]
+    def getValue(self, trace, time):
+        for key in trace[time].keys():
+            if self.proposition == key:
+                return trace[time][key].getValue()
+        #If the proposition is not found in the trace, raise an error
+        raise KeyError(f"Proposition '{self.proposition}' not found in the trace!!")
 
-#TODO: Need to implement the evaluation of the expression
 class NumericExpression:
     class Operator(enum.Enum):
             LT = '<'
@@ -70,12 +71,12 @@ class NumericExpression:
 
         # Determine if leftop and rightop are numeric or Boolean expressions
         # Check if leftop is a constant numerical value
-        if self.leftop_str.isdigit() or re.match(r'^\d+(\.\d+)?$', self.leftop_str):
+        if re.match(r'^\d+(\.\d+)?$', self.leftop_str):
             self.leftop = NumericalConstant(self.leftop_str)
         else:
             self.leftop = BooleanProposition(self.leftop_str)
         # Check if rightop is a constant numerical value    
-        if self.rightop_str.isdigit() or re.match(r'^\d+(\.\d+)?$', self.rightop_str):
+        if re.match(r'^\d+(\.\d+)?$', self.rightop_str):
             self.rightop = NumericalConstant(self.rightop_str)
         else:
             self.rightop = BooleanProposition(self.rightop_str)
@@ -104,64 +105,70 @@ class NumericExpression:
         else:
             raise ValueError("Invalid operator")
 
-class LTLAss:
-    def __init__(self, Ass):
-        self.Asstring = Ass
+class LTLNEXT:
+    def __init__(self, expression):
+        self.expression = expression
 
+    def parse_expression(self, expression):
+        # Parse the LTL expression and extract the next state expression
+        if expression.startswith("X"):
+            self.next_expression = LTLNEXT(expression[2:-1])
+        else:
+            self.next_expression = BooleanProposition(expression)
+    
+    def __str__(self):
+        return f"X({self.expression})"
+    
+    def getValue(self, trace, time):
+        return self.expression.getValue(trace, time+1)
+
+class LTLAss:
+    class Implication(enum.Enum):
+            IMPL = '->'
+            SEREIMPL = '|->'
+            SERENEXTIMPL = '|=>'
+
+    def __init__(self,Ass):
+        self.Asstring = Ass.strip()
+        #Remove always 
+        if self.Asstring.startswith("G(") and self.Asstring.endswith(")"):
+            self.Asstring = self.Asstring[2:-1]
         # Find and save all numeric expressions with their positions
-        self.expressions = {}
+        self.numexprs = {}
         def replacer(match):
             idx = len(self.numexprs)
             placeholder = f"NUM{idx}"
             self.numexprs[placeholder] = NumericExpression(match.group(0))
             return placeholder
 
-        # Substitute each numeric expression with a unique placeholder
-        self.preprocessed = re.sub(r'\d+(\.\d+)?', replacer, Ass)
-        print("Preprocessed assertion:", self.preprocessed)
-        print("Extracted numexpr mapping:", self.numexprs)
+        # Substitute each numeric expression with a unique placeholder in order to use spot parser
+        self.EvaluationFormula = re.sub(r'[a-zA-Z_][a-zA-Z0-9_]*\s*(<=|>=|==|!=|<|>)\s*\d+(\.\d+)?', replacer, Ass)
+        print("Processed assertion:", self.EvaluationFormula)
 
-        #use the SPOTLTL parser
-        self.SpotAss = spot.formula(Ass)
-        #print for debug
-        print(self.SpotAss)
-
-        self.automata = spot.translate(self.SpotAss)
-    
-    #Evaluate the assertion using the automata representation of spot. Need to evaluate the numeric expressions at each step using their evaluate function.
-    #Trace: Entire trace execution trace
-    #Time: Time at wich evaluation starts
-    #return truth value of assertion on Trace at specified time
-    def evaluate(self,trace,time):
-        #We have numeric expressions that needs to be converted to boolean propositions to allow the automata to evaluate correctly.
-        #Numeric expressions are mapped to placeholders in the automata using the self.numexpr map
-        #I need to find at each time the value of the signals in the numexpr in the trace and then evaluate it to true or false
-        # Evaluate numeric expressions at the current time step
-
-        # Get the header (column names) of the trace
-        header = list(trace[0].keys()) if hasattr(trace[0], 'keys') else list(trace[0])
-
-        augmented_trace = []
-        # Add placeholders column to the trace
-        for placeholder, numexpr in self.numexprs.items():
-            #Add the placeholder evaluation to the trace
-            for row in trace:
-                row[placeholder] = numexpr.evaluate(row)
-                augmented_trace.append(row)
+        #Now, the assertion string no longer contain plain numerical expression but placeholders whose evaluation is added to the trace as "new signals"
+        if "|->" in Ass:
+            self.implication = LTLAss.Implication.SEREIMPL 
+            self.Antecedent_str, self.Consequent_str = self.EvaluationFormula.split("|->")
+        elif "|=>" in Ass:
+            self.implication = LTLAss.Implication.SERENEXTIMPL
+            self.Antecedent_str, self.Consequent_str = self.EvaluationFormula.split("|=>")
+        elif "->" in Ass:
+            self.implication = LTLAss.Implication.IMPL
+            self.Antecedent_str, self.Consequent_str = self.EvaluationFormula.split("|=>")
+        else:
+            raise ValueError("Invalid assertion format. Expected '|->' or '|=>'.")
         
-        #Start evaluatiing the automata at time 
-        suffix = augmented_trace[time:]
-        state = self.SpotAss.get_init_state_number()
-        for step_props in suffix:
-            for trans in self.SpotAss.out(state):
-                if trans.cond.eval(step_props):
-                    state = trans.dst
-                    break
-            else:
-                return False
-        return self.SpotAss.is_accepting_state(state)
+        #Both Ant and Con can be formed by multiple propositions that need to be splitted pair by pair 
+        self.Antecedent = BooleanProposition(self.Antecedent_str)
+        self.Consequent = LTLNEXT(self.Consequent_str)
 
 
+
+        def getExpr(self):
+            return self.numexprs
+        
+        def evaluate(self, trace,time):
+            return (not self.Antecedent.evaluate(trace,time)) or self.Consequent.evaluate(trace,time)
 
 def main():
     parser = argparse.ArgumentParser(description="Filter a CSV file by a given property.")
@@ -178,12 +185,11 @@ def main():
     except Exception as e:
         print(f"Error reading CSV file: {e}")
         return
-    #Trace coversion for spot 
+    # Trace conversion for spot
     trace = [
-    frozenset(df.columns[row_idx][df.iloc[row_idx]].tolist())
-    for row_idx in range(len(df))
+        {key.split(' ')[1]: value for key, value in row.dropna().to_dict().items()}
+        for _, row in df.iterrows()
     ]
-
 
 
     Assertion = args.ass
@@ -194,12 +200,39 @@ def main():
     #Convert it to Automata
     filtering_prop = LTLAss(Assertion)
 
+    
+    # Get the header (column names) of the trace
+    header = list(trace[0].keys()) if hasattr(trace[0], 'keys') else list(trace[0])
+    augmented_trace = []
+    # Add placeholders column to the trace
+    for placeholder, numexpr in filtering_prop.getExpr().items():
+        #Add the placeholder evaluation to the trace
+        for row in trace:
+            row[placeholder] = numexpr.evaluate(trace, row)
+            augmented_trace.append(row)
+
     #check values in which property is true
     #filter out csv lines that are false
     #TODO: Evaluate the Assertion on the trace and remove each line in which the assertion is false 
-
+    for i in range(len(augmented_trace)):
+        if not filtering_prop.evaluate(augmented_trace, i):
+            augmented_trace[i] = None
+    
     #Write the filtered csv
     #TODO: Implement CSV writing
+    #Remove None values from the trace
+    augmented_trace = [row for row in augmented_trace if row is not None]
+    #Convert the augmented trace to a DataFrame
+    filtered_df = pd.DataFrame(augmented_trace, columns=header)
+    #Write the filtered DataFrame to a CSV file
+    filtered_csv_path = args.csv.replace('.csv', '_filtered.csv')
+    try:
+        filtered_df.to_csv(filtered_csv_path, index=False)
+        print(f"Filtered CSV saved to {filtered_csv_path}")
+    except Exception as e:
+        print(f"Error writing filtered CSV file: {e}")
+        return
+
 
 if __name__ == "__main__":
     main()

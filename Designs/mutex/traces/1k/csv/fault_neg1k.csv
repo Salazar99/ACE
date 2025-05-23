@@ -1,4 +1,4 @@
-double in_og, double in, bool negative_flag, bool positive_flag, bool DU
+double in_og,double in,bool negative_flag,bool positive_flag,bool DU
 0,0,0,0,0
 54990,-10546,0,1,1
 31309,31309,0,0,0
