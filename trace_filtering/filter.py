@@ -2,7 +2,7 @@ import argparse
 import pandas as pd
 import sys
 import re
-import spot
+
 import enum
 
 class Proposition:
@@ -21,18 +21,28 @@ class NumericalConstant(Proposition):
         super().__init__(value)
         self.value = float(value)
 
-    def getValue(self, value):
+    def evaluate(self,trace,time):
         return self.value
 
 #Contains a boolean proposition
 class BooleanProposition(Proposition):
     def __init__(self, proposition):
+        # Remove any surrounding parentheses
+        if proposition.startswith("(") :
+            proposition = proposition[1:].strip()
+        if proposition.endswith(")"):
+            proposition = proposition[:-1].strip()
         super().__init__(proposition)
     
-    def getValue(self, trace, time):
+    def evaluate(self, trace, time):
+        if self.proposition == "True":
+            return True
+        if self.proposition == "False":
+            return False
+        # Check if the proposition is in the trace at the given time
         for key in trace[time].keys():
             if self.proposition == key:
-                return trace[time][key].getValue()
+                return trace[time][key]
         #If the proposition is not found in the trace, raise an error
         raise KeyError(f"Proposition '{self.proposition}' not found in the trace!!")
 
@@ -86,41 +96,47 @@ class NumericExpression:
         return f"NumericExpression({self.raw})"
     
     #Evaluate the expression on the given value
-    def evaluate(self, trace_vector):
+    def evaluate(self, trace,time):
         # This is a placeholder for the actual evaluation logic
         # You would need to implement the logic to evaluate the expression
         # based on the operator and the provided value.
         if self.operator == NumericExpression.Operator.LT:
-            return self.leftop.getValue(trace_vector) < self.rightop.getValue(trace_vector)
+            return self.leftop.evaluate(trace,time) < self.rightop.evaluate(trace,time)
         elif self.operator == NumericExpression.Operator.LE:
-            return self.leftop.getValue(trace_vector) <= self.rightop.getValue(trace_vector)
+            return self.leftop.evaluate(trace,time) <= self.rightop.evaluate(trace,time)
         elif self.operator == NumericExpression.Operator.GT:
-            return self.leftop.getValue(trace_vector) > self.rightop.getValue(trace_vector)
+            return self.leftop.evaluate(trace,time) > self.rightop.evaluate(trace,time)
         elif self.operator == NumericExpression.Operator.GE:
-            return self.leftop.getValue(trace_vector) >= self.rightop.getValue(trace_vector)
+            return self.leftop.evaluate(trace,time) >= self.rightop.evaluate(trace,time)
         elif self.operator == NumericExpression.Operator.EQ:
-            return self.leftop.getValue(trace_vector) == self.rightop.getValue(trace_vector)
+            return self.leftop.evaluate(trace,time) == self.rightop.evaluate(trace,time)
         elif self.operator == NumericExpression.Operator.NE:
-            return self.leftop.getValue(trace_vector) != self.rightop.getValue(trace_vector)
+            return self.leftop.evaluate(trace,time) != self.rightop.evaluate(trace,time)
         else:
             raise ValueError("Invalid operator")
 
 class LTLNEXT:
     def __init__(self, expression):
-        self.expression = expression
-
-    def parse_expression(self, expression):
-        # Parse the LTL expression and extract the next state expression
-        if expression.startswith("X"):
-            self.next_expression = LTLNEXT(expression[2:-1])
+        self.expression_str = expression
+        expression_parsed = expression
+        match = re.match(r'^\s*X\((.*)\)\s*$', expression_parsed)
+        if match:
+            inner_expression = match.group(1).strip()
+            self.expression = LTLNEXT(inner_expression)
         else:
-            self.next_expression = BooleanProposition(expression)
+            inner_expression = re.sub(r'^\((.*)\)$', r'\1', expression_parsed).strip()
+            self.expression = BooleanProposition(inner_expression)
+        
+
+    
     
     def __str__(self):
         return f"X({self.expression})"
     
-    def getValue(self, trace, time):
-        return self.expression.getValue(trace, time+1)
+    def evaluate(self, trace, time):
+        if time + 1 >= len(trace):
+            return False
+        return self.expression.evaluate(trace, time+1)
 
 class LTLAss:
     class Implication(enum.Enum):
@@ -142,33 +158,39 @@ class LTLAss:
             return placeholder
 
         # Substitute each numeric expression with a unique placeholder in order to use spot parser
-        self.EvaluationFormula = re.sub(r'[a-zA-Z_][a-zA-Z0-9_]*\s*(<=|>=|==|!=|<|>)\s*\d+(\.\d+)?', replacer, Ass)
+        self.EvaluationFormula = re.sub(r'[a-zA-Z_][a-zA-Z0-9_]*\s*(<=|>=|==|!=|<|>)\s*\d+(\.\d+)?', replacer, self.Asstring)
         print("Processed assertion:", self.EvaluationFormula)
 
         #Now, the assertion string no longer contain plain numerical expression but placeholders whose evaluation is added to the trace as "new signals"
-        if "|->" in Ass:
-            self.implication = LTLAss.Implication.SEREIMPL 
-            self.Antecedent_str, self.Consequent_str = self.EvaluationFormula.split("|->")
-        elif "|=>" in Ass:
-            self.implication = LTLAss.Implication.SERENEXTIMPL
-            self.Antecedent_str, self.Consequent_str = self.EvaluationFormula.split("|=>")
-        elif "->" in Ass:
-            self.implication = LTLAss.Implication.IMPL
-            self.Antecedent_str, self.Consequent_str = self.EvaluationFormula.split("|=>")
+        if "|->" in self.EvaluationFormula or "|=>" in self.EvaluationFormula or "->" in self.EvaluationFormula:
+            if "|->" in self.EvaluationFormula:
+                self.implication = LTLAss.Implication.SEREIMPL 
+                self.Antecedent_str, self.Consequent_str = self.EvaluationFormula.split("|->")
+            elif "|=>" in self.EvaluationFormula:
+                self.implication = LTLAss.Implication.SERENEXTIMPL
+                self.Antecedent_str, self.Consequent_str = self.EvaluationFormula.split("|=>")
+            elif "->" in self.EvaluationFormula:
+                self.implication = LTLAss.Implication.IMPL
+                self.Antecedent_str, self.Consequent_str = self.EvaluationFormula.split("->")
+            else:
+                raise ValueError("Invalid assertion format. Expected '|->' or '|=>'.")
+        
+            #Both Ant and Con can be formed by multiple propositions that need to be splitted pair by pair 
+            self.Antecedent = BooleanProposition(self.Antecedent_str)
+            self.Consequent = LTLNEXT(self.Consequent_str)
+        
         else:
-            raise ValueError("Invalid assertion format. Expected '|->' or '|=>'.")
-        
-        #Both Ant and Con can be formed by multiple propositions that need to be splitted pair by pair 
-        self.Antecedent = BooleanProposition(self.Antecedent_str)
-        self.Consequent = LTLNEXT(self.Consequent_str)
+            self.Antecedent = BooleanProposition(self.EvaluationFormula)
+            self.Consequent = BooleanProposition("True")  # If no implication, assume consequent is always true
+            # Remove eventual curly brackets from antecedent and consequent
 
+         
 
-
-        def getExpr(self):
-            return self.numexprs
-        
-        def evaluate(self, trace,time):
-            return (not self.Antecedent.evaluate(trace,time)) or self.Consequent.evaluate(trace,time)
+    def getExpr(self):
+        return self.numexprs
+    
+    def evaluate(self, trace,time):
+        return (self.Antecedent.evaluate(trace,time)) and self.Consequent.evaluate(trace,time)
 
 def main():
     parser = argparse.ArgumentParser(description="Filter a CSV file by a given property.")
@@ -203,27 +225,23 @@ def main():
     
     # Get the header (column names) of the trace
     header = list(trace[0].keys()) if hasattr(trace[0], 'keys') else list(trace[0])
-    augmented_trace = []
     # Add placeholders column to the trace
     for placeholder, numexpr in filtering_prop.getExpr().items():
         #Add the placeholder evaluation to the trace
-        for row in trace:
-            row[placeholder] = numexpr.evaluate(trace, row)
-            augmented_trace.append(row)
+        for row in range(len(trace)):
+            trace[row][placeholder] = numexpr.evaluate(trace, row)
 
     #check values in which property is true
     #filter out csv lines that are false
-    #TODO: Evaluate the Assertion on the trace and remove each line in which the assertion is false 
-    for i in range(len(augmented_trace)):
-        if not filtering_prop.evaluate(augmented_trace, i):
-            augmented_trace[i] = None
-    
+    for i in range(len(trace)):
+        if not filtering_prop.evaluate(trace, i):
+            trace[i] = None
+
     #Write the filtered csv
-    #TODO: Implement CSV writing
     #Remove None values from the trace
-    augmented_trace = [row for row in augmented_trace if row is not None]
+    trace = [row for row in trace if row is not None]
     #Convert the augmented trace to a DataFrame
-    filtered_df = pd.DataFrame(augmented_trace, columns=header)
+    filtered_df = pd.DataFrame(trace, columns=header)
     #Write the filtered DataFrame to a CSV file
     filtered_csv_path = args.csv.replace('.csv', '_filtered.csv')
     try:
