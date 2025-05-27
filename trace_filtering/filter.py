@@ -145,7 +145,7 @@ class LTLAss:
             SERENEXTIMPL = '|=>'
 
     def __init__(self,Ass):
-        self.Asstring = Ass.strip()
+        self.Asstring = Ass.replace(" ", "")
         #Remove always 
         if self.Asstring.startswith("G(") and self.Asstring.endswith(")"):
             self.Asstring = self.Asstring[2:-1]
@@ -177,20 +177,21 @@ class LTLAss:
         
             #Both Ant and Con can be formed by multiple propositions that need to be splitted pair by pair 
             self.Antecedent = BooleanProposition(self.Antecedent_str)
-            self.Consequent = LTLNEXT(self.Consequent_str)
-        
+            self.Consequent = BooleanProposition(self.Consequent_str)
         else:
             self.Antecedent = BooleanProposition(self.EvaluationFormula)
             self.Consequent = BooleanProposition("True")  # If no implication, assume consequent is always true
             # Remove eventual curly brackets from antecedent and consequent
 
-         
-
     def getExpr(self):
         return self.numexprs
     
     def evaluate(self, trace,time):
-        return (self.Antecedent.evaluate(trace,time)) and self.Consequent.evaluate(trace,time)
+        if(self.implication == LTLAss.Implication.SERENEXTIMPL):
+            # Evaluate the antecedent at the current time and the consequent at the next time
+            return (self.Antecedent.evaluate(trace,time)) and self.Consequent.evaluate(trace,time+1)
+        else:
+            return (self.Antecedent.evaluate(trace,time)) and self.Consequent.evaluate(trace,time)
 
 def main():
     parser = argparse.ArgumentParser(description="Filter a CSV file by a given property.")
