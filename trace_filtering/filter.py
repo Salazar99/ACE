@@ -189,7 +189,7 @@ class LTLAss:
     def evaluate(self, trace,time):
         if(self.implication == LTLAss.Implication.SERENEXTIMPL):
             # Evaluate the antecedent at the current time and the consequent at the next time
-            return (self.Antecedent.evaluate(trace,time)) and self.Consequent.evaluate(trace,time+1)
+            return (self.Antecedent.evaluate(trace,time)) and ( False if time + 1 >= len(trace) else self.Consequent.evaluate(trace,time+1))
         else:
             return (self.Antecedent.evaluate(trace,time)) and self.Consequent.evaluate(trace,time)
 
