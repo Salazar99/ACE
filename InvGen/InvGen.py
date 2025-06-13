@@ -2,9 +2,13 @@ import os
 import subprocess
 import sys
 import re
+import pandas as pd
 import xml.etree.ElementTree as ET
 
-config_output = "./invariant_config"
+aceroot = os.getenv("ACEROOT", "${ACEROOT}")
+
+
+config_output = "invariant_config.xml"
 
 def main(xml_file,trace_file):     
     try:
@@ -34,17 +38,37 @@ def main(xml_file,trace_file):
         print(f"An unexpected error occurred while processing the XML file: {e}")
         sys.exit(1)
     
-    #This script will parse the xml file and create another xml file for HARM
-    # Generate a new XML structure for HARM
-    harm_root = ET.Element("harm_templates")
-
     # Extract templates and variables from the input XML
     templates = [temp.attrib.get("name") for temp in root.find("tpls") if temp.attrib.get("name")]
     variables = [var.attrib.get("name") for var in root.find("vars") if var.attrib.get("name")]
 
-    #WE ASSUME TEMPLATES WITH AT MOST 2 VARIABLES
+    #WE ASSUME TEMPLATES WITH AT MOST 2 VARIABLES FOR NOW
     # Create combinations of templates and variables
     fully_instantaited_templates = []
+    # Load the trace file for special tempaltes handling
+    try:
+        trace_df = pd.read_csv(trace_file)
+        print("Trace file loaded successfully.")
+    except Exception as e:
+        print(f"Error: Failed to load the trace file '{trace_file}'. Details: {e}")
+        sys.exit(1)
+
+    # Remove types from the CSV headers
+    type_patterns = [
+        r'\bbool\b', r'\bchar\b', r'\bshort\b', r'\bint\b', r'\blong int\b', r'\bunsigned char\b',
+        r'\bunsigned short\b', r'\bunsigned int\b', r'\bunsigned long int\b', r'\bsize_t\b',
+        r'\bint64_t\b', r'\bint32_t\b', r'\buint64_t\b', r'\buint32_t\b', r'\bfloat\b', r'\bdouble\b',
+        r'\bshortint\b', r'\blongint\b', r'\bbyte\b', r'\bbit\b', r'\bshortint unsigned\b',
+        r'\bint unsigned\b', r'\blongint unsigned\b', r'\bbyte unsigned\b', r'\bbit signed\b',
+        r'\breg\b', r'\blogic\b', r'\binteger\b', r'\bwire\b', r'\btime\b', r'\breg signed\b',
+        r'\blogic signed\b', r'\binteger unsigned\b', r'\bwire signed\b', r'\btime signed\b',
+        r'\bshortreal\b', r'\breal\b', r'\brealtime\b'
+    ]
+    #regex that matches any of the patterns 
+    type_pattern = r'\b(?:' + '|'.join(type_patterns) + r')\b'
+    # Remove types from the column names
+    trace_df.columns = [re.sub(type_pattern, '', col).strip() for col in trace_df.columns]
+
     for template in templates:
         # Count matches for placeholders like P0, P1, P2, etc.
         matched_placeholders = re.findall(r'\bP\d+\b', template)
@@ -53,7 +77,6 @@ def main(xml_file,trace_file):
         match placeholder_count:
             case 0:
                 # No placeholders, just add the template
-                harm_template = ET.SubElement(harm_root, "template", name=template)
                 print(f"Warning: Template '{template}' has no placeholders. Skipping.")
             case 1:
                 # One placeholder, add it to the template
@@ -62,9 +85,27 @@ def main(xml_file,trace_file):
 
                     #TODO add logic to manage the extraction of upper and lower bound
                     if("LOWERB" in template_instance or "UPPERB" in template_instance):
+                        # Extract the lower and upper bounds from the trace file
+                        if "LOWERB" in template_instance:
+                            lower_bound = trace_df[str(var)].min() if str(var) in trace_df.columns else None
+                            if lower_bound is not None:
+                                template_instance = template_instance.replace("LOWERB", str(lower_bound))
+                            else:
+                                print(f"Warning: 'LOWERB' not found in trace file. Skipping.")
+                                continue
+                        elif "UPPERB" in template_instance:
+                            upper_bound = trace_df[str(var)].max() if str(var) in trace_df.columns else None
+                            if upper_bound is not None:
+                                template_instance = template_instance.replace("UPPERB", str(upper_bound))
+                            else:
+                                print(f"Warning: 'UPPERB' not found in trace file. Skipping.")
+                                continue
+                        else:
+                            print(f"Error: Neither 'LOWERB' nor 'UPPERB' found in template '{template_instance}'. Something went terribly wrong!")
+                            sys.exit(1)
+
                         continue
 
-                    fully_instantaited_templates.append(template_instance)
 
             case 2:
                 if(len(variables) < 2):
@@ -75,15 +116,16 @@ def main(xml_file,trace_file):
                     for var2 in variables:
                         if var1 != var2:
                             template_instance = template.replace(matched_placeholders[0], var1).replace(matched_placeholders[1], var2)
-                            fully_instantaited_templates.append(template_instance)
             case _:
-                print(f"Warning: Template '{template}' has more than 2 placeholders. Skipping.")
+                print(f"Warning: Template '{template}' has more than 2 placeholders. Not supported atm.")
+            
+            
+        fully_instantaited_templates.append(template_instance)
 
     #Here I should have all the templates that needs to be checked by harm 
-    #<template dtLimits="5D,3W,15A,-0.1E,U" exp="TEMPLATE" />
-    harm_config_template_header = "<?xml version='1.0' encoding='utf-8'?>\n<harm>\n 	<context name=\"default\">\n"
+    harm_config_template_header = "<harm>\n 	<context name=\"default\">\n"
     harm_config_template_tail = "</context>\n</harm>"
-    harm_template_string = "<template dtLimits=\"5D,3W,15A,-0.1E,U\" exp=\"TEMPLATE\" />\n"
+    harm_template_string = "<template exp=\"G(true |-> ( TEMPLATE ))\" />\n"
     config_file_string = harm_config_template_header
     for template in fully_instantaited_templates:
         config_file_string =config_file_string + harm_template_string.replace("TEMPLATE", template)
@@ -97,13 +139,13 @@ def main(xml_file,trace_file):
         print("Error:Failed to create configuration file!" + f"{e}")
         exit(1)
     
-    with open("./invariant_config.xml", "w") as file:
+    with open(f"{config_output}", "w") as file:
         file.write(config_file_string)
 
 
     #Run HARM on the generated configuration file
     try:
-        subprocess.run(f"harm --csv {trace_file} --conf {config_output}")
+        subprocess.run(f"~/harm/build/harm --csv {aceroot}/{trace_file} --conf {aceroot}/{config_output}", shell=True, check=True)
     except subprocess.CalledProcessError as e:
         print("Error:Failed to run HARM!" + f"{e}")
         exit(1)

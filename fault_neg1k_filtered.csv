@@ -1,4 +1,4 @@
-in,negative_flag,positive_flag
+uint32_t in, bool negative_flag, bool positive_flag
 0,0,0
 31309,0,0
 21660,0,1
