@@ -10,9 +10,11 @@
         <temp name="P0&gt;P1"/>
         <temp name="P0&lt;=P1"/>
         <temp name="P0&gt;=P1"/>
+        <temp len="2" name="..##1.."/> 
     </tpls>
     <vars>
-        <var name="in"/>
+        <var name="drdy"/>
+        <var name="!drdy"/>
     </vars>
 </config>
 <!--

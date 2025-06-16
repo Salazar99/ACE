@@ -39,12 +39,13 @@ def main(xml_file,trace_file):
         sys.exit(1)
     
     # Extract templates and variables from the input XML
-    templates = [temp.attrib.get("name") for temp in root.find("tpls") if temp.attrib.get("name")]
+    #templates = [temp.attrib.get("name") for temp in root.find("tpls") if temp.attrib.get("name") and not temp.attrib.get("len")]
+    #special_templates = [temp.attrib.get("name") for temp in root.find("tpls") if temp.attrib.get("name") and temp.attrib.get("len")]
     variables = [var.attrib.get("name") for var in root.find("vars") if var.attrib.get("name")]
 
     #WE ASSUME TEMPLATES WITH AT MOST 2 VARIABLES FOR NOW
     # Create combinations of templates and variables
-    fully_instantaited_templates = []
+    fully_instantiated_templates = []
     # Load the trace file for special tempaltes handling
     try:
         trace_df = pd.read_csv(trace_file)
@@ -69,21 +70,52 @@ def main(xml_file,trace_file):
     # Remove types from the column names
     trace_df.columns = [re.sub(type_pattern, '', col).strip() for col in trace_df.columns]
 
-    for template in templates:
+    for temp in root.find("tpls"):
+        if temp.attrib.get("name") is None:
+            print(f"Warning: Template element without 'name' attribute found. Skipping.")
+            continue
+        template = temp.attrib.get("name")
+        if temp.attrib.get("len") is not None:
+            # Special template handling
+            temp_len = temp.attrib.get("len")
+
         # Count matches for placeholders like P0, P1, P2, etc.
         matched_placeholders = re.findall(r'\bP\d+\b', template)
         placeholder_count = len(matched_placeholders)
 
         match placeholder_count:
+            #In case of no placeholders we manage also the special templates
             case 0:
-                # No placeholders, just add the template
-                print(f"Warning: Template '{template}' has no placeholders. Skipping.")
+                # No placeholders, check if it is a special template
+                if re.match(r'\.\.\#\#\d+\.\.', template):
+                    #Create all the combinations of variables of lenght temp_len
+                    temp_len = int(temp_len)
+                    if temp_len < 1:
+                        print(f"Warning: Invalid length '{temp_len}' for template '{template}'. Skipping.")
+                        continue
+                    # Generate all combinations of variables of length temp_len
+                    from itertools import permutations
+                    if len(variables) < temp_len:
+                        print(f"Warning: Not enough variables to generate combinations of length {temp_len}. Skipping.")
+                        continue
+                    for vars_combination in permutations(variables, temp_len):
+                        separator = template
+                        template_instance = ""
+                        for var in vars_combination:
+                            template_instance += var + " " + separator
+                            
+                        # Remove the last redundant separator
+                        template_instance = template_instance.rstrip(separator)
+                        fully_instantiated_templates.append(template_instance)
+
+                else:   
+                    # No placeholders, just add the template
+                    print(f"Warning: Template '{template}' has no placeholders. Skipping.")
             case 1:
                 # One placeholder, add it to the template
                 for var in variables:
                     template_instance = template.replace(matched_placeholders[0], var)
 
-                    #TODO add logic to manage the extraction of upper and lower bound
                     if("LOWERB" in template_instance or "UPPERB" in template_instance):
                         # Extract the lower and upper bounds from the trace file
                         if "LOWERB" in template_instance:
@@ -105,7 +137,7 @@ def main(xml_file,trace_file):
                             sys.exit(1)
 
                         continue
-
+                    fully_instantiated_templates.append(template_instance)
 
             case 2:
                 if(len(variables) < 2):
@@ -116,18 +148,20 @@ def main(xml_file,trace_file):
                     for var2 in variables:
                         if var1 != var2:
                             template_instance = template.replace(matched_placeholders[0], var1).replace(matched_placeholders[1], var2)
+                            fully_instantiated_templates.append(template_instance)
+
             case _:
                 print(f"Warning: Template '{template}' has more than 2 placeholders. Not supported atm.")
             
-            
-        fully_instantaited_templates.append(template_instance)
-
+    # Remove duplicates from the fully instantiated templates
+    fully_instantiated_templates = list(set(fully_instantiated_templates))
+    
     #Here I should have all the templates that needs to be checked by harm 
     harm_config_template_header = "<harm>\n 	<context name=\"default\">\n"
     harm_config_template_tail = "</context>\n</harm>"
     harm_template_string = "<template exp=\"G(true |-> ( TEMPLATE ))\" />\n"
     config_file_string = harm_config_template_header
-    for template in fully_instantaited_templates:
+    for template in fully_instantiated_templates:
         config_file_string =config_file_string + harm_template_string.replace("TEMPLATE", template)
 
     config_file_string = config_file_string + harm_config_template_tail
