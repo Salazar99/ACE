@@ -1,7 +1,7 @@
 <config>
     <tpls>
-        <temp name="P0&gt;=0"/>
-        <temp name="P0&lt;=0"/>
+        <temp name="P0&gt;= 0"/>
+        <temp name="P0&lt;= 0"/>
         <temp name="P0&gt;=LOWERB"/>
         <temp name="P0&lt;=UPPERB"/>
         <temp name="P0==P1"/>
@@ -13,8 +13,8 @@
         <temp len="2" name="..##1.."/> 
     </tpls>
     <vars>
-        <var name="drdy"/>
-        <var name="!drdy"/>
+        <var name="Drdy"/>
+        <var name="!Drdy"/>
     </vars>
 </config>
 <!--

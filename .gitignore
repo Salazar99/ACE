@@ -5,3 +5,7 @@ third_party/spot
 third_party/vcd2csv
 Designs/*/hif/injected/build
 Designs/*/hif/injected/*.xml
+./*.vcd
+./*.csv
+./*.xml
+./*.out

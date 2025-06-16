@@ -99,13 +99,13 @@ def main(xml_file,trace_file):
                         print(f"Warning: Not enough variables to generate combinations of length {temp_len}. Skipping.")
                         continue
                     for vars_combination in permutations(variables, temp_len):
-                        separator = template
+                        separator = template.replace('.','')
                         template_instance = ""
                         for var in vars_combination:
-                            template_instance += var + " " + separator
+                            template_instance += var + " " + separator + " "
                             
                         # Remove the last redundant separator
-                        template_instance = template_instance.rstrip(separator)
+                        template_instance = template_instance.rstrip(separator + " ")
                         fully_instantiated_templates.append(template_instance)
 
                 else:   
@@ -114,21 +114,21 @@ def main(xml_file,trace_file):
             case 1:
                 # One placeholder, add it to the template
                 for var in variables:
-                    template_instance = template.replace(matched_placeholders[0], var)
+                    template_instance = template.replace(matched_placeholders[0], ' ' + var + ' ')
 
                     if("LOWERB" in template_instance or "UPPERB" in template_instance):
                         # Extract the lower and upper bounds from the trace file
                         if "LOWERB" in template_instance:
                             lower_bound = trace_df[str(var)].min() if str(var) in trace_df.columns else None
                             if lower_bound is not None:
-                                template_instance = template_instance.replace("LOWERB", str(lower_bound))
+                                template_instance = template_instance.replace("LOWERB",' ' + str(lower_bound))
                             else:
                                 print(f"Warning: 'LOWERB' not found in trace file. Skipping.")
                                 continue
                         elif "UPPERB" in template_instance:
                             upper_bound = trace_df[str(var)].max() if str(var) in trace_df.columns else None
                             if upper_bound is not None:
-                                template_instance = template_instance.replace("UPPERB", str(upper_bound))
+                                template_instance = template_instance.replace("UPPERB", ' ' + str(upper_bound))
                             else:
                                 print(f"Warning: 'UPPERB' not found in trace file. Skipping.")
                                 continue
@@ -147,7 +147,7 @@ def main(xml_file,trace_file):
                 for var1 in variables:
                     for var2 in variables:
                         if var1 != var2:
-                            template_instance = template.replace(matched_placeholders[0], var1).replace(matched_placeholders[1], var2)
+                            template_instance = template.replace(matched_placeholders[0], var1 + ' ').replace(matched_placeholders[1], ' ' + var2)
                             fully_instantiated_templates.append(template_instance)
 
             case _:
