@@ -114,6 +114,9 @@ def main(xml_file,trace_file):
             case 1:
                 # One placeholder, add it to the template
                 for var in variables:
+                    if '!' in var:
+                        print(f"Variable '{var}' is a negated(!) signal. Skipping numeric template instantiation.")
+                        continue
                     template_instance = template.replace(matched_placeholders[0], ' ' + var + ' ')
 
                     if("LOWERB" in template_instance or "UPPERB" in template_instance):
@@ -146,7 +149,7 @@ def main(xml_file,trace_file):
                 # Two placeholders, add them to the template
                 for var1 in variables:
                     for var2 in variables:
-                        if var1 != var2:
+                        if var1 != var2 and '!' not in var1 and '!' not in var2:
                             template_instance = template.replace(matched_placeholders[0], var1 + ' ').replace(matched_placeholders[1], ' ' + var2)
                             fully_instantiated_templates.append(template_instance)
 
