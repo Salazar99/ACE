@@ -153,6 +153,18 @@ def main(xml_file,trace_file):
                             template_instance = template.replace(matched_placeholders[0], var1 + ' ').replace(matched_placeholders[1], ' ' + var2)
                             fully_instantiated_templates.append(template_instance)
 
+            case 3:
+                if(len(variables) < 3):
+                    print(f"Warning: Available variables is only {len(variables)} but expects three. Skipping.")
+                    continue
+                # Three placeholders, instantiate them
+                for var1 in variables:
+                    for var2 in variables:
+                        for var3 in variables:
+                            if var1 != var2 and var1 != var3 and var2 != var3 and '!' not in var1 and '!' not in var2 and '!' not in var3:
+                                template_instance = template.replace(matched_placeholders[0], var1 + ' ').replace(matched_placeholders[1], ' ' + var2).replace(matched_placeholders[2], ' ' + var3)
+                                fully_instantiated_templates.append(template_instance)
+
             case _:
                 print(f"Warning: Template '{template}' has more than 2 placeholders. Not supported atm.")
             
