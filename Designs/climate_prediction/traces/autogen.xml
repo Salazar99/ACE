@@ -1,15 +1,22 @@
 <harm>
 	<context name="default">
 
-		<prop exp="done" loc="c,dt"/>
-		<prop exp="error" loc="c,dt"/>
-		<prop exp="storm" loc="c,dt"/>
-		<prop exp="sunny" loc="c,dt"/>
-		<prop exp="snow" loc="c,dt"/>
-		<numeric clustering="K,10Max,0.01WCSS,><,==" exp="pressure" loc="c,dt"/>
-		<numeric clustering="K,10Max,0.01WCSS,><,==" exp="temperature" loc="c,dt"/>
-		<prop exp="rst_n" loc="c,dt"/>
+		<numeric clustering="K,10Max,0.01WCSS,><,==" exp="DUT::prev_pressure" loc="c,dt"/>
+		<numeric clustering="K,10Max,0.01WCSS,><,==" exp="DUT::reg_pressure" loc="c,dt"/>
 		<prop exp="clk" loc="c,dt"/>
+		<numeric clustering="K,10Max,0.01WCSS,><,==" exp="intf::temperature" loc="c,dt"/>
+		<numeric clustering="K,10Max,0.01WCSS,><,==" exp="DUT::current_state" loc="c,dt"/>
+		<numeric clustering="K,10Max,0.01WCSS,><,==" exp="DUT::prev_temperature" loc="c,dt"/>
+		<numeric clustering="K,10Max,0.01WCSS,><,==" exp="intf::pressure" loc="c,dt"/>
+		<prop exp="intf::clk" loc="c,dt"/>
+		<prop exp="intf::storm" loc="c,dt"/>
+		<prop exp="intf::snow" loc="c,dt"/>
+		<prop exp="intf::done" loc="c,dt"/>
+		<prop exp="intf::sunny" loc="c,dt"/>
+		<prop exp="intf::error" loc="c,dt"/>
+		<prop exp="intf::rst_n" loc="c,dt"/>
+		<numeric clustering="K,10Max,0.01WCSS,><,==" exp="DUT::next_state" loc="c,dt"/>
+		<numeric clustering="K,10Max,0.01WCSS,><,==" exp="DUT::reg_temperature" loc="c,dt"/>
 
 
 

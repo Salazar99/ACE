@@ -1,1 +1,10 @@
-rm -rf work && vlib work && vlog -sv tb/tb.v RTL/sqrt_calculator.v && vsim -c -assertdebug -voptargs=+acc work.sqrt_calculator_tb -do "run -all; exit" && gtkwave sqrt_calculator_tb.vcd
+ #!/bin/sh
+rm -rf work
+vlib work
+vlog +incdir+tb/ -sv tb/testbench.sv rtl/sqrt_calculator.sv
+vsim -voptargs=+acc -c work.tbench_top -do "run -all; exit" 
+
+# faulty option
+#vsim -voptargs=+acc -c work.tbench_top -do "force tbench_top::intf::out 0; force tbench_top::intf::error 0; run -all; exit"
+
+gtkwave sqrt_calculator.vcd

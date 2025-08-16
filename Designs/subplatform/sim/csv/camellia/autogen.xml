@@ -1,0 +1,25 @@
+<harm>
+	<context name="default">
+
+		<prop exp="camallia_u::BSY" loc="c,dt"/>
+		<prop exp="camallia_u::Drdy" loc="c,dt"/>
+		<prop exp="camallia_u::Dvld" loc="c,dt"/>
+		<prop exp="camallia_u::EN" loc="c,dt"/>
+		<prop exp="camallia_u::EncDec" loc="c,dt"/>
+		<prop exp="camallia_u::Krdy" loc="c,dt"/>
+		<prop exp="camallia_u::Kvld" loc="c,dt"/>
+		<prop exp="camallia_u::RSTn" loc="c,dt"/>
+
+
+
+		<template dtLimits="5D,3W,15A,-0.1E,U" exp="G({..#1&..}|-> P0)" /> 
+
+
+
+		<sort name="causality" exp="1-afct/traceLength"/>
+		<sort name="frequency" exp="atct/traceLength"/>
+	</context>
+</harm>
+
+
+

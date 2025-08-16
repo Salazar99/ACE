@@ -1,0 +1,70 @@
+m255
+K4
+z2
+!s11f vlog 2019.4 2019.10, Oct 15 2019
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 d/home/fabio/Desktop/ACE/Designs/comparator_3bit/6_testbench_generator
+T_opt
+!s110 1755336414
+VWXUG^i41EdY^15I4>e=LO0
+04 4 4 work test fast 0
+=1-000ae431a4f1-68a04ede-7d461-9d2a8
+o-quiet -auto_acc_if_foreign -work work +acc
+Z1 tCvgOpt 0
+n@_opt
+OL;O;2019.4;69
+vcomparator_3bit
+Z2 DXx6 sv_std 3 std 0 22 9oUSJO;AeEaW`l:M@^WG92
+Z3 !s110 1755336413
+!i10b 1
+!s100 <6kCHHU6Oj>YJ15IUaMae3
+!s11b n9<R6XM[m5dd91lg5;j362
+Ie`XKHh48on8K`[<necfGa0
+Z4 VDg1SIo80bB@j0V0VzS_@n1
+S1
+R0
+w1754133858
+8../verified_comparator_3bit.v
+F../verified_comparator_3bit.v
+!i122 -1
+L0 1
+Z5 OL;L;2019.4;69
+r1
+!s85 0
+31
+Z6 !s108 1755336413.000000
+Z7 !s107 ../verified_comparator_3bit.v|testbench_A_eq_B.sv|
+Z8 !s90 -sv|testbench_A_eq_B.sv|../verified_comparator_3bit.v|
+!i113 0
+Z9 o-sv -L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
+R1
+vtest
+R2
+R3
+!i10b 1
+!s100 QQ]Hn>hZzCU;kcW4J52;N2
+!s11b dCRL^ohRI7l8jBXSdf4OF3
+IjBUEJ8BiVz6hbkEIWggbG1
+R4
+S1
+R0
+w1755336028
+8testbench_A_eq_B.sv
+Ftestbench_A_eq_B.sv
+!i122 -1
+L0 3
+R5
+r1
+!s85 0
+31
+R6
+R7
+R8
+!i113 0
+R9
+R1
