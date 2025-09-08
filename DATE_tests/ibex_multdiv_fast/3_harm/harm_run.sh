@@ -4,4 +4,8 @@
 #harm --csv ./adder_8bit_DU.csv --conf autogen.xml --max-ass 100 --min-frank 0.5
 
 # Manual generation of camellia.xml
-harm --csv ./ibex_multdiv_fast_DU.csv --conf ibex_multdiv_fast_DU.xml --check-dump-eval temporal_instants
+for file in ./Detection_traces/*_DU.csv; do
+    harm --csv "$file" --conf ./conf/ibex_multdiv_fast_check.xml --dont-normalize
+done
+
+#--check-dump-eval temporal_instants

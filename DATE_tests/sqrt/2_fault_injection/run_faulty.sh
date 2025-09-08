@@ -22,4 +22,4 @@ vsim -voptargs=+acc -c work.testbench -do "force tbench_top::sqrt_intf::done 1; 
 mv sqrt_calculator_fault.vcd sqrt_calculator_fault_done1.vcd
 
 # remember to copy verilog files and change $dumpfile("xxx_fault.vcd");
-#gtkwave adder_8bit_fault.vcd
+#gtkwave sqrt_calculator_fault.vcd

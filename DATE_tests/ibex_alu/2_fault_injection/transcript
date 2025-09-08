@@ -1,7 +1,7 @@
-# vsim -voptargs="+acc" -c work.ibex_alu_tb -do "force ibex_alu_tb::i_ibex_alu::is_equal_result_o 0; run -all; exit" 
-# Start time: 09:03:51 on Sep 05,2025
+# vsim -voptargs="+acc" -c work.ibex_alu_tb -do "force ibex_alu_tb::i_ibex_alu::is_equal_result_o 1; run -all; exit" 
+# Start time: 21:35:17 on Sep 08,2025
 # ** Note: (vsim-8009) Loading existing optimized design _opt
-# //  ModelSim SE-64 2019.4 Oct 15 2019 Linux 5.15.167.4-microsoft-standard-WSL2
+# //  ModelSim SE-64 2019.4 Oct 15 2019 Linux 6.6.87.2-microsoft-standard-WSL2
 # //
 # //  Copyright 1991-2019 Mentor Graphics Corporation
 # //  All Rights Reserved.
@@ -18,12 +18,12 @@
 # Loading work.ibex_pkg(fast)
 # Loading work.ibex_alu_tb(fast)
 # Loading work.ibex_alu(fast)
-# force ibex_alu_tb::i_ibex_alu::is_equal_result_o 0
+# force ibex_alu_tb::i_ibex_alu::is_equal_result_o 1
 #  run -all
 # Testbench starting...
 # Testbench is out of reset.
 # Starting randomized testbench with 10000 tests...
-# Test 0: op=ALU_EQ, a=1, b=1 => result=0
+# Test 0: op=ALU_EQ, a=1, b=1 => result=1
 # Test 1: op=ALU_SUB, a=7, b=1 => result=6
 # Test 2: op=ALU_OR, a=14, b=1 => result=15
 # Test 3: op=ALU_AND, a=6, b=7 => result=6
@@ -32,7 +32,7 @@
 # Test 6: op=ALU_AND, a=15, b=9 => result=9
 # Test 7: op=ALU_OR, a=5, b=3 => result=7
 # Test 8: op=ALU_ADD, a=3, b=20 => result=23
-# Test 9: op=ALU_EQ, a=18, b=18 => result=0
+# Test 9: op=ALU_EQ, a=18, b=18 => result=1
 # Test 10: op=ALU_SUB, a=2, b=13 => result=4294967285
 # Test 11: op=ALU_ADD, a=13, b=6 => result=19
 # Test 12: op=ALU_AND, a=4, b=14 => result=4
@@ -127,10 +127,10 @@
 # Test 101: op=ALU_AND, a=17, b=17 => result=17
 # Test 102: op=ALU_SUB, a=10, b=16 => result=4294967290
 # Test 103: op=ALU_SUB, a=13, b=6 => result=7
-# Test 104: op=ALU_EQ, a=10, b=10 => result=0
+# Test 104: op=ALU_EQ, a=10, b=10 => result=1
 # Test 105: op=ALU_SUB, a=20, b=8 => result=12
 # Test 106: op=ALU_AND, a=5, b=1 => result=1
-# Test 107: op=ALU_EQ, a=7, b=7 => result=0
+# Test 107: op=ALU_EQ, a=7, b=7 => result=1
 # Test 108: op=ALU_AND, a=19, b=13 => result=1
 # Test 109: op=ALU_AND, a=5, b=12 => result=4
 # Test 110: op=ALU_OR, a=19, b=20 => result=23
@@ -162,7 +162,7 @@
 # Test 136: op=ALU_ADD, a=9, b=12 => result=21
 # Test 137: op=ALU_ADD, a=4, b=2 => result=6
 # Test 138: op=ALU_SUB, a=6, b=15 => result=4294967287
-# Test 139: op=ALU_EQ, a=14, b=14 => result=0
+# Test 139: op=ALU_EQ, a=14, b=14 => result=1
 # Test 140: op=ALU_SUB, a=1, b=3 => result=4294967294
 # Test 141: op=ALU_OR, a=4, b=2 => result=6
 # Test 142: op=ALU_AND, a=4, b=6 => result=4
@@ -246,7 +246,7 @@
 # Test 220: op=ALU_ADD, a=13, b=17 => result=30
 # Test 221: op=ALU_OR, a=5, b=12 => result=13
 # Test 222: op=ALU_OR, a=12, b=17 => result=29
-# Test 223: op=ALU_EQ, a=18, b=18 => result=0
+# Test 223: op=ALU_EQ, a=18, b=18 => result=1
 # Test 224: op=ALU_ADD, a=18, b=7 => result=25
 # Test 225: op=ALU_ADD, a=3, b=7 => result=10
 # Test 226: op=ALU_ADD, a=3, b=13 => result=16
@@ -341,7 +341,7 @@
 # Test 315: op=ALU_OR, a=4, b=7 => result=7
 # Test 316: op=ALU_AND, a=7, b=2 => result=2
 # Test 317: op=ALU_SUB, a=15, b=5 => result=10
-# Test 318: op=ALU_EQ, a=3, b=3 => result=0
+# Test 318: op=ALU_EQ, a=3, b=3 => result=1
 # Test 319: op=ALU_ADD, a=10, b=16 => result=26
 # Test 320: op=ALU_SUB, a=8, b=15 => result=4294967289
 # Test 321: op=ALU_OR, a=16, b=19 => result=19
@@ -583,7 +583,7 @@
 # Test 557: op=ALU_OR, a=2, b=4 => result=6
 # Test 558: op=ALU_ADD, a=20, b=15 => result=35
 # Test 559: op=ALU_SUB, a=16, b=2 => result=14
-# Test 560: op=ALU_EQ, a=5, b=5 => result=0
+# Test 560: op=ALU_EQ, a=5, b=5 => result=1
 # Test 561: op=ALU_ADD, a=13, b=10 => result=23
 # Test 562: op=ALU_OR, a=13, b=10 => result=15
 # Test 563: op=ALU_SUB, a=4, b=9 => result=4294967291
@@ -669,7 +669,7 @@
 # Test 643: op=ALU_AND, a=12, b=10 => result=8
 # Test 644: op=ALU_SUB, a=9, b=20 => result=4294967285
 # Test 645: op=ALU_OR, a=13, b=11 => result=15
-# Test 646: op=ALU_EQ, a=12, b=12 => result=0
+# Test 646: op=ALU_EQ, a=12, b=12 => result=1
 # Test 647: op=ALU_AND, a=12, b=13 => result=12
 # Test 648: op=ALU_ADD, a=6, b=9 => result=15
 # Test 649: op=ALU_AND, a=5, b=3 => result=1
@@ -848,14 +848,14 @@
 # Test 822: op=ALU_OR, a=9, b=15 => result=15
 # Test 823: op=ALU_ADD, a=14, b=14 => result=28
 # Test 824: op=ALU_SUB, a=6, b=7 => result=4294967295
-# Test 825: op=ALU_EQ, a=20, b=20 => result=0
+# Test 825: op=ALU_EQ, a=20, b=20 => result=1
 # Test 826: op=ALU_ADD, a=1, b=20 => result=21
 # Test 827: op=ALU_SUB, a=7, b=2 => result=5
 # Test 828: op=ALU_OR, a=10, b=7 => result=15
 # Test 829: op=ALU_AND, a=14, b=20 => result=4
 # Test 830: op=ALU_AND, a=7, b=14 => result=6
 # Test 831: op=ALU_OR, a=6, b=2 => result=6
-# Test 832: op=ALU_EQ, a=9, b=9 => result=0
+# Test 832: op=ALU_EQ, a=9, b=9 => result=1
 # Test 833: op=ALU_SUB, a=5, b=9 => result=4294967292
 # Test 834: op=ALU_ADD, a=18, b=20 => result=38
 # Test 835: op=ALU_SUB, a=14, b=18 => result=4294967292
@@ -1006,7 +1006,7 @@
 # Test 980: op=ALU_SUB, a=9, b=15 => result=4294967290
 # Test 981: op=ALU_ADD, a=5, b=17 => result=22
 # Test 982: op=ALU_AND, a=6, b=10 => result=2
-# Test 983: op=ALU_EQ, a=15, b=15 => result=0
+# Test 983: op=ALU_EQ, a=15, b=15 => result=1
 # Test 984: op=ALU_OR, a=11, b=3 => result=11
 # Test 985: op=ALU_SUB, a=17, b=10 => result=7
 # Test 986: op=ALU_OR, a=6, b=20 => result=22
@@ -1019,7 +1019,7 @@
 # Test 993: op=ALU_SUB, a=2, b=9 => result=4294967289
 # Test 994: op=ALU_SUB, a=3, b=6 => result=4294967293
 # Test 995: op=ALU_SUB, a=3, b=11 => result=4294967288
-# Test 996: op=ALU_EQ, a=6, b=6 => result=0
+# Test 996: op=ALU_EQ, a=6, b=6 => result=1
 # Test 997: op=ALU_ADD, a=19, b=12 => result=31
 # Test 998: op=ALU_OR, a=12, b=19 => result=31
 # Test 999: op=ALU_ADD, a=7, b=6 => result=13
@@ -1088,7 +1088,7 @@
 # Test 1062: op=ALU_ADD, a=3, b=2 => result=5
 # Test 1063: op=ALU_OR, a=9, b=1 => result=9
 # Test 1064: op=ALU_OR, a=7, b=18 => result=23
-# Test 1065: op=ALU_EQ, a=9, b=9 => result=0
+# Test 1065: op=ALU_EQ, a=9, b=9 => result=1
 # Test 1066: op=ALU_SUB, a=8, b=16 => result=4294967288
 # Test 1067: op=ALU_ADD, a=2, b=2 => result=4
 # Test 1068: op=ALU_OR, a=1, b=15 => result=15
@@ -1111,7 +1111,7 @@
 # Test 1085: op=ALU_SUB, a=7, b=18 => result=4294967285
 # Test 1086: op=ALU_SUB, a=8, b=16 => result=4294967288
 # Test 1087: op=ALU_SUB, a=16, b=7 => result=9
-# Test 1088: op=ALU_EQ, a=7, b=7 => result=0
+# Test 1088: op=ALU_EQ, a=7, b=7 => result=1
 # Test 1089: op=ALU_AND, a=3, b=2 => result=2
 # Test 1090: op=ALU_OR, a=13, b=7 => result=15
 # Test 1091: op=ALU_ADD, a=2, b=15 => result=17
@@ -1156,7 +1156,7 @@
 # Test 1130: op=ALU_ADD, a=6, b=13 => result=19
 # Test 1131: op=ALU_SUB, a=20, b=4 => result=16
 # Test 1132: op=ALU_AND, a=6, b=12 => result=4
-# Test 1133: op=ALU_EQ, a=16, b=16 => result=0
+# Test 1133: op=ALU_EQ, a=16, b=16 => result=1
 # Test 1134: op=ALU_ADD, a=10, b=6 => result=16
 # Test 1135: op=ALU_ADD, a=17, b=8 => result=25
 # Test 1136: op=ALU_AND, a=11, b=18 => result=2
@@ -1205,7 +1205,7 @@
 # Test 1179: op=ALU_OR, a=19, b=16 => result=19
 # Test 1180: op=ALU_ADD, a=8, b=3 => result=11
 # Test 1181: op=ALU_OR, a=6, b=10 => result=14
-# Test 1182: op=ALU_EQ, a=8, b=8 => result=0
+# Test 1182: op=ALU_EQ, a=8, b=8 => result=1
 # Test 1183: op=ALU_ADD, a=20, b=14 => result=34
 # Test 1184: op=ALU_AND, a=10, b=2 => result=2
 # Test 1185: op=ALU_SUB, a=7, b=15 => result=4294967288
@@ -1238,7 +1238,7 @@
 # Test 1212: op=ALU_OR, a=4, b=8 => result=12
 # Test 1213: op=ALU_SUB, a=6, b=8 => result=4294967294
 # Test 1214: op=ALU_OR, a=2, b=8 => result=10
-# Test 1215: op=ALU_EQ, a=4, b=4 => result=0
+# Test 1215: op=ALU_EQ, a=4, b=4 => result=1
 # Test 1216: op=ALU_SUB, a=1, b=9 => result=4294967288
 # Test 1217: op=ALU_AND, a=1, b=7 => result=1
 # Test 1218: op=ALU_ADD, a=18, b=13 => result=31
@@ -1279,7 +1279,7 @@
 # Test 1253: op=ALU_SUB, a=5, b=6 => result=4294967295
 # Test 1254: op=ALU_ADD, a=18, b=20 => result=38
 # Test 1255: op=ALU_ADD, a=16, b=6 => result=22
-# Test 1256: op=ALU_EQ, a=20, b=20 => result=0
+# Test 1256: op=ALU_EQ, a=20, b=20 => result=1
 # Test 1257: op=ALU_OR, a=5, b=17 => result=21
 # Test 1258: op=ALU_ADD, a=2, b=5 => result=7
 # Test 1259: op=ALU_OR, a=12, b=8 => result=12
@@ -1370,7 +1370,7 @@
 # Test 1344: op=ALU_OR, a=6, b=11 => result=15
 # Test 1345: op=ALU_OR, a=1, b=7 => result=7
 # Test 1346: op=ALU_AND, a=1, b=15 => result=1
-# Test 1347: op=ALU_EQ, a=6, b=6 => result=0
+# Test 1347: op=ALU_EQ, a=6, b=6 => result=1
 # Test 1348: op=ALU_ADD, a=10, b=7 => result=17
 # Test 1349: op=ALU_SUB, a=19, b=12 => result=7
 # Test 1350: op=ALU_ADD, a=16, b=20 => result=36
@@ -1601,7 +1601,7 @@
 # Test 1575: op=ALU_SUB, a=16, b=18 => result=4294967294
 # Test 1576: op=ALU_ADD, a=20, b=18 => result=38
 # Test 1577: op=ALU_AND, a=13, b=17 => result=1
-# Test 1578: op=ALU_EQ, a=9, b=9 => result=0
+# Test 1578: op=ALU_EQ, a=9, b=9 => result=1
 # Test 1579: op=ALU_SUB, a=15, b=12 => result=3
 # Test 1580: op=ALU_ADD, a=2, b=12 => result=14
 # Test 1581: op=ALU_SUB, a=16, b=10 => result=6
@@ -1627,7 +1627,7 @@
 # Test 1601: op=ALU_SUB, a=20, b=13 => result=7
 # Test 1602: op=ALU_SUB, a=12, b=15 => result=4294967293
 # Test 1603: op=ALU_AND, a=2, b=10 => result=2
-# Test 1604: op=ALU_EQ, a=16, b=16 => result=0
+# Test 1604: op=ALU_EQ, a=16, b=16 => result=1
 # Test 1605: op=ALU_OR, a=6, b=18 => result=22
 # Test 1606: op=ALU_AND, a=8, b=9 => result=8
 # Test 1607: op=ALU_OR, a=13, b=5 => result=13
@@ -1887,7 +1887,7 @@
 # Test 1861: op=ALU_SUB, a=9, b=20 => result=4294967285
 # Test 1862: op=ALU_AND, a=14, b=5 => result=4
 # Test 1863: op=ALU_OR, a=17, b=9 => result=25
-# Test 1864: op=ALU_EQ, a=3, b=3 => result=0
+# Test 1864: op=ALU_EQ, a=3, b=3 => result=1
 # Test 1865: op=ALU_AND, a=13, b=7 => result=5
 # Test 1866: op=ALU_SUB, a=6, b=4 => result=2
 # Test 1867: op=ALU_OR, a=16, b=11 => result=27
@@ -1916,7 +1916,7 @@
 # Test 1890: op=ALU_AND, a=14, b=20 => result=4
 # Test 1891: op=ALU_ADD, a=5, b=13 => result=18
 # Test 1892: op=ALU_OR, a=15, b=17 => result=31
-# Test 1893: op=ALU_EQ, a=17, b=17 => result=0
+# Test 1893: op=ALU_EQ, a=17, b=17 => result=1
 # Test 1894: op=ALU_SUB, a=2, b=11 => result=4294967287
 # Test 1895: op=ALU_ADD, a=15, b=20 => result=35
 # Test 1896: op=ALU_ADD, a=10, b=18 => result=28
@@ -1961,7 +1961,7 @@
 # Test 1935: op=ALU_SUB, a=14, b=19 => result=4294967291
 # Test 1936: op=ALU_OR, a=3, b=18 => result=19
 # Test 1937: op=ALU_SUB, a=9, b=16 => result=4294967289
-# Test 1938: op=ALU_EQ, a=3, b=3 => result=0
+# Test 1938: op=ALU_EQ, a=3, b=3 => result=1
 # Test 1939: op=ALU_OR, a=19, b=1 => result=19
 # Test 1940: op=ALU_OR, a=6, b=10 => result=14
 # Test 1941: op=ALU_SUB, a=14, b=15 => result=4294967295
@@ -2164,7 +2164,7 @@
 # Test 2138: op=ALU_ADD, a=8, b=20 => result=28
 # Test 2139: op=ALU_ADD, a=8, b=4 => result=12
 # Test 2140: op=ALU_SUB, a=2, b=3 => result=4294967295
-# Test 2141: op=ALU_EQ, a=11, b=11 => result=0
+# Test 2141: op=ALU_EQ, a=11, b=11 => result=1
 # Test 2142: op=ALU_OR, a=7, b=6 => result=7
 # Test 2143: op=ALU_ADD, a=5, b=12 => result=17
 # Test 2144: op=ALU_AND, a=15, b=2 => result=2
@@ -2182,7 +2182,7 @@
 # Test 2156: op=ALU_ADD, a=16, b=10 => result=26
 # Test 2157: op=ALU_AND, a=15, b=7 => result=7
 # Test 2158: op=ALU_OR, a=1, b=13 => result=13
-# Test 2159: op=ALU_EQ, a=5, b=5 => result=0
+# Test 2159: op=ALU_EQ, a=5, b=5 => result=1
 # Test 2160: op=ALU_SUB, a=3, b=19 => result=4294967280
 # Test 2161: op=ALU_ADD, a=7, b=1 => result=8
 # Test 2162: op=ALU_ADD, a=3, b=17 => result=20
@@ -2213,7 +2213,7 @@
 # Test 2187: op=ALU_AND, a=18, b=6 => result=2
 # Test 2188: op=ALU_OR, a=3, b=8 => result=11
 # Test 2189: op=ALU_SUB, a=18, b=4 => result=14
-# Test 2190: op=ALU_EQ, a=2, b=2 => result=0
+# Test 2190: op=ALU_EQ, a=2, b=2 => result=1
 # Test 2191: op=ALU_OR, a=17, b=17 => result=17
 # Test 2192: op=ALU_ADD, a=16, b=6 => result=22
 # Test 2193: op=ALU_OR, a=14, b=7 => result=15
@@ -2254,7 +2254,7 @@
 # Test 2228: op=ALU_AND, a=17, b=3 => result=1
 # Test 2229: op=ALU_ADD, a=3, b=16 => result=19
 # Test 2230: op=ALU_OR, a=11, b=20 => result=31
-# Test 2231: op=ALU_EQ, a=7, b=7 => result=0
+# Test 2231: op=ALU_EQ, a=7, b=7 => result=1
 # Test 2232: op=ALU_ADD, a=4, b=1 => result=5
 # Test 2233: op=ALU_ADD, a=19, b=12 => result=31
 # Test 2234: op=ALU_ADD, a=12, b=3 => result=15
@@ -2283,7 +2283,7 @@
 # Test 2257: op=ALU_ADD, a=15, b=3 => result=18
 # Test 2258: op=ALU_SUB, a=12, b=3 => result=9
 # Test 2259: op=ALU_OR, a=8, b=2 => result=10
-# Test 2260: op=ALU_EQ, a=9, b=9 => result=0
+# Test 2260: op=ALU_EQ, a=9, b=9 => result=1
 # Test 2261: op=ALU_ADD, a=8, b=10 => result=18
 # Test 2262: op=ALU_ADD, a=13, b=14 => result=27
 # Test 2263: op=ALU_OR, a=4, b=7 => result=7
@@ -2326,12 +2326,12 @@
 # Test 2300: op=ALU_OR, a=16, b=20 => result=20
 # Test 2301: op=ALU_OR, a=2, b=8 => result=10
 # Test 2302: op=ALU_SUB, a=3, b=2 => result=1
-# Test 2303: op=ALU_EQ, a=3, b=3 => result=0
+# Test 2303: op=ALU_EQ, a=3, b=3 => result=1
 # Test 2304: op=ALU_AND, a=6, b=10 => result=2
 # Test 2305: op=ALU_SUB, a=10, b=7 => result=3
 # Test 2306: op=ALU_ADD, a=16, b=1 => result=17
 # Test 2307: op=ALU_OR, a=8, b=4 => result=12
-# Test 2308: op=ALU_EQ, a=18, b=18 => result=0
+# Test 2308: op=ALU_EQ, a=18, b=18 => result=1
 # Test 2309: op=ALU_AND, a=15, b=2 => result=2
 # Test 2310: op=ALU_SUB, a=12, b=5 => result=7
 # Test 2311: op=ALU_ADD, a=16, b=13 => result=29
@@ -2397,7 +2397,7 @@
 # Test 2371: op=ALU_ADD, a=2, b=19 => result=21
 # Test 2372: op=ALU_AND, a=18, b=17 => result=16
 # Test 2373: op=ALU_ADD, a=9, b=19 => result=28
-# Test 2374: op=ALU_EQ, a=4, b=4 => result=0
+# Test 2374: op=ALU_EQ, a=4, b=4 => result=1
 # Test 2375: op=ALU_ADD, a=20, b=4 => result=24
 # Test 2376: op=ALU_OR, a=19, b=7 => result=23
 # Test 2377: op=ALU_ADD, a=16, b=18 => result=34
@@ -2529,7 +2529,7 @@
 # Test 2503: op=ALU_OR, a=15, b=11 => result=15
 # Test 2504: op=ALU_OR, a=13, b=20 => result=29
 # Test 2505: op=ALU_OR, a=1, b=14 => result=15
-# Test 2506: op=ALU_EQ, a=17, b=17 => result=0
+# Test 2506: op=ALU_EQ, a=17, b=17 => result=1
 # Test 2507: op=ALU_OR, a=19, b=10 => result=27
 # Test 2508: op=ALU_ADD, a=4, b=2 => result=6
 # Test 2509: op=ALU_OR, a=6, b=14 => result=14
@@ -2650,7 +2650,7 @@
 # Test 2624: op=ALU_AND, a=7, b=13 => result=5
 # Test 2625: op=ALU_ADD, a=9, b=10 => result=19
 # Test 2626: op=ALU_OR, a=12, b=9 => result=13
-# Test 2627: op=ALU_EQ, a=14, b=14 => result=0
+# Test 2627: op=ALU_EQ, a=14, b=14 => result=1
 # Test 2628: op=ALU_OR, a=20, b=2 => result=22
 # Test 2629: op=ALU_ADD, a=8, b=7 => result=15
 # Test 2630: op=ALU_OR, a=20, b=4 => result=20
@@ -2996,7 +2996,7 @@
 # Test 2970: op=ALU_ADD, a=3, b=5 => result=8
 # Test 2971: op=ALU_SUB, a=11, b=5 => result=6
 # Test 2972: op=ALU_OR, a=13, b=5 => result=13
-# Test 2973: op=ALU_EQ, a=7, b=7 => result=0
+# Test 2973: op=ALU_EQ, a=7, b=7 => result=1
 # Test 2974: op=ALU_OR, a=12, b=10 => result=14
 # Test 2975: op=ALU_OR, a=13, b=7 => result=15
 # Test 2976: op=ALU_OR, a=10, b=7 => result=15
@@ -3031,7 +3031,7 @@
 # Test 3005: op=ALU_SUB, a=4, b=3 => result=1
 # Test 3006: op=ALU_AND, a=3, b=7 => result=3
 # Test 3007: op=ALU_SUB, a=14, b=4 => result=10
-# Test 3008: op=ALU_EQ, a=16, b=16 => result=0
+# Test 3008: op=ALU_EQ, a=16, b=16 => result=1
 # Test 3009: op=ALU_SUB, a=4, b=15 => result=4294967285
 # Test 3010: op=ALU_OR, a=3, b=6 => result=7
 # Test 3011: op=ALU_OR, a=9, b=1 => result=9
@@ -3105,7 +3105,7 @@
 # Test 3079: op=ALU_SUB, a=9, b=6 => result=3
 # Test 3080: op=ALU_AND, a=5, b=13 => result=5
 # Test 3081: op=ALU_OR, a=11, b=10 => result=11
-# Test 3082: op=ALU_EQ, a=8, b=8 => result=0
+# Test 3082: op=ALU_EQ, a=8, b=8 => result=1
 # Test 3083: op=ALU_ADD, a=18, b=15 => result=33
 # Test 3084: op=ALU_ADD, a=14, b=19 => result=33
 # Test 3085: op=ALU_SUB, a=6, b=14 => result=4294967288
@@ -3140,7 +3140,7 @@
 # Test 3114: op=ALU_AND, a=7, b=5 => result=5
 # Test 3115: op=ALU_SUB, a=12, b=15 => result=4294967293
 # Test 3116: op=ALU_OR, a=19, b=19 => result=19
-# Test 3117: op=ALU_EQ, a=8, b=8 => result=0
+# Test 3117: op=ALU_EQ, a=8, b=8 => result=1
 # Test 3118: op=ALU_OR, a=9, b=10 => result=11
 # Test 3119: op=ALU_OR, a=19, b=20 => result=23
 # Test 3120: op=ALU_OR, a=11, b=8 => result=11
@@ -3458,13 +3458,13 @@
 # Test 3432: op=ALU_AND, a=13, b=11 => result=9
 # Test 3433: op=ALU_OR, a=16, b=4 => result=20
 # Test 3434: op=ALU_AND, a=18, b=3 => result=2
-# Test 3435: op=ALU_EQ, a=3, b=3 => result=0
+# Test 3435: op=ALU_EQ, a=3, b=3 => result=1
 # Test 3436: op=ALU_OR, a=20, b=12 => result=28
 # Test 3437: op=ALU_ADD, a=16, b=11 => result=27
 # Test 3438: op=ALU_ADD, a=7, b=14 => result=21
 # Test 3439: op=ALU_SUB, a=18, b=20 => result=4294967294
 # Test 3440: op=ALU_SUB, a=7, b=11 => result=4294967292
-# Test 3441: op=ALU_EQ, a=17, b=17 => result=0
+# Test 3441: op=ALU_EQ, a=17, b=17 => result=1
 # Test 3442: op=ALU_SUB, a=17, b=3 => result=14
 # Test 3443: op=ALU_AND, a=10, b=6 => result=2
 # Test 3444: op=ALU_SUB, a=2, b=7 => result=4294967291
@@ -3565,7 +3565,7 @@
 # Test 3539: op=ALU_ADD, a=18, b=4 => result=22
 # Test 3540: op=ALU_ADD, a=2, b=19 => result=21
 # Test 3541: op=ALU_AND, a=19, b=11 => result=3
-# Test 3542: op=ALU_EQ, a=19, b=19 => result=0
+# Test 3542: op=ALU_EQ, a=19, b=19 => result=1
 # Test 3543: op=ALU_OR, a=5, b=10 => result=15
 # Test 3544: op=ALU_AND, a=19, b=2 => result=2
 # Test 3545: op=ALU_SUB, a=19, b=8 => result=11
@@ -3793,7 +3793,7 @@
 # Test 3767: op=ALU_SUB, a=16, b=18 => result=4294967294
 # Test 3768: op=ALU_ADD, a=10, b=7 => result=17
 # Test 3769: op=ALU_AND, a=2, b=11 => result=2
-# Test 3770: op=ALU_EQ, a=10, b=10 => result=0
+# Test 3770: op=ALU_EQ, a=10, b=10 => result=1
 # Test 3771: op=ALU_AND, a=14, b=3 => result=2
 # Test 3772: op=ALU_SUB, a=13, b=1 => result=12
 # Test 3773: op=ALU_SUB, a=11, b=13 => result=4294967294
@@ -3927,7 +3927,7 @@
 # Test 3901: op=ALU_ADD, a=18, b=3 => result=21
 # Test 3902: op=ALU_ADD, a=1, b=4 => result=5
 # Test 3903: op=ALU_ADD, a=13, b=16 => result=29
-# Test 3904: op=ALU_EQ, a=17, b=17 => result=0
+# Test 3904: op=ALU_EQ, a=17, b=17 => result=1
 # Test 3905: op=ALU_AND, a=14, b=3 => result=2
 # Test 3906: op=ALU_ADD, a=10, b=2 => result=12
 # Test 3907: op=ALU_ADD, a=14, b=8 => result=22
@@ -4150,7 +4150,7 @@
 # Test 4124: op=ALU_OR, a=13, b=15 => result=15
 # Test 4125: op=ALU_ADD, a=2, b=13 => result=15
 # Test 4126: op=ALU_AND, a=14, b=19 => result=2
-# Test 4127: op=ALU_EQ, a=9, b=9 => result=0
+# Test 4127: op=ALU_EQ, a=9, b=9 => result=1
 # Test 4128: op=ALU_ADD, a=7, b=5 => result=12
 # Test 4129: op=ALU_SUB, a=12, b=6 => result=6
 # Test 4130: op=ALU_ADD, a=1, b=3 => result=4
@@ -4252,7 +4252,7 @@
 # Test 4226: op=ALU_ADD, a=15, b=17 => result=32
 # Test 4227: op=ALU_OR, a=9, b=11 => result=11
 # Test 4228: op=ALU_AND, a=12, b=7 => result=4
-# Test 4229: op=ALU_EQ, a=8, b=8 => result=0
+# Test 4229: op=ALU_EQ, a=8, b=8 => result=1
 # Test 4230: op=ALU_SUB, a=2, b=15 => result=4294967283
 # Test 4231: op=ALU_AND, a=7, b=6 => result=6
 # Test 4232: op=ALU_AND, a=18, b=2 => result=2
@@ -4307,7 +4307,7 @@
 # Test 4281: op=ALU_ADD, a=3, b=14 => result=17
 # Test 4282: op=ALU_AND, a=10, b=18 => result=2
 # Test 4283: op=ALU_AND, a=4, b=20 => result=4
-# Test 4284: op=ALU_EQ, a=8, b=8 => result=0
+# Test 4284: op=ALU_EQ, a=8, b=8 => result=1
 # Test 4285: op=ALU_ADD, a=14, b=4 => result=18
 # Test 4286: op=ALU_SUB, a=15, b=2 => result=13
 # Test 4287: op=ALU_ADD, a=13, b=16 => result=29
@@ -4338,7 +4338,7 @@
 # Test 4312: op=ALU_OR, a=3, b=5 => result=7
 # Test 4313: op=ALU_ADD, a=2, b=10 => result=12
 # Test 4314: op=ALU_OR, a=3, b=2 => result=3
-# Test 4315: op=ALU_EQ, a=3, b=3 => result=0
+# Test 4315: op=ALU_EQ, a=3, b=3 => result=1
 # Test 4316: op=ALU_OR, a=2, b=19 => result=19
 # Test 4317: op=ALU_OR, a=13, b=9 => result=13
 # Test 4318: op=ALU_ADD, a=1, b=19 => result=20
@@ -4391,7 +4391,7 @@
 # Test 4365: op=ALU_ADD, a=9, b=19 => result=28
 # Test 4366: op=ALU_AND, a=6, b=10 => result=2
 # Test 4367: op=ALU_SUB, a=14, b=3 => result=11
-# Test 4368: op=ALU_EQ, a=12, b=12 => result=0
+# Test 4368: op=ALU_EQ, a=12, b=12 => result=1
 # Test 4369: op=ALU_ADD, a=16, b=1 => result=17
 # Test 4370: op=ALU_AND, a=18, b=16 => result=16
 # Test 4371: op=ALU_SUB, a=15, b=9 => result=6
@@ -4424,7 +4424,7 @@
 # Test 4398: op=ALU_AND, a=2, b=10 => result=2
 # Test 4399: op=ALU_ADD, a=5, b=13 => result=18
 # Test 4400: op=ALU_ADD, a=20, b=7 => result=27
-# Test 4401: op=ALU_EQ, a=1, b=1 => result=0
+# Test 4401: op=ALU_EQ, a=1, b=1 => result=1
 # Test 4402: op=ALU_OR, a=8, b=14 => result=14
 # Test 4403: op=ALU_ADD, a=11, b=16 => result=27
 # Test 4404: op=ALU_SUB, a=14, b=11 => result=3
@@ -4471,13 +4471,13 @@
 # Test 4445: op=ALU_ADD, a=14, b=3 => result=17
 # Test 4446: op=ALU_ADD, a=11, b=13 => result=24
 # Test 4447: op=ALU_SUB, a=7, b=13 => result=4294967290
-# Test 4448: op=ALU_EQ, a=13, b=13 => result=0
+# Test 4448: op=ALU_EQ, a=13, b=13 => result=1
 # Test 4449: op=ALU_OR, a=12, b=10 => result=14
 # Test 4450: op=ALU_SUB, a=10, b=1 => result=9
 # Test 4451: op=ALU_ADD, a=19, b=16 => result=35
 # Test 4452: op=ALU_ADD, a=6, b=14 => result=20
 # Test 4453: op=ALU_ADD, a=15, b=10 => result=25
-# Test 4454: op=ALU_EQ, a=14, b=14 => result=0
+# Test 4454: op=ALU_EQ, a=14, b=14 => result=1
 # Test 4455: op=ALU_OR, a=9, b=10 => result=11
 # Test 4456: op=ALU_OR, a=11, b=19 => result=27
 # Test 4457: op=ALU_ADD, a=13, b=1 => result=14
@@ -4513,17 +4513,17 @@
 # Test 4487: op=ALU_SUB, a=14, b=16 => result=4294967294
 # Test 4488: op=ALU_SUB, a=14, b=20 => result=4294967290
 # Test 4489: op=ALU_SUB, a=1, b=3 => result=4294967294
-# Test 4490: op=ALU_EQ, a=9, b=9 => result=0
+# Test 4490: op=ALU_EQ, a=9, b=9 => result=1
 # Test 4491: op=ALU_OR, a=2, b=7 => result=7
 # Test 4492: op=ALU_OR, a=2, b=19 => result=19
 # Test 4493: op=ALU_SUB, a=19, b=20 => result=4294967295
 # Test 4494: op=ALU_ADD, a=18, b=5 => result=23
 # Test 4495: op=ALU_SUB, a=5, b=3 => result=2
 # Test 4496: op=ALU_ADD, a=16, b=17 => result=33
-# Test 4497: op=ALU_EQ, a=17, b=17 => result=0
+# Test 4497: op=ALU_EQ, a=17, b=17 => result=1
 # Test 4498: op=ALU_ADD, a=2, b=4 => result=6
 # Test 4499: op=ALU_SUB, a=12, b=18 => result=4294967290
-# Test 4500: op=ALU_EQ, a=14, b=14 => result=0
+# Test 4500: op=ALU_EQ, a=14, b=14 => result=1
 # Test 4501: op=ALU_OR, a=11, b=10 => result=11
 # Test 4502: op=ALU_SUB, a=12, b=11 => result=1
 # Test 4503: op=ALU_OR, a=11, b=6 => result=15
@@ -4575,7 +4575,7 @@
 # Test 4549: op=ALU_SUB, a=3, b=10 => result=4294967289
 # Test 4550: op=ALU_OR, a=16, b=12 => result=28
 # Test 4551: op=ALU_OR, a=9, b=6 => result=15
-# Test 4552: op=ALU_EQ, a=18, b=18 => result=0
+# Test 4552: op=ALU_EQ, a=18, b=18 => result=1
 # Test 4553: op=ALU_OR, a=7, b=7 => result=7
 # Test 4554: op=ALU_ADD, a=8, b=14 => result=22
 # Test 4555: op=ALU_AND, a=8, b=10 => result=8
@@ -4643,7 +4643,7 @@
 # Test 4617: op=ALU_SUB, a=5, b=6 => result=4294967295
 # Test 4618: op=ALU_OR, a=9, b=12 => result=13
 # Test 4619: op=ALU_OR, a=1, b=3 => result=3
-# Test 4620: op=ALU_EQ, a=3, b=3 => result=0
+# Test 4620: op=ALU_EQ, a=3, b=3 => result=1
 # Test 4621: op=ALU_OR, a=19, b=1 => result=19
 # Test 4622: op=ALU_ADD, a=17, b=1 => result=18
 # Test 4623: op=ALU_AND, a=7, b=13 => result=5
@@ -4675,7 +4675,7 @@
 # Test 4649: op=ALU_AND, a=12, b=6 => result=4
 # Test 4650: op=ALU_OR, a=11, b=2 => result=11
 # Test 4651: op=ALU_SUB, a=2, b=10 => result=4294967288
-# Test 4652: op=ALU_EQ, a=1, b=1 => result=0
+# Test 4652: op=ALU_EQ, a=1, b=1 => result=1
 # Test 4653: op=ALU_SUB, a=8, b=2 => result=6
 # Test 4654: op=ALU_OR, a=6, b=3 => result=7
 # Test 4655: op=ALU_OR, a=20, b=1 => result=21
@@ -4792,7 +4792,7 @@
 # Test 4766: op=ALU_SUB, a=5, b=6 => result=4294967295
 # Test 4767: op=ALU_ADD, a=10, b=14 => result=24
 # Test 4768: op=ALU_SUB, a=9, b=12 => result=4294967293
-# Test 4769: op=ALU_EQ, a=13, b=13 => result=0
+# Test 4769: op=ALU_EQ, a=13, b=13 => result=1
 # Test 4770: op=ALU_OR, a=8, b=14 => result=14
 # Test 4771: op=ALU_ADD, a=4, b=4 => result=8
 # Test 4772: op=ALU_ADD, a=7, b=6 => result=13
@@ -4805,7 +4805,7 @@
 # Test 4779: op=ALU_AND, a=11, b=11 => result=11
 # Test 4780: op=ALU_ADD, a=8, b=8 => result=16
 # Test 4781: op=ALU_AND, a=17, b=17 => result=17
-# Test 4782: op=ALU_EQ, a=14, b=14 => result=0
+# Test 4782: op=ALU_EQ, a=14, b=14 => result=1
 # Test 4783: op=ALU_AND, a=14, b=10 => result=10
 # Test 4784: op=ALU_SUB, a=5, b=19 => result=4294967282
 # Test 4785: op=ALU_ADD, a=20, b=16 => result=36
@@ -4830,7 +4830,7 @@
 # Test 4804: op=ALU_AND, a=17, b=5 => result=1
 # Test 4805: op=ALU_ADD, a=18, b=18 => result=36
 # Test 4806: op=ALU_SUB, a=2, b=17 => result=4294967281
-# Test 4807: op=ALU_EQ, a=15, b=15 => result=0
+# Test 4807: op=ALU_EQ, a=15, b=15 => result=1
 # Test 4808: op=ALU_SUB, a=6, b=17 => result=4294967285
 # Test 4809: op=ALU_SUB, a=1, b=8 => result=4294967289
 # Test 4810: op=ALU_OR, a=6, b=12 => result=14
@@ -4988,7 +4988,7 @@
 # Test 4962: op=ALU_ADD, a=6, b=16 => result=22
 # Test 4963: op=ALU_SUB, a=19, b=18 => result=1
 # Test 4964: op=ALU_ADD, a=5, b=14 => result=19
-# Test 4965: op=ALU_EQ, a=1, b=1 => result=0
+# Test 4965: op=ALU_EQ, a=1, b=1 => result=1
 # Test 4966: op=ALU_ADD, a=11, b=11 => result=22
 # Test 4967: op=ALU_OR, a=15, b=19 => result=31
 # Test 4968: op=ALU_SUB, a=4, b=1 => result=3
@@ -5069,7 +5069,7 @@
 # Test 5043: op=ALU_OR, a=12, b=2 => result=14
 # Test 5044: op=ALU_OR, a=16, b=19 => result=19
 # Test 5045: op=ALU_AND, a=7, b=11 => result=3
-# Test 5046: op=ALU_EQ, a=1, b=1 => result=0
+# Test 5046: op=ALU_EQ, a=1, b=1 => result=1
 # Test 5047: op=ALU_OR, a=11, b=13 => result=15
 # Test 5048: op=ALU_ADD, a=6, b=8 => result=14
 # Test 5049: op=ALU_OR, a=7, b=17 => result=23
@@ -5090,7 +5090,7 @@
 # Test 5064: op=ALU_SUB, a=13, b=14 => result=4294967295
 # Test 5065: op=ALU_SUB, a=6, b=11 => result=4294967291
 # Test 5066: op=ALU_OR, a=3, b=6 => result=7
-# Test 5067: op=ALU_EQ, a=19, b=19 => result=0
+# Test 5067: op=ALU_EQ, a=19, b=19 => result=1
 # Test 5068: op=ALU_SUB, a=1, b=6 => result=4294967291
 # Test 5069: op=ALU_OR, a=8, b=9 => result=9
 # Test 5070: op=ALU_OR, a=2, b=13 => result=15
@@ -5167,7 +5167,7 @@
 # Test 5141: op=ALU_ADD, a=16, b=20 => result=36
 # Test 5142: op=ALU_SUB, a=18, b=4 => result=14
 # Test 5143: op=ALU_AND, a=2, b=15 => result=2
-# Test 5144: op=ALU_EQ, a=6, b=6 => result=0
+# Test 5144: op=ALU_EQ, a=6, b=6 => result=1
 # Test 5145: op=ALU_ADD, a=18, b=9 => result=27
 # Test 5146: op=ALU_SUB, a=18, b=20 => result=4294967294
 # Test 5147: op=ALU_OR, a=4, b=20 => result=20
@@ -5214,7 +5214,7 @@
 # Test 5188: op=ALU_OR, a=4, b=16 => result=20
 # Test 5189: op=ALU_AND, a=14, b=15 => result=14
 # Test 5190: op=ALU_SUB, a=6, b=1 => result=5
-# Test 5191: op=ALU_EQ, a=5, b=5 => result=0
+# Test 5191: op=ALU_EQ, a=5, b=5 => result=1
 # Test 5192: op=ALU_ADD, a=18, b=2 => result=20
 # Test 5193: op=ALU_ADD, a=19, b=1 => result=20
 # Test 5194: op=ALU_ADD, a=19, b=16 => result=35
@@ -5249,7 +5249,7 @@
 # Test 5223: op=ALU_ADD, a=17, b=5 => result=22
 # Test 5224: op=ALU_ADD, a=18, b=18 => result=36
 # Test 5225: op=ALU_ADD, a=18, b=3 => result=21
-# Test 5226: op=ALU_EQ, a=20, b=20 => result=0
+# Test 5226: op=ALU_EQ, a=20, b=20 => result=1
 # Test 5227: op=ALU_ADD, a=11, b=11 => result=22
 # Test 5228: op=ALU_SUB, a=11, b=5 => result=6
 # Test 5229: op=ALU_ADD, a=17, b=18 => result=35
@@ -5314,16 +5314,16 @@
 # Test 5288: op=ALU_OR, a=16, b=9 => result=25
 # Test 5289: op=ALU_OR, a=7, b=15 => result=15
 # Test 5290: op=ALU_SUB, a=8, b=7 => result=1
-# Test 5291: op=ALU_EQ, a=2, b=2 => result=0
+# Test 5291: op=ALU_EQ, a=2, b=2 => result=1
 # Test 5292: op=ALU_SUB, a=12, b=17 => result=4294967291
 # Test 5293: op=ALU_OR, a=18, b=2 => result=18
-# Test 5294: op=ALU_EQ, a=15, b=15 => result=0
+# Test 5294: op=ALU_EQ, a=15, b=15 => result=1
 # Test 5295: op=ALU_OR, a=18, b=7 => result=23
 # Test 5296: op=ALU_ADD, a=17, b=17 => result=34
 # Test 5297: op=ALU_SUB, a=2, b=4 => result=4294967294
 # Test 5298: op=ALU_SUB, a=13, b=8 => result=5
 # Test 5299: op=ALU_SUB, a=10, b=16 => result=4294967290
-# Test 5300: op=ALU_EQ, a=2, b=2 => result=0
+# Test 5300: op=ALU_EQ, a=2, b=2 => result=1
 # Test 5301: op=ALU_SUB, a=15, b=1 => result=14
 # Test 5302: op=ALU_OR, a=2, b=11 => result=11
 # Test 5303: op=ALU_ADD, a=11, b=5 => result=16
@@ -5336,7 +5336,7 @@
 # Test 5310: op=ALU_OR, a=12, b=13 => result=13
 # Test 5311: op=ALU_OR, a=11, b=5 => result=15
 # Test 5312: op=ALU_SUB, a=19, b=12 => result=7
-# Test 5313: op=ALU_EQ, a=9, b=9 => result=0
+# Test 5313: op=ALU_EQ, a=9, b=9 => result=1
 # Test 5314: op=ALU_SUB, a=15, b=7 => result=8
 # Test 5315: op=ALU_SUB, a=5, b=12 => result=4294967289
 # Test 5316: op=ALU_ADD, a=18, b=12 => result=30
@@ -5492,8 +5492,8 @@
 # Test 5466: op=ALU_AND, a=11, b=12 => result=8
 # Test 5467: op=ALU_OR, a=20, b=14 => result=30
 # Test 5468: op=ALU_ADD, a=9, b=8 => result=17
-# Test 5469: op=ALU_EQ, a=16, b=16 => result=0
-# Test 5470: op=ALU_EQ, a=20, b=20 => result=0
+# Test 5469: op=ALU_EQ, a=16, b=16 => result=1
+# Test 5470: op=ALU_EQ, a=20, b=20 => result=1
 # Test 5471: op=ALU_SUB, a=16, b=13 => result=3
 # Test 5472: op=ALU_OR, a=2, b=13 => result=15
 # Test 5473: op=ALU_AND, a=18, b=6 => result=2
@@ -5544,7 +5544,7 @@
 # Test 5518: op=ALU_OR, a=14, b=3 => result=15
 # Test 5519: op=ALU_OR, a=11, b=10 => result=11
 # Test 5520: op=ALU_OR, a=15, b=6 => result=15
-# Test 5521: op=ALU_EQ, a=8, b=8 => result=0
+# Test 5521: op=ALU_EQ, a=8, b=8 => result=1
 # Test 5522: op=ALU_AND, a=8, b=15 => result=8
 # Test 5523: op=ALU_ADD, a=17, b=17 => result=34
 # Test 5524: op=ALU_OR, a=17, b=20 => result=21
@@ -5660,7 +5660,7 @@
 # Test 5634: op=ALU_AND, a=13, b=3 => result=1
 # Test 5635: op=ALU_SUB, a=16, b=11 => result=5
 # Test 5636: op=ALU_AND, a=3, b=2 => result=2
-# Test 5637: op=ALU_EQ, a=18, b=18 => result=0
+# Test 5637: op=ALU_EQ, a=18, b=18 => result=1
 # Test 5638: op=ALU_OR, a=5, b=20 => result=21
 # Test 5639: op=ALU_ADD, a=13, b=10 => result=23
 # Test 5640: op=ALU_OR, a=16, b=19 => result=19
@@ -5760,7 +5760,7 @@
 # Test 5734: op=ALU_ADD, a=9, b=15 => result=24
 # Test 5735: op=ALU_OR, a=5, b=17 => result=21
 # Test 5736: op=ALU_ADD, a=9, b=17 => result=26
-# Test 5737: op=ALU_EQ, a=12, b=12 => result=0
+# Test 5737: op=ALU_EQ, a=12, b=12 => result=1
 # Test 5738: op=ALU_AND, a=1, b=13 => result=1
 # Test 5739: op=ALU_OR, a=9, b=14 => result=15
 # Test 5740: op=ALU_OR, a=6, b=20 => result=22
@@ -5780,7 +5780,7 @@
 # Test 5754: op=ALU_AND, a=7, b=12 => result=4
 # Test 5755: op=ALU_OR, a=4, b=1 => result=5
 # Test 5756: op=ALU_OR, a=16, b=18 => result=18
-# Test 5757: op=ALU_EQ, a=3, b=3 => result=0
+# Test 5757: op=ALU_EQ, a=3, b=3 => result=1
 # Test 5758: op=ALU_SUB, a=9, b=20 => result=4294967285
 # Test 5759: op=ALU_OR, a=11, b=4 => result=15
 # Test 5760: op=ALU_AND, a=10, b=15 => result=10
@@ -6038,7 +6038,7 @@
 # Test 6012: op=ALU_ADD, a=12, b=1 => result=13
 # Test 6013: op=ALU_AND, a=7, b=13 => result=5
 # Test 6014: op=ALU_ADD, a=14, b=17 => result=31
-# Test 6015: op=ALU_EQ, a=10, b=10 => result=0
+# Test 6015: op=ALU_EQ, a=10, b=10 => result=1
 # Test 6016: op=ALU_SUB, a=11, b=18 => result=4294967289
 # Test 6017: op=ALU_OR, a=10, b=13 => result=15
 # Test 6018: op=ALU_OR, a=4, b=7 => result=7
@@ -6263,7 +6263,7 @@
 # Test 6237: op=ALU_OR, a=14, b=7 => result=15
 # Test 6238: op=ALU_SUB, a=7, b=9 => result=4294967294
 # Test 6239: op=ALU_OR, a=16, b=10 => result=26
-# Test 6240: op=ALU_EQ, a=10, b=10 => result=0
+# Test 6240: op=ALU_EQ, a=10, b=10 => result=1
 # Test 6241: op=ALU_AND, a=2, b=15 => result=2
 # Test 6242: op=ALU_ADD, a=9, b=10 => result=19
 # Test 6243: op=ALU_AND, a=1, b=13 => result=1
@@ -6304,7 +6304,7 @@
 # Test 6278: op=ALU_SUB, a=12, b=16 => result=4294967292
 # Test 6279: op=ALU_OR, a=13, b=2 => result=15
 # Test 6280: op=ALU_OR, a=1, b=1 => result=1
-# Test 6281: op=ALU_EQ, a=11, b=11 => result=0
+# Test 6281: op=ALU_EQ, a=11, b=11 => result=1
 # Test 6282: op=ALU_ADD, a=16, b=18 => result=34
 # Test 6283: op=ALU_OR, a=11, b=16 => result=27
 # Test 6284: op=ALU_OR, a=15, b=11 => result=15
@@ -6391,7 +6391,7 @@
 # Test 6365: op=ALU_SUB, a=9, b=15 => result=4294967290
 # Test 6366: op=ALU_ADD, a=1, b=7 => result=8
 # Test 6367: op=ALU_AND, a=3, b=15 => result=3
-# Test 6368: op=ALU_EQ, a=3, b=3 => result=0
+# Test 6368: op=ALU_EQ, a=3, b=3 => result=1
 # Test 6369: op=ALU_SUB, a=11, b=12 => result=4294967295
 # Test 6370: op=ALU_ADD, a=2, b=19 => result=21
 # Test 6371: op=ALU_ADD, a=4, b=14 => result=18
@@ -6479,7 +6479,7 @@
 # Test 6453: op=ALU_OR, a=12, b=13 => result=13
 # Test 6454: op=ALU_OR, a=8, b=11 => result=11
 # Test 6455: op=ALU_OR, a=5, b=20 => result=21
-# Test 6456: op=ALU_EQ, a=1, b=1 => result=0
+# Test 6456: op=ALU_EQ, a=1, b=1 => result=1
 # Test 6457: op=ALU_SUB, a=15, b=16 => result=4294967295
 # Test 6458: op=ALU_ADD, a=5, b=3 => result=8
 # Test 6459: op=ALU_OR, a=1, b=10 => result=11
@@ -6539,7 +6539,7 @@
 # Test 6513: op=ALU_SUB, a=13, b=12 => result=1
 # Test 6514: op=ALU_SUB, a=12, b=18 => result=4294967290
 # Test 6515: op=ALU_ADD, a=7, b=4 => result=11
-# Test 6516: op=ALU_EQ, a=4, b=4 => result=0
+# Test 6516: op=ALU_EQ, a=4, b=4 => result=1
 # Test 6517: op=ALU_OR, a=1, b=1 => result=1
 # Test 6518: op=ALU_OR, a=3, b=16 => result=19
 # Test 6519: op=ALU_AND, a=6, b=18 => result=2
@@ -6589,7 +6589,7 @@
 # Test 6563: op=ALU_OR, a=13, b=4 => result=13
 # Test 6564: op=ALU_ADD, a=10, b=5 => result=15
 # Test 6565: op=ALU_SUB, a=14, b=16 => result=4294967294
-# Test 6566: op=ALU_EQ, a=9, b=9 => result=0
+# Test 6566: op=ALU_EQ, a=9, b=9 => result=1
 # Test 6567: op=ALU_ADD, a=8, b=4 => result=12
 # Test 6568: op=ALU_SUB, a=8, b=19 => result=4294967285
 # Test 6569: op=ALU_OR, a=2, b=4 => result=6
@@ -6605,7 +6605,7 @@
 # Test 6579: op=ALU_OR, a=4, b=3 => result=7
 # Test 6580: op=ALU_SUB, a=17, b=16 => result=1
 # Test 6581: op=ALU_ADD, a=16, b=1 => result=17
-# Test 6582: op=ALU_EQ, a=14, b=14 => result=0
+# Test 6582: op=ALU_EQ, a=14, b=14 => result=1
 # Test 6583: op=ALU_SUB, a=3, b=2 => result=1
 # Test 6584: op=ALU_SUB, a=20, b=19 => result=1
 # Test 6585: op=ALU_OR, a=3, b=4 => result=7
@@ -6647,7 +6647,7 @@
 # Test 6621: op=ALU_AND, a=20, b=20 => result=20
 # Test 6622: op=ALU_OR, a=18, b=5 => result=23
 # Test 6623: op=ALU_SUB, a=10, b=11 => result=4294967295
-# Test 6624: op=ALU_EQ, a=10, b=10 => result=0
+# Test 6624: op=ALU_EQ, a=10, b=10 => result=1
 # Test 6625: op=ALU_AND, a=5, b=3 => result=1
 # Test 6626: op=ALU_OR, a=10, b=5 => result=15
 # Test 6627: op=ALU_ADD, a=16, b=8 => result=24
@@ -6750,7 +6750,7 @@
 # Test 6724: op=ALU_AND, a=4, b=13 => result=4
 # Test 6725: op=ALU_SUB, a=8, b=6 => result=2
 # Test 6726: op=ALU_ADD, a=19, b=10 => result=29
-# Test 6727: op=ALU_EQ, a=20, b=20 => result=0
+# Test 6727: op=ALU_EQ, a=20, b=20 => result=1
 # Test 6728: op=ALU_ADD, a=3, b=3 => result=6
 # Test 6729: op=ALU_AND, a=18, b=20 => result=16
 # Test 6730: op=ALU_AND, a=17, b=15 => result=1
@@ -6828,7 +6828,7 @@
 # Test 6802: op=ALU_ADD, a=15, b=19 => result=34
 # Test 6803: op=ALU_AND, a=7, b=9 => result=1
 # Test 6804: op=ALU_OR, a=1, b=1 => result=1
-# Test 6805: op=ALU_EQ, a=19, b=19 => result=0
+# Test 6805: op=ALU_EQ, a=19, b=19 => result=1
 # Test 6806: op=ALU_SUB, a=17, b=2 => result=15
 # Test 6807: op=ALU_SUB, a=6, b=20 => result=4294967282
 # Test 6808: op=ALU_AND, a=7, b=2 => result=2
@@ -6915,7 +6915,7 @@
 # Test 6889: op=ALU_ADD, a=13, b=6 => result=19
 # Test 6890: op=ALU_ADD, a=18, b=20 => result=38
 # Test 6891: op=ALU_ADD, a=13, b=3 => result=16
-# Test 6892: op=ALU_EQ, a=13, b=13 => result=0
+# Test 6892: op=ALU_EQ, a=13, b=13 => result=1
 # Test 6893: op=ALU_OR, a=1, b=15 => result=15
 # Test 6894: op=ALU_SUB, a=6, b=14 => result=4294967288
 # Test 6895: op=ALU_SUB, a=16, b=18 => result=4294967294
@@ -6932,7 +6932,7 @@
 # Test 6906: op=ALU_SUB, a=2, b=17 => result=4294967281
 # Test 6907: op=ALU_AND, a=11, b=14 => result=10
 # Test 6908: op=ALU_SUB, a=20, b=6 => result=14
-# Test 6909: op=ALU_EQ, a=19, b=19 => result=0
+# Test 6909: op=ALU_EQ, a=19, b=19 => result=1
 # Test 6910: op=ALU_AND, a=5, b=1 => result=1
 # Test 6911: op=ALU_AND, a=16, b=18 => result=16
 # Test 6912: op=ALU_AND, a=8, b=8 => result=8
@@ -7086,7 +7086,7 @@
 # Test 7060: op=ALU_SUB, a=6, b=5 => result=1
 # Test 7061: op=ALU_AND, a=7, b=7 => result=7
 # Test 7062: op=ALU_OR, a=2, b=15 => result=15
-# Test 7063: op=ALU_EQ, a=11, b=11 => result=0
+# Test 7063: op=ALU_EQ, a=11, b=11 => result=1
 # Test 7064: op=ALU_OR, a=6, b=20 => result=22
 # Test 7065: op=ALU_OR, a=6, b=20 => result=22
 # Test 7066: op=ALU_SUB, a=20, b=5 => result=15
@@ -7202,7 +7202,7 @@
 # Test 7176: op=ALU_AND, a=6, b=15 => result=6
 # Test 7177: op=ALU_SUB, a=13, b=6 => result=7
 # Test 7178: op=ALU_OR, a=17, b=10 => result=27
-# Test 7179: op=ALU_EQ, a=11, b=11 => result=0
+# Test 7179: op=ALU_EQ, a=11, b=11 => result=1
 # Test 7180: op=ALU_OR, a=2, b=6 => result=6
 # Test 7181: op=ALU_AND, a=18, b=7 => result=2
 # Test 7182: op=ALU_OR, a=7, b=14 => result=15
@@ -7402,7 +7402,7 @@
 # Test 7376: op=ALU_AND, a=6, b=19 => result=2
 # Test 7377: op=ALU_OR, a=20, b=16 => result=20
 # Test 7378: op=ALU_AND, a=5, b=13 => result=5
-# Test 7379: op=ALU_EQ, a=8, b=8 => result=0
+# Test 7379: op=ALU_EQ, a=8, b=8 => result=1
 # Test 7380: op=ALU_SUB, a=9, b=13 => result=4294967292
 # Test 7381: op=ALU_AND, a=7, b=11 => result=3
 # Test 7382: op=ALU_AND, a=14, b=18 => result=2
@@ -7414,7 +7414,7 @@
 # Test 7388: op=ALU_OR, a=8, b=1 => result=9
 # Test 7389: op=ALU_AND, a=5, b=20 => result=4
 # Test 7390: op=ALU_OR, a=5, b=5 => result=5
-# Test 7391: op=ALU_EQ, a=1, b=1 => result=0
+# Test 7391: op=ALU_EQ, a=1, b=1 => result=1
 # Test 7392: op=ALU_OR, a=19, b=8 => result=27
 # Test 7393: op=ALU_ADD, a=13, b=8 => result=21
 # Test 7394: op=ALU_ADD, a=11, b=4 => result=15
@@ -7486,7 +7486,7 @@
 # Test 7460: op=ALU_ADD, a=7, b=11 => result=18
 # Test 7461: op=ALU_AND, a=7, b=2 => result=2
 # Test 7462: op=ALU_OR, a=12, b=18 => result=30
-# Test 7463: op=ALU_EQ, a=11, b=11 => result=0
+# Test 7463: op=ALU_EQ, a=11, b=11 => result=1
 # Test 7464: op=ALU_SUB, a=4, b=14 => result=4294967286
 # Test 7465: op=ALU_SUB, a=17, b=6 => result=11
 # Test 7466: op=ALU_OR, a=7, b=6 => result=7
@@ -7496,12 +7496,12 @@
 # Test 7470: op=ALU_ADD, a=16, b=8 => result=24
 # Test 7471: op=ALU_OR, a=12, b=11 => result=15
 # Test 7472: op=ALU_AND, a=12, b=7 => result=4
-# Test 7473: op=ALU_EQ, a=16, b=16 => result=0
+# Test 7473: op=ALU_EQ, a=16, b=16 => result=1
 # Test 7474: op=ALU_AND, a=3, b=14 => result=2
 # Test 7475: op=ALU_AND, a=9, b=10 => result=8
 # Test 7476: op=ALU_OR, a=14, b=6 => result=14
 # Test 7477: op=ALU_ADD, a=19, b=17 => result=36
-# Test 7478: op=ALU_EQ, a=6, b=6 => result=0
+# Test 7478: op=ALU_EQ, a=6, b=6 => result=1
 # Test 7479: op=ALU_OR, a=1, b=5 => result=5
 # Test 7480: op=ALU_AND, a=7, b=11 => result=3
 # Test 7481: op=ALU_SUB, a=13, b=5 => result=8
@@ -7624,7 +7624,7 @@
 # Test 7598: op=ALU_ADD, a=8, b=13 => result=21
 # Test 7599: op=ALU_OR, a=7, b=2 => result=7
 # Test 7600: op=ALU_ADD, a=8, b=18 => result=26
-# Test 7601: op=ALU_EQ, a=20, b=20 => result=0
+# Test 7601: op=ALU_EQ, a=20, b=20 => result=1
 # Test 7602: op=ALU_ADD, a=7, b=16 => result=23
 # Test 7603: op=ALU_SUB, a=18, b=3 => result=15
 # Test 7604: op=ALU_OR, a=20, b=3 => result=23
@@ -7686,7 +7686,7 @@
 # Test 7660: op=ALU_OR, a=1, b=13 => result=13
 # Test 7661: op=ALU_SUB, a=17, b=15 => result=2
 # Test 7662: op=ALU_SUB, a=4, b=10 => result=4294967290
-# Test 7663: op=ALU_EQ, a=2, b=2 => result=0
+# Test 7663: op=ALU_EQ, a=2, b=2 => result=1
 # Test 7664: op=ALU_ADD, a=4, b=2 => result=6
 # Test 7665: op=ALU_OR, a=7, b=11 => result=15
 # Test 7666: op=ALU_AND, a=7, b=4 => result=4
@@ -7804,11 +7804,11 @@
 # Test 7778: op=ALU_OR, a=13, b=3 => result=15
 # Test 7779: op=ALU_SUB, a=11, b=16 => result=4294967291
 # Test 7780: op=ALU_ADD, a=20, b=4 => result=24
-# Test 7781: op=ALU_EQ, a=11, b=11 => result=0
+# Test 7781: op=ALU_EQ, a=11, b=11 => result=1
 # Test 7782: op=ALU_ADD, a=20, b=20 => result=40
 # Test 7783: op=ALU_SUB, a=20, b=15 => result=5
 # Test 7784: op=ALU_OR, a=18, b=13 => result=31
-# Test 7785: op=ALU_EQ, a=16, b=16 => result=0
+# Test 7785: op=ALU_EQ, a=16, b=16 => result=1
 # Test 7786: op=ALU_ADD, a=5, b=6 => result=11
 # Test 7787: op=ALU_AND, a=13, b=5 => result=5
 # Test 7788: op=ALU_ADD, a=2, b=4 => result=6
@@ -7844,7 +7844,7 @@
 # Test 7818: op=ALU_SUB, a=5, b=18 => result=4294967283
 # Test 7819: op=ALU_ADD, a=10, b=19 => result=29
 # Test 7820: op=ALU_OR, a=20, b=7 => result=23
-# Test 7821: op=ALU_EQ, a=3, b=3 => result=0
+# Test 7821: op=ALU_EQ, a=3, b=3 => result=1
 # Test 7822: op=ALU_SUB, a=19, b=14 => result=5
 # Test 7823: op=ALU_ADD, a=7, b=2 => result=9
 # Test 7824: op=ALU_AND, a=18, b=15 => result=2
@@ -7917,7 +7917,7 @@
 # Test 7891: op=ALU_ADD, a=17, b=16 => result=33
 # Test 7892: op=ALU_OR, a=7, b=6 => result=7
 # Test 7893: op=ALU_AND, a=5, b=20 => result=4
-# Test 7894: op=ALU_EQ, a=2, b=2 => result=0
+# Test 7894: op=ALU_EQ, a=2, b=2 => result=1
 # Test 7895: op=ALU_ADD, a=17, b=8 => result=25
 # Test 7896: op=ALU_AND, a=9, b=7 => result=1
 # Test 7897: op=ALU_OR, a=18, b=10 => result=26
@@ -7931,7 +7931,7 @@
 # Test 7905: op=ALU_SUB, a=12, b=13 => result=4294967295
 # Test 7906: op=ALU_SUB, a=10, b=7 => result=3
 # Test 7907: op=ALU_SUB, a=16, b=1 => result=15
-# Test 7908: op=ALU_EQ, a=6, b=6 => result=0
+# Test 7908: op=ALU_EQ, a=6, b=6 => result=1
 # Test 7909: op=ALU_AND, a=11, b=18 => result=2
 # Test 7910: op=ALU_OR, a=11, b=7 => result=15
 # Test 7911: op=ALU_AND, a=14, b=4 => result=4
@@ -7992,7 +7992,7 @@
 # Test 7966: op=ALU_OR, a=8, b=15 => result=15
 # Test 7967: op=ALU_SUB, a=11, b=5 => result=6
 # Test 7968: op=ALU_OR, a=5, b=6 => result=7
-# Test 7969: op=ALU_EQ, a=3, b=3 => result=0
+# Test 7969: op=ALU_EQ, a=3, b=3 => result=1
 # Test 7970: op=ALU_SUB, a=17, b=1 => result=16
 # Test 7971: op=ALU_SUB, a=8, b=19 => result=4294967285
 # Test 7972: op=ALU_OR, a=12, b=7 => result=15
@@ -8017,7 +8017,7 @@
 # Test 7991: op=ALU_OR, a=8, b=3 => result=11
 # Test 7992: op=ALU_SUB, a=12, b=20 => result=4294967288
 # Test 7993: op=ALU_AND, a=6, b=13 => result=4
-# Test 7994: op=ALU_EQ, a=1, b=1 => result=0
+# Test 7994: op=ALU_EQ, a=1, b=1 => result=1
 # Test 7995: op=ALU_AND, a=14, b=4 => result=4
 # Test 7996: op=ALU_SUB, a=2, b=12 => result=4294967286
 # Test 7997: op=ALU_OR, a=2, b=4 => result=6
@@ -8034,7 +8034,7 @@
 # Test 8008: op=ALU_AND, a=4, b=14 => result=4
 # Test 8009: op=ALU_OR, a=11, b=8 => result=11
 # Test 8010: op=ALU_SUB, a=14, b=16 => result=4294967294
-# Test 8011: op=ALU_EQ, a=11, b=11 => result=0
+# Test 8011: op=ALU_EQ, a=11, b=11 => result=1
 # Test 8012: op=ALU_OR, a=5, b=19 => result=23
 # Test 8013: op=ALU_OR, a=15, b=15 => result=15
 # Test 8014: op=ALU_ADD, a=7, b=1 => result=8
@@ -8044,7 +8044,7 @@
 # Test 8018: op=ALU_OR, a=2, b=7 => result=7
 # Test 8019: op=ALU_ADD, a=18, b=20 => result=38
 # Test 8020: op=ALU_AND, a=4, b=7 => result=4
-# Test 8021: op=ALU_EQ, a=8, b=8 => result=0
+# Test 8021: op=ALU_EQ, a=8, b=8 => result=1
 # Test 8022: op=ALU_SUB, a=11, b=10 => result=1
 # Test 8023: op=ALU_ADD, a=14, b=5 => result=19
 # Test 8024: op=ALU_OR, a=14, b=6 => result=14
@@ -8052,14 +8052,14 @@
 # Test 8026: op=ALU_SUB, a=11, b=18 => result=4294967289
 # Test 8027: op=ALU_ADD, a=15, b=6 => result=21
 # Test 8028: op=ALU_SUB, a=8, b=11 => result=4294967293
-# Test 8029: op=ALU_EQ, a=10, b=10 => result=0
+# Test 8029: op=ALU_EQ, a=10, b=10 => result=1
 # Test 8030: op=ALU_SUB, a=18, b=13 => result=5
 # Test 8031: op=ALU_OR, a=14, b=2 => result=14
 # Test 8032: op=ALU_ADD, a=12, b=8 => result=20
 # Test 8033: op=ALU_AND, a=9, b=19 => result=1
 # Test 8034: op=ALU_AND, a=4, b=6 => result=4
 # Test 8035: op=ALU_SUB, a=17, b=14 => result=3
-# Test 8036: op=ALU_EQ, a=5, b=5 => result=0
+# Test 8036: op=ALU_EQ, a=5, b=5 => result=1
 # Test 8037: op=ALU_ADD, a=20, b=12 => result=32
 # Test 8038: op=ALU_SUB, a=2, b=8 => result=4294967290
 # Test 8039: op=ALU_AND, a=9, b=3 => result=1
@@ -8196,7 +8196,7 @@
 # Test 8170: op=ALU_OR, a=12, b=5 => result=13
 # Test 8171: op=ALU_AND, a=10, b=12 => result=8
 # Test 8172: op=ALU_SUB, a=7, b=18 => result=4294967285
-# Test 8173: op=ALU_EQ, a=19, b=19 => result=0
+# Test 8173: op=ALU_EQ, a=19, b=19 => result=1
 # Test 8174: op=ALU_OR, a=13, b=12 => result=13
 # Test 8175: op=ALU_AND, a=3, b=3 => result=3
 # Test 8176: op=ALU_AND, a=17, b=15 => result=1
@@ -8338,7 +8338,7 @@
 # Test 8312: op=ALU_OR, a=6, b=12 => result=14
 # Test 8313: op=ALU_OR, a=6, b=7 => result=7
 # Test 8314: op=ALU_ADD, a=19, b=17 => result=36
-# Test 8315: op=ALU_EQ, a=18, b=18 => result=0
+# Test 8315: op=ALU_EQ, a=18, b=18 => result=1
 # Test 8316: op=ALU_SUB, a=6, b=16 => result=4294967286
 # Test 8317: op=ALU_SUB, a=15, b=19 => result=4294967292
 # Test 8318: op=ALU_ADD, a=12, b=13 => result=25
@@ -8414,7 +8414,7 @@
 # Test 8388: op=ALU_SUB, a=11, b=3 => result=8
 # Test 8389: op=ALU_AND, a=15, b=14 => result=14
 # Test 8390: op=ALU_OR, a=14, b=9 => result=15
-# Test 8391: op=ALU_EQ, a=6, b=6 => result=0
+# Test 8391: op=ALU_EQ, a=6, b=6 => result=1
 # Test 8392: op=ALU_SUB, a=15, b=20 => result=4294967291
 # Test 8393: op=ALU_OR, a=14, b=18 => result=30
 # Test 8394: op=ALU_SUB, a=9, b=20 => result=4294967285
@@ -8538,7 +8538,7 @@
 # Test 8512: op=ALU_SUB, a=12, b=7 => result=5
 # Test 8513: op=ALU_SUB, a=7, b=2 => result=5
 # Test 8514: op=ALU_SUB, a=4, b=2 => result=2
-# Test 8515: op=ALU_EQ, a=11, b=11 => result=0
+# Test 8515: op=ALU_EQ, a=11, b=11 => result=1
 # Test 8516: op=ALU_ADD, a=10, b=12 => result=22
 # Test 8517: op=ALU_OR, a=16, b=20 => result=20
 # Test 8518: op=ALU_ADD, a=2, b=9 => result=11
@@ -8558,7 +8558,7 @@
 # Test 8532: op=ALU_AND, a=9, b=9 => result=9
 # Test 8533: op=ALU_ADD, a=17, b=3 => result=20
 # Test 8534: op=ALU_OR, a=15, b=15 => result=15
-# Test 8535: op=ALU_EQ, a=7, b=7 => result=0
+# Test 8535: op=ALU_EQ, a=7, b=7 => result=1
 # Test 8536: op=ALU_ADD, a=12, b=3 => result=15
 # Test 8537: op=ALU_AND, a=12, b=11 => result=8
 # Test 8538: op=ALU_OR, a=17, b=7 => result=23
@@ -8610,7 +8610,7 @@
 # Test 8584: op=ALU_OR, a=15, b=1 => result=15
 # Test 8585: op=ALU_OR, a=9, b=14 => result=15
 # Test 8586: op=ALU_SUB, a=20, b=5 => result=15
-# Test 8587: op=ALU_EQ, a=7, b=7 => result=0
+# Test 8587: op=ALU_EQ, a=7, b=7 => result=1
 # Test 8588: op=ALU_SUB, a=19, b=10 => result=9
 # Test 8589: op=ALU_OR, a=16, b=14 => result=30
 # Test 8590: op=ALU_OR, a=1, b=8 => result=9
@@ -8700,14 +8700,14 @@
 # Test 8674: op=ALU_OR, a=5, b=10 => result=15
 # Test 8675: op=ALU_AND, a=4, b=7 => result=4
 # Test 8676: op=ALU_OR, a=8, b=13 => result=13
-# Test 8677: op=ALU_EQ, a=15, b=15 => result=0
+# Test 8677: op=ALU_EQ, a=15, b=15 => result=1
 # Test 8678: op=ALU_AND, a=15, b=7 => result=7
 # Test 8679: op=ALU_OR, a=1, b=13 => result=13
 # Test 8680: op=ALU_OR, a=11, b=17 => result=27
 # Test 8681: op=ALU_OR, a=18, b=16 => result=18
 # Test 8682: op=ALU_AND, a=6, b=3 => result=2
 # Test 8683: op=ALU_OR, a=4, b=16 => result=20
-# Test 8684: op=ALU_EQ, a=3, b=3 => result=0
+# Test 8684: op=ALU_EQ, a=3, b=3 => result=1
 # Test 8685: op=ALU_SUB, a=18, b=11 => result=7
 # Test 8686: op=ALU_OR, a=2, b=2 => result=2
 # Test 8687: op=ALU_SUB, a=2, b=7 => result=4294967291
@@ -8756,7 +8756,7 @@
 # Test 8730: op=ALU_OR, a=7, b=18 => result=23
 # Test 8731: op=ALU_AND, a=2, b=18 => result=2
 # Test 8732: op=ALU_ADD, a=14, b=4 => result=18
-# Test 8733: op=ALU_EQ, a=16, b=16 => result=0
+# Test 8733: op=ALU_EQ, a=16, b=16 => result=1
 # Test 8734: op=ALU_ADD, a=3, b=3 => result=6
 # Test 8735: op=ALU_SUB, a=13, b=19 => result=4294967290
 # Test 8736: op=ALU_ADD, a=18, b=5 => result=23
@@ -8776,7 +8776,7 @@
 # Test 8750: op=ALU_ADD, a=14, b=16 => result=30
 # Test 8751: op=ALU_AND, a=18, b=2 => result=2
 # Test 8752: op=ALU_SUB, a=12, b=2 => result=10
-# Test 8753: op=ALU_EQ, a=19, b=19 => result=0
+# Test 8753: op=ALU_EQ, a=19, b=19 => result=1
 # Test 8754: op=ALU_SUB, a=3, b=12 => result=4294967287
 # Test 8755: op=ALU_ADD, a=19, b=6 => result=25
 # Test 8756: op=ALU_ADD, a=20, b=7 => result=27
@@ -8788,7 +8788,7 @@
 # Test 8762: op=ALU_OR, a=17, b=10 => result=27
 # Test 8763: op=ALU_OR, a=8, b=11 => result=11
 # Test 8764: op=ALU_AND, a=4, b=7 => result=4
-# Test 8765: op=ALU_EQ, a=8, b=8 => result=0
+# Test 8765: op=ALU_EQ, a=8, b=8 => result=1
 # Test 8766: op=ALU_AND, a=18, b=10 => result=2
 # Test 8767: op=ALU_ADD, a=11, b=15 => result=26
 # Test 8768: op=ALU_OR, a=6, b=11 => result=15
@@ -8838,7 +8838,7 @@
 # Test 8812: op=ALU_SUB, a=1, b=10 => result=4294967287
 # Test 8813: op=ALU_OR, a=2, b=1 => result=3
 # Test 8814: op=ALU_OR, a=13, b=4 => result=13
-# Test 8815: op=ALU_EQ, a=4, b=4 => result=0
+# Test 8815: op=ALU_EQ, a=4, b=4 => result=1
 # Test 8816: op=ALU_ADD, a=7, b=19 => result=26
 # Test 8817: op=ALU_SUB, a=17, b=3 => result=14
 # Test 8818: op=ALU_AND, a=7, b=17 => result=1
@@ -8881,7 +8881,7 @@
 # Test 8855: op=ALU_AND, a=2, b=10 => result=2
 # Test 8856: op=ALU_ADD, a=18, b=19 => result=37
 # Test 8857: op=ALU_ADD, a=4, b=9 => result=13
-# Test 8858: op=ALU_EQ, a=4, b=4 => result=0
+# Test 8858: op=ALU_EQ, a=4, b=4 => result=1
 # Test 8859: op=ALU_SUB, a=4, b=18 => result=4294967282
 # Test 8860: op=ALU_OR, a=8, b=13 => result=13
 # Test 8861: op=ALU_OR, a=4, b=15 => result=15
@@ -8991,7 +8991,7 @@
 # Test 8965: op=ALU_SUB, a=7, b=12 => result=4294967291
 # Test 8966: op=ALU_SUB, a=10, b=7 => result=3
 # Test 8967: op=ALU_AND, a=15, b=20 => result=4
-# Test 8968: op=ALU_EQ, a=6, b=6 => result=0
+# Test 8968: op=ALU_EQ, a=6, b=6 => result=1
 # Test 8969: op=ALU_ADD, a=6, b=12 => result=18
 # Test 8970: op=ALU_AND, a=8, b=15 => result=8
 # Test 8971: op=ALU_SUB, a=14, b=19 => result=4294967291
@@ -9035,7 +9035,7 @@
 # Test 9009: op=ALU_OR, a=19, b=8 => result=27
 # Test 9010: op=ALU_AND, a=19, b=13 => result=1
 # Test 9011: op=ALU_ADD, a=7, b=20 => result=27
-# Test 9012: op=ALU_EQ, a=3, b=3 => result=0
+# Test 9012: op=ALU_EQ, a=3, b=3 => result=1
 # Test 9013: op=ALU_ADD, a=6, b=7 => result=13
 # Test 9014: op=ALU_SUB, a=12, b=20 => result=4294967288
 # Test 9015: op=ALU_SUB, a=19, b=5 => result=14
@@ -9127,7 +9127,7 @@
 # Test 9101: op=ALU_ADD, a=13, b=15 => result=28
 # Test 9102: op=ALU_OR, a=20, b=5 => result=21
 # Test 9103: op=ALU_ADD, a=13, b=12 => result=25
-# Test 9104: op=ALU_EQ, a=10, b=10 => result=0
+# Test 9104: op=ALU_EQ, a=10, b=10 => result=1
 # Test 9105: op=ALU_OR, a=14, b=1 => result=15
 # Test 9106: op=ALU_SUB, a=12, b=15 => result=4294967293
 # Test 9107: op=ALU_SUB, a=11, b=9 => result=2
@@ -9158,7 +9158,7 @@
 # Test 9132: op=ALU_ADD, a=13, b=4 => result=17
 # Test 9133: op=ALU_ADD, a=14, b=18 => result=32
 # Test 9134: op=ALU_SUB, a=14, b=12 => result=2
-# Test 9135: op=ALU_EQ, a=7, b=7 => result=0
+# Test 9135: op=ALU_EQ, a=7, b=7 => result=1
 # Test 9136: op=ALU_SUB, a=7, b=8 => result=4294967295
 # Test 9137: op=ALU_SUB, a=2, b=5 => result=4294967293
 # Test 9138: op=ALU_AND, a=9, b=17 => result=1
@@ -9179,7 +9179,7 @@
 # Test 9153: op=ALU_OR, a=17, b=13 => result=29
 # Test 9154: op=ALU_ADD, a=18, b=17 => result=35
 # Test 9155: op=ALU_AND, a=19, b=13 => result=1
-# Test 9156: op=ALU_EQ, a=12, b=12 => result=0
+# Test 9156: op=ALU_EQ, a=12, b=12 => result=1
 # Test 9157: op=ALU_SUB, a=2, b=1 => result=1
 # Test 9158: op=ALU_SUB, a=7, b=20 => result=4294967283
 # Test 9159: op=ALU_SUB, a=13, b=20 => result=4294967289
@@ -9217,7 +9217,7 @@
 # Test 9191: op=ALU_OR, a=15, b=3 => result=15
 # Test 9192: op=ALU_OR, a=5, b=15 => result=15
 # Test 9193: op=ALU_OR, a=9, b=8 => result=9
-# Test 9194: op=ALU_EQ, a=14, b=14 => result=0
+# Test 9194: op=ALU_EQ, a=14, b=14 => result=1
 # Test 9195: op=ALU_OR, a=6, b=17 => result=23
 # Test 9196: op=ALU_ADD, a=14, b=9 => result=23
 # Test 9197: op=ALU_AND, a=20, b=20 => result=20
@@ -9241,7 +9241,7 @@
 # Test 9215: op=ALU_AND, a=1, b=7 => result=1
 # Test 9216: op=ALU_ADD, a=3, b=18 => result=21
 # Test 9217: op=ALU_ADD, a=12, b=12 => result=24
-# Test 9218: op=ALU_EQ, a=16, b=16 => result=0
+# Test 9218: op=ALU_EQ, a=16, b=16 => result=1
 # Test 9219: op=ALU_OR, a=8, b=16 => result=24
 # Test 9220: op=ALU_AND, a=9, b=3 => result=1
 # Test 9221: op=ALU_SUB, a=13, b=17 => result=4294967292
@@ -9353,7 +9353,7 @@
 # Test 9327: op=ALU_OR, a=6, b=12 => result=14
 # Test 9328: op=ALU_ADD, a=4, b=8 => result=12
 # Test 9329: op=ALU_ADD, a=5, b=4 => result=9
-# Test 9330: op=ALU_EQ, a=3, b=3 => result=0
+# Test 9330: op=ALU_EQ, a=3, b=3 => result=1
 # Test 9331: op=ALU_ADD, a=13, b=4 => result=17
 # Test 9332: op=ALU_OR, a=19, b=13 => result=31
 # Test 9333: op=ALU_ADD, a=18, b=18 => result=36
@@ -9426,7 +9426,7 @@
 # Test 9400: op=ALU_OR, a=3, b=1 => result=3
 # Test 9401: op=ALU_SUB, a=17, b=20 => result=4294967293
 # Test 9402: op=ALU_OR, a=12, b=1 => result=13
-# Test 9403: op=ALU_EQ, a=2, b=2 => result=0
+# Test 9403: op=ALU_EQ, a=2, b=2 => result=1
 # Test 9404: op=ALU_AND, a=19, b=9 => result=1
 # Test 9405: op=ALU_AND, a=17, b=17 => result=17
 # Test 9406: op=ALU_AND, a=4, b=4 => result=4
@@ -9659,7 +9659,7 @@
 # Test 9633: op=ALU_ADD, a=11, b=9 => result=20
 # Test 9634: op=ALU_AND, a=20, b=7 => result=4
 # Test 9635: op=ALU_ADD, a=3, b=4 => result=7
-# Test 9636: op=ALU_EQ, a=3, b=3 => result=0
+# Test 9636: op=ALU_EQ, a=3, b=3 => result=1
 # Test 9637: op=ALU_SUB, a=13, b=1 => result=12
 # Test 9638: op=ALU_SUB, a=11, b=5 => result=6
 # Test 9639: op=ALU_AND, a=13, b=12 => result=12
@@ -9923,7 +9923,7 @@
 # Test 9897: op=ALU_AND, a=6, b=14 => result=6
 # Test 9898: op=ALU_OR, a=18, b=9 => result=27
 # Test 9899: op=ALU_SUB, a=7, b=18 => result=4294967285
-# Test 9900: op=ALU_EQ, a=17, b=17 => result=0
+# Test 9900: op=ALU_EQ, a=17, b=17 => result=1
 # Test 9901: op=ALU_ADD, a=13, b=5 => result=18
 # Test 9902: op=ALU_SUB, a=5, b=7 => result=4294967294
 # Test 9903: op=ALU_ADD, a=11, b=20 => result=31
@@ -9957,7 +9957,7 @@
 # Test 9931: op=ALU_OR, a=20, b=17 => result=21
 # Test 9932: op=ALU_OR, a=1, b=13 => result=13
 # Test 9933: op=ALU_OR, a=17, b=19 => result=19
-# Test 9934: op=ALU_EQ, a=12, b=12 => result=0
+# Test 9934: op=ALU_EQ, a=12, b=12 => result=1
 # Test 9935: op=ALU_ADD, a=9, b=2 => result=11
 # Test 9936: op=ALU_ADD, a=16, b=14 => result=30
 # Test 9937: op=ALU_AND, a=17, b=7 => result=1
@@ -10003,7 +10003,7 @@
 # Test 9977: op=ALU_ADD, a=1, b=18 => result=19
 # Test 9978: op=ALU_AND, a=13, b=6 => result=4
 # Test 9979: op=ALU_AND, a=14, b=11 => result=10
-# Test 9980: op=ALU_EQ, a=13, b=13 => result=0
+# Test 9980: op=ALU_EQ, a=13, b=13 => result=1
 # Test 9981: op=ALU_AND, a=3, b=13 => result=1
 # Test 9982: op=ALU_SUB, a=7, b=15 => result=4294967288
 # Test 9983: op=ALU_SUB, a=12, b=20 => result=4294967288
@@ -10026,5 +10026,5 @@
 # Randomized testbench completed.
 # ** Note: $finish    : ../tb/ibex_alu_tb.sv(152)
 #    Time: 100017 ns  Iteration: 0  Instance: /ibex_alu_tb
-# End time: 09:03:52 on Sep 05,2025, Elapsed time: 0:00:01
+# End time: 21:35:32 on Sep 08,2025, Elapsed time: 0:00:15
 # Errors: 0, Warnings: 0

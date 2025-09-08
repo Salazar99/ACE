@@ -64,8 +64,8 @@ def main():
 
     # Read CSVs
     try:
-        df1 = pd.read_csv(file1, sep=args.sep, encoding=args.encoding)
-        df2 = pd.read_csv(file2, sep=args.sep, encoding=args.encoding)
+        df1 = pd.read_csv(file1, sep=args.sep, encoding=args.encoding, on_bad_lines='skip')
+        df2 = pd.read_csv(file2, sep=args.sep, encoding=args.encoding, on_bad_lines='skip')
     except Exception as e:
         sys.exit(f"ERROR reading CSVs: {e}")
 
