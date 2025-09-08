@@ -1,0 +1,2 @@
+G({true} |-> rst_n)
+G({true} |-> valid_in) 
