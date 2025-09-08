@@ -10,3 +10,5 @@ Designs/*/hif/injected/*.xml
 ./*.xml
 ./*.out
 work
+*.vcd
+*.csv

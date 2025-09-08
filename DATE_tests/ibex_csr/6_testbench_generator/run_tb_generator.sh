@@ -1,5 +1,5 @@
 
-export ACEROOT="/home/fabio/Desktop/ACE"
+#export ACEROOT="/home/fabio/Desktop/ACE"
 
 # commented below because removed first case 0, 0 and changed testbench name
 

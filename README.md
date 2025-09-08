@@ -9,7 +9,6 @@ This tool allows for the extraction of A/G contracts starting from a design impl
 
 ### Dependencies
 
-* java
 * third_parties tools (see Installing section)
 
 ### Installing
@@ -28,18 +27,11 @@ Install dependencies by executing
 bash install_all.sh
 ```
 
-### Executing program
-
-## Help
-
 ## Authors
 
 Contributors names and contact info
 
 Daniele Nicoletti - daniele.nicoletti@univr.it
+Fabio Forlin  - 
+Samuele Germiniani - samuele.germiniani@univr.it
 
-## License
-
-This project is licensed under the [NAME HERE] License - see the LICENSE.md file for details
-
-## Acknowledgments
