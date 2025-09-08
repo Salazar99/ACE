@@ -4,14 +4,11 @@
 		<prop exp="rst_ni" loc="a"/>
 		<prop exp="wr_en_i" loc="a"/>
 
-		<prop exp="rd_data_o_DU" loc="c, dt"/>
+		<template exp="G(P0 ##1 true |-> DU)" />
 
-
-		<template exp="G(P0 |-> ##1 P1)" />
-
-
+		<!--
 		<template check="1" exp="G(wr_en_i |-> ##1 rd_data_o_DU)" />
-		<!--<template check="1" exp="G(wr_data_i |-> ##1 rd_data_o_DU)" />-->
+		<template check="1" exp="G(wr_data_i |-> ##1 rd_data_o_DU)" />-->
 
 		<sort name="1/(1+afct)" exp="1/(1+afct)"/>
 		<sort name="ATCT-AFCT" exp="atct-afct"/>

@@ -10,16 +10,8 @@
 		<prop exp="a + b + cin == 256" loc="a"/>
 
 
-		<prop exp="sum_DU" loc="c, dt"/>
-		<prop exp="cout_DU" loc="c, dt"/>
-		<prop exp="!sum_DU" loc="c, dt"/>
-		<prop exp="!cout_DU" loc="c, dt"/>
+		<template exp="G(P0 |-> 'DU')" />
 
-		<!--<template dtLimits="2D,2W,4A,0E,U" exp="G({..#1&..}|-> X(camallia_u::EncDec && X[23]camallia_u::Dvld))" /> 
-		<template dtLimits="2D,2W,4A,0E,U" exp="G({..#1&..}|-> X(!camallia_u::EncDec && X[23]camallia_u::Dvld))" /> -->
-
-		<template exp="G(P0 |-> P2)" />
-		<template exp="G(P3 |-> P4 && P5)" />
 
 		<!-- 
 		<template check="1" exp="G((a + b + cin) > 255 |-> cout_DU)" />
