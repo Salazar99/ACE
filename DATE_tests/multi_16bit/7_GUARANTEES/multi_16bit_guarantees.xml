@@ -1,0 +1,35 @@
+<harm>
+	<context name="default">
+
+		<prop exp="rst_n" loc="a"/>
+		<prop exp="start" loc="a"/>
+		<prop exp="ain" loc="a"/>
+		<prop exp="bin" loc="a"/>
+
+		<prop exp="yout" loc="c, dt"/>
+		<prop exp="done" loc="c, dt"/>
+
+		<!--<template dtLimits="2D,2W,4A,0E,U" exp="G({..#1&..}|-> X(camallia_u::EncDec && X[23]camallia_u::Dvld))" /> 
+		<template dtLimits="2D,2W,4A,0E,U" exp="G({..#1&..}|-> X(!camallia_u::EncDec && X[23]camallia_u::Dvld))" /> -->
+
+
+		<!--<template dtLimits="4A,3D,2D,-0.1E,U,O" exp="G(..&&.. |-> ..##[1,20]..)" />-->
+		<!--<template exp="G(P0 |-> ##[1,20] P1)" />-->
+		<template exp="G(!P0 ##1 P1 |-> ##17 P2)" />
+		<template exp="G(P0 |-> P2)" />
+		<template exp="G(P3 |-> P4 && P5)" />
+		<template dtLimits="3D,3W,4A,0E,U" exp="G(..&&.. |-> P1)" />
+		<template dtLimits="3D,3W,4A,0E,U" exp="G(..#1&.. |-> P2)" />
+		<template dtLimits="3A,-0.1E,U" exp="G({..##1..}|-> X(P0))" />
+		
+
+		<template check="1" exp="G(!start ##1 start |-> ##17 done)" />
+		
+
+		<sort name="1/(1+afct)" exp="1/(1+afct)"/>
+		<sort name="ATCT-AFCT" exp="atct-afct"/>
+	</context>
+</harm>
+
+
+

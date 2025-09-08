@@ -1,0 +1,6 @@
+<harm>
+ 	<context name="default">
+<template exp="G(true |-> ( !start ##1 start ))" />
+<template exp="G(true |-> ( start ##1 !start ))" />
+</context>
+</harm>

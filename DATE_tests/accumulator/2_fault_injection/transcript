@@ -1,0 +1,39 @@
+# vsim -voptargs="+acc" -c work.tbench_top -do "force tbench_top::intf::valid_out 0; run -all; exit" 
+# Start time: 10:58:24 on Aug 28,2025
+# ** Note: (vsim-3812) Design is being optimized...
+# //  ModelSim SE-64 2019.4 Oct 15 2019 Linux 6.6.87.2-microsoft-standard-WSL2
+# //
+# //  Copyright 1991-2019 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  ModelSim SE-64 and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading sv_std.std
+# Loading work.testbench_sv_unit(fast)
+# Loading work.tbench_top(fast)
+# Loading work.accu_intf(fast)
+# Loading work.test(fast)
+# Loading work.verified_accu(fast)
+# Loading work.accu_intf(fast)
+# force tbench_top::intf::valid_out 0
+#  run -all
+# --------- [DRIVER] Resetting DUT ---------
+# --------- [DRIVER] Reset Complete ---------
+# --------- [Trans] post_randomize ------
+# 	 Input: 21
+# 	 Input: 24
+# 	 Input: 64
+# 	 Input: 57
+# -----------------------------------------
+# Break key hit
+# Break in Module tbench_top at ../tb/testbench.sv line 12
+# Stopped at ../tb/testbench.sv line 12
+#  exit
+# End time: 10:59:19 on Aug 28,2025, Elapsed time: 0:00:55
+# Errors: 0, Warnings: 0

@@ -1,0 +1,93 @@
+<config>
+    <tpls>
+        <!--<temp name="P0&gt; 0"/>-->
+        <!--<temp name="P0&lt; 0"/>-->
+        <!--<temp name="P0&gt;=LOWERB"/>-->
+        <!--<temp name="P0&lt;=UPPERB"/>-->
+        <temp name="P0==1"/>
+        <!--<temp name="P0!=P1"/>-->
+        <!--<temp name="P0&lt;=P1"/>-->
+        <!--<temp name="P0&gt;=P1"/>-->
+        <!--<temp len="2" name="..##1.."/> -->
+    </tpls>
+    <vars>
+        <var name="wr_en_i"/>
+    </vars>
+</config>
+<!--
+INVARIANT_TEMPLATES
+
+# Constant Values
+VAR1 == CONSTANT_VALUE
+VAR1 != CONSTANT_VALUE
+
+# Set Membership
+VAR1 in {VALUE1, VALUE2, VALUE3, ...}
+VAR1 not in {VALUE1, VALUE2, VALUE3, ...}
+
+# Range Invariants
+VAR1 >= LOWER_BOUND
+VAR1 <= UPPER_BOUND
+LOWER_BOUND <= VAR1 <= UPPER_BOUND
+
+# Modulo Invariants
+VAR1 % MODULUS == REMAINDER
+VAR1 % MODULUS != REMAINDER
+
+# Linear Relationships (Two Variables)
+VAR1 == COEFF1 * VAR2 + CONSTANT_VALUE
+VAR1 != COEFF1 * VAR2 + CONSTANT_VALUE
+VAR1 < COEFF1 * VAR2 + CONSTANT_VALUE
+VAR1 > COEFF1 * VAR2 + CONSTANT_VALUE
+VAR1 <= COEFF1 * VAR2 + CONSTANT_VALUE
+VAR1 >= COEFF1 * VAR2 + CONSTANT_VALUE
+
+# Comparison Invariants (Two Variables)
+VAR1 == VAR2
+VAR1 != VAR2
+VAR1 < VAR2
+VAR1 > VAR2
+VAR1 <= VAR2
+VAR1 >= VAR2
+
+# Linear Relationships (Three Variables)
+VAR1 == COEFF1 * VAR2 + COEFF2 * VAR3 + CONSTANT_VALUE
+
+# Functional Relationships
+VAR1 == ABS(VAR2)
+VAR1 == NEGATE(VAR2)
+
+# Array/Sequence Properties
+ARRAY_VAR is sorted
+ARRAY_VAR is sorted by ABSOLUTE_VALUE
+ARRAY_VAR contains NO_DUPLICATES
+SIZE(ARRAY_VAR) == CONSTANT_VALUE
+SIZE(ARRAY_VAR) != CONSTANT_VALUE
+SIZE(ARRAY_VAR) >= LOWER_BOUND
+SIZE(ARRAY_VAR) <= UPPER_BOUND
+SIZE(ARRAY_VAR) == VAR1
+ARRAY_VAR[INDEX] == CONSTANT_VALUE
+ARRAY_VAR[INDEX1] == ARRAY_VAR[INDEX2]
+ARRAY_VAR[INDEX] == VAR1
+
+# Collection Properties
+COLLECTION_VAR is not empty
+ELEMENT_VAR in COLLECTION_VAR
+COLLECTION_VAR1 subset of COLLECTION_VAR2
+COLLECTION_VAR1 == COLLECTION_VAR2
+
+# Implication Invariants (Placeholder for complex conditions)
+IF (CONDITION1) THEN (CONDITION2)
+
+# Bitwise Invariants
+BIT_COUNT(VAR1) == CONSTANT_VALUE
+LOWEST_BIT(VAR1) == CONSTANT_VALUE
+HIGHEST_BIT(VAR1) == CONSTANT_VALUE
+
+# Invariants on Derived Variables (Examples)
+VAR1 + VAR2 == CONSTANT_VALUE
+VAR1 - VAR2 == CONSTANT_VALUE
+VAR1 * VAR2 == CONSTANT_VALUE
+VAR1 / VAR2 == CONSTANT_VALUE
+
+-->
