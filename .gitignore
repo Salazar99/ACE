@@ -12,3 +12,5 @@ Designs/*/hif/injected/*.xml
 work
 *.vcd
 *.csv
+transcript
+gmon.out
