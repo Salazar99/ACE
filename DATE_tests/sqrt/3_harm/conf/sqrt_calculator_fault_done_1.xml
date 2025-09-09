@@ -6,14 +6,15 @@
 		<prop exp="in == 0" loc="a, dt"/>
 		<prop exp="start" loc="a, dt"/>
 		
-		<template dtLimits="2D,2W,4A,0E,U" exp="G(P0 ##12 true |->  DU)" />
-		<template dtLimits="2D,2W,4A,0E,U" exp="G(P2  ##1 true |-> DU)" />
-		<template dtLimits="2D,2W,4A,0E,U" exp="G(..&&.. ##12 true |-> DU )" />
+		<template dtLimits="2D,3W,4A,0E,U" exp="G(P0 ##12 true |->  DU)" />
+		<template dtLimits="2D,3W,4A,0E,U" exp="G(P2  ##1 true |-> DU)" />
+		<template dtLimits="2D,3W,4A,0E,U" exp="G(..&&.. ##12 true |-> DU )" />
 
+		<template check="1" exp="G(((in > 0) ##12 true) |-> DU)" />
+		<template check="1" exp="G(((in < 0) ##1 true) |-> DU)" />
+		<template check="1" exp="G((in == 0) && start |-> ##12 DU)" />
 		<!--
-		<template check="1" exp="G((in > 0) ##12 true |-> out_DU)" />
-		<template check="1" exp="G((in < 0) ##1 true |->  error_DU)" />
-		<template check="1" exp="G((in == 0) && start ##12 true |->  !out_DU && !error && done_DU)" />
+		<template check="1" exp="G(((in == 0) && start ##12 true) |->  !out && !error && done)" />
 		-->
 		<sort name="1/(1+afct)" exp="1/(1+afct)"/>
 		<sort name="ATCT-AFCT" exp="atct-afct"/>

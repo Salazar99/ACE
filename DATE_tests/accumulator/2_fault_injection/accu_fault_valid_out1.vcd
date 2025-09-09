@@ -30,7 +30,6 @@ $var reg 1 * valid_in $end
 $var reg 1 + valid_out $end
 $var reg 10 , data_out [9:0] $end
 
-$scope unknown dut $end
 $upscope $end
 $upscope $end
 $upscope $end

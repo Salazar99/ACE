@@ -1,0 +1,33 @@
+########Accumulator
+4 possible contracts
+3 fails at step 3 
+
+1 extracted
+
+########adder_8bit
+
+
+########comparator
+6 possible contracts
+
+6 extracted
+
+3 match expected
+3 are redundant
+
+#########ibex_alu
+
+
+#########ibex_csr
+
+
+#########ibex_muldiv_fast
+
+
+
+
+##########multi_16bit
+
+
+
+###########sqrt

@@ -47,9 +47,15 @@ python3 ../1_csv/convert_csv.py ./comparator_3bit_A_gt_1.csv
 python3 ../1_csv/convert_csv.py ./comparator_3bit_A_lt_0.csv
 python3 ../1_csv/convert_csv.py ./comparator_3bit_A_lt_1.csv
 
-harm --csv ./comparator_3bit_A_eq_0.csv --conf comparator_3bit_guarantees.xml
-harm --csv ./comparator_3bit_A_eq_1.csv --conf comparator_3bit_guarantees.xml
-harm --csv ./comparator_3bit_A_gt_0.csv --conf comparator_3bit_guarantees.xml
-harm --csv ./comparator_3bit_A_gt_1.csv --conf comparator_3bit_guarantees.xml
-harm --csv ./comparator_3bit_A_lt_0.csv --conf comparator_3bit_guarantees.xml
-harm --csv ./comparator_3bit_A_lt_1.csv --conf comparator_3bit_guarantees.xml
+harm --csv ./comparator_3bit_A_eq_0.csv --conf comparator_3bit_guarantees.xml --dump-to ./guarantees
+mv ./guarantees/default_ass.txt ./guarantees/comparator_3bit_A_eq_0.txt
+harm --csv ./comparator_3bit_A_eq_1.csv --conf comparator_3bit_guarantees.xml --dump-to ./guarantees
+mv ./guarantees/default_ass.txt ./guarantees/comparator_3bit_A_eq_1.txt
+harm --csv ./comparator_3bit_A_gt_0.csv --conf comparator_3bit_guarantees.xml --dump-to ./guarantees
+mv ./guarantees/default_ass.txt ./guarantees/comparator_3bit_A_gt_0.txt
+harm --csv ./comparator_3bit_A_gt_1.csv --conf comparator_3bit_guarantees.xml --dump-to ./guarantees
+mv ./guarantees/default_ass.txt ./guarantees/comparator_3bit_A_gt_1.txt
+harm --csv ./comparator_3bit_A_lt_0.csv --conf comparator_3bit_guarantees.xml --dump-to ./guarantees
+mv ./guarantees/default_ass.txt ./guarantees/comparator_3bit_A_lt_0.txt
+harm --csv ./comparator_3bit_A_lt_1.csv --conf comparator_3bit_guarantees.xml --dump-to ./guarantees
+mv ./guarantees/default_ass.txt ./guarantees/comparator_3bit_A_lt_1.txt

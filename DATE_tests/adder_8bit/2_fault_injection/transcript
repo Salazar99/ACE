@@ -1,6 +1,6 @@
-# vsim -voptargs="+acc" -c work.testbench -do "force testbench::uut::cout 0; force testbench::uut::sum 0; run -all; exit" 
-# Start time: 17:16:04 on Aug 25,2025
-# ** Note: (vsim-3812) Design is being optimized...
+# vsim -voptargs="+acc" -c work.testbench -do "force testbench::uut::cout 1; run -all; exit" 
+# Start time: 14:56:15 on Sep 09,2025
+# ** Note: (vsim-8009) Loading existing optimized design _opt
 # //  ModelSim SE-64 2019.4 Oct 15 2019 Linux 6.6.87.2-microsoft-standard-WSL2
 # //
 # //  Copyright 1991-2019 Mentor Graphics Corporation
@@ -18,11 +18,10 @@
 # Loading work.testbench(fast)
 # Loading work.verified_adder_8bit(fast)
 # Loading work.full_adder(fast)
-# force testbench::uut::cout 0
-#  force testbench::uut::sum 0
+# force testbench::uut::cout 1
 #  run -all
-# ===========Test completed with        9954 /100 failures===========
+# ===========Your Design Passed===========
 # ** Note: $finish    : testbench.v(48)
 #    Time: 100 us  Iteration: 0  Instance: /testbench
-# End time: 17:16:12 on Aug 25,2025, Elapsed time: 0:00:08
+# End time: 14:56:41 on Sep 09,2025, Elapsed time: 0:00:26
 # Errors: 0, Warnings: 0

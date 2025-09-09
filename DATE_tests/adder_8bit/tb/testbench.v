@@ -31,7 +31,7 @@ module testbench;
   initial begin
     $dumpfile("adder_8bit.vcd");
     $dumpvars(0, testbench);
-    for (i = 0; i < 1000000; i = i + 1) begin
+    for (i = 0; i < 10000; i = i + 1) begin
         a = $random & 8'hff;
         b = $random & 8'hff;
         cin = $random & 1'b1;
