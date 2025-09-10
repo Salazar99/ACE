@@ -1,7 +1,0 @@
-G({true} |-> a + cin + b == 0)
-
-G({true} |-> a + cin + b == 256)
-
-G({true} |-> a + cin + b >= 255)
-
-G({true} |-> a + cin + b <= 255)

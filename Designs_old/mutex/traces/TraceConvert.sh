@@ -1,1 +1,0 @@
-../../../third_party/vcd2csv --vcd-dir ./1k --clk clk --vcd-ss tbench_top::intf --dump-to ./1k/csv

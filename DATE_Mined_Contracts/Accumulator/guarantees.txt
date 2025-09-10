@@ -1,2 +1,0 @@
-║ 0  ║ G({valid_in} |-> {##[1:4] valid_out})         
-║ 1  ║ G({rst_n} |-> {##[1:4] valid_out})             

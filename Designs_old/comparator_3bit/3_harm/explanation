@@ -1,7 +1,0 @@
-add manually nameoutput_fault, =IF(A2<>"", 0, "") formula with A2 a none-blank column and double click. You can use the same column A2 for all the faults
-
-add manually nameoutput_DU, =IF(H2=0, 0, 1) formula with H2 column as the golden output and double click
-
-N.B.: should be run harm for each output_DU (different ratio for each output_DU)
-
-
