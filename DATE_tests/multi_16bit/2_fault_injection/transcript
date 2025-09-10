@@ -1,7 +1,7 @@
-# vsim -voptargs="+acc" -c work.tb_multi_16bit -do "force tb_multi_16bit::uut::yout 0; force tb_multi_16bit::uut::done 0; run -all; exit" 
-# Start time: 11:43:37 on Aug 17,2025
-# ** Note: (vsim-3812) Design is being optimized...
-# //  ModelSim SE-64 2019.4 Oct 15 2019 Linux 5.15.0-141-generic
+# vsim -voptargs="+acc" -c work.tb_multi_16bit -do "force tb_multi_16bit::uut::yout 1; run -all; exit" 
+# Start time: 10:23:19 on Sep 10,2025
+# ** Note: (vsim-8009) Loading existing optimized design _opt
+# //  ModelSim SE-64 2019.4 Oct 15 2019 Linux 6.6.87.2-microsoft-standard-WSL2
 # //
 # //  Copyright 1991-2019 Mentor Graphics Corporation
 # //  All Rights Reserved.
@@ -17,10 +17,9 @@
 # Loading sv_std.std
 # Loading work.tb_multi_16bit(fast)
 # Loading work.verified_multi_16bit(fast)
-# force tb_multi_16bit::uut::yout 0
-#  force tb_multi_16bit::uut::done 0
+# force tb_multi_16bit::uut::yout 1
 #  run -all
-# ** Note: $finish    : ../testbench.v(75)
+# ** Note: $finish    : ../tb/testbench.v(76)
 #    Time: 50 us  Iteration: 0  Instance: /tb_multi_16bit
-# End time: 11:43:38 on Aug 17,2025, Elapsed time: 0:00:01
+# End time: 10:23:39 on Sep 10,2025, Elapsed time: 0:00:20
 # Errors: 0, Warnings: 0

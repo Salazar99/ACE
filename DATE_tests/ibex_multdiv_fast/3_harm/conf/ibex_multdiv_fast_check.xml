@@ -4,7 +4,6 @@
 
 		<prop exp="mult_sel_i" loc="a"/>
 		<prop exp="div_sel_i" loc="a"/>
-		<prop exp="valid_o_DU" loc="c, dt"/>
 
 		<!--<template dtLimits="2D,2W,4A,0E,U" exp="G({..#1&..}|-> X(camallia_u::EncDec && X[23]camallia_u::Dvld))" /> 
 		<template dtLimits="2D,2W,4A,0E,U" exp="G({..#1&..}|-> X(!camallia_u::EncDec && X[23]camallia_u::Dvld))" /> -->

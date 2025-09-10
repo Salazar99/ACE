@@ -9,7 +9,7 @@
 		<prop exp="a + b + cin == 0" loc="a"/>
 		<prop exp="a + b + cin == 256" loc="a"/>
 
-		<template exp="G(P0 |-> 'DU')" />
+		<template exp="G(P0 |-> DU)" />
 
 		<!-- <sort name="ATCT-AFCT" exp="atct - afct"/>
 		<sort name="ATCT-AFCT" exp="atct / (atct + afct)"/>-->

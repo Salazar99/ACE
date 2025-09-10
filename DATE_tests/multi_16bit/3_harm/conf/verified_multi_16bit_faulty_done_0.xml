@@ -1,7 +1,7 @@
 <harm>
 	<context name="default">
 
-		<prop exp="rst_n" loc="a"/>
+
 		<prop exp="start" loc="a"/>
 		<prop exp="ain" loc="a"/>
 		<prop exp="bin" loc="a"/>

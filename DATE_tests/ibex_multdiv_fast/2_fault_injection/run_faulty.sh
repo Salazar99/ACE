@@ -1,13 +1,13 @@
  #!/bin/sh
 rm -rf work
 vlib work
-vlog +incdir+tb/ -sv ../ibex_pkg.sv ../ibex_multdiv_fast.sv ../tb_ibex_multdiv_fast.sv
+vlog +incdir+tb/ -sv ../rtl/ibex_pkg.sv ../rtl/ibex_multdiv_fast.sv ../tb/tb_ibex_multdiv_fast.sv
 
 # faulty option
-vsim -voptargs=+acc -c work.tb_ibex_multdiv_fast -do "force tb_ibex_multdiv_fast::dut::valid_o 0; run -all; exit"
-mv ibex_multdiv_fast.vcd multdiv_valid_o_fault0.vcd
-vsim -voptargs=+acc -c work.tb_ibex_multdiv_fast -do "force tb_ibex_multdiv_fast::dut::valid_o 1; run -all; exit"
-mv ibex_multdiv_fast.vcd multdiv_valid_o_fault1.vcd
+#vsim -voptargs=+acc -c work.tb_ibex_multdiv_fast -do "force tb_ibex_multdiv_fast::dut::valid_o 0; run -all; exit"
+#mv ibex_multdiv_fast.vcd multdiv_valid_o_fault0.vcd
+#vsim -voptargs=+acc -c work.tb_ibex_multdiv_fast -do "force tb_ibex_multdiv_fast::dut::valid_o 1; run -all; exit"
+#mv ibex_multdiv_fast.vcd multdiv_valid_o_fault1.vcd
 vsim -voptargs=+acc -c work.tb_ibex_multdiv_fast -do "force tb_ibex_multdiv_fast::dut::multdiv_result_o 0; run -all; exit"
 mv ibex_multdiv_fast.vcd multdiv_result_o_fault0.vcd
 vsim -voptargs=+acc -c work.tb_ibex_multdiv_fast -do "force tb_ibex_multdiv_fast::dut::multdiv_result_o 1; run -all; exit"

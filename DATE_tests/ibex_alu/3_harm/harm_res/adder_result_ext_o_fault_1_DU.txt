@@ -1,0 +1,5 @@
+G({operand_a_i} |-> DU)
+G({operand_a_i && operand_b_i} |-> DU)
+G({operand_b_i} |-> DU)
+G({operand_b_i ##1 true} |-> DU)
+G({operand_a_i ##1 true} |-> DU)

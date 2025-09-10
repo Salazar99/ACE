@@ -1,4 +1,4 @@
-python3 $ACEROOT/Detection_trace_gen/DU_gen.py verified_multi_16bit_faulty_yout_0.csv ../1_csv/comparator_3bit.csv --signal-col "bool yout" --base 2 --output "./Detection_traces/verified_multi_16bit_faulty_yout_0_DU.csv"
-python3 $ACEROOT/Detection_trace_gen/DU_gen.py verified_multi_16bit_faulty_yout_1.csv ../1_csv/comparator_3bit.csv --signal-col "bool yout" --base 2 --output "./Detection_traces/verified_multi_16bit_faulty_yout_1_DU.csv"
-python3 $ACEROOT/Detection_trace_gen/DU_gen.py verified_multi_16bit_faulty_done_0.csv ../1_csv/comparator_3bit.csv --signal-col "bool done" --base 2 --output "./Detection_traces/verified_multi_16bit_faulty_done_0_DU.csv"
-python3 $ACEROOT/Detection_trace_gen/DU_gen.py verified_multi_16bit_faulty_done_1.csv ../1_csv/comparator_3bit.csv --signal-col "bool done" --base 2 --output "./Detection_traces/verified_multi_16bit_faulty_done_1_DU.csv"
+python3 $ACEROOT/Detection_trace_gen/DU_gen.py verified_multi_16bit_faulty_yout_0.csv ../1_csv/multi_16bit.csv --signal-col "int yout" --base 2 --output "./Detection_traces/verified_multi_16bit_faulty_yout_0_DU.csv"
+python3 $ACEROOT/Detection_trace_gen/DU_gen.py verified_multi_16bit_faulty_yout_1.csv ../1_csv/multi_16bit.csv --signal-col "int yout" --base 2 --output "./Detection_traces/verified_multi_16bit_faulty_yout_1_DU.csv"
+python3 $ACEROOT/Detection_trace_gen/DU_gen.py verified_multi_16bit_faulty_done_0.csv ../1_csv/multi_16bit.csv --signal-col "bool done" --base 2 --output "./Detection_traces/verified_multi_16bit_faulty_done_0_DU.csv"
+python3 $ACEROOT/Detection_trace_gen/DU_gen.py verified_multi_16bit_faulty_done_1.csv ../1_csv/multi_16bit.csv --signal-col "bool done" --base 2 --output "./Detection_traces/verified_multi_16bit_faulty_done_1_DU.csv"

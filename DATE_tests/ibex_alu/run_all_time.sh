@@ -38,8 +38,8 @@ bash run_InvGen.sh
 end2=$(date +%s.%N)
 
 # 6 script
-cd ../6_testbench_generator
-bash run_tb_generator.sh
+#cd ../6_testbench_generator
+#bash run_tb_generator.sh
 
 start3=$(date +%s.%N)
 

@@ -5,7 +5,9 @@
 
 # Manual generation of camellia.xml
 for file in ./Detection_traces/*_DU.csv; do
-    harm --csv "$file" --conf ./conf/ibex_multdiv_fast_check.xml --dont-normalize
+    base_name=$(basename "$file" .csv)
+    harm --csv "$file" --conf ./conf/ibex_multdiv_fast_check.xml --dont-normalize --dump-to ./harm_res
+    mv ./harm_res/default_ass.txt ./harm_res/$base_name.txt
 done
 
 #--check-dump-eval temporal_instants

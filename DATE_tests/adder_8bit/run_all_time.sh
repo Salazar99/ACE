@@ -5,8 +5,8 @@ cd ./1_csv
 bash run_csv.sh
 
 # 2 script
-cd ../2_fault_injection
-bash run_faulty.sh
+#cd ../2_fault_injection
+#ash run_faulty.sh
 
 start=$(date +%s.%N)
 
@@ -29,8 +29,8 @@ bash run_InvGen.sh
 end1=$(date +%s.%N)
 
 # 6 script
-cd ../6_testbench_generator
-bash run_tb_generator.sh
+#cd ../6_testbench_generator
+#bash run_tb_generator.sh
 
 start2=$(date +%s.%N)
 

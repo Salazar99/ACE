@@ -1,7 +1,7 @@
  #!/bin/sh
 rm -rf work
 vlib work
-vlog +incdir+tb/ -sv ../testbench.v ../verified_multi_16bit.v
+vlog +incdir+tb/ -sv ../tb/testbench.v ../rtl/verified_multi_16bit.v
 
 # faulty option
 vsim -voptargs=+acc -c work.tb_multi_16bit -do "force tb_multi_16bit::uut::yout 0; run -all; exit"

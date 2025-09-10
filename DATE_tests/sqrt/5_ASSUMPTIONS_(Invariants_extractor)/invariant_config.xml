@@ -1,26 +1,26 @@
 <harm>
  	<context name="default">
-<template exp="G(true |-> ( in <= start ))" />
-<template exp="G(true |-> ( start != in ))" />
-<template exp="G(true |-> ( start >= in ))" />
-<template exp="G(true |-> ( start ##1 in ))" />
-<template exp="G(true |-> ( start < in ))" />
-<template exp="G(true |-> (  in ==1 ))" />
-<template exp="G(true |-> ( in < start ))" />
-<template exp="G(true |-> (  start ==0 ))" />
-<template exp="G(true |-> ( start <= in ))" />
-<template exp="G(true |-> (  in > 0 ))" />
-<template exp="G(true |-> (  start < 0 ))" />
-<template exp="G(true |-> (  start > 0 ))" />
-<template exp="G(true |-> ( in ##1 start ))" />
-<template exp="G(true |-> ( in > start ))" />
-<template exp="G(true |-> (  in < 0 ))" />
-<template exp="G(true |-> ( in != start ))" />
 <template exp="G(true |-> ( in == start ))" />
-<template exp="G(true |-> ( start == in ))" />
-<template exp="G(true |-> (  in ==0 ))" />
+<template exp="G(true |-> ( start < in ))" />
+<template exp="G(true |-> ( in < start ))" />
+<template exp="G(true |-> (  in ==1 ))" />
+<template exp="G(true |-> (  start < 0 ))" />
 <template exp="G(true |-> ( start > in ))" />
+<template exp="G(true |-> ( start <= in ))" />
+<template exp="G(true |-> ( in > start ))" />
+<template exp="G(true |-> ( start ##1 in ))" />
+<template exp="G(true |-> (  in < 0 ))" />
+<template exp="G(true |-> (  in ==0 ))" />
+<template exp="G(true |-> (  start ==0 ))" />
 <template exp="G(true |-> ( in >= start ))" />
 <template exp="G(true |-> (  start ==1 ))" />
+<template exp="G(true |-> ( in != start ))" />
+<template exp="G(true |-> (  start > 0 ))" />
+<template exp="G(true |-> (  in > 0 ))" />
+<template exp="G(true |-> ( in <= start ))" />
+<template exp="G(true |-> ( start == in ))" />
+<template exp="G(true |-> ( in ##1 start ))" />
+<template exp="G(true |-> ( start != in ))" />
+<template exp="G(true |-> ( start >= in ))" />
 </context>
 </harm>

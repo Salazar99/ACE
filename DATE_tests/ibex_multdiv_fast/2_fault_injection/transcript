@@ -1,9 +1,9 @@
 # vsim -voptargs="+acc" -c work.tb_ibex_multdiv_fast -do "force tb_ibex_multdiv_fast::dut::valid_o 0; run -all; exit" 
-# Start time: 22:44:55 on Sep 01,2025
+# Start time: 11:42:05 on Sep 10,2025
 # ** Note: (vsim-3812) Design is being optimized...
-# ** Warning: ../ibex_multdiv_fast.sv(38): (vopt-13314) Defaulting port 'imd_val_q_i' kind to 'var' rather than 'wire' due to default compile option setting of -svinputport=relaxed.
+# ** Warning: ../rtl/ibex_multdiv_fast.sv(38): (vopt-13314) Defaulting port 'imd_val_q_i' kind to 'var' rather than 'wire' due to default compile option setting of -svinputport=relaxed.
 # ** Note: (vopt-143) Recognized 1 FSM in module "ibex_multdiv_fast(fast)".
-# //  ModelSim SE-64 2019.4 Oct 15 2019 Linux 5.15.0-141-generic
+# //  ModelSim SE-64 2019.4 Oct 15 2019 Linux 6.6.87.2-microsoft-standard-WSL2
 # //
 # //  Copyright 1991-2019 Mentor Graphics Corporation
 # //  All Rights Reserved.
@@ -23,7 +23,9 @@
 # force tb_ibex_multdiv_fast::dut::valid_o 0
 #  run -all
 # Break key hit
-# Simulation stop requested.
+# Break in Module ibex_multdiv_fast at ../rtl/ibex_multdiv_fast.sv line 420
+# Stopped at ../rtl/ibex_multdiv_fast.sv line 420
 #  exit
-# End time: 22:45:03 on Sep 01,2025, Elapsed time: 0:00:08
+# End time: 12:31:51 on Sep 10,2025, Elapsed time: 0:49:46
 # Errors: 0, Warnings: 1
+# Break key hit

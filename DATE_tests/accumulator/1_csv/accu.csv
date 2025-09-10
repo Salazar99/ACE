@@ -1,4 +1,4 @@
-int data_in,uint64_t data_out,int rst_n,int valid_in,uint64_t valid_out
+int data_in,int data_out,int rst_n,int valid_in,int valid_out
 0,0,0,0,0
 0,0,0,0,0
 21,0,1,1,0

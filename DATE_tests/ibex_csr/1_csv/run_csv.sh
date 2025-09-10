@@ -1,4 +1,4 @@
-export ACEROOT="/home/fabio/Desktop/ACE"
+#export ACEROOT="/home/fabio/Desktop/ACE"
 
 # Generate csv file in third_party
 $ACEROOT/third_party/vcd2csv --vcd $ACEROOT/Designs/ibex_csr/ibex_csr.vcd --clk clk_i --vcd-ss tb_ibex_csr::dut --dump-to ./ibex_csr.csv

@@ -1,4 +1,4 @@
-int A,bool A_equal,bool A_greater,bool A_less,int B
+int A,int A_equal,int A_greater,int A_less,int B
 4,0,1,0,1
 1,0,0,1,3
 5,1,0,0,5
