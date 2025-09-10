@@ -1,0 +1,24 @@
+<harm>
+	<context name="default">
+
+		<prop exp="a" loc="a"/>
+		<prop exp="b" loc="a"/>
+		<prop exp="cin" loc="a, dt"/>
+		<prop exp="a + b + cin > 255" loc="a"/>
+		<prop exp="a + b + cin <= 255" loc="a"/>
+		<prop exp="a + b + cin == 0" loc="a"/>
+		<prop exp="a + b + cin == 256" loc="a"/>
+
+
+		<template exp="G(P0 |-> DU)" />
+		
+
+		<!-- <sort name="ATCT-AFCT" exp="atct - afct"/>
+		<sort name="ATCT-AFCT" exp="atct / (atct + afct)"/>-->
+		<sort name="1/(1+afct)" exp="1 / (1 + afct)"/>
+		<sort name="ATCT-AFCT" exp="atct / (atct + afct)"/>
+	</context>
+</harm>
+
+
+

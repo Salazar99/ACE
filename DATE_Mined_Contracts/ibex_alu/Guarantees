@@ -1,0 +1,175 @@
+0    ║ G({operand_b_i && (operator_i == 0)} |-> result_o)                ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 1  ║ G({rst_n} |-> result_o)                                           ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 2  ║ G({operand_b_i} |-> result_o)                                     ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 3  ║ G({operand_a_i} |-> result_o)                                     ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 4  ║ G({rst_n && operand_a_i && (operator_i == 0)} |-> result_o)       ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 5  ║ G({rst_n && (operator_i == 0)} |-> result_o)                      ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 6  ║ G({rst_n && operand_a_i} |-> result_o)                            ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 7  ║ G({operand_a_i && operand_b_i} |-> result_o)                      ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 8  ║ G({rst_n && operand_a_i && operand_b_i} |-> result_o)             ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 9  ║ G({rst_n && operand_b_i} |-> result_o)                            ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 10 ║ G({operand_a_i && (operator_i == 0)} |-> result_o)                ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 11 ║ G({operand_a_i && operand_b_i && (operator_i == 0)} |-> result_o) ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 12 ║ G({operator_i == 0} |-> result_o)                                 ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 13 ║ G({rst_n && operand_b_i && (operator_i == 0)} |-> result_o)       ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 14 ║ G({rst_n ##1 true} |-> result_o)                                  ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 15 ║ G({(operator_i == 0)} |-> Xresult_o)                              ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 16 ║ G({operator_i == 0 ##1 true} |-> result_o)                        ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 17 ║ G({operand_b_i} |-> Xresult_o)                                    ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 18 ║ G({operand_b_i ##1 true} |-> result_o)                            ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 19 ║ G({operand_a_i} |-> Xresult_o)                                    ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 20 ║ G({rst_n} |-> Xresult_o)                                          ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 21 ║ G({operand_a_i ##1 true} |-> result_o)                            ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 22 ║ G({operand_b_i ##2 true} |-> result_o)                            ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 23 ║ G({operator_i == 0 ##2 true} |-> result_o)                        ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 24 ║ G({operand_a_i ##2 true} |-> result_o)                            ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 25 ║ G({rst_n ##2 true} |-> result_o)                                  ║ 1.00  ║ 1.00       ║ 1.00
+
+
+
+0    ║ G({operand_b_i && (operator_i == 1)} |-> result_o)                ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 1  ║ G({operand_a_i && (operator_i == 1)} |-> result_o)                ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 2  ║ G({rst_n && operand_a_i && operand_b_i} |-> result_o)             ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 3  ║ G({operand_a_i && operand_b_i} |-> result_o)                      ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 4  ║ G({operand_b_i} |-> result_o)                                     ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 5  ║ G({rst_n} |-> result_o)                                           ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 6  ║ G({rst_n && operand_b_i} |-> result_o)                            ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 7  ║ G({operand_a_i} |-> result_o)                                     ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 8  ║ G({rst_n && operand_a_i && (operator_i == 1)} |-> result_o)       ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 9  ║ G({rst_n && operand_a_i} |-> result_o)                            ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 10 ║ G({operand_a_i && operand_b_i && (operator_i == 1)} |-> result_o) ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 11 ║ G({rst_n && (operator_i == 1)} |-> result_o)                      ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 12 ║ G({operator_i == 1} |-> result_o)                                 ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 13 ║ G({rst_n && operand_b_i && (operator_i == 1)} |-> result_o)       ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 14 ║ G({operand_b_i ##1 true} |-> result_o)                            ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 15 ║ G({operator_i == 1 ##1 true} |-> result_o)                        ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 16 ║ G({rst_n ##1 true} |-> result_o)                                  ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 17 ║ G({operand_b_i} |-> Xresult_o)                                    ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 18 ║ G({rst_n} |-> Xresult_o)                                          ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 19 ║ G({(operator_i == 1)} |-> Xresult_o)                              ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 20 ║ G({operand_a_i} |-> Xresult_o)                                    ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 21 ║ G({operand_a_i ##1 true} |-> result_o)                            ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 22 ║ G({operand_a_i ##2 true} |-> result_o)                            ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 23 ║ G({rst_n ##2 true} |-> result_o)                                  ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 24 ║ G({operator_i == 1 ##2 true} |-> result_o)                        ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 25 ║ G({operand_b_i ##2 true} |-> result_o)                            ║ 1.00  ║ 1.00       ║ 1.00  
+
+
+0    ║ G({rst_n} |-> result_o)                                           ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 1  ║ G({rst_n && operand_a_i && operand_b_i} |-> result_o)             ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 2  ║ G({operand_b_i && (operator_i == 3)} |-> result_o)                ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 3  ║ G({operand_a_i && (operator_i == 3)} |-> result_o)                ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 4  ║ G({rst_n && operand_a_i && (operator_i == 3)} |-> result_o)       ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 5  ║ G({rst_n && (operator_i == 3)} |-> result_o)                      ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 6  ║ G({rst_n && operand_b_i && (operator_i == 3)} |-> result_o)       ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 7  ║ G({operand_b_i} |-> result_o)                                     ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 8  ║ G({operand_a_i} |-> result_o)                                     ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 9  ║ G({rst_n && operand_a_i} |-> result_o)                            ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 10 ║ G({(operator_i == 3)} |-> result_o)                               ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 11 ║ G({operand_a_i && operand_b_i && (operator_i == 3)} |-> result_o) ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 12 ║ G({operand_a_i && operand_b_i} |-> result_o)                      ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 13 ║ G({rst_n && operand_b_i} |-> result_o)                            ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 14 ║ G({operand_b_i ##1 true} |-> result_o)                            ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 15 ║ G({(operator_i == 3)} |-> Xresult_o)                              ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 16 ║ G({operand_a_i} |-> Xresult_o)                                    ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 17 ║ G({operator_i == 3 ##1 true} |-> result_o)                        ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 18 ║ G({rst_n ##1 true} |-> result_o)                                  ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 19 ║ G({operand_a_i ##1 true} |-> result_o)                            ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 20 ║ G({rst_n} |-> Xresult_o)                                          ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 21 ║ G({operand_b_i} |-> Xresult_o)                                    ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 22 ║ G({operand_b_i ##2 true} |-> result_o)                            ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 23 ║ G({operator_i == 3 ##2 true} |-> result_o)                        ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 24 ║ G({rst_n ##2 true} |-> result_o)                                  ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 25 ║ G({operand_a_i ##2 true} |-> result_o)                            ║ 1.00  ║ 1.00       ║ 1.00 
+
+
+
+0    ║ G({operand_a_i && operand_b_i && (operator_i == 4)} |-> result_o) ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 1  ║ G({operand_a_i && (operator_i == 4)} |-> result_o)                ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 2  ║ G({rst_n && operand_b_i} |-> result_o)                            ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 3  ║ G({operand_b_i} |-> result_o)                                     ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 4  ║ G({(operator_i == 4)} |-> result_o)                               ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 5  ║ G({operand_a_i} |-> result_o)                                     ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 6  ║ G({rst_n} |-> result_o)                                           ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 7  ║ G({rst_n && operand_b_i && (operator_i == 4)} |-> result_o)       ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 8  ║ G({rst_n && (operator_i == 4)} |-> result_o)                      ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 9  ║ G({operand_b_i && (operator_i == 4)} |-> result_o)                ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 10 ║ G({rst_n && operand_a_i} |-> result_o)                            ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 11 ║ G({operand_a_i && operand_b_i} |-> result_o)                      ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 12 ║ G({rst_n && operand_a_i && (operator_i == 4)} |-> result_o)       ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 13 ║ G({rst_n && operand_a_i && operand_b_i} |-> result_o)             ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 14 ║ G({operator_i == 4 ##1 true} |-> result_o)                        ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 15 ║ G({operand_a_i} |-> Xresult_o)                                    ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 16 ║ G({operand_b_i ##1 true} |-> result_o)                            ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 17 ║ G({operand_b_i} |-> Xresult_o)                                    ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 18 ║ G({(operator_i == 4)} |-> Xresult_o)                              ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 19 ║ G({operand_a_i ##1 true} |-> result_o)                            ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 20 ║ G({rst_n ##1 true} |-> result_o)                                  ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 21 ║ G({rst_n} |-> Xresult_o)                                          ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 22 ║ G({operator_i == 4 ##2 true} |-> result_o)                        ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 23 ║ G({rst_n ##2 true} |-> result_o)                                  ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 24 ║ G({operand_a_i ##2 true} |-> result_o)                            ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 25 ║ G({operand_b_i ##2 true} |-> result_o)                            ║ 1.00  ║ 1.00       ║ 1.00
+
+
+0    ║ G({operand_b_i} |-> {comparison_result_o && is_equal_result_o})               ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 1  ║ G({operand_b_i && (operator_i == 29)} |-> result_o)                           ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 2  ║ G({rst_n && (operator_i == 29)} |-> is_equal_result_o)                        ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 3  ║ G({operator_i == 29} |-> is_equal_result_o)                                   ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 4  ║ G({operand_b_i} |-> is_equal_result_o)                                        ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 5  ║ G({rst_n && operand_b_i && (operator_i == 29)} |-> comparison_result_o)       ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 6  ║ G({rst_n} |-> is_equal_result_o)                                              ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 7  ║ G({(operator_i == 29)} |-> {result_o && comparison_result_o})                 ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 8  ║ G({operand_a_i && (operator_i == 29)} |-> comparison_result_o)                ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 9  ║ G({operand_b_i} |-> comparison_result_o)                                      ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 10 ║ G({operand_a_i} |-> comparison_result_o)                                      ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 11 ║ G({rst_n && operand_a_i && (operator_i == 29)} |-> result_o)                  ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 12 ║ G({rst_n && operand_a_i && (operator_i == 29)} |-> is_equal_result_o)         ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 13 ║ G({rst_n} |-> comparison_result_o)                                            ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 14 ║ G({(operator_i == 29)} |-> {result_o && is_equal_result_o})                   ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 15 ║ G({operand_a_i && operand_b_i} |-> comparison_result_o)                       ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 16 ║ G({operand_a_i && (operator_i == 29)} |-> result_o)                           ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 17 ║ G({(operator_i == 29)} |-> {comparison_result_o && is_equal_result_o})        ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 18 ║ G({operand_a_i} |-> {comparison_result_o && is_equal_result_o})               ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 19 ║ G({operand_a_i} |-> result_o)                                                 ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 20 ║ G({(operator_i == 29)} |-> comparison_result_o)                               ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 21 ║ G({rst_n} |-> result_o)                                                       ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 22 ║ G({operand_a_i && operand_b_i && (operator_i == 29)} |-> comparison_result_o) ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 23 ║ G({operand_b_i && (operator_i == 29)} |-> comparison_result_o)                ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 24 ║ G({operand_a_i && operand_b_i} |-> is_equal_result_o)                         ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 25 ║ G({operator_i == 29} |-> result_o)                                            ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 26 ║ G({operand_a_i && operand_b_i && (operator_i == 29)} |-> result_o)            ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 27 ║ G({operand_a_i && operand_b_i} |-> result_o)                                  ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 28 ║ G({rst_n && operand_a_i && operand_b_i} |-> is_equal_result_o)                ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 29 ║ G({rst_n} |-> {result_o && is_equal_result_o})                                ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 30 ║ G({rst_n && operand_b_i && (operator_i == 29)} |-> is_equal_result_o)         ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 31 ║ G({rst_n && (operator_i == 29)} |-> result_o)                                 ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 32 ║ G({rst_n && operand_b_i && (operator_i == 29)} |-> result_o)                  ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 33 ║ G({operand_a_i && operand_b_i && (operator_i == 29)} |-> is_equal_result_o)   ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 34 ║ G({rst_n && operand_b_i} |-> is_equal_result_o)                               ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 35 ║ G({rst_n && operand_a_i && (operator_i == 29)} |-> comparison_result_o)       ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 36 ║ G({rst_n && operand_b_i} |-> comparison_result_o)                             ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 37 ║ G({operand_b_i} |-> {result_o && comparison_result_o})                        ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 38 ║ G({operand_a_i} |-> is_equal_result_o)                                        ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 39 ║ G({rst_n && operand_b_i} |-> result_o)                                        ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 40 ║ G({rst_n && operand_a_i} |-> is_equal_result_o)                               ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 41 ║ G({operand_a_i} |-> {result_o && is_equal_result_o})                          ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 42 ║ G({operand_b_i} |-> {result_o && is_equal_result_o})                          ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 43 ║ G({rst_n && operand_a_i} |-> result_o)                                        ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 44 ║ G({rst_n} |-> {result_o && comparison_result_o})                              ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 45 ║ G({rst_n && (operator_i == 29)} |-> comparison_result_o)                      ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 46 ║ G({operand_a_i} |-> {result_o && comparison_result_o})                        ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 47 ║ G({rst_n} |-> {comparison_result_o && is_equal_result_o})                     ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 48 ║ G({rst_n && operand_a_i} |-> comparison_result_o)                             ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 49 ║ G({rst_n && operand_a_i && operand_b_i} |-> result_o)                         ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 50 ║ G({rst_n && operand_a_i && operand_b_i} |-> comparison_result_o)              ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 51 ║ G({operand_a_i && (operator_i == 29)} |-> is_equal_result_o)                  ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 52 ║ G({operand_b_i} |-> result_o)                                                 ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 53 ║ G({operand_b_i && (operator_i == 29)} |-> is_equal_result_o)                  ║ 1.00  ║ 1.00       ║ 1.00 
+
+
+
+
+
+
+

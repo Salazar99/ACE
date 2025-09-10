@@ -1,0 +1,10 @@
+ASSUMES: A == B
+
+GUARANTEES:  
+G({A == B} |-> A_equal)            
+G({A == B ##1 true} |-> A_equal)   
+G({!(A < B) ##1 true} |-> A_equal) 
+G({!(A > B)} |-> XA_equal)         
+G({!(A < B)} |-> XA_equal)         
+G({(A == B)} |-> XA_equal)         
+G({!(A > B) ##1 true} |-> A_equal) 

@@ -1,0 +1,31 @@
+<harm>
+	<context name="default">
+
+		<prop exp="a" loc="a"/>
+		<prop exp="b" loc="a"/>
+		<prop exp="cin" loc="a, dt"/>
+		<prop exp="a + b + cin > 255" loc="a"/>
+		<prop exp="a + b + cin <= 255" loc="a"/>
+		<prop exp="a + b + cin == 0" loc="a"/>
+		<prop exp="a + b + cin == 256" loc="a"/>
+
+
+		<template exp="G(P0 |-> DU)" />
+
+
+		<!-- 
+		<template check="1" exp="G((a + b + cin) > 255 |-> cout_DU)" />
+		<template check="1" exp="G((a + b + cin) == 0 |-> sum_DU == 0 && cout_DU == 0)" />
+		<template check="1" exp="G((a + b + cin) == 256 |-> sum_DU == 0 && cout_DU == 1)" />
+		<template check="1" exp="G((a + b + cin) == 256 |-> sum_DU == 0)" />-->
+		
+
+		<!-- <sort name="ATCT-AFCT" exp="atct - afct"/>
+		<sort name="ATCT-AFCT" exp="atct / (atct + afct)"/>-->
+		<sort name="1/(1+afct)" exp="1 / (1 + afct)"/>
+		<sort name="ATCT-AFCT" exp="atct / (atct + afct)"/>
+	</context>
+</harm>
+
+
+

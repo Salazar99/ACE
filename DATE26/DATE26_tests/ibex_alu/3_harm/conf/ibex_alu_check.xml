@@ -1,0 +1,14 @@
+<harm>
+	<context name="default">
+	
+		<template check="1" exp="G(operator_i == 0 |-> DU)" />
+		<template check="1" exp="G(operator_i == 1 |-> DU)" />
+		<template check="1" exp="G(operator_i == 3 |-> DU)" />
+		<template check="1" exp="G(operator_i == 4 |-> DU)" />
+		<template check="1" exp="G(operator_i == 29 |-> DU)" />
+	
+	</context>
+</harm>
+
+
+

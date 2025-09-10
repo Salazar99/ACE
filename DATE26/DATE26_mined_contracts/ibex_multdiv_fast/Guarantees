@@ -1,0 +1,13 @@
+0  ║ G({!div_sel_i ##1 operator_i ##36 true} |-> valid_o)           ║ 1.00  ║ 1.00       ║ 1.00      ║
+1  ║ G({!div_sel_i ##1 div_sel_i ##36 true} |-> valid_o)            ║ 1.00  ║ 1.00       ║ 1.00
+
+
+║ 0  ║ G({(op_a_i && op_b_i)} |-> multdiv_result_o)                 ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 1  ║ G({rst_ni && op_a_i && op_b_i} |-> multdiv_result_o)         ║ 1.00  ║ 1.00       ║ 1.00      ║
+║ 2  ║ G({mult_sel_i} |-> valid_o)                                  ║ 0.79  ║ 1.00       ║ 0.50      ║
+║ 3  ║ G({!operator_i ##1 mult_sel_i} |-> valid_o)                  ║ 0.79  ║ 1.00       ║ 0.50      ║
+║ 4  ║ G({!mult_sel_i ##1 mult_sel_i} |-> valid_o)                  ║ 0.79  ║ 1.00       ║ 0.50      ║
+║ 5  ║ G({!div_sel_i ##1 mult_sel_i} |-> valid_o)                   ║ 0.79  ║ 1.00       ║ 0.50      ║
+║ 6  ║ G({rst_ni && mult_sel_i} |-> valid_o)                        ║ 0.79  ║ 1.00       ║ 0.50      ║
+║ 7  ║ G({mult_sel_i ##2 true} |-> valid_o)                         ║ 0.79  ║ 1.00       ║ 0.50      ║
+║ 8  ║ G({rst_ni ##1 !mult_sel_i ##1 true} |-> valid_o)             ║ 0.79  ║ 1.00       ║ 0.50 
