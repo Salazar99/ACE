@@ -1,0 +1,2 @@
+For wr_en_i = 1, the module writes the input data to an internal register (and its shadow copy if enabled) and outputs the stored value.
+For wr_en_i = 0, it holds the previous value and reports an error only if shadow copy checking is enabled and a mismatch is detected.

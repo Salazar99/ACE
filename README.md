@@ -11,6 +11,7 @@ The repository presents the following folders:
 ├──DATE26/                              #DATE26 results and tests folder
 |  ├── DATE26_Copilot_mined_contracts/  # LLM generated contracts
 |  ├── DATE26_mined_contracts/          # ACE generated contracts
+|  ├── DATE26_golden_specs/             # Golden specifications of the tested IPs 
 |  └── DATE26_tests/                    # Test cases of the methodology
 |
 ├── Detection_trace_gen                 #Detection trace source code

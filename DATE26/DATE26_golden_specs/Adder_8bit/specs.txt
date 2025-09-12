@@ -1,0 +1,3 @@
+If a + cin + b == 0 then sum is 0
+If a + cin + b == 256 then sum is 0 and cout > 0
+If a + cin + b <= 255 && a + cin + b > 0 then sum > 0 and cout == 0

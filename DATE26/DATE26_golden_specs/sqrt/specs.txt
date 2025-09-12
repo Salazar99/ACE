@@ -1,0 +1,2 @@
+For input >= 0, the module iteratively computes the integer square root using the Newton–Raphson method and outputs the result when done.
+For input < 0, it sets an error flag, outputs zero, and signals completion without performing any iterations.

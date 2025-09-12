@@ -1,5 +1,5 @@
 ASSUMES:
-mult_sel_i == 1
+div_sel_i == 0
 
 GUARANTEES:
 G({!div_sel_i ##1 operator_i ##36 true} |-> valid_o)          
