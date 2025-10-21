@@ -1,0 +1,4 @@
+
+export ACEROOT="/home/fabio/Desktop/ACE"
+
+python $ACEROOT/trace_filtering/filter.py --csv $ACEROOT/Designs/mutex/traces/1k/csv/fault_neg1k.csv --ass "G((in >= 0) |=> (DU==1))"

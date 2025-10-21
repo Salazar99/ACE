@@ -1,0 +1,8 @@
+<harm>
+ 	<context name="default">
+<template exp="G(true |-> ( !div_sel_i  ##1 div_sel_i  ##36 true ))" />
+<template exp="G(true |-> ( !mult_sel_i  ##1 mult_sel_i  ))" />
+<template exp="G(true |-> ( !div_sel_i  ##1 div_sel_i  ))" />
+<template exp="G(true |-> ( !mult_sel_i  ##1 mult_sel_i  ##36 true ))" />
+</context>
+</harm>
