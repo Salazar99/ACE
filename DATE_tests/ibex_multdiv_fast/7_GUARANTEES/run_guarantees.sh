@@ -1,4 +1,4 @@
-#export ACEROOT="/home/fabio/Desktop/ACE"
+export ACEROOT="/home/fabio/Desktop/ACE"
 
 # DIV
 # Generate csv file in third_party

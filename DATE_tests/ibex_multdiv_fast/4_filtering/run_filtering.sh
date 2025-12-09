@@ -1,5 +1,5 @@
 
-#export ACEROOT="/home/fabio/Desktop/ACE"
+export ACEROOT="/home/fabio/Desktop/ACE"
 
 python3 "$ACEROOT/trace_filtering/filter.py" \
   --csv "$ACEROOT/Designs/ibex_multdiv_fast/3_harm/ibex_multdiv_fast_DU.csv" \

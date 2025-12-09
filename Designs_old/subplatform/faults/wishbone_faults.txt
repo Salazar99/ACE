@@ -1,1 +1,0 @@
-sim1.p.bus.wb_stall_s(0) 1'b0
