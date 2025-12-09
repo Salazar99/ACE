@@ -1,0 +1,28 @@
+#python3 $ACEROOT/Detection_trace_gen/DU_gen.py uart_filtered_hw2reg0.csv ../1_csv/uart_filtered.csv --signal-col "int hw2reg" uart_filtered --output "./Detection_traces/uart_filtered_hw2reg0_DU.csv"
+#python3 $ACEROOT/Detection_trace_gen/DU_gen.py uart_filtered_hw2reg1.csv ../1_csv/uart_filtered.csv --signal-col "int hw2reg" uart_filtered --output "./Detection_traces/uart_filtered_hw2reg1_DU.csv"
+python3 $ACEROOT/src/DU_gen/DT_gen.py ../1_csv/uart_filtered.csv "int lsio_trigger_o" "0"
+python3 $ACEROOT/src/DU_gen/DT_gen.py ../1_csv/uart_filtered.csv "int lsio_trigger_o" "1"
+python3 $ACEROOT/src/DU_gen/DT_gen.py ../1_csv/uart_filtered.csv "int intr_tx_watermark_o" "0"
+python3 $ACEROOT/src/DU_gen/DT_gen.py ../1_csv/uart_filtered.csv "int intr_tx_watermark_o" "1"
+python3 $ACEROOT/src/DU_gen/DT_gen.py ../1_csv/uart_filtered.csv "int intr_tx_empty_o" "0"
+python3 $ACEROOT/src/DU_gen/DT_gen.py ../1_csv/uart_filtered.csv "int intr_tx_empty_o" "1"
+python3 $ACEROOT/src/DU_gen/DT_gen.py ../1_csv/uart_filtered.csv "int intr_rx_watermark_o" "0"
+python3 $ACEROOT/src/DU_gen/DT_gen.py ../1_csv/uart_filtered.csv "int intr_rx_watermark_o" "1"
+python3 $ACEROOT/src/DU_gen/DT_gen.py ../1_csv/uart_filtered.csv "int intr_tx_done_o" "0"
+python3 $ACEROOT/src/DU_gen/DT_gen.py ../1_csv/uart_filtered.csv "int intr_tx_done_o" "1"
+python3 $ACEROOT/src/DU_gen/DT_gen.py ../1_csv/uart_filtered.csv "int intr_rx_overflow_o" "0"
+python3 $ACEROOT/src/DU_gen/DT_gen.py ../1_csv/uart_filtered.csv "int intr_rx_overflow_o" "1"
+python3 $ACEROOT/src/DU_gen/DT_gen.py ../1_csv/uart_filtered.csv "int intr_rx_frame_err_o" "0"
+python3 $ACEROOT/src/DU_gen/DT_gen.py ../1_csv/uart_filtered.csv "int intr_rx_frame_err_o" "1"
+python3 $ACEROOT/src/DU_gen/DT_gen.py ../1_csv/uart_filtered.csv "int intr_rx_break_err_o" "0"
+python3 $ACEROOT/src/DU_gen/DT_gen.py ../1_csv/uart_filtered.csv "int intr_rx_break_err_o" "1"
+python3 $ACEROOT/src/DU_gen/DT_gen.py ../1_csv/uart_filtered.csv "int intr_rx_timeout_o" "0"
+python3 $ACEROOT/src/DU_gen/DT_gen.py ../1_csv/uart_filtered.csv "int intr_rx_timeout_o" "1"
+python3 $ACEROOT/src/DU_gen/DT_gen.py ../1_csv/uart_filtered.csv "int intr_rx_parity_err_o" "0"
+python3 $ACEROOT/src/DU_gen/DT_gen.py ../1_csv/uart_filtered.csv "int intr_rx_parity_err_o" "1"
+
+
+
+#python3 $ACEROOT/Detection_trace_gen/DU_gen.py uart_filtered_fault_done0.csv ../1_csv/uart_filtered.csv --signal-col "int done" uart_filtered --output "./Detection_traces/uart_filtered_fault_done0_DU.csv"
+#python3 $ACEROOT/Detection_trace_gen/DU_gen.py uart_filtered_fault_done1.csv ../1_csv/uart_filtered.csv --signal-col "int done" uart_filtered --output "./Detection_traces/uart_filtered_fault_done1_DU.csv"
+

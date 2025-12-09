@@ -1,0 +1,23 @@
+<harm>
+	<context name="default">
+		<prop exp="rst_ni" loc="a,dt"/> 
+		<prop exp="rx" loc="a,dt"/> 
+		<prop exp="reg2hw" loc="a,dt"/> 
+
+
+		<template dtLimits="2D,3W,4A,0E,U" exp="G( ..##1.. && true |->  DU)" />
+		<template dtLimits="2D,3W,4A,0E,U" exp="G( ..##2.. && true |->  DU)" />
+		<template dtLimits="2D,3W,4A,0E,U" exp="G(P2  ##1 true |-> DU)" />
+		<template dtLimits="2D,3W,4A,0E,U" exp="G(..&&.. ##12 true |-> DU )" />
+		<template dtLimits="2D,3W,4A,0E,U" exp="G(..&&.. ..#&1.. true |-> DU )" />
+
+		<!--
+		<template check="1" exp="G(((in > 0) ##12 true) |-> DU)" />
+		<template check="1" exp="G(((in < 0) ##1 true) |-> DU)" />
+		<template check="1" exp="G((in == 0) && start |-> ##12 DU)" />		
+		<template check="1" exp="G(((in == 0) && start ##12 true) |->  (!out && !error && done) )" />
+		-->
+		<sort name="1/(1+afct)" exp="1/(1+afct)"/>
+		<sort name="ATCT-AFCT" exp="atct-afct"/>
+	</context>
+</harm>

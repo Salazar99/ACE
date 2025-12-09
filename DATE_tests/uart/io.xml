@@ -1,0 +1,22 @@
+<IOS>
+  <inputs>
+    <item>clk_i</item>
+    <item>rst_ni</item>
+    <item>rx</item>
+    <item>reg2hw</item>
+  
+  </inputs>
+  <outputs>
+    <item>hw2reg</item>
+    <item>lsio_trigger_o</item>
+    <item>intr_tx_watermark_o</item>
+    <item>intr_tx_empty_o</item>
+    <item>intr_rx_watermark_o</item>
+    <item>intr_tx_done_o</item>
+    <item>intr_rx_overflow_o</item>
+    <item>intr_rx_frame_err_o</item>
+    <item>intr_rx_break_err_o</item>
+    <item>intr_rx_timeout_o</item>
+    <item>intr_rx_parity_err_o</item>
+  </outputs>
+</IOS>
