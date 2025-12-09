@@ -286,6 +286,28 @@ int main(int argc, char** argv) {
                 if (Verilated::gotFinish()) break;
             }
         }
+
+        //HARD RESET after transaction
+            top->rst_n = 0;
+            for (int i = 0; i < 4; ++i) step_full_cycle(top, tfp);
+            top->rst_n = 1;
+
+            // Let things settle
+            for (int i = 0; i < 10; ++i) step_full_cycle(top, tfp);
+
+            // UART init: 115200 baud @ 100 MHz
+            const uint32_t FCLK_HZ    = 100000000;  // 100 MHz
+            const uint32_t BAUD       = 115200;
+            const int      BAUD_TICKS = int(FCLK_HZ / BAUD); // ~868 cycles per bit
+
+            if (!uart_init(top, tfp, BAUD, FCLK_HZ)) {
+                fprintf(stderr, "uart_init failed (integrity/handshake error)\n");
+                tfp->close(); top->final(); delete tfp; delete top; return 1;
+            }
+            std::cout << "UART initialized for " << BAUD << " baud\n";
+            //Set rx to idle
+            top->cio_rx_i = 1; // idle
+            step_full_cycle(top, tfp);
     }
 
     // Finish
