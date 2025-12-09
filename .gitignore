@@ -4,7 +4,6 @@ third_party/spot
 third_party/vcd2csv
 **/*.vcd
 **/*.csv
-**/*.xml
 **/*.out
 work/
 *.vcd
