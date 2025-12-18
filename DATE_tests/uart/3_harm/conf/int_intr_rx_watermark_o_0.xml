@@ -1,15 +1,20 @@
 <harm>
 	<context name="default">
-		<prop exp="rst_ni" loc="a,dt"/> 
-		<prop exp="rx" loc="a,dt"/>  
-		<prop exp="reg2hw" loc="a,dt"/> 
+		<prop exp="rx" loc="a,dt"/> 
+		<prop exp="reg2hw_intr_state" loc="a,dt"/> 
+		<prop exp="reg2hw_alert_test" loc="a,dt"/> 
+		<prop exp="reg2hw_rdata" loc="a,dt"/> 
+		<prop exp="reg2hw_ovrd" loc="a,dt"/> 
+		<prop exp="reg2hw_intr_enable" loc="a,dt"/> 
+		<prop exp="reg2hw_ctrl" loc="a,dt"/> 
+		<prop exp="reg2hw_wdata" loc="a,dt"/> 
+		<prop exp="reg2hw_timeout_ctrl" loc="a,dt"/> 
 
-		<template dtLimits="2D,3W,4A,0E,U" exp="G( ..##1.. && true |->  DU)" />
-		<template dtLimits="2D,3W,4A,0E,U" exp="G( ..##2.. && true |->  DU)" />
-		<template dtLimits="2D,3W,4A,0E,U" exp="G(P2  ##1 true |-> DU)" />
-		<template dtLimits="2D,3W,4A,0E,U" exp="G(..&&.. ##12 true |-> DU )" />
-		<template dtLimits="2D,3W,4A,0E,U" exp="G(..&&.. ..#&1.. true |-> DU )" />
-
+		<template dtLimits="2D,3W,4A,0E,U" exp="G( ..##1.. && true |->  Detected)" />
+		<template dtLimits="2D,3W,4A,0E,U" exp="G( ..##2.. && true |->  Detected)" />
+		<template dtLimits="2D,3W,4A,0E,U" exp="G(P2  ##1 true |-> Detected)" />
+		<template dtLimits="2D,3W,4A,0E,U" exp="G(..&&.. ##12 true |-> Detected )" />
+		<template dtLimits="2D,3W,4A,0E,U" exp="G(..#1&.. |-> Detected )" />
 		<!--
 		<template check="1" exp="G(((in > 0) ##12 true) |-> DU)" />
 		<template check="1" exp="G(((in < 0) ##1 true) |-> DU)" />
@@ -18,5 +23,6 @@
 		-->
 		<sort name="1/(1+afct)" exp="1/(1+afct)"/>
 		<sort name="ATCT-AFCT" exp="atct-afct"/>
+		<filter name="causality" exp="1/(atct-afct)" threshold="0.9"/>
 	</context>
 </harm>

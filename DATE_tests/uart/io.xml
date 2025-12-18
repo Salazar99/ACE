@@ -3,11 +3,26 @@
     <item>clk_i</item>
     <item>rst_ni</item>
     <item>rx</item>
-    <item>reg2hw</item>
+    <item>reg2hw_intr_state</item>
+    <item>reg2hw_alert_test</item>
+    <item>reg2hw_rdata</item>
+    <item>reg2hw_ovrd</item>
+    <item>reg2hw_intr_enable</item>
+    <item>reg2hw_ctrl</item>
+    <item>reg2hw_wdata</item>
+    <item>reg2hw_timeout_ctrl</item>
+    <item>reg2hw_intr_test</item>
+    <item>reg2hw_status</item>
+    <item>reg2hw_fifo_ctrl</item>
   
   </inputs>
   <outputs>
-    <item>hw2reg</item>
+    <item>hw2reg_intr_state</item>
+    <item>hw2reg_status</item>
+    <item>hw2reg_fifo_status</item>
+    <item>hw2reg_fifo_ctrl</item>
+    <item>hw2reg_rdata</item>
+    <item>hw2reg_val</item>
     <item>lsio_trigger_o</item>
     <item>intr_tx_watermark_o</item>
     <item>intr_tx_empty_o</item>

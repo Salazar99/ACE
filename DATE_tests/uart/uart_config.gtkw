@@ -1,0 +1,39 @@
+[*]
+[*] GTKWave Analyzer v3.3.104 (w)1999-2020 BSI
+[*] Wed Dec 10 09:54:16 2025
+[*]
+[dumpfile] "/home/magister/ACE/DATE_tests/uart/uart.vcd"
+[dumpfile_mtime] "Tue Dec  9 10:52:44 2025"
+[dumpfile_size] 4702241
+[savefile] "/home/magister/ACE/DATE_tests/uart/uart_config.gtkw"
+[timestart] 0
+[size] 1000 600
+[pos] 33628 33082
+*-18.515013 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] TOP.
+[treeopen] TOP.top_uart_tb.
+[treeopen] TOP.top_uart_tb.dut.
+[sst_width] 252
+[signals_width] 190
+[sst_expanded] 1
+[sst_vpaned_height] 151
+@28
+TOP.top_uart_tb.dut.uart_core.clk_i
+TOP.top_uart_tb.dut.uart_core.rst_ni
+TOP.top_uart_tb.dut.uart_core.rx
+@22
+TOP.top_uart_tb.dut.uart_core.reg2hw[131:0]
+@28
+TOP.top_uart_tb.dut.uart_core.intr_rx_break_err_o
+TOP.top_uart_tb.dut.uart_core.intr_rx_frame_err_o
+TOP.top_uart_tb.dut.uart_core.intr_rx_overflow_o
+TOP.top_uart_tb.dut.uart_core.intr_rx_parity_err_o
+TOP.top_uart_tb.dut.uart_core.intr_rx_timeout_o
+TOP.top_uart_tb.dut.uart_core.intr_rx_watermark_o
+TOP.top_uart_tb.dut.uart_core.intr_tx_done_o
+TOP.top_uart_tb.dut.uart_core.intr_tx_empty_o
+TOP.top_uart_tb.dut.uart_core.intr_tx_watermark_o
+@22
+TOP.top_uart_tb.dut.uart_core.hw2reg[71:0]
+[pattern_trace] 1
+[pattern_trace] 0

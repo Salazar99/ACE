@@ -64,4 +64,4 @@ def remove_signals(csv_file, signals_to_keep, output_file=None):
 if __name__ == "__main__":
     # Example usage
     signals = parse_signals_from_xml("../io.xml")
-    remove_signals("uart.csv", signals, "uart_filtered.csv")
+    remove_signals("decomposed_uart.csv", signals, "uart_filtered.csv")

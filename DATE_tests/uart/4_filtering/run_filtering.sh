@@ -2,20 +2,13 @@
 #export ACEROOT="/home/fabio/Desktop/ACE"
 
 python3 "$ACEROOT/trace_filtering/filter.py" \
-  --csv "$ACEROOT/Designs/sqrt/3_harm/sqrt_calculator_DU.csv" \
-  --ass "G((in > 0) |-> ##12 out_DU)" \
-  --out "filtered_in_gt_0.csv"
+  --csv "$ACEROOT/Designs/uart/2_fault_injection/Detection_traces/DT_bool_intr_tx_done_o_0.csv" \
+  --ass "G((reg2hw_intr_test == 8738 U reg2hw_intr_state == -251) ##2 true -> Detected)" \
+  --out "filtered_intr_tx_done_0.csv"
 
 
 python3 "$ACEROOT/trace_filtering/filter.py" \
-  --csv "$ACEROOT/Designs/sqrt/3_harm/sqrt_calculator_DU.csv" \
-  --ass "G((in < 0) |-> ##1 error_DU)" \
-  --out "filtered_in_lt_0.csv"
-
-python3 "$ACEROOT/trace_filtering/filter.py" \
-  --csv "$ACEROOT/Designs/sqrt/3_harm/sqrt_calculator_DU.csv" \
-  --ass "G((in == 0) && start |-> ##12 !out_DU)" \
-  --out "filtered_in_eq_0.csv"
-  #--ass "G((in == 0) && start |-> ##12 !out_DU && !error && done_DU)" \
-
+  --csv "$ACEROOT/Designs/uart/2_fault_injection/Detection_traces/DT_bool_intr_tx_done_o_0.csv" \
+  --ass "G((reg2hw_intr_test == 43690 U reg2hw_intr_state == -253) -> Detected)" \
+  --out "filtered_intr_tx_done_0.csv"
 

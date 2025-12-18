@@ -13,7 +13,7 @@ if __name__ == "__main__":
     signame_sanitized = args.signal_name.replace(" ", "_").replace("*", "ptr").replace("[", "_").replace("]", "_").replace(".", "_") 
     output_file_path = f"./Detection_traces/DT_{signame_sanitized}_{args.stuck_at_value}.csv"
     try:
-        df = pd.read_csv(args.csv_trace_path, delimiter=';')
+        df = pd.read_csv(args.csv_trace_path, delimiter=',')
         #cast to int is important otherwise it will compare against string and giving always detected=true
         
         df["bool Detected"] = (df[args.signal_name] != int(args.stuck_at_value)).astype(int)
