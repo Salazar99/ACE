@@ -141,7 +141,7 @@ class BooleanProposition(Proposition):
                 if self.proposition == key:
                     return trace[time][key], time
             # If the proposition is not found in the trace, raise an error
-            raise KeyError(f"Proposition '{self.proposition}' not found in the trace!!")
+            raise KeyError(f"Proposition {self.proposition} not found in the trace!!")
 
 class ArithmeticExpression:
     class Operator(enum.Enum):
@@ -374,7 +374,7 @@ class LTLUNTIL:
         #if cached values are not computed yet, compute them to avoid recomputation
         if(self.cached_val is None):
             self.loadVals(trace)
-        
+        print("LTLUNTIL evaluate at time ", time, ": ", self.cached_val[time])
         return self.cached_val[time],time
 
 class LTLAss:
@@ -539,6 +539,7 @@ def main():
         # Placeholder are evaluated without considering any operation (not, delay ecc.)
         for row in range(len(trace)):
             trace[row][placeholder] = numexpr.evaluate(trace, row)
+            #print("Evaluation of ", placeholder, " at row ", row, ": ", trace[row][placeholder])
 
     # check values in which property is true thanks to added placeholders
     # filter out csv lines that are false

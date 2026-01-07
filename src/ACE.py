@@ -1,7 +1,7 @@
 import argparse
 import globals
 import Trace_gen.trace_gen
-import DU_gen.DU_gen
+import DU_gen.DT_gen
 import Filtering_ass.filtering_ass
 import Trace_filtering.filter
 import Testbench_gen.tb_generator
