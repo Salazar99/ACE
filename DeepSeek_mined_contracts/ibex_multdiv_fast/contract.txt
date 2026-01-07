@@ -1,0 +1,6 @@
+Assume: (G !(mult_en_i & div_en_i)) & 
+        (G (mult_en_i -> X((op_a_i stable U valid_o)))) &
+        (G (!multdiv_ready_id_i -> X(!mult_en_i)))
+Guarantee: (G (mult_en_i -> F valid_o)) &
+           (G (valid_o -> (multdiv_result_o stable U mult_en_i))) &
+           (G (imd_val_we_o -> mult_en_internal))

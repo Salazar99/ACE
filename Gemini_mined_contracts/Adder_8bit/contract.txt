@@ -1,0 +1,10 @@
+-- Assumptions on Environment
+INVAR (a >= 0 & a <= 255)
+INVAR (b >= 0 & b <= 255)
+INVAR (cin = 0 | cin = 1)
+
+-- Guarantees on Design
+-- sum is (a + b + cin) mod 256
+INVAR sum = (a + b + cin) mod 256
+-- cout is the overflow bit
+INVAR cout = (a + b + cin) / 256

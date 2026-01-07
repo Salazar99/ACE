@@ -1,2 +1,0 @@
-G({(!(operator_i == 29) && operand_a_i)} |-> DU)
-G({(!(operator_i == 29) && operand_b_i)} |-> DU)

@@ -1,0 +1,9 @@
+Type,ID,LTL Formula,Description
+Assumption,A1,!rst_ni,Initial state is reset.
+Assumption,A2,G(!rst_ni -> (wr_en_i == 0 && wr_data_i == 0)),Inputs must be idle during reset.
+Assumption,A3,G(wr_en_i == 0 -> wr_data_i == 0),Write data must be zero when not writing.
+Guarantee,G1,G(rd_error_o == 0),No read errors occur during operation.
+Guarantee,G2,G(!rst_ni -> rd_data_o == 0),Output is zeroed during reset.
+Guarantee,G3,G(wr_en_i == 1 -> rd_data_o == 0),Read output is suppressed during a write cycle.
+Guarantee,G4,G((rst_ni && wr_en_i == 1) -> X(rst_ni -> rd_data_o == wr_data_i)),Valid write data appears on output in the next cycle.
+Guarantee,G5,G((rst_ni && wr_en_i == 0) -> X(rst_ni -> rd_data_o == 0)),Output returns to zero if no write is performed.

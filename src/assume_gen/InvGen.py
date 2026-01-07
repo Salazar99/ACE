@@ -10,7 +10,7 @@ aceroot = os.getenv("ACEROOT", "${ACEROOT}")
 
 config_output = "invariant_config.xml"
 
-def main(xml_file,trace_file):     
+def main(xml_file,trace_file, dump_path):     
     try:
         if not os.path.isfile(xml_file):
             print(f"Error: The file '{xml_file}' does not exist.")
@@ -194,22 +194,23 @@ def main(xml_file,trace_file):
 
     #Run HARM on the generated configuration file
     try:
-        subprocess.run(f"harm --csv ./{trace_file} --conf ./{config_output}", shell=True, check=True)
+        subprocess.run(f"harm --csv ./{trace_file} --conf ./{config_output} --dump-to {dump_path}", shell=True, check=True)
     except subprocess.CalledProcessError as e:
         print("Error:Failed to run HARM!" + f"{e}")
         exit(1)
 
 if __name__ == "__main__":
-    if len(sys.argv) != 3:
-        print("Usage: python InvGen.py <input_xml_file> <input_csv_trace>")
+    if len(sys.argv) != 4:
+        print("Usage: python InvGen.py <input_xml_file> <input_csv_trace> <dump_path>")
     else:
         input_file = sys.argv[1]
         trace_file = sys.argv[2]
+        dump_path = sys.argv[3]
         if not os.path.isfile(input_file):
             print(f"Error: File '{input_file}' does not exist.")
             sys.exit(1)
-        if not os.path.isfile(input_file):
+        if not os.path.isfile(trace_file):
            print(f"Error: File '{trace_file}' does not exist.")
            sys.exit(1)
 
-        main(input_file,trace_file)
+        main(input_file,trace_file, dump_path)

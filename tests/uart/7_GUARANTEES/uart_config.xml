@@ -1,0 +1,40 @@
+<harm>
+	<context name="default">
+		<prop exp="rx" loc="a,dt"/> 
+		<numeric clustering="K,10Max,0.01WCSS,><,>=,<=,==" exp="reg2hw_intr_state" loc="a, dt"/>
+		<numeric clustering="K,10Max,0.01WCSS,><,>=,<=,==" exp="reg2hw_alert_test" loc="a, dt"/>
+		<numeric clustering="K,10Max,0.01WCSS,><,>=,<=,==" exp="reg2hw_rdata" loc="a, dt"/>
+		<numeric clustering="K,10Max,0.01WCSS,><,>=,<=,==" exp="reg2hw_ovrd" loc="a, dt"/>
+		<numeric clustering="K,10Max,0.01WCSS,><,>=,<=,==" exp="reg2hw_intr_enable" loc="a, dt"/>
+		<numeric clustering="K,10Max,0.01WCSS,><,>=,<=,==" exp="reg2hw_ctrl" loc="a, dt"/>
+		<numeric clustering="K,10Max,0.01WCSS,><,>=,<=,==" exp="reg2hw_wdata" loc="a, dt"/>
+		<numeric clustering="K,10Max,0.01WCSS,><,>=,<=,==" exp="reg2hw_timeout_ctrl" loc="a, dt"/>
+
+		<numeric clustering="K,10Max,0.01WCSS,><,>=,<=,==" exp="hw2reg_intr_state" loc="c"/>
+		<numeric clustering="K,10Max,0.01WCSS,><,>=,<=,==" exp="hw2reg_status" loc="c"/>
+		<numeric clustering="K,10Max,0.01WCSS,><,>=,<=,==" exp="hw2reg_fifo_status" loc="c"/>
+		<numeric clustering="K,10Max,0.01WCSS,><,>=,<=,==" exp="hw2reg_fifo_ctrl" loc="c"/>
+		<numeric clustering="K,10Max,0.01WCSS,><,>=,<=,==" exp="hw2reg_rdata" loc="c"/>
+		<numeric clustering="K,10Max,0.01WCSS,><,>=,<=,==" exp="hw2reg_val" loc="c"/>
+	
+    	<prop exp="lsio_trigger_o" loc="c"/>
+    	<prop exp="intr_tx_watermark_o" loc="c"/>
+    	<prop exp="intr_tx_empty_o" loc="c"/>
+    	<prop exp="intr_rx_watermark_o" loc="c"/>
+    	<prop exp="intr_tx_done_o" loc="c"/>
+    	<prop exp="intr_rx_overflow_o" loc="c"/>
+    	<prop exp="intr_rx_frame_err_o" loc="c"/>
+    	<prop exp="intr_rx_break_err_o" loc="c"/>
+    	<prop exp="intr_rx_timeout_o" loc="c"/>
+    	<prop exp="intr_rx_parity_err_o" loc="c"/>
+
+
+		<template dtLimits="2D,3W,4A,0E,U" exp="G( ..##1.. && true |->  P0)" />
+		<template dtLimits="2D,3W,4A,0E,U" exp="G( ..##2.. && true |->  P0)" />
+		<template dtLimits="2D,3W,4A,0E,U" exp="G(P2  ##1 true |-> P0)" />
+		<template dtLimits="2D,3W,4A,0E,U" exp="G(..&&.. |-> P0 )" />
+		<template dtLimits="2D,3W,4A,0.1E,U" exp="G(..#1&.. |-> P0 )" />
+
+		<sort name="frequency" exp="atct/traceLength"/>
+	</context>
+</harm>

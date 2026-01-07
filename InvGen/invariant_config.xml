@@ -1,8 +1,0 @@
-<harm>
- 	<context name="default">
-<template exp="G(true |-> ( !Drdy ##1 Drdy ))" />
-<template exp="G(true |-> ( Drdy ##1 !Drdy ))" />
-<template exp="G(true |-> (  Drdy >= 0 ))" />
-<template exp="G(true |-> (  Drdy <= 0 ))" />
-</context>
-</harm>

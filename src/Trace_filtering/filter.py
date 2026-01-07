@@ -259,10 +259,10 @@ class NumericExpression:
             self.leftop = BooleanProposition(self.leftop_str)
 
         if (self.rightop_str is not None):
-            if any(op in self.rightop_str for op in ['+', '-', '*', '/']):
-                self.rightop = ArithmeticExpression(self.rightop)
+            if any(op in self.rightop_str for op in ['+', '-', '*', '/']) and (not self.rightop_str.startswith('-') and len(self.rightop_str) > 1):
+                self.rightop = ArithmeticExpression(self.rightop_str)
             # Check if rightop is a constant numerical value 
-            elif re.match(r'^\d+(\.\d+)?$', self.rightop_str):
+            elif re.match(r'^-?\d+(\.\d+)?$', self.rightop_str):
                 self.rightop = NumericalConstant(self.rightop_str)
             else:
                 self.rightop = BooleanProposition(self.rightop_str)
@@ -374,7 +374,7 @@ class LTLUNTIL:
         #if cached values are not computed yet, compute them to avoid recomputation
         if(self.cached_val is None):
             self.loadVals(trace)
-        print("LTLUNTIL evaluate at time ", time, ": ", self.cached_val[time])
+        #print("LTLUNTIL evaluate at time ", time, ": ", self.cached_val[time])
         return self.cached_val[time],time
 
 class LTLAss:
@@ -416,15 +416,15 @@ class LTLAss:
             
             r'''
             (
-                [a-zA-Z_][a-zA-Z0-9_]*(::[a-zA-Z_][a-zA-Z0-9_]*)*              # variabile con eventuale ::
-                (?:\s*(?:\+|-|\*|/)\s*[a-zA-Z_][a-zA-Z0-9_]*(::[a-zA-Z_][a-zA-Z0-9_]*)*)*  # operazioni aritmetiche
-                \s*(<=|>=|==|!=|<|>)\s*                                        # operatore confronto
-                (\d+(\.\d+)?|[a-zA-Z_][a-zA-Z0-9_]*(::[a-zA-Z_][a-zA-Z0-9_]*)?)  # numero o variabile
+            [a-zA-Z_][a-zA-Z0-9_]*(::[a-zA-Z_][a-zA-Z0-9_]*)*              # variabile con eventuale ::
+            (?:\s*(?:\+|-|\*|/)\s*[a-zA-Z_][a-zA-Z0-9_]*(::[a-zA-Z_][a-zA-Z0-9_]*)*)*  # operazioni aritmetiche
+            \s*(<=|>=|==|!=|<|>)\s*                                        # operatore confronto
+            (-?\d+(\.\d+)?|[a-zA-Z_][a-zA-Z0-9_]*(::[a-zA-Z_][a-zA-Z0-9_]*)?)  # numero (negativo opzionale) o variabile
             )
             |
             (
-                [a-zA-Z_][a-zA-Z0-9_]*(::[a-zA-Z_][a-zA-Z0-9_]*)?             # variabile singola
-                (?!\()                                                       # *non* seguita da parentesi aperta (esclude chiamate funzione come X(...)
+            [a-zA-Z_][a-zA-Z0-9_]*(::[a-zA-Z_][a-zA-Z0-9_]*)?             # variabile singola
+            (?!\()                                                       # *non* seguita da parentesi aperta (esclude chiamate funzione come X(...)
             )
             ''',
 

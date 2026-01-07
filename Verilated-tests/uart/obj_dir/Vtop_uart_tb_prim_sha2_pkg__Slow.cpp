@@ -23,7 +23,7 @@ Vtop_uart_tb_prim_sha2_pkg::Vtop_uart_tb_prim_sha2_pkg(Vtop_uart_tb__Syms* symsp
 }
 
 void Vtop_uart_tb_prim_sha2_pkg::__Vconfigure(bool first) {
-    (void)first;  // Prevent unused variable warning
+    if (false && first) {}  // Prevent unused
 }
 
 Vtop_uart_tb_prim_sha2_pkg::~Vtop_uart_tb_prim_sha2_pkg() {

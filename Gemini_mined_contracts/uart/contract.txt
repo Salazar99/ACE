@@ -1,0 +1,6 @@
+Type,ID,LTL Formula,Description
+Assume,A1,G(!rst_ni⟹X(rst_ni=0∨1)),Reset persistence/release.
+Guarantee,G1,G(!rst_ni⟹hw2reg_status=0),Outputs reset to default on rst_ni=0.
+Assume,A2,G(reg2hw_intr_test=0⟹X(reg2hw_intr_test=0)),Software clears test bits.
+Guarantee,G2,G(reg2hw_intr_test=0⟹X(hw2reg_intr_state=0)),Test bits trigger interrupt state change.
+Guarantee,G4,G(intr_rx_overflow_o⟹hw2reg_status=0),Interrupts are reflected in status registers.

@@ -21,8 +21,6 @@ Vtop_uart_tb__Syms::Vtop_uart_tb__Syms(VerilatedContext* contextp, const char* n
     , TOP__prim_sha2_pkg{this, Verilated::catName(namep, "prim_sha2_pkg")}
     , TOP__uart_reg_pkg{this, Verilated::catName(namep, "uart_reg_pkg")}
 {
-        // Check resources
-        Verilated::stackCheck(469);
     // Configure time unit / time precision
     _vm_contextp__->timeunit(-9);
     _vm_contextp__->timeprecision(-12);

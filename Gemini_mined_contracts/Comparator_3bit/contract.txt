@@ -1,0 +1,20 @@
+-- VERIFICATION CONTRACT: 3-Bit Magnitude Comparator --
+
+-- [ASSUMPTIONS: Environment Constraints] --
+-- A1: Inputs A and B must remain within the 3-bit unsigned range (0-7)
+ASSERT G (A >= 0 AND A <= 7);
+ASSERT G (B >= 0 AND B <= 7);
+
+-- [GUARANTEES: System Requirements] --
+
+-- G1: A_greater is high if and only if A > B
+GUARANTEE G (A_greater <-> (A > B));
+
+-- G2: A_equal is high if and only if A = B
+GUARANTEE G (A_equal <-> (A = B));
+
+-- G3: A_less is high if and only if A < B
+GUARANTEE G (A_less <-> (A < B));
+
+-- G4: Exclusivity and Completeness (Exactly one output is active)
+GUARANTEE G ( (A_greater ? 1 : 0) + (A_equal ? 1 : 0) + (A_less ? 1 : 0) = 1 );

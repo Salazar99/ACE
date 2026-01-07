@@ -1,0 +1,7 @@
+Type,ID,LTL Formula,Description
+Assume,A1​,G(mult_en_i→¬div_en_i),Multiplier and Divider are not enabled simultaneously.
+Assume,A2​,G(rst_ni=0⟹X(mult_en_i=0∧div_en_i=0)),No requests during/immediately after reset.
+Guarantee,G1​,G(¬rst_ni⟹¬valid_o∧multdiv_result_o=0),Reset clears the output and validity.
+Guarantee,G2​,G(mult_en_i⟹F(valid_o)),Liveness: Every multiply request eventually completes.
+Guarantee,G3​,G(div_en_i⟹F(valid_o)),Liveness: Every divide request eventually completes.
+Guarantee,G4​,G(valid_o⟹(multdiv_result_o=expected)),Functional correctness of the result relative to operator_i.

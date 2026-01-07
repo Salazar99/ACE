@@ -1,0 +1,23 @@
+// Assumption 1: Reset behavior
+A1: G (rst_ni=0 → X(rst_ni=1 ∨ (wr_en_i=0 ∧ wr_data_i=0)))
+
+// Assumption 2: Write data stability during writes
+A2: G (wr_en_i=1 → X(wr_en_i=0) ∨ (wr_data_i stable until wr_en_i=0))
+
+// Assumption 3: Single-cycle writes (simplified)
+A3: G (wr_en_i=1 → X(wr_en_i=0))
+
+// Guarantee 1: Reset clears outputs and state
+G1: G (rst_ni=0 → (rd_data_o=0 ∧ rd_error_o=0 ∧ X(rdata_q=0)))
+
+// Guarantee 2: Write operation updates register and output
+G2: G ((rst_ni=1 ∧ wr_en_i=1) → X(rd_data_o=wr_data_i ∧ rdata_q=wr_data_i))
+
+// Guarantee 3: Read stability (hold value when not writing)
+G3: G ((rst_ni=1 ∧ wr_en_i=0) → X(rd_data_o=rdata_q))
+
+// Guarantee 4: No read errors (observed behavior)
+G4: G (rd_error_o=0)
+
+// Guarantee 5: Internal state consistency
+G5: G ((rst_ni=1 ∧ wr_en_i=0) → X(rdata_q=rdata_q))

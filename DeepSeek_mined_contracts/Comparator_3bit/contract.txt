@@ -1,0 +1,12 @@
+Assume:
+  A1: G( (A >= 0) && (A <= 7) && (B >= 0) && (B <= 7) )
+  A2: G( stable(A) && stable(B) )   // in synchronous context
+
+Guarantee:
+  G1: G( (A_greater + A_equal + A_less) == 1 )
+  G2: G( (A > B) -> A_greater )
+  G3: G( (A == B) -> A_equal )
+  G4: G( (A < B) -> A_less )
+  G5: G( A_greater -> (A > B) )
+  G6: G( A_equal -> (A == B) )
+  G7: G( A_less -> (A < B) )

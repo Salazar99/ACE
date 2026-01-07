@@ -1,0 +1,768 @@
+
+ASSUMES:
+reg2hw_status >= reg2hw_wdata
+reg2hw_ctrl >= reg2hw_ovrd
+reg2hw_wdata <= rx
+reg2hw_ovrd == reg2hw_wdata
+reg2hw_wdata >= reg2hw_ovrd
+reg2hw_status >= reg2hw_timeout_ctrl
+reg2hw_alert_test <= reg2hw_status
+reg2hw_ctrl >= reg2hw_alert_test
+reg2hw_intr_state < reg2hw_intr_enable
+reg2hw_ctrl >= reg2hw_intr_state
+reg2hw_intr_state < reg2hw_timeout_ctrl
+reg2hw_intr_state != reg2hw_fifo_ctrl
+reg2hw_intr_test >= reg2hw_timeout_ctrl
+reg2hw_intr_state < reg2hw_wdata
+reg2hw_ctrl >= reg2hw_intr_enable
+reg2hw_wdata != reg2hw_intr_state
+rx >= reg2hw_alert_test
+reg2hw_ctrl >= reg2hw_wdata
+reg2hw_fifo_ctrl >= reg2hw_status
+reg2hw_intr_test != reg2hw_intr_state
+reg2hw_ovrd <= reg2hw_ctrl
+reg2hw_intr_state < reg2hw_rdata
+reg2hw_timeout_ctrl <= rx
+reg2hw_wdata == reg2hw_status
+reg2hw_intr_state != reg2hw_ovrd
+reg2hw_wdata >= reg2hw_timeout_ctrl
+reg2hw_ovrd <= rx
+reg2hw_fifo_ctrl <= reg2hw_ctrl
+reg2hw_rdata >= reg2hw_ovrd
+reg2hw_status <= reg2hw_fifo_ctrl
+reg2hw_timeout_ctrl <= reg2hw_status
+reg2hw_intr_state < reg2hw_alert_test
+reg2hw_intr_state <= reg2hw_ovrd
+reg2hw_status == 0
+reg2hw_alert_test <= reg2hw_ctrl
+reg2hw_ovrd != reg2hw_intr_state
+reg2hw_intr_state <= reg2hw_status
+reg2hw_wdata <= reg2hw_rdata
+reg2hw_status == reg2hw_timeout_ctrl
+reg2hw_intr_test >= reg2hw_intr_state
+reg2hw_intr_enable >= reg2hw_intr_state
+reg2hw_intr_enable != reg2hw_intr_state
+reg2hw_intr_state <= reg2hw_wdata
+reg2hw_wdata <= reg2hw_ctrl
+reg2hw_intr_state < 0
+reg2hw_alert_test <= reg2hw_fifo_ctrl
+reg2hw_ovrd >= reg2hw_status
+reg2hw_fifo_ctrl >= reg2hw_ovrd
+reg2hw_intr_enable >= reg2hw_alert_test
+reg2hw_wdata <= reg2hw_intr_enable
+reg2hw_timeout_ctrl != reg2hw_intr_state
+reg2hw_wdata > reg2hw_intr_state
+reg2hw_intr_state <= reg2hw_ctrl
+reg2hw_intr_test >= reg2hw_ovrd
+reg2hw_intr_state != reg2hw_wdata
+reg2hw_status > reg2hw_intr_state
+reg2hw_status <= reg2hw_ctrl
+reg2hw_ovrd == 0
+reg2hw_intr_state < rx
+reg2hw_intr_state != reg2hw_status
+reg2hw_ovrd == reg2hw_status
+reg2hw_rdata <= reg2hw_fifo_ctrl
+reg2hw_fifo_ctrl >= reg2hw_rdata
+reg2hw_ovrd <= reg2hw_rdata
+reg2hw_intr_state <= rx
+rx >= reg2hw_wdata
+reg2hw_timeout_ctrl >= reg2hw_alert_test
+rx >= reg2hw_status
+reg2hw_wdata <= reg2hw_fifo_ctrl
+reg2hw_timeout_ctrl == 0
+reg2hw_timeout_ctrl <= reg2hw_wdata
+reg2hw_wdata == reg2hw_timeout_ctrl
+reg2hw_ovrd <= reg2hw_fifo_ctrl
+reg2hw_timeout_ctrl <= reg2hw_fifo_ctrl
+rx != reg2hw_intr_state
+reg2hw_wdata <= reg2hw_timeout_ctrl
+reg2hw_status <= reg2hw_intr_test
+reg2hw_intr_state != reg2hw_intr_enable
+rx >= reg2hw_timeout_ctrl
+reg2hw_wdata <= reg2hw_status
+reg2hw_intr_state <= reg2hw_fifo_ctrl
+reg2hw_timeout_ctrl >= reg2hw_status
+reg2hw_timeout_ctrl <= reg2hw_intr_test
+reg2hw_timeout_ctrl <= reg2hw_ctrl
+reg2hw_ovrd <= reg2hw_timeout_ctrl
+reg2hw_ovrd == reg2hw_timeout_ctrl
+reg2hw_alert_test != reg2hw_intr_state
+reg2hw_status <= reg2hw_intr_enable
+reg2hw_intr_state < reg2hw_intr_test
+reg2hw_intr_state < reg2hw_fifo_ctrl
+reg2hw_intr_state <= reg2hw_timeout_ctrl
+reg2hw_intr_state != reg2hw_intr_test
+reg2hw_status <= rx
+reg2hw_intr_state != reg2hw_ctrl
+reg2hw_status == reg2hw_wdata
+reg2hw_timeout_ctrl <= reg2hw_intr_enable
+reg2hw_ovrd >= reg2hw_wdata
+reg2hw_intr_test > reg2hw_intr_state
+rx >= reg2hw_rdata
+reg2hw_intr_state < reg2hw_ctrl
+reg2hw_rdata <= reg2hw_ctrl
+reg2hw_intr_enable >= reg2hw_ovrd
+reg2hw_ovrd <= reg2hw_intr_enable
+reg2hw_rdata >= reg2hw_intr_state
+reg2hw_status <= reg2hw_wdata
+reg2hw_timeout_ctrl >= reg2hw_wdata
+reg2hw_rdata != reg2hw_intr_state
+reg2hw_intr_enable > reg2hw_intr_state
+reg2hw_wdata == 0
+reg2hw_timeout_ctrl >= reg2hw_intr_state
+reg2hw_status <= reg2hw_rdata
+reg2hw_intr_test >= reg2hw_status
+reg2hw_alert_test <= reg2hw_timeout_ctrl
+reg2hw_intr_enable >= reg2hw_status
+reg2hw_alert_test <= reg2hw_rdata
+reg2hw_rdata <= reg2hw_intr_enable
+reg2hw_status >= reg2hw_ovrd
+reg2hw_intr_state <= reg2hw_rdata
+reg2hw_ovrd >= reg2hw_alert_test
+reg2hw_wdata >= reg2hw_status
+reg2hw_intr_state != rx
+reg2hw_alert_test <= reg2hw_ovrd
+reg2hw_fifo_ctrl > reg2hw_intr_state
+reg2hw_wdata <= reg2hw_ovrd
+reg2hw_intr_enable <= reg2hw_ctrl
+reg2hw_fifo_ctrl >= reg2hw_wdata
+reg2hw_intr_state < reg2hw_status
+reg2hw_intr_enable >= reg2hw_timeout_ctrl
+rx > reg2hw_intr_state
+reg2hw_rdata >= reg2hw_timeout_ctrl
+reg2hw_status >= reg2hw_intr_state
+reg2hw_ovrd > reg2hw_intr_state
+reg2hw_status <= reg2hw_ovrd
+reg2hw_rdata > reg2hw_intr_state
+reg2hw_ctrl >= reg2hw_fifo_ctrl
+rx >= reg2hw_intr_state
+reg2hw_timeout_ctrl == reg2hw_wdata
+reg2hw_alert_test <= rx
+reg2hw_intr_state != reg2hw_rdata
+reg2hw_wdata == reg2hw_ovrd
+reg2hw_intr_state < reg2hw_ovrd
+reg2hw_intr_state != reg2hw_alert_test
+reg2hw_status == reg2hw_ovrd
+reg2hw_intr_enable >= reg2hw_rdata
+reg2hw_timeout_ctrl >= reg2hw_ovrd
+reg2hw_status <= reg2hw_timeout_ctrl
+reg2hw_intr_state <= reg2hw_intr_enable
+reg2hw_wdata >= reg2hw_intr_state
+reg2hw_ovrd <= reg2hw_status
+reg2hw_timeout_ctrl <= reg2hw_rdata
+reg2hw_ovrd >= reg2hw_intr_state
+reg2hw_alert_test <= reg2hw_intr_enable
+reg2hw_alert_test <= reg2hw_intr_test
+reg2hw_ovrd <= reg2hw_wdata
+reg2hw_intr_test >= reg2hw_wdata
+reg2hw_rdata >= reg2hw_status
+reg2hw_ovrd <= reg2hw_intr_test
+reg2hw_fifo_ctrl >= reg2hw_timeout_ctrl
+reg2hw_alert_test <= reg2hw_wdata
+reg2hw_rdata >= reg2hw_wdata
+reg2hw_ctrl >= reg2hw_timeout_ctrl
+reg2hw_intr_test >= reg2hw_alert_test
+reg2hw_intr_state <= reg2hw_alert_test
+reg2hw_ctrl >= reg2hw_status
+reg2hw_fifo_ctrl >= reg2hw_intr_state
+reg2hw_status >= reg2hw_alert_test
+reg2hw_ctrl != reg2hw_intr_state
+reg2hw_intr_state != reg2hw_timeout_ctrl
+reg2hw_ctrl > reg2hw_intr_state
+reg2hw_alert_test > reg2hw_intr_state
+reg2hw_alert_test >= reg2hw_intr_state
+reg2hw_timeout_ctrl == reg2hw_status
+reg2hw_fifo_ctrl != reg2hw_intr_state
+reg2hw_ovrd >= reg2hw_timeout_ctrl
+reg2hw_fifo_ctrl >= reg2hw_alert_test
+reg2hw_rdata <= rx
+reg2hw_rdata >= reg2hw_alert_test
+reg2hw_intr_state <= reg2hw_intr_test
+reg2hw_timeout_ctrl > reg2hw_intr_state
+reg2hw_status != reg2hw_intr_state
+reg2hw_wdata <= reg2hw_intr_test
+reg2hw_ctrl >= reg2hw_rdata
+rx >= reg2hw_ovrd
+reg2hw_timeout_ctrl == reg2hw_ovrd
+reg2hw_intr_enable >= reg2hw_wdata
+reg2hw_wdata >= reg2hw_alert_test
+reg2hw_timeout_ctrl <= reg2hw_ovrd
+
+GUARANTEES:
+G({reg2hw_timeout_ctrl == 0} |-> (hw2reg_fifo_ctrl == 0))
+G({reg2hw_wdata == 0} |-> (hw2reg_fifo_ctrl == 0))
+G({reg2hw_wdata == 0} |-> (hw2reg_fifo_status == 0))
+G({reg2hw_ovrd == 0} |-> (hw2reg_fifo_status == 0))
+G({reg2hw_ovrd == 0} |-> (hw2reg_fifo_ctrl == 0))
+G({(reg2hw_ovrd == 0) && true} |-> (hw2reg_fifo_status == 0))
+G({(reg2hw_timeout_ctrl == 0) && true} |-> (hw2reg_fifo_status == 0))
+G({(reg2hw_wdata == 0) && true} |-> (hw2reg_fifo_ctrl == 0))
+G({reg2hw_timeout_ctrl == 0} |-> (hw2reg_fifo_status == 0))
+G({(reg2hw_timeout_ctrl == 0) && true} |-> (hw2reg_fifo_ctrl == 0))
+G({(reg2hw_wdata == 0) && true} |-> (hw2reg_fifo_status == 0))
+G({(reg2hw_ovrd == 0) && true} |-> (hw2reg_fifo_ctrl == 0))
+G({reg2hw_ovrd == 0 ##1 true} |-> (hw2reg_fifo_ctrl == 0))
+G({reg2hw_ovrd == 0 ##1 true} |-> (hw2reg_fifo_status == 0))
+G({(reg2hw_wdata == 0) ##1 true} |-> (hw2reg_fifo_status == 0))
+G({reg2hw_timeout_ctrl == 0 ##1 true} |-> (hw2reg_fifo_status == 0))
+G({reg2hw_wdata == 0 ##1 true} |-> (hw2reg_fifo_ctrl == 0))
+G({reg2hw_timeout_ctrl == 0 ##1 true} |-> (hw2reg_fifo_ctrl == 0))
+G({(reg2hw_rdata == 0) && true} |-> (hw2reg_fifo_status == 0))
+G({!(reg2hw_rdata == 1) && true} |-> (hw2reg_fifo_status == 0))
+G({!(reg2hw_rdata == 1)} |-> (hw2reg_fifo_status == 0))
+G({!(reg2hw_rdata == 1) && true} |-> (hw2reg_fifo_ctrl == 0))
+G({!(reg2hw_rdata == 1)} |-> (hw2reg_fifo_ctrl == 0))
+G({(reg2hw_rdata == 0) && true} |-> (hw2reg_fifo_ctrl == 0))
+G({reg2hw_rdata == 0} |-> (hw2reg_fifo_ctrl == 0))
+G({reg2hw_rdata == 0} |-> (hw2reg_fifo_status == 0))
+G({!(reg2hw_rdata == 1) ##1 true} |-> (hw2reg_fifo_ctrl == 0))
+G({reg2hw_rdata == 0 ##1 true} |-> (hw2reg_fifo_ctrl == 0))
+G({reg2hw_rdata == 0 ##1 true} |-> (hw2reg_fifo_status == 0))
+G({!(reg2hw_rdata == 1) ##1 true} |-> (hw2reg_fifo_status == 0))
+G({reg2hw_ctrl == 617987} |-> (hw2reg_fifo_ctrl == 0))
+G({!(reg2hw_ctrl == 0)} |-> lsio_trigger_o)
+G({!(reg2hw_ctrl == 0) && true} |-> (hw2reg_fifo_status == 0))
+G({reg2hw_ctrl == 617987} |-> (hw2reg_fifo_status == 0))
+G({!(reg2hw_ctrl == 0) && true} |-> lsio_trigger_o)
+G({!(reg2hw_ctrl == 0)} |-> (hw2reg_fifo_status == 0))
+G({(reg2hw_ctrl == 617987) && true} |-> (hw2reg_fifo_ctrl == 0))
+G({(reg2hw_ctrl == 617987) && true} |-> lsio_trigger_o)
+G({reg2hw_ctrl == 617987} |-> lsio_trigger_o)
+G({!(reg2hw_ctrl == 0) && true} |-> (hw2reg_fifo_ctrl == 0))
+G({(reg2hw_ctrl == 617987) && true} |-> (hw2reg_fifo_status == 0))
+G({!(reg2hw_ctrl == 0)} |-> (hw2reg_fifo_ctrl == 0))
+G({!(reg2hw_ctrl == 0) ##1 true} |-> (hw2reg_fifo_status == 0))
+G({reg2hw_ctrl == 617987 ##1 true} |-> (hw2reg_fifo_status == 0))
+G({!(reg2hw_ctrl == 0) ##1 true} |-> (hw2reg_fifo_ctrl == 0))
+G({reg2hw_ctrl == 617987 ##1 true} |-> (hw2reg_fifo_ctrl == 0))
+G({!(reg2hw_intr_enable == 0)} |-> (hw2reg_fifo_ctrl == 0))
+G({(reg2hw_intr_enable == 255) && true} |-> lsio_trigger_o)
+G({!(reg2hw_intr_enable == 0) && true} |-> (hw2reg_fifo_status == 0))
+G({!(reg2hw_intr_enable == 0) && true} |-> lsio_trigger_o)
+G({reg2hw_intr_enable == 255} |-> (hw2reg_fifo_ctrl == 0))
+G({!(reg2hw_intr_enable == 0)} |-> (hw2reg_fifo_status == 0))
+G({(reg2hw_intr_enable == 255) && true} |-> (hw2reg_fifo_status == 0))
+G({(reg2hw_intr_enable == 255) && true} |-> (hw2reg_fifo_ctrl == 0))
+G({!(reg2hw_intr_enable == 0)} |-> lsio_trigger_o)
+G({reg2hw_intr_enable == 255} |-> lsio_trigger_o)
+G({!(reg2hw_intr_enable == 0) && true} |-> (hw2reg_fifo_ctrl == 0))
+G({reg2hw_intr_enable == 255} |-> (hw2reg_fifo_status == 0))
+G({(reg2hw_intr_enable == 255) ##1 true} |-> (hw2reg_fifo_status == 0))
+G({reg2hw_intr_enable == 255 ##1 true} |-> (hw2reg_fifo_ctrl == 0))
+G({!(reg2hw_intr_enable == 0) ##1 true} |-> (hw2reg_fifo_status == 0))
+G({!(reg2hw_intr_enable == 0) ##1 true} |-> (hw2reg_fifo_ctrl == 0))
+G({reg2hw_intr_enable == 255 ##1 !(reg2hw_intr_enable == 0)} |-> intr_tx_watermark_o)
+G({!(reg2hw_intr_enable == 0) ##1 !(reg2hw_intr_enable == 0)} |-> intr_tx_watermark_o)
+G({!(reg2hw_intr_enable == 0) ##1 reg2hw_intr_enable == 255} |-> intr_tx_watermark_o)
+G({reg2hw_intr_enable == 255 ##1 reg2hw_intr_enable == 255} |-> intr_tx_watermark_o)
+G({!(reg2hw_alert_test == 0) && true} |-> lsio_trigger_o)
+G({(reg2hw_alert_test == -2) && true} |-> (hw2reg_fifo_ctrl == 0))
+G({reg2hw_alert_test == -2} |-> lsio_trigger_o)
+G({(reg2hw_alert_test == -2) && true} |-> lsio_trigger_o)
+G({!(reg2hw_alert_test == 0)} |-> (hw2reg_fifo_ctrl == 0))
+G({reg2hw_alert_test == -2} |-> (hw2reg_fifo_ctrl == 0))
+G({reg2hw_alert_test == -2} |-> (hw2reg_fifo_status == 0))
+G({!(reg2hw_alert_test == 0) && true} |-> (hw2reg_fifo_ctrl == 0))
+G({!(reg2hw_alert_test == 0)} |-> (hw2reg_fifo_status == 0))
+G({(reg2hw_alert_test == -2) && true} |-> (hw2reg_fifo_status == 0))
+G({!(reg2hw_alert_test == 0) && true} |-> (hw2reg_fifo_status == 0))
+G({!(reg2hw_alert_test == 0)} |-> lsio_trigger_o)
+G({!(reg2hw_alert_test == 0) ##1 true} |-> (hw2reg_fifo_ctrl == 0))
+G({reg2hw_alert_test == -2 ##1 true} |-> (hw2reg_fifo_ctrl == 0))
+G({(reg2hw_alert_test == -2) ##1 true} |-> lsio_trigger_o)
+G({reg2hw_alert_test == -2 ##1 true} |-> lsio_trigger_o)
+G({reg2hw_alert_test == -2 ##1 true} |-> (hw2reg_fifo_status == 0))
+G({!(reg2hw_alert_test == 0) ##1 true} |-> (hw2reg_fifo_status == 0))
+G({!(reg2hw_alert_test == 0) ##1 true} |-> lsio_trigger_o)
+G({(reg2hw_intr_state == -255) && true} |-> (hw2reg_fifo_status == 0))
+G({!(reg2hw_intr_state == -253) && true} |-> (hw2reg_fifo_ctrl == 0))
+G({reg2hw_intr_state == -255} |-> (hw2reg_fifo_status == 0))
+G({!(reg2hw_intr_state == -253)} |-> (hw2reg_fifo_ctrl == 0))
+G({reg2hw_intr_state == -255} |-> (hw2reg_fifo_ctrl == 0))
+G({!(reg2hw_intr_state == -253)} |-> (hw2reg_fifo_status == 0))
+G({(reg2hw_intr_state == -255) && true} |-> (hw2reg_fifo_ctrl == 0))
+G({!(reg2hw_intr_state == -253) && true} |-> (hw2reg_fifo_status == 0))
+G({!(reg2hw_intr_state == -253) ##1 true} |-> (hw2reg_fifo_status == 0))
+G({(reg2hw_intr_state == -255) ##1 true} |-> (hw2reg_fifo_ctrl == 0))
+G({(reg2hw_intr_state == -255) ##1 true} |-> (hw2reg_fifo_status == 0))
+G({!(reg2hw_intr_state == -253) ##1 true} |-> (hw2reg_fifo_ctrl == 0))
+G({rx && true} |-> (hw2reg_fifo_ctrl == 0))
+G({rx && true} |-> (hw2reg_val >= -512))
+G({rx} |-> (hw2reg_val >= -2048))
+G({rx} |-> (hw2reg_val >= -512))
+G({rx} |-> (hw2reg_fifo_ctrl == 0))
+G({rx} |-> (hw2reg_fifo_status == 0))
+G({rx && true} |-> (hw2reg_fifo_status == 0))
+G({rx && true} |-> (hw2reg_val >= -2048))
+G({rx ##1 true} |-> (hw2reg_fifo_status == 0))
+G({rx ##1 true} |-> (hw2reg_val >= -512))
+G({rx ##1 true} |-> (hw2reg_fifo_ctrl == 0))
+G({rx ##1 true} |-> (hw2reg_val >= -2048))
+G({!rx && true} |-> (hw2reg_fifo_status == 0))
+G({!rx ##1 true} |-> (hw2reg_fifo_ctrl == 0))
+G({!rx ##1 true} |-> (hw2reg_fifo_status == 0))
+G({!rx && true} |-> (hw2reg_rdata == 0))
+G({!rx} |-> (hw2reg_val <= 2047))
+G({!rx} |-> (hw2reg_fifo_status == 0))
+G({!rx} |-> (hw2reg_rdata == 0))
+G({!rx ##1 true} |-> lsio_trigger_o)
+G({!rx && true} |-> (hw2reg_fifo_ctrl == 0))
+G({!rx ##1 true} |-> (hw2reg_intr_state == -65529))
+G({!rx && true} |-> (hw2reg_intr_state == -65529))
+G({!rx} |-> (hw2reg_fifo_ctrl == 0))
+G({!rx ##1 true} |-> (hw2reg_rdata == 0))
+G({!rx ##1 true} |-> (hw2reg_val <= 2047))
+G({!rx && true} |-> (hw2reg_val <= 2047))
+G({!rx} |-> (hw2reg_intr_state == -65529))
+G({(!rx && reg2hw_intr_enable == 255) ##1 true} |-> intr_tx_watermark_o)
+G({(!(reg2hw_intr_enable == 0) && !rx) ##1 true} |-> intr_tx_watermark_o)
+G({!(reg2hw_intr_enable == 0) ##1 !rx} |-> intr_tx_watermark_o)
+G({reg2hw_intr_enable == 255 ##1 !rx} |-> intr_tx_watermark_o)
+G({reg2hw_intr_state == -253} |-> intr_tx_watermark_o)
+G({reg2hw_intr_state == -253 ##1 true} |-> (hw2reg_val >= -512))
+G({(reg2hw_intr_state == -253) ##1 true} |-> (hw2reg_fifo_status == 0))
+G({(reg2hw_intr_state == -253) && true} |-> (hw2reg_fifo_ctrl == 0))
+G({reg2hw_intr_state == -253 ##1 true} |-> (hw2reg_fifo_ctrl == 0))
+G({!(reg2hw_intr_state == -255) ##1 true} |-> lsio_trigger_o)
+G({!(reg2hw_intr_state == -255) && true} |-> (hw2reg_fifo_ctrl == 0))
+G({reg2hw_intr_state == -253 ##1 true} |-> lsio_trigger_o)
+G({(reg2hw_intr_state == -253) && true} |-> (hw2reg_val >= -512))
+G({!(reg2hw_intr_state == -255) ##1 true} |-> (hw2reg_val >= -512))
+G({reg2hw_intr_state == -253} |-> intr_rx_watermark_o)
+G({!(reg2hw_intr_state == -255)} |-> intr_rx_watermark_o)
+G({!(reg2hw_intr_state == -255)} |-> (hw2reg_val >= -512))
+G({reg2hw_intr_state == -253} |-> (hw2reg_val >= -512))
+G({!(reg2hw_intr_state == -255) ##1 true} |-> (hw2reg_val >= -2048))
+G({!(reg2hw_intr_state == -255)} |-> intr_tx_watermark_o)
+G({!(reg2hw_intr_state == -255)} |-> (hw2reg_val >= -2048))
+G({reg2hw_intr_state == -253 ##1 true} |-> (hw2reg_fifo_status == 0))
+G({!(reg2hw_intr_state == -255) ##1 true} |-> (hw2reg_fifo_status == 0))
+G({!(reg2hw_intr_state == -255)} |-> (hw2reg_fifo_status == 0))
+G({reg2hw_intr_state == -253} |-> (hw2reg_fifo_status == 0))
+G({!(reg2hw_intr_state == -255)} |-> lsio_trigger_o)
+G({!(reg2hw_intr_state == -255) && true} |-> (hw2reg_val >= -512))
+G({reg2hw_intr_state == -253} |-> (hw2reg_val >= -2048))
+G({(reg2hw_intr_state == -253) && true} |-> (hw2reg_fifo_status == 0))
+G({(reg2hw_intr_state == -253) && true} |-> intr_tx_watermark_o)
+G({(reg2hw_intr_state == -253) ##1 true} |-> (hw2reg_val >= -2048))
+G({!(reg2hw_intr_state == -255) && true} |-> intr_rx_watermark_o)
+G({!(reg2hw_intr_state == -255) && true} |-> intr_tx_watermark_o)
+G({!(reg2hw_intr_state == -255) && true} |-> lsio_trigger_o)
+G({(reg2hw_intr_state == -253) ##1 true} |-> (hw2reg_val >= -512))
+G({(reg2hw_intr_state == -253) ##1 true} |-> lsio_trigger_o)
+G({reg2hw_intr_state == -253 ##1 true} |-> (hw2reg_val >= -2048))
+G({(reg2hw_intr_state == -253) ##1 true} |-> (hw2reg_fifo_ctrl == 0))
+G({(reg2hw_intr_state == -253) && true} |-> lsio_trigger_o)
+G({(reg2hw_intr_state == -253) && true} |-> intr_rx_watermark_o)
+G({reg2hw_intr_state == -253} |-> lsio_trigger_o)
+G({(reg2hw_intr_state == -253) && true} |-> (hw2reg_val >= -2048))
+G({!(reg2hw_intr_state == -255) && true} |-> (hw2reg_fifo_status == 0))
+G({!(reg2hw_intr_state == -255) && true} |-> (hw2reg_val >= -2048))
+G({reg2hw_intr_state == -253} |-> (hw2reg_fifo_ctrl == 0))
+G({!(reg2hw_intr_state == -255)} |-> (hw2reg_fifo_ctrl == 0))
+G({!(reg2hw_intr_state == -255) ##1 true} |-> (hw2reg_fifo_ctrl == 0))
+G({reg2hw_intr_state == -253 ##1 reg2hw_intr_enable == 255} |-> intr_tx_watermark_o)
+G({!(reg2hw_intr_state == -255) ##1 reg2hw_intr_enable == 255} |-> intr_tx_watermark_o)
+G({reg2hw_rdata == 0 ##1 reg2hw_intr_state == -253} |-> (hw2reg_status == 28))
+G({reg2hw_alert_test == -2 ##1 !(reg2hw_intr_state == -255)} |-> (hw2reg_status == 28))
+G({!(reg2hw_rdata == 1) ##1 reg2hw_intr_state == -253} |-> (hw2reg_intr_state == -65521))
+G({reg2hw_rdata == 0 ##1 !(reg2hw_intr_state == -255)} |-> (hw2reg_status == 28))
+G({!(reg2hw_rdata == 1) ##1 reg2hw_intr_state == -253} |-> (hw2reg_status == 28))
+G({reg2hw_rdata == 0 ##1 reg2hw_intr_state == -253} |-> (hw2reg_intr_state == -65521))
+G({!(reg2hw_alert_test == 0) ##1 reg2hw_intr_state == -253} |-> (hw2reg_intr_state == -65521))
+G({reg2hw_rdata == 0 ##1 !(reg2hw_intr_state == -255)} |-> (hw2reg_intr_state == -65521))
+G({!(reg2hw_alert_test == 0) ##1 !(reg2hw_intr_state == -255)} |-> (hw2reg_status == 28))
+G({!(reg2hw_rdata == 1) ##1 !(reg2hw_intr_state == -255)} |-> (hw2reg_status == 28))
+G({reg2hw_alert_test == -2 ##1 reg2hw_intr_state == -253} |-> (hw2reg_status == 28))
+G({!(reg2hw_alert_test == 0) ##1 reg2hw_intr_state == -253} |-> (hw2reg_status == 28))
+G({!(reg2hw_alert_test == 0) ##1 !(reg2hw_intr_state == -255)} |-> (hw2reg_intr_state == -65521))
+G({!(reg2hw_rdata == 1) ##1 !(reg2hw_intr_state == -255)} |-> (hw2reg_intr_state == -65521))
+G({reg2hw_alert_test == -2 ##1 !(reg2hw_intr_state == -255)} |-> (hw2reg_intr_state == -65521))
+G({reg2hw_alert_test == -2 ##1 reg2hw_intr_state == -253} |-> (hw2reg_intr_state == -65521))
+G({(!(reg2hw_alert_test == 0) && reg2hw_intr_state == -253)} |-> (hw2reg_intr_state == -65521))
+G({(!(reg2hw_alert_test == 0) && reg2hw_intr_state == -253)} |-> (hw2reg_status == 28))
+G({(!(reg2hw_intr_state == -255) && reg2hw_alert_test == -2)} |-> (hw2reg_intr_state == -65521))
+G({(!(reg2hw_alert_test == 0) && !(reg2hw_intr_state == -255))} |-> (hw2reg_intr_state == -65521))
+G({(!(reg2hw_alert_test == 0) && !(reg2hw_intr_state == -255))} |-> (hw2reg_status == 28))
+G({(!(reg2hw_intr_state == -255) && reg2hw_alert_test == -2)} |-> (hw2reg_status == 28))
+G({(reg2hw_alert_test == -2 && reg2hw_intr_state == -253)} |-> (hw2reg_status == 28))
+G({(reg2hw_alert_test == -2 && reg2hw_intr_state == -253)} |-> (hw2reg_intr_state == -65521))
+G({(!(reg2hw_intr_state == -255) && reg2hw_alert_test == -2) ##1 !(reg2hw_intr_enable == 0)} |-> intr_rx_watermark_o)
+G({(!(reg2hw_alert_test == 0) && !(reg2hw_intr_state == -255)) ##1 !(reg2hw_intr_enable == 0)} |-> intr_rx_watermark_o)
+G({(reg2hw_alert_test == -2 && reg2hw_intr_state == -253) ##1 !(reg2hw_intr_enable == 0)} |-> intr_rx_watermark_o)
+G({(!(reg2hw_intr_state == -255) && reg2hw_alert_test == -2) ##1 !(reg2hw_intr_enable == 0)} |-> (hw2reg_intr_state == -65521))
+G({(!(reg2hw_intr_state == -255) && reg2hw_alert_test == -2) ##1 reg2hw_intr_enable == 255} |-> (hw2reg_intr_state == -65521))
+G({(!(reg2hw_intr_state == -255) && reg2hw_alert_test == -2) ##1 !(reg2hw_intr_enable == 0)} |-> (hw2reg_status == 28))
+G({(!(reg2hw_alert_test == 0) && reg2hw_intr_state == -253) ##1 reg2hw_intr_enable == 255} |-> intr_rx_watermark_o)
+G({(!(reg2hw_intr_state == -255) && reg2hw_alert_test == -2) ##1 reg2hw_intr_enable == 255} |-> (hw2reg_status == 28))
+G({(!(reg2hw_intr_state == -255) && reg2hw_alert_test == -2) ##1 reg2hw_intr_enable == 255} |-> intr_rx_watermark_o)
+G({(reg2hw_alert_test == -2 && reg2hw_intr_state == -253) ##1 reg2hw_intr_enable == 255} |-> intr_rx_watermark_o)
+G({(!(reg2hw_alert_test == 0) && !(reg2hw_intr_state == -255)) ##1 reg2hw_intr_enable == 255} |-> (hw2reg_intr_state == -65521))
+G({(!(reg2hw_alert_test == 0) && !(reg2hw_intr_state == -255)) ##1 reg2hw_intr_enable == 255} |-> intr_rx_watermark_o)
+G({(!(reg2hw_alert_test == 0) && !(reg2hw_intr_state == -255)) ##1 !(reg2hw_intr_enable == 0)} |-> (hw2reg_intr_state == -65521))
+G({(!(reg2hw_alert_test == 0) && reg2hw_intr_state == -253) ##1 !(reg2hw_intr_enable == 0)} |-> intr_rx_watermark_o)
+G({(!(reg2hw_alert_test == 0) && !(reg2hw_intr_state == -255)) ##1 !(reg2hw_intr_enable == 0)} |-> (hw2reg_status == 28))
+G({(!(reg2hw_alert_test == 0) && !(reg2hw_intr_state == -255)) ##1 reg2hw_intr_enable == 255} |-> (hw2reg_status == 28))
+G({reg2hw_intr_state == -253 ##1 (!(reg2hw_alert_test == 0) && reg2hw_intr_enable == 255)} |-> intr_rx_watermark_o)
+G({!(reg2hw_intr_state == -255) ##1 (!(reg2hw_alert_test == 0) && reg2hw_intr_enable == 255)} |-> intr_rx_watermark_o)
+G({!(reg2hw_intr_state == -255) ##1 (!(reg2hw_alert_test == 0) && !(reg2hw_intr_enable == 0))} |-> intr_rx_watermark_o)
+G({reg2hw_intr_state == -253 ##1 (reg2hw_alert_test == -2 && reg2hw_intr_enable == 255)} |-> intr_rx_watermark_o)
+G({reg2hw_intr_state == -253 ##1 (!(reg2hw_alert_test == 0) && !(reg2hw_intr_enable == 0))} |-> intr_rx_watermark_o)
+G({reg2hw_intr_state == -253 ##1 (!(reg2hw_intr_enable == 0) && reg2hw_alert_test == -2)} |-> intr_rx_watermark_o)
+G({!(reg2hw_intr_state == -255) ##1 (!(reg2hw_intr_enable == 0) && reg2hw_alert_test == -2)} |-> intr_rx_watermark_o)
+G({!(reg2hw_intr_state == -255) ##1 (reg2hw_alert_test == -2 && reg2hw_intr_enable == 255)} |-> intr_rx_watermark_o)
+G({!(reg2hw_alert_test == -2)} |-> (hw2reg_fifo_status == 0))
+G({reg2hw_alert_test == 0} |-> (hw2reg_fifo_ctrl == 0))
+G({(reg2hw_alert_test == 0) ##1 true} |-> (hw2reg_rdata == 0))
+G({reg2hw_alert_test == 0} |-> (hw2reg_fifo_status == 0))
+G({reg2hw_alert_test == 0 ##1 true} |-> (hw2reg_fifo_status == 0))
+G({(reg2hw_alert_test == 0) && true} |-> (hw2reg_val >= -2048))
+G({(reg2hw_alert_test == 0) && true} |-> (hw2reg_fifo_ctrl == 0))
+G({!(reg2hw_alert_test == -2) && true} |-> (hw2reg_fifo_ctrl == 0))
+G({reg2hw_alert_test == 0} |-> (hw2reg_val <= 2047))
+G({reg2hw_alert_test == 0 ##1 true} |-> (hw2reg_fifo_ctrl == 0))
+G({(reg2hw_alert_test == 0) && true} |-> (hw2reg_val >= -512))
+G({!(reg2hw_alert_test == -2) && true} |-> (hw2reg_val >= -2048))
+G({reg2hw_alert_test == 0 ##1 true} |-> (hw2reg_intr_state == -65529))
+G({!(reg2hw_alert_test == -2) && true} |-> (hw2reg_val <= 2047))
+G({(reg2hw_alert_test == 0) ##1 true} |-> (hw2reg_intr_state == -65529))
+G({!(reg2hw_alert_test == -2) ##1 true} |-> (hw2reg_val >= -512))
+G({!(reg2hw_alert_test == -2)} |-> (hw2reg_val >= -2048))
+G({reg2hw_alert_test == 0} |-> (hw2reg_val >= -2048))
+G({!(reg2hw_alert_test == -2) && true} |-> (hw2reg_val >= -512 && hw2reg_val <= 2047))
+G({reg2hw_alert_test == 0 ##1 true} |-> (hw2reg_rdata == 0))
+G({!(reg2hw_alert_test == -2) ##1 true} |-> (hw2reg_val >= -2048))
+G({(reg2hw_alert_test == 0) ##1 true} |-> (hw2reg_fifo_ctrl == 0))
+G({!(reg2hw_alert_test == -2)} |-> (hw2reg_val <= 2047))
+G({reg2hw_alert_test == 0} |-> (hw2reg_val >= -512))
+G({!(reg2hw_alert_test == -2) ##1 true} |-> (hw2reg_rdata == 0))
+G({!(reg2hw_alert_test == -2)} |-> (hw2reg_fifo_ctrl == 0))
+G({(reg2hw_alert_test == 0) ##1 true} |-> (hw2reg_val >= -2048))
+G({!(reg2hw_alert_test == -2)} |-> (hw2reg_val >= -512))
+G({!(reg2hw_alert_test == -2) ##1 true} |-> (hw2reg_fifo_ctrl == 0))
+G({(reg2hw_alert_test == 0) ##1 true} |-> (hw2reg_val >= -512))
+G({!(reg2hw_alert_test == -2) && true} |-> (hw2reg_val >= -512))
+G({reg2hw_alert_test == 0 ##1 true} |-> (hw2reg_val >= -512))
+G({(reg2hw_alert_test == 0) ##1 true} |-> (hw2reg_fifo_status == 0))
+G({(reg2hw_alert_test == 0) && true} |-> (hw2reg_fifo_status == 0))
+G({!(reg2hw_alert_test == -2) ##1 true} |-> (hw2reg_fifo_status == 0))
+G({!(reg2hw_alert_test == -2)} |-> (hw2reg_val >= -512 && hw2reg_val <= 2047))
+G({(reg2hw_alert_test == 0) && true} |-> (hw2reg_val >= -512 && hw2reg_val <= 2047))
+G({(reg2hw_alert_test == 0) ##1 true} |-> (hw2reg_val <= 2047))
+G({!(reg2hw_alert_test == -2) ##1 true} |-> (hw2reg_val >= -512 && hw2reg_val <= 2047))
+G({(reg2hw_alert_test == 0) && true} |-> (hw2reg_val <= 2047))
+G({(reg2hw_alert_test == 0) ##1 true} |-> (hw2reg_val >= -512 && hw2reg_val <= 2047))
+G({!(reg2hw_alert_test == -2) && true} |-> (hw2reg_fifo_status == 0))
+G({reg2hw_alert_test == 0 ##1 true} |-> (hw2reg_val <= 2047))
+G({reg2hw_alert_test == 0 ##1 true} |-> (hw2reg_val >= -2048))
+G({reg2hw_alert_test == 0 ##1 true} |-> (hw2reg_val >= -512 && hw2reg_val <= 2047))
+G({!(reg2hw_alert_test == -2) ##1 true} |-> (hw2reg_val <= 2047))
+G({!(reg2hw_alert_test == -2) ##1 true} |-> (hw2reg_intr_state == -65529))
+G({reg2hw_alert_test == 0} |-> (hw2reg_val >= -512 && hw2reg_val <= 2047))
+G({(reg2hw_alert_test == 0 && reg2hw_intr_state == -255)} |-> (hw2reg_rdata == 0))
+G({(reg2hw_alert_test == 0 && reg2hw_intr_state == -255)} |-> (hw2reg_intr_state == -65529))
+G({(!(reg2hw_intr_state == -253) && reg2hw_alert_test == 0)} |-> (hw2reg_rdata == 0))
+G({(!(reg2hw_alert_test == -2) && reg2hw_intr_state == -255)} |-> (hw2reg_rdata == 0))
+G({(!(reg2hw_alert_test == -2) && !(reg2hw_intr_state == -253))} |-> (hw2reg_rdata == 0))
+G({(!(reg2hw_alert_test == -2) && reg2hw_intr_state == -255)} |-> (hw2reg_intr_state == -65529))
+G({(!(reg2hw_alert_test == -2) && !(reg2hw_intr_state == -253))} |-> (hw2reg_intr_state == -65529))
+G({(!(reg2hw_intr_state == -253) && reg2hw_alert_test == 0)} |-> (hw2reg_intr_state == -65529))
+G({reg2hw_intr_state == -255 ##1 !(reg2hw_alert_test == -2)} |-> (hw2reg_intr_state == -65529))
+G({reg2hw_intr_state == -255 ##1 reg2hw_alert_test == 0} |-> (hw2reg_intr_state == -65529))
+G({reg2hw_intr_state == -255 ##1 reg2hw_alert_test == 0} |-> (hw2reg_rdata == 0))
+G({reg2hw_intr_state == -255 ##1 !(reg2hw_alert_test == -2)} |-> (hw2reg_rdata == 0))
+G({!(reg2hw_intr_enable == 255) && true} |-> (hw2reg_val <= 2047))
+G({reg2hw_intr_enable == 0} |-> (hw2reg_val >= -512 && hw2reg_val <= 2047))
+G({reg2hw_intr_enable == 0} |-> (hw2reg_val >= -2048))
+G({reg2hw_intr_enable == 0 ##1 true} |-> (hw2reg_val >= -2048))
+G({(reg2hw_intr_enable == 0) && true} |-> (hw2reg_fifo_status == 0))
+G({!(reg2hw_intr_enable == 255) ##1 true} |-> (hw2reg_val <= 2047))
+G({!(reg2hw_intr_enable == 255)} |-> (hw2reg_fifo_status == 0))
+G({!(reg2hw_intr_enable == 255)} |-> (hw2reg_val >= -512 && hw2reg_val <= 2047))
+G({(reg2hw_intr_enable == 0) && true} |-> (hw2reg_intr_state == -65529))
+G({(reg2hw_intr_enable == 0) ##1 true} |-> (hw2reg_rdata == 0))
+G({!(reg2hw_intr_enable == 255) && true} |-> (hw2reg_intr_state == -65529))
+G({(reg2hw_intr_enable == 0) ##1 true} |-> (hw2reg_fifo_ctrl == 0))
+G({reg2hw_intr_enable == 0} |-> (hw2reg_fifo_status == 0))
+G({reg2hw_intr_enable == 0} |-> (hw2reg_intr_state == -65529))
+G({reg2hw_intr_enable == 0} |-> (hw2reg_val <= 2047))
+G({!(reg2hw_intr_enable == 255) && true} |-> (hw2reg_rdata == 0))
+G({(reg2hw_intr_enable == 0) && true} |-> (hw2reg_fifo_ctrl == 0))
+G({(reg2hw_intr_enable == 0) ##1 true} |-> (hw2reg_val <= 2047))
+G({!(reg2hw_intr_enable == 255) ##1 true} |-> (hw2reg_val >= -2048))
+G({(reg2hw_intr_enable == 0) ##1 true} |-> (hw2reg_intr_state == -65529))
+G({!(reg2hw_intr_enable == 255) ##1 true} |-> (hw2reg_fifo_status == 0))
+G({!(reg2hw_intr_enable == 255)} |-> (hw2reg_val >= -2048))
+G({!(reg2hw_intr_enable == 255) && true} |-> (hw2reg_fifo_ctrl == 0))
+G({!(reg2hw_intr_enable == 255)} |-> (hw2reg_val >= -512))
+G({(reg2hw_intr_enable == 0) && true} |-> (hw2reg_rdata == 0))
+G({!(reg2hw_intr_enable == 255) ##1 true} |-> lsio_trigger_o)
+G({!(reg2hw_intr_enable == 255) && true} |-> (hw2reg_val >= -512))
+G({!(reg2hw_intr_enable == 255) && true} |-> (hw2reg_val >= -512 && hw2reg_val <= 2047))
+G({!(reg2hw_intr_enable == 255)} |-> (hw2reg_rdata == 0))
+G({!(reg2hw_intr_enable == 255)} |-> (hw2reg_fifo_ctrl == 0))
+G({(reg2hw_intr_enable == 0) ##1 true} |-> (hw2reg_val >= -512))
+G({(reg2hw_intr_enable == 0) ##1 true} |-> (hw2reg_val >= -2048))
+G({reg2hw_intr_enable == 0 ##1 true} |-> lsio_trigger_o)
+G({!(reg2hw_intr_enable == 255) ##1 true} |-> (hw2reg_val >= -512))
+G({reg2hw_intr_enable == 0 ##1 true} |-> (hw2reg_val >= -512))
+G({reg2hw_intr_enable == 0 ##1 true} |-> (hw2reg_fifo_ctrl == 0))
+G({reg2hw_intr_enable == 0 ##1 true} |-> (hw2reg_val >= -512 && hw2reg_val <= 2047))
+G({!(reg2hw_intr_enable == 255) ##1 true} |-> (hw2reg_val >= -512 && hw2reg_val <= 2047))
+G({!(reg2hw_intr_enable == 255) ##1 true} |-> (hw2reg_rdata == 0))
+G({reg2hw_intr_enable == 0} |-> (hw2reg_rdata == 0))
+G({reg2hw_intr_enable == 0 ##1 true} |-> (hw2reg_rdata == 0))
+G({reg2hw_intr_enable == 0} |-> (hw2reg_fifo_ctrl == 0))
+G({(reg2hw_intr_enable == 0) ##1 true} |-> (hw2reg_val >= -512 && hw2reg_val <= 2047))
+G({(reg2hw_intr_enable == 0) ##1 true} |-> lsio_trigger_o)
+G({reg2hw_intr_enable == 0 ##1 true} |-> (hw2reg_val <= 2047))
+G({reg2hw_intr_enable == 0 ##1 true} |-> (hw2reg_intr_state == -65529))
+G({!(reg2hw_intr_enable == 255) ##1 true} |-> (hw2reg_fifo_ctrl == 0))
+G({!(reg2hw_intr_enable == 255) && true} |-> (hw2reg_val >= -2048))
+G({reg2hw_intr_enable == 0} |-> (hw2reg_val >= -512))
+G({(reg2hw_intr_enable == 0) && true} |-> (hw2reg_val >= -2048))
+G({reg2hw_intr_enable == 0 ##1 true} |-> (hw2reg_fifo_status == 0))
+G({(reg2hw_intr_enable == 0) && true} |-> (hw2reg_val >= -512))
+G({!(reg2hw_intr_enable == 255) ##1 true} |-> (hw2reg_intr_state == -65529))
+G({(reg2hw_intr_enable == 0) ##1 true} |-> (hw2reg_fifo_status == 0))
+G({!(reg2hw_intr_enable == 255)} |-> (hw2reg_intr_state == -65529))
+G({(reg2hw_intr_enable == 0) && true} |-> (hw2reg_val <= 2047))
+G({(reg2hw_intr_enable == 0) && true} |-> (hw2reg_val >= -512 && hw2reg_val <= 2047))
+G({!(reg2hw_intr_enable == 255) && true} |-> (hw2reg_fifo_status == 0))
+G({!(reg2hw_intr_enable == 255)} |-> (hw2reg_val <= 2047))
+G({(!(reg2hw_intr_enable == 255) && rx) ##1 true} |-> (hw2reg_status == -4))
+G({(reg2hw_intr_enable == 0 && rx) ##1 true} |-> (hw2reg_status == -4))
+G({!(reg2hw_intr_enable == 255) ##1 rx} |-> (hw2reg_status == -4))
+G({reg2hw_intr_enable == 0 ##1 rx} |-> (hw2reg_status == -4))
+G({(reg2hw_ctrl == 0) ##1 true} |-> lsio_trigger_o)
+G({reg2hw_ctrl == 0} |-> (hw2reg_val >= -2048))
+G({reg2hw_ctrl == 0 ##1 true} |-> (hw2reg_val >= -512))
+G({reg2hw_ctrl == 0 ##1 true} |-> (hw2reg_val <= 2047))
+G({reg2hw_ctrl == 0 ##1 true} |-> (hw2reg_val >= -2048))
+G({!(reg2hw_ctrl == 617987) ##1 true} |-> (hw2reg_status == -4))
+G({reg2hw_ctrl == 0 ##1 true} |-> (hw2reg_status == -4))
+G({(reg2hw_ctrl == 0) && true} |-> (hw2reg_rdata == 0))
+G({!(reg2hw_ctrl == 617987)} |-> (hw2reg_val >= -2048))
+G({reg2hw_ctrl == 0} |-> (hw2reg_val >= -512))
+G({!(reg2hw_ctrl == 617987)} |-> (hw2reg_intr_state == -65529))
+G({!(reg2hw_ctrl == 617987) && true} |-> (hw2reg_val >= -2048))
+G({reg2hw_ctrl == 0} |-> (hw2reg_intr_state == -65529))
+G({(reg2hw_ctrl == 0) && true} |-> (hw2reg_fifo_status == 0))
+G({!(reg2hw_ctrl == 617987) && true} |-> (hw2reg_fifo_ctrl == 0))
+G({(reg2hw_ctrl == 0) && true} |-> (hw2reg_fifo_ctrl == 0))
+G({!(reg2hw_ctrl == 617987)} |-> (hw2reg_val <= 2047))
+G({reg2hw_ctrl == 0} |-> (hw2reg_rdata == 0))
+G({reg2hw_ctrl == 0 ##1 true} |-> (hw2reg_intr_state == -65529))
+G({!(reg2hw_ctrl == 617987) ##1 true} |-> (hw2reg_rdata == 0))
+G({(reg2hw_ctrl == 0) && true} |-> (hw2reg_intr_state == -65529))
+G({(reg2hw_ctrl == 0) ##1 true} |-> (hw2reg_val >= -512 && hw2reg_val <= 2047))
+G({!(reg2hw_ctrl == 617987)} |-> (hw2reg_val >= -512))
+G({!(reg2hw_ctrl == 617987) && true} |-> (hw2reg_val <= 2047))
+G({!(reg2hw_ctrl == 617987) ##1 true} |-> (hw2reg_fifo_status == 0))
+G({(reg2hw_ctrl == 0) && true} |-> (hw2reg_val >= -512 && hw2reg_val <= 2047))
+G({reg2hw_ctrl == 0} |-> (hw2reg_val >= -512 && hw2reg_val <= 2047))
+G({(reg2hw_ctrl == 0) ##1 true} |-> (hw2reg_val >= -2048))
+G({!(reg2hw_ctrl == 617987) ##1 true} |-> (hw2reg_val >= -2048))
+G({!(reg2hw_ctrl == 617987)} |-> (hw2reg_val >= -512 && hw2reg_val <= 2047))
+G({(reg2hw_ctrl == 0) && true} |-> (hw2reg_val <= 2047))
+G({!(reg2hw_ctrl == 617987) ##1 true} |-> lsio_trigger_o)
+G({(reg2hw_ctrl == 0) ##1 true} |-> (hw2reg_fifo_status == 0))
+G({!(reg2hw_ctrl == 617987) ##1 true} |-> (hw2reg_val <= 2047))
+G({!(reg2hw_ctrl == 617987)} |-> (hw2reg_fifo_status == 0))
+G({!(reg2hw_ctrl == 617987) && true} |-> (hw2reg_rdata == 0))
+G({(reg2hw_ctrl == 0) ##1 true} |-> (hw2reg_val >= -512))
+G({!(reg2hw_ctrl == 617987) && true} |-> (hw2reg_val >= -512 && hw2reg_val <= 2047))
+G({reg2hw_ctrl == 0 ##1 true} |-> (hw2reg_val >= -512 && hw2reg_val <= 2047))
+G({!(reg2hw_ctrl == 617987) ##1 true} |-> (hw2reg_val >= -512 && hw2reg_val <= 2047))
+G({(reg2hw_ctrl == 0) ##1 true} |-> (hw2reg_status == -4))
+G({!(reg2hw_ctrl == 617987) && true} |-> (hw2reg_intr_state == -65529))
+G({(reg2hw_ctrl == 0) ##1 true} |-> (hw2reg_intr_state == -65529))
+G({reg2hw_ctrl == 0 ##1 true} |-> (hw2reg_rdata == 0))
+G({!(reg2hw_ctrl == 617987) && true} |-> (hw2reg_fifo_status == 0))
+G({reg2hw_ctrl == 0 ##1 true} |-> (hw2reg_fifo_ctrl == 0))
+G({(reg2hw_ctrl == 0) ##1 true} |-> (hw2reg_rdata == 0))
+G({!(reg2hw_ctrl == 617987) && true} |-> (hw2reg_val >= -512))
+G({reg2hw_ctrl == 0} |-> (hw2reg_fifo_status == 0))
+G({reg2hw_ctrl == 0 ##1 true} |-> lsio_trigger_o)
+G({(reg2hw_ctrl == 0) && true} |-> (hw2reg_val >= -512))
+G({!(reg2hw_ctrl == 617987) ##1 true} |-> (hw2reg_intr_state == -65529))
+G({reg2hw_ctrl == 0} |-> (hw2reg_val <= 2047))
+G({(reg2hw_ctrl == 0) ##1 true} |-> (hw2reg_val <= 2047))
+G({!(reg2hw_ctrl == 617987) ##1 true} |-> (hw2reg_val >= -512))
+G({(reg2hw_ctrl == 0) ##1 true} |-> (hw2reg_fifo_ctrl == 0))
+G({reg2hw_ctrl == 0} |-> (hw2reg_fifo_ctrl == 0))
+G({!(reg2hw_ctrl == 617987) ##1 true} |-> (hw2reg_fifo_ctrl == 0))
+G({!(reg2hw_ctrl == 617987)} |-> (hw2reg_fifo_ctrl == 0))
+G({reg2hw_ctrl == 0 ##1 true} |-> (hw2reg_fifo_status == 0))
+G({(reg2hw_ctrl == 0) && true} |-> (hw2reg_val >= -2048))
+G({!(reg2hw_ctrl == 617987)} |-> (hw2reg_rdata == 0))
+G({(!(reg2hw_alert_test == -2) && reg2hw_intr_enable == 0) ##1 true} |-> (hw2reg_status == -4))
+G({(!(reg2hw_alert_test == -2) && !(reg2hw_intr_enable == 255)) ##1 true} |-> (hw2reg_status == -4))
+G({(!(reg2hw_intr_enable == 255) && reg2hw_alert_test == 0) ##1 true} |-> (hw2reg_status == -4))
+G({(reg2hw_alert_test == 0 && reg2hw_intr_enable == 0) ##1 true} |-> (hw2reg_status == -4))
+G({(!(reg2hw_alert_test == -2) && reg2hw_intr_enable == 255)} |-> intr_tx_watermark_o)
+G({(!(reg2hw_alert_test == -2) && !(reg2hw_intr_enable == 0))} |-> intr_tx_watermark_o)
+G({(reg2hw_alert_test == 0 && reg2hw_intr_enable == 255)} |-> intr_tx_watermark_o)
+G({(!(reg2hw_intr_enable == 0) && reg2hw_alert_test == 0)} |-> intr_tx_watermark_o)
+G({!(reg2hw_alert_test == -2) ##1 !(reg2hw_ctrl == 0)} |-> (hw2reg_status == -4))
+G({reg2hw_alert_test == 0 ##1 reg2hw_ctrl == 617987} |-> intr_tx_watermark_o)
+G({!(reg2hw_alert_test == -2) ##1 reg2hw_ctrl == 617987} |-> (hw2reg_status == -4))
+G({reg2hw_alert_test == 0 ##1 !(reg2hw_ctrl == 0)} |-> (hw2reg_status == -4))
+G({!(reg2hw_alert_test == -2) ##1 reg2hw_intr_enable == 255} |-> (hw2reg_status == -4))
+G({reg2hw_alert_test == 0 ##1 reg2hw_intr_enable == 255} |-> (hw2reg_status == -4))
+G({reg2hw_alert_test == 0 ##1 reg2hw_ctrl == 617987} |-> (hw2reg_status == -4))
+G({!(reg2hw_alert_test == -2) ##1 !(reg2hw_ctrl == 0)} |-> intr_tx_watermark_o)
+G({reg2hw_alert_test == 0 ##1 !(reg2hw_intr_enable == 0)} |-> (hw2reg_status == -4))
+G({!(reg2hw_alert_test == -2) ##1 !(reg2hw_intr_enable == 0)} |-> (hw2reg_status == -4))
+G({!(reg2hw_alert_test == -2) ##1 reg2hw_intr_enable == 255} |-> intr_tx_watermark_o)
+G({!(reg2hw_alert_test == -2) ##1 reg2hw_ctrl == 617987} |-> intr_tx_watermark_o)
+G({reg2hw_alert_test == 0 ##1 !(reg2hw_ctrl == 0)} |-> intr_tx_watermark_o)
+G({reg2hw_alert_test == 0 ##1 reg2hw_intr_enable == 255} |-> intr_tx_watermark_o)
+G({!rx ##1 rx} |-> (hw2reg_val >= -512 && hw2reg_val <= 2047))
+G({rx ##1 !rx} |-> (hw2reg_val >= -512 && hw2reg_val <= 2047))
+G({reg2hw_alert_test == 0 ##1 !rx} |-> (hw2reg_status == -4))
+G({(!rx && reg2hw_alert_test == 0) ##1 true} |-> (hw2reg_status == -4))
+G({!(reg2hw_alert_test == -2) ##1 !rx} |-> (hw2reg_status == -4))
+G({(!(reg2hw_alert_test == -2) && !rx) ##1 true} |-> (hw2reg_status == -4))
+G({(!(reg2hw_intr_state == -255) && reg2hw_alert_test == 0) ##1 true} |-> (hw2reg_status == -4))
+G({(!(reg2hw_alert_test == -2) && !(reg2hw_intr_state == -255)) ##1 true} |-> (hw2reg_status == -4))
+G({(!(reg2hw_alert_test == -2) && reg2hw_intr_state == -253) ##1 true} |-> (hw2reg_status == -4))
+G({(reg2hw_alert_test == 0 && reg2hw_intr_state == -253) ##1 true} |-> (hw2reg_status == -4))
+G({reg2hw_intr_state == -253 ##1 !(reg2hw_intr_state == -253)} |-> (hw2reg_intr_state == -65529))
+G({!(reg2hw_alert_test == -2) ##1 !(reg2hw_alert_test == 0)} |-> (hw2reg_status == -4))
+G({reg2hw_intr_state == -253 ##1 reg2hw_intr_state == -255} |-> (hw2reg_status == -4))
+G({!(reg2hw_intr_state == -255) ##1 reg2hw_intr_state == -255} |-> (hw2reg_val >= -512 && hw2reg_val <= 2047))
+G({!(reg2hw_intr_state == -255) ##1 reg2hw_intr_state == -255} |-> (hw2reg_val <= 2047))
+G({!(reg2hw_intr_state == -255) ##1 !(reg2hw_intr_state == -253)} |-> (hw2reg_val <= 2047))
+G({!(reg2hw_intr_state == -255) ##1 !(reg2hw_intr_state == -253)} |-> (hw2reg_intr_state == -65529))
+G({reg2hw_intr_state == -255 ##1 !(reg2hw_intr_state == -255)} |-> (hw2reg_val >= -512 && hw2reg_val <= 2047))
+G({reg2hw_intr_state == -255 ##1 !(reg2hw_intr_state == -255)} |-> (hw2reg_intr_state == -65521))
+G({!(reg2hw_intr_state == -255) ##1 !(reg2hw_intr_state == -253)} |-> (hw2reg_rdata == 0))
+G({reg2hw_intr_state == -253 ##1 !(reg2hw_intr_state == -253)} |-> (hw2reg_val >= -512 && hw2reg_val <= 2047))
+G({reg2hw_intr_state == -253 ##1 !(reg2hw_intr_state == -253)} |-> (hw2reg_status == -4))
+G({!(reg2hw_intr_state == -253) ##1 reg2hw_intr_state == -253} |-> (hw2reg_intr_state == -65521))
+G({!(reg2hw_intr_state == -253) ##1 !(reg2hw_intr_state == -255)} |-> (hw2reg_intr_state == -65521))
+G({reg2hw_intr_state == -253 ##1 reg2hw_intr_state == -255} |-> (hw2reg_val >= -512 && hw2reg_val <= 2047))
+G({reg2hw_intr_state == -255 ##1 reg2hw_intr_state == -253} |-> (hw2reg_val >= -512 && hw2reg_val <= 2047))
+G({!(reg2hw_intr_state == -255) ##1 !(reg2hw_intr_state == -253)} |-> (hw2reg_val >= -512 && hw2reg_val <= 2047))
+G({reg2hw_intr_state == -253 ##1 reg2hw_intr_state == -255} |-> (hw2reg_rdata == 0))
+G({reg2hw_intr_state == -255 ##1 !(reg2hw_intr_state == -255)} |-> (hw2reg_status == 28))
+G({!(reg2hw_intr_state == -255) ##1 reg2hw_intr_state == -255} |-> (hw2reg_rdata == 0))
+G({!(reg2hw_intr_state == -253) ##1 reg2hw_intr_state == -253} |-> (hw2reg_status == 28))
+G({reg2hw_intr_state == -255 ##1 reg2hw_intr_state == -253} |-> (hw2reg_val <= 2047))
+G({reg2hw_alert_test == 0 ##1 !(reg2hw_alert_test == 0)} |-> (hw2reg_status == -4))
+G({!(reg2hw_alert_test == -2) ##1 reg2hw_alert_test == -2} |-> (hw2reg_status == -4))
+G({reg2hw_intr_state == -253 ##1 reg2hw_intr_state == -255} |-> (hw2reg_val <= 2047))
+G({!(reg2hw_intr_state == -253) ##1 !(reg2hw_intr_state == -255)} |-> (hw2reg_status == 28))
+G({!(reg2hw_intr_state == -255) ##1 reg2hw_intr_state == -255} |-> (hw2reg_intr_state == -65529))
+G({!(reg2hw_intr_state == -255) ##1 reg2hw_intr_state == -255} |-> (hw2reg_status == -4))
+G({reg2hw_intr_state == -255 ##1 reg2hw_intr_state == -253} |-> (hw2reg_intr_state == -65521))
+G({reg2hw_alert_test == 0 ##1 reg2hw_alert_test == -2} |-> (hw2reg_status == -4))
+G({reg2hw_intr_state == -253 ##1 !(reg2hw_intr_state == -253)} |-> (hw2reg_rdata == 0))
+G({reg2hw_intr_state == -253 ##1 !(reg2hw_intr_state == -253)} |-> (hw2reg_val <= 2047))
+G({!(reg2hw_intr_state == -255) ##1 !(reg2hw_intr_state == -253)} |-> (hw2reg_status == -4))
+G({reg2hw_intr_state == -255 ##1 !(reg2hw_intr_state == -255)} |-> (hw2reg_val <= 2047))
+G({reg2hw_intr_state == -255 ##1 reg2hw_intr_state == -253} |-> (hw2reg_status == 28))
+G({reg2hw_intr_state == -253 ##1 reg2hw_intr_state == -255} |-> (hw2reg_intr_state == -65529))
+G({reg2hw_rdata == 1 ##1 true} |-> (hw2reg_val >= -512 && hw2reg_val <= 2047))
+G({(reg2hw_rdata == 1) ##1 true} |-> (hw2reg_status == -4))
+G({(reg2hw_rdata == 1) ##1 true} |-> (hw2reg_rdata == 0))
+G({!(reg2hw_alert_test == -2) ##1 !(reg2hw_intr_state == -255)} |-> (hw2reg_status == -4))
+G({!(reg2hw_rdata == 0) ##1 true} |-> intr_rx_watermark_o)
+G({reg2hw_alert_test == -2 ##1 !(reg2hw_alert_test == -2)} |-> (hw2reg_status == 28))
+G({!(reg2hw_rdata == 0) && true} |-> intr_tx_watermark_o)
+G({reg2hw_rdata == 1 ##1 true} |-> lsio_trigger_o)
+G({!(reg2hw_rdata == 0) && true} |-> (hw2reg_fifo_status == 0))
+G({reg2hw_rdata == 1 ##1 true} |-> (hw2reg_val <= 2047))
+G({(reg2hw_rdata == 1) && true} |-> (hw2reg_fifo_ctrl == 0))
+G({!(reg2hw_rdata == 0)} |-> (hw2reg_val >= -2048))
+G({!(reg2hw_alert_test == -2) ##1 reg2hw_intr_state == -253} |-> (hw2reg_status == -4))
+G({!(reg2hw_rdata == 0)} |-> lsio_trigger_o)
+G({!(reg2hw_rdata == 0) && true} |-> intr_rx_watermark_o)
+G({reg2hw_intr_enable == 255 ##1 reg2hw_ctrl == 0} |-> (hw2reg_status == -1))
+G({reg2hw_ctrl == 617987 ##1 reg2hw_ctrl == 0} |-> (hw2reg_status == -1))
+G({!(reg2hw_rdata == 0) ##1 true} |-> (hw2reg_val >= -512 && hw2reg_val <= 2047))
+G({!(reg2hw_rdata == 0)} |-> (hw2reg_val >= -512 && hw2reg_val <= 2047))
+G({!(reg2hw_rdata == 0) ##1 true} |-> (hw2reg_val >= -2048))
+G({(reg2hw_rdata == 1) ##1 true} |-> (hw2reg_val >= -2048))
+G({reg2hw_rdata == 1 ##1 true} |-> (hw2reg_val >= -2048))
+G({reg2hw_rdata == 1 ##1 true} |-> (hw2reg_fifo_ctrl == 0))
+G({!(reg2hw_rdata == 0) ##1 true} |-> lsio_trigger_o)
+G({!(reg2hw_rdata == 0) ##1 true} |-> (hw2reg_val >= -512))
+G({!(reg2hw_rdata == 0)} |-> intr_tx_watermark_o)
+G({reg2hw_rdata == 1} |-> (hw2reg_val >= -2048))
+G({!(reg2hw_rdata == 0)} |-> (hw2reg_status == 28))
+G({!(reg2hw_rdata == 0) ##1 true} |-> intr_tx_watermark_o)
+G({reg2hw_rdata == 1} |-> (hw2reg_status == 28))
+G({reg2hw_rdata == 1} |-> intr_tx_watermark_o)
+G({!(reg2hw_rdata == 0)} |-> (hw2reg_val <= 2047))
+G({reg2hw_rdata == 1 ##1 true} |-> intr_tx_watermark_o)
+G({!(reg2hw_ctrl == 0) ##1 reg2hw_ctrl == 0} |-> (hw2reg_status == -1))
+G({reg2hw_rdata == 1 ##1 true} |-> (hw2reg_status == -4))
+G({!(reg2hw_alert_test == 0) ##1 !(reg2hw_alert_test == -2)} |-> (hw2reg_intr_state == -65521))
+G({!(reg2hw_rdata == 0) ##1 true} |-> (hw2reg_status == -4))
+G({!(reg2hw_rdata == 0) && true} |-> lsio_trigger_o)
+G({(reg2hw_rdata == 1) && true} |-> (hw2reg_intr_state == -65521))
+G({!(reg2hw_rdata == 0) && true} |-> (hw2reg_fifo_ctrl == 0))
+G({reg2hw_rdata == 1} |-> intr_rx_watermark_o)
+G({(reg2hw_rdata == 1) && true} |-> (hw2reg_val >= -512))
+G({reg2hw_alert_test == 0 ##1 !(reg2hw_intr_state == -255)} |-> (hw2reg_status == -4))
+G({reg2hw_rdata == 1} |-> (hw2reg_intr_state == -65521))
+G({!(reg2hw_alert_test == 0) ##1 !(reg2hw_alert_test == -2)} |-> (hw2reg_status == 28))
+G({(reg2hw_rdata == 1) ##1 true} |-> intr_rx_watermark_o)
+G({reg2hw_alert_test == -2 ##1 reg2hw_alert_test == 0} |-> (hw2reg_status == 28))
+G({reg2hw_alert_test == -2 ##1 !(reg2hw_alert_test == -2)} |-> intr_tx_watermark_o)
+G({!(reg2hw_rdata == 0) ##1 true} |-> (hw2reg_val <= 2047))
+G({!(reg2hw_rdata == 0)} |-> intr_rx_watermark_o)
+G({!(reg2hw_rdata == 0) && true} |-> (hw2reg_val >= -512 && hw2reg_val <= 2047))
+G({reg2hw_rdata == 1 ##1 true} |-> (hw2reg_val >= -512))
+G({reg2hw_rdata == 1} |-> (hw2reg_val >= -512 && hw2reg_val <= 2047))
+G({(reg2hw_rdata == 1) && true} |-> (hw2reg_val <= 2047))
+G({!(reg2hw_rdata == 0) ##1 true} |-> (hw2reg_fifo_status == 0))
+G({(reg2hw_rdata == 1) ##1 true} |-> (hw2reg_fifo_status == 0))
+G({reg2hw_rdata == 1 ##1 true} |-> (hw2reg_fifo_status == 0))
+G({reg2hw_rdata == 1} |-> (hw2reg_fifo_status == 0))
+G({reg2hw_rdata == 1 ##1 true} |-> (hw2reg_rdata == 0))
+G({reg2hw_rdata == 1 ##1 true} |-> (hw2reg_intr_state == -65529))
+G({!(reg2hw_alert_test == 0) ##1 reg2hw_alert_test == 0} |-> (hw2reg_intr_state == -65521))
+G({!(reg2hw_rdata == 0)} |-> (hw2reg_fifo_status == 0))
+G({reg2hw_rdata == 1} |-> (hw2reg_val >= -512))
+G({reg2hw_alert_test == -2 ##1 reg2hw_alert_test == 0} |-> (hw2reg_intr_state == -65521))
+G({!(reg2hw_rdata == 0) && true} |-> (hw2reg_val >= -2048))
+G({!(reg2hw_rdata == 0) ##1 true} |-> (hw2reg_rdata == 0))
+G({(reg2hw_rdata == 1) && true} |-> (hw2reg_val >= -2048))
+G({reg2hw_alert_test == -2 ##1 !(reg2hw_alert_test == -2)} |-> (hw2reg_intr_state == -65521))
+G({(reg2hw_rdata == 1) && true} |-> intr_rx_watermark_o)
+G({!(reg2hw_intr_enable == 0) ##1 reg2hw_ctrl == 0} |-> (hw2reg_status == -1))
+G({(reg2hw_rdata == 1) && true} |-> (hw2reg_status == 28))
+G({!(reg2hw_alert_test == 0) ##1 reg2hw_alert_test == 0} |-> (hw2reg_status == 28))
+G({(reg2hw_rdata == 1) && true} |-> (hw2reg_fifo_status == 0))
+G({reg2hw_rdata == 1 ##1 true} |-> intr_rx_watermark_o)
+G({(reg2hw_rdata == 1) ##1 true} |-> lsio_trigger_o)
+G({reg2hw_intr_enable == 255 ##1 !(reg2hw_ctrl == 617987)} |-> (hw2reg_status == -1))
+G({!(reg2hw_rdata == 0)} |-> (hw2reg_intr_state == -65521))
+G({!(reg2hw_rdata == 0) && true} |-> (hw2reg_status == 28))
+G({(reg2hw_rdata == 1) ##1 true} |-> (hw2reg_val >= -512 && hw2reg_val <= 2047))
+G({reg2hw_alert_test == -2 ##1 reg2hw_alert_test == 0} |-> intr_tx_watermark_o)
+G({!(reg2hw_rdata == 0)} |-> (hw2reg_val >= -512))
+G({!(reg2hw_rdata == 0) && true} |-> (hw2reg_val <= 2047))
+G({!(reg2hw_rdata == 0) && true} |-> (hw2reg_intr_state == -65521))
+G({!(reg2hw_rdata == 0) ##1 true} |-> (hw2reg_intr_state == -65529))
+G({(reg2hw_rdata == 1) ##1 true} |-> (hw2reg_val <= 2047))
+G({(reg2hw_rdata == 1) ##1 true} |-> intr_tx_watermark_o)
+G({(reg2hw_rdata == 1) && true} |-> intr_tx_watermark_o)
+G({(reg2hw_rdata == 1) ##1 true} |-> (hw2reg_val >= -512))
+G({!(reg2hw_ctrl == 0) ##1 !(reg2hw_ctrl == 617987)} |-> (hw2reg_status == -1))
+G({!(reg2hw_intr_enable == 0) ##1 !(reg2hw_ctrl == 617987)} |-> (hw2reg_status == -1))
+G({reg2hw_rdata == 1} |-> lsio_trigger_o)
+G({(reg2hw_rdata == 1) ##1 true} |-> (hw2reg_intr_state == -65529))
+G({(reg2hw_rdata == 1) ##1 true} |-> (hw2reg_fifo_ctrl == 0))
+G({!(reg2hw_rdata == 0) && true} |-> (hw2reg_val >= -512))
+G({reg2hw_rdata == 1} |-> (hw2reg_fifo_ctrl == 0))
+G({(reg2hw_rdata == 1) && true} |-> (hw2reg_val >= -512 && hw2reg_val <= 2047))
+G({reg2hw_alert_test == 0 ##1 reg2hw_intr_state == -253} |-> (hw2reg_status == -4))
+G({!(reg2hw_rdata == 0) ##1 true} |-> (hw2reg_fifo_ctrl == 0))
+G({reg2hw_ctrl == 617987 ##1 !(reg2hw_ctrl == 617987)} |-> (hw2reg_status == -1))
+G({(reg2hw_rdata == 1) && true} |-> lsio_trigger_o)
+G({!(reg2hw_rdata == 0)} |-> (hw2reg_fifo_ctrl == 0))
+G({reg2hw_rdata == 1} |-> (hw2reg_val <= 2047))

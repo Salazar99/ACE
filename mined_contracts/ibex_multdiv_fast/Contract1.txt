@@ -1,0 +1,6 @@
+ASSUMES:
+true
+
+GUARANTEES:
+G({!div_sel_i ##1 operator_i ##36 true} |-> valid_o)          
+G({!div_sel_i ##1 div_sel_i ##36 true} |-> valid_o)           

@@ -1,0 +1,5 @@
+Contract Type,LTL Expression,Description
+Assumption,G(start→X(!start U done)),Do not restart until the current job is finished.
+Guarantee,G(start∧(in<0)→F(done∧error)),Negative inputs must trigger the error flag.
+Guarantee,G(start∧(in≥0)→F(done∧!error)),Valid inputs must result in a success flag.
+Guarantee,G(done∧!error→(out=⌊in​⌋)),The output must satisfy the square root property.

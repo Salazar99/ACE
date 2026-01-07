@@ -1,0 +1,17 @@
+assumptions
+
+Contract ID,Description,LTL Formalization
+A_RESET,System begins with a reset phase; rst_n eventually de-asserts.,G(test_count=0→¬rst_n)
+A_VALID_OP,The operator_i must remain within the defined functional range during operation.,"G(rst_n→(operator_i∈{0,1,2,3,4,29}))"
+A_STABILITY,Inputs operand_a_i and operand_b_i must be stable when instr_first_cycle_i is high.,G(instr_first_cycle_i→(operand_a_i=◯operand_a_i))
+
+guarantees
+
+Contract ID,Description,LTL Formalization
+G_RESET,"On reset, the primary output and write enables are cleared.",G(¬rst_n→(result_o=0∧imd_val_we_o=0))
+G_ADD,"When operator_i is 3, result_o represents the sum of inputs.",G((rst_n∧operator_i=3)→result_o=operand_a_i+operand_b_i)
+G_SUB,"When operator_i is 1, result_o represents the difference of inputs.",G((rst_n∧operator_i=1)→result_o=operand_a_i−operand_b_i)
+G_EQU_RES,is_equal_result_o is high if and only if both operands are identical.,G(rst_n→(is_equal_result_o↔(operand_a_i=operand_b_i)))
+G_ADD_EXT,adder_result_ext_o reflects the full arithmetic result including potential overflow bits.,G(rst_n→(adder_result_ext_o=(operand_a_i+operand_b_i)))
+G_COMP,comparison_result_o correctly flags magnitude differences based on the selected operator.,G((rst_n∧operand_a_i<operand_b_i)→comparison_result_o=1)
+G_NO_IMD,"During standard ALU operations, intermediate write-enable remains inactive.",G(¬multdiv_sel_i→imd_val_we_o=0)

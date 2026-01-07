@@ -1,0 +1,13 @@
+assumptions
+Property ID,Description,LTL Formula
+ASM_RESET,The system must eventually be released from reset to begin operation.,F(rst_n=1)
+ASM_STABLE,Operand inputs must remain stable while the start signal is active to ensure valid sampling.,G(start→(ain=X(ain)∧bin=X(bin)))
+ASM_PULSE,The start signal must be de-asserted after one cycle and not re-asserted until the current operation completes.,G(start→X(G(¬start U done)))
+
+guarantees
+Property ID,Description,LTL Formula
+GNT_IDLE,"While reset is active, the system must hold yout and done at zero.",G(¬rst_n→(yout=0∧done=0))
+GNT_COMP,Every start pulse eventually results in a done signal.,G(start→F(done))
+GNT_DATA,"When done is asserted, yout must contain the product of the inputs sampled at the last start.",G(done→(yout=ainsampled​×binsampled​))
+GNT_DONE,The done signal is a single-cycle pulse.,G(done→X(¬done))
+GNT_TIME,Computation completes in exactly 17 clock cycles after start (where i reaches 17).,G(start→X17(done))

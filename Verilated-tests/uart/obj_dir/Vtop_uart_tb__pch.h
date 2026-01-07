@@ -24,6 +24,4 @@
 #include "Vtop_uart_tb__Syms.h"
 #include "Vtop_uart_tb.h"
 
-// Additional include files added using '--compiler-include'
-
 #endif  // guard

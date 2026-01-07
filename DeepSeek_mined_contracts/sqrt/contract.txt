@@ -1,0 +1,29 @@
+// CONTRACT: Square Root Calculator
+ASSUME: 
+  // A1: Reset is pulsed, not held indefinitely
+  G(rst → X(!rst)) ∧
+  
+  // A2: Start is pulsed (single cycle assertion)
+  G(start → X(!start)) ∧
+  
+  // A3: Input remains stable during computation for positive values
+  G((!rst ∧ start ∧ in≥0) → X[1:14](in=○in))
+
+GUARANTEE:
+  // G1: Reset clears all outputs
+  G(rst → (out=0 ∧ error=0 ∧ done=0)) ∧
+  
+  // G2: Valid computation completes with correct result
+  G((!rst ∧ start ∧ in≥0) → F[1:15](done ∧ !error ∧ out=⌊√in⌋)) ∧
+  
+  // G3: Negative input causes immediate error
+  G((!rst ∧ start ∧ in<0) → X(done ∧ error ∧ out=0)) ∧
+  
+  // G4: Outputs persist until reset
+  G(done → ((out=○out ∧ done=○done) U (rst ∨ start))) ∧
+  
+  // G5: Error clears on next valid operation
+  G(error → X(!error)) ∧
+  
+  // G6: No new start during computation
+  G((start ∧ !done) → X(!start U done))

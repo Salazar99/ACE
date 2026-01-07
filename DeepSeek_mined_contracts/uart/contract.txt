@@ -1,0 +1,30 @@
+// ASSUME-GUARANTEE CONTRACT FOR UART SYSTEM
+Assume:
+    // Environment/Software behavior
+    A1: G (rst_ni = 1)                                     // No reset during operation
+    A2: G (reg2hw_intr_enable != 0 ->                      // Once interrupts are enabled,
+         F (reg2hw_intr_enable != 0) W                     // they remain enabled
+         (reg2hw_intr_enable = 0))                         // until explicitly disabled
+    A3: G (hw2reg_intr_state != 0 ->                       // When HW sets interrupt state,
+         F (reg2hw_intr_state = 0))                        // SW eventually clears it
+    A4: G (rx = 1 -> X (rx = 1) U (rx = 0))                // RX signal is stable when high
+    
+Guarantee:
+    // System/Hardware behavior
+    G1: G ((reg2hw_intr_enable & hw2reg_status) != 0 ->    // When enabled and status matches,
+         F (intr_tx_empty_o = 1))                          // interrupt is raised
+    G2: G (intr_tx_empty_o = 1 ->                          // Interrupt flag persists
+         (intr_tx_empty_o = 1 W                            // until software clears
+          reg2hw_intr_state = 0))                          // the interrupt state
+    G3: G (rx = 1 -> F (hw2reg_fifo_status != 0))          // RX activity updates FIFO status
+    G4: G (reg2hw_intr_enable = 0 ->                       // No interrupts when disabled
+         (intr_tx_empty_o = 0 &                            // TX empty interrupt off
+          intr_tx_watermark_o = 0 &                        // TX watermark interrupt off
+          intr_rx_watermark_o = 0))                        // RX watermark interrupt off
+    G5: G (intr_rx_parity_err_o = 0 &                      // No parity errors
+          intr_rx_frame_err_o = 0 &                        // No frame errors
+          intr_rx_break_err_o = 0 &                        // No break errors
+          intr_rx_timeout_o = 0 &                          // No timeout errors
+          intr_rx_overflow_o = 0)                          // No overflow errors
+    G6: G (hw2reg_intr_state = -65529)                     // Interrupt state constant
+    G7: G (lsio_trigger_o = 1)                             // Trigger always asserted

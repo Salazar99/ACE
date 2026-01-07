@@ -1,0 +1,2 @@
+You are a verification engineer and you have to define a set of assume-guarantee contracts for a design. 
+Here you have an execution trace of the system. The inputs are: clk,rst_n,data_in,valid_in ; the outputs are valid_out, data_out. Use only the provided I/O information and the data in the trace. Represent assumptions and guarantees in LTL. Report the final contracts after your evaluation.

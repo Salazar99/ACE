@@ -1,0 +1,9 @@
+// Assumptions
+assume always (a >= 0 and a <= 255);
+assume always (b >= 0 and b <= 255);
+assume always (cin = 0 or cin = 1);
+
+// Guarantees
+assert always (a + b + cin = sum + 256 * cout);
+assert always (sum >= 0 and sum <= 255);
+assert always (cout = 0 or cout = 1);

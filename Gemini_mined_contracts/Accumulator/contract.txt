@@ -1,0 +1,7 @@
+Type,Description,LTL Formula
+Assumption,Reset eventually high,G(F(rst_n))
+Assumption,Valid input provided,G(rst_n→valid_in)
+Guarantee,Reset State,G(¬rst_n→(data_out=0∧valid_out=0))
+Guarantee,Summation,G(rst_n∧v_i∧¬v_o→X(d_o=d_o+d_i))
+Guarantee,Counter Reset,G(rst_n∧v_i∧v_o→X(d_o=d_i))
+Guarantee,Timing (4-cycle),G(((¬r∧X(r))∨v_o)→X(¬v_o∧X(¬v_o∧X(¬v_o∧X(v_o)))))

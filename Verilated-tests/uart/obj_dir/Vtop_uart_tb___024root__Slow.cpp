@@ -22,7 +22,7 @@ Vtop_uart_tb___024root::Vtop_uart_tb___024root(Vtop_uart_tb__Syms* symsp, const 
 }
 
 void Vtop_uart_tb___024root::__Vconfigure(bool first) {
-    (void)first;  // Prevent unused variable warning
+    if (false && first) {}  // Prevent unused
 }
 
 Vtop_uart_tb___024root::~Vtop_uart_tb___024root() {

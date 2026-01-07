@@ -6,8 +6,7 @@
 #include "Vtop_uart_tb_prim_sha2_pkg.h"
 
 VL_ATTR_COLD void Vtop_uart_tb_prim_sha2_pkg___ctor_var_reset(Vtop_uart_tb_prim_sha2_pkg* vlSelf) {
-    (void)vlSelf;  // Prevent unused variable warning
+    if (false && vlSelf) {}  // Prevent unused
     Vtop_uart_tb__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+              Vtop_uart_tb_prim_sha2_pkg___ctor_var_reset\n"); );
-    auto& vlSelfRef = std::ref(*vlSelf).get();
 }
