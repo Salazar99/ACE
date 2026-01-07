@@ -3,6 +3,7 @@ import pandas as pd
 import sys
 import re
 import os
+import numpy as np
 
 import enum
 
@@ -213,7 +214,6 @@ class ArithmeticExpression:
         else:
             raise ValueError("Invalid operator")
 
-
 class NumericExpression:
     class Operator(enum.Enum):
             LT = '<'
@@ -294,6 +294,7 @@ class NumericExpression:
         else:
             raise ValueError("Invalid operator")
 
+#Class to represent the Next operator X(phi)
 class LTLNEXT:
     def __init__(self, expression):
         self.expression_str = expression
@@ -315,6 +316,61 @@ class LTLNEXT:
         if time + 1 >= len(trace):
             return False
         return self.expression.evaluate(trace, time+1)
+#Class to represent the Until operator (phi1 U phi2)
+class LTLUNTIL:
+    def __init__(self, expression):
+        self.expression = expression  # Store the expression
+        #parentheses removal
+        if self.expression.startswith("(") :
+            self.expression = self.expression[1:].strip()
+        if self.expression.endswith(")"):
+            self.expression = self.expression[:-1].strip()
+        #now we need to split the expression at the U operator
+        parts = self.expression.split(" U ", 1)
+        self.left = BooleanProposition(parts[0].strip())
+        self.right = BooleanProposition(parts[1].strip())
+        
+        self.cached_val = None  # Cache for truth values over the trace
+
+
+    def __str__(self):
+        return f"({self.left}) U ({self.right})"
+    
+    def loadVals(self, trace):
+        """
+        Calculates the truth value of (left U right) for every step in the trace.
+        :param trace: List of states (e.g., rows from a CSV)
+        :return: A boolean NumPy array of the same length as the trace
+        """
+        n = len(trace)
+        
+        # Step 1: Pre-calculate phi1 and phi2 arrays using the evaluate methods
+        # This converts the trace into two simple boolean lists
+        phi1_array = np.array([self.left.evaluate(state) for state in trace])
+        phi2_array = np.array([self.right.evaluate(state) for state in trace])
+        
+        # Step 2: Initialize result array
+        until_results = np.zeros(n, dtype=bool)
+        
+        # Step 3: Backward Pass (Finite Trace Semantics)
+        # Base case: the last state is only True if phi2 is True there
+        until_results[n-1] = phi2_array[n-1]
+        
+        # Recursive step: Move backwards through the trace
+        for i in range(n-2, -1, -1):
+            # Formula: phi2 is true now OR (phi1 is true now AND it holds in the future)
+            until_results[i] = phi2_array[i] or (phi1_array[i] and until_results[i+1])
+        
+        self.cached_val = until_results
+
+
+    #return value at time    
+    def evaluate(self, trace, time):
+        #if cached values are not computed yet, compute them to avoid recomputation
+        if(self.cached_val is None):
+            self.loadVals(trace)
+        
+        return self.cached_val[time],time
 
 class LTLAss:
     class Implication(enum.Enum):
@@ -455,10 +511,10 @@ def main():
     #     {"busy": True, "request": False},
     #     {"busy": False, "request": True, "response": True}
     # ]
-    trace = [
-        {key.split(' ')[1]: value for key, value in row.dropna().to_dict().items()}
-        for _, row in df.iterrows()
-    ]
+    # trace = [
+    #     {key.split(' ')[1]: value for key, value in row.dropna().to_dict().items()}
+    #     for _, row in df.iterrows()
+    # ]
 
 
     Assertion = args.ass

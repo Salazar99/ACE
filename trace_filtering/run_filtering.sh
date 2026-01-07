@@ -1,4 +1,3 @@
 
-export ACEROOT="/home/fabio/Desktop/ACE"
 
-python $ACEROOT/trace_filtering/filter.py --csv $ACEROOT/Designs/mutex/traces/1k/csv/fault_neg1k.csv --ass "G((in >= 0) |=> (DU==1))"
+python $ACEROOT/Trace_filtering/filter.py --csv $ACEROOT/src/Trace_filtering/until_test.csv --ass "G((signal_a == 1) U (signal_b == 1))"
