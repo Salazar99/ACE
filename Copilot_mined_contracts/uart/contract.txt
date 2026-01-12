@@ -1,0 +1,22 @@
+Assumptions (A):
+
+G (rst_ni = 1)  
+G (reg2hw_intr_enable ∈ {0,255})  
+G (reg2hw_ovrd = 0 ∧ reg2hw_timeout_ctrl = 0)  
+G (reg2hw_alert_test ∈ {0,−2}) ∧ G (reg2hw_ctrl ∈ {0,617987}) ∧ G (reg2hw_fifo_ctrl ∈ {0,10,287})  
+
+Guarantees (G):
+
+G (¬intr_rx_break_err_o ∧ ¬intr_rx_frame_err_o ∧ ¬intr_rx_overflow_o ∧ ¬intr_rx_parity_err_o ∧ ¬intr_rx_timeout_o)  
+G (¬intr_tx_empty_o)  
+G ((reg2hw_intr_enable = 0) → (¬intr_rx_watermark_o ∧ ¬intr_tx_done_o ∧ ¬intr_tx_watermark_o))  
+G ((intr_tx_watermark_o ∨ intr_tx_done_o ∨ intr_rx_watermark_o) → (reg2hw_intr_enable = 255))  
+G (((reg2hw_intr_enable = 0) ∧ X(reg2hw_intr_enable = 255)) → X(intr_tx_watermark_o))  
+G (intr_tx_watermark_o → lsio_trigger_o)  
+G (((lsio_trigger_o ∧ X¬lsio_trigger_o)) → (intr_tx_watermark_o ∧ X¬intr_tx_watermark_o))  
+G ((¬lsio_trigger_o ∧ X lsio_trigger_o) → X^15 (¬intr_tx_watermark_o ∧ X intr_tx_watermark_o))  
+G ((hw2reg_fifo_status = 1) → intr_tx_watermark_o)  
+G (hw2reg_fifo_ctrl = 0)  
+G (hw2reg_intr_state ∈ {−65529, −65521, −65497, −65481, 0})  
+G (hw2reg_status ∈ {−20, −12, −4, 28, −16, −1})  
+G (hw2reg_rdata ∈ {0, −41, 51, 57, −54, 63})  
