@@ -52,10 +52,7 @@ Main/
 
 5. Install python 3
 
-### Executing program
-Set the $ACEROOT ambient variable by executing:
+Remeber to set the $ACEROOT ambient variable by executing:
 ```bash
 export ACEROOT = /path_to_repo/ACE
 ```
-
-Navigate to DATE26/DATE26_tests to find all the designs and associated scripts for each step
