@@ -1,0 +1,14 @@
+ASSUMES:
+reg2hw_intr_test == 43690
+reg2hw_intr_state == -253
+
+GUARANTEES:
+G({reg2hw_intr_enable == 255 ##1 !(reg2hw_intr_enable == 0)} |-> intr_tx_watermark_o)
+G({rx && true} |-> (hw2reg_fifo_ctrl == 0))
+G({rx && true} |-> (hw2reg_val >= -512))
+G({rx} |-> (hw2reg_val >= -2048))
+G({rx} |-> (hw2reg_val >= -512))
+G({rx} |-> (hw2reg_fifo_ctrl == 0))
+G({rx} |-> (hw2reg_fifo_status == 0))
+G({rx && true} |-> (hw2reg_fifo_status == 0))
+G({rx ##1 !rx} |-> (hw2reg_val >= -512 && hw2reg_val <= 2047))

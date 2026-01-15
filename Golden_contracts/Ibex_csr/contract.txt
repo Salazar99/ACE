@@ -1,0 +1,4 @@
+ASSUMES wr_en_i == 1
+
+GUARANTEES
+G(true ##1 |-> rd_data_o)

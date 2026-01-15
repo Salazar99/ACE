@@ -1,0 +1,6 @@
+ASSUMES in < 0
+
+
+GUARANTEES
+ G(true |-> error)   
+ G(true |-> !out && !done)           

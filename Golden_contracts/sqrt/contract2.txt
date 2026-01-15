@@ -1,0 +1,6 @@
+ASSUMES in == 0
+
+GUARANTEES
+
+ G({in == 0} |-> !out)                                                 
+ G({(in == 0)} |-> !error) 

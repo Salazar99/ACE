@@ -1,0 +1,10 @@
+ASSUMES:
+reg2hw_intr_test == 8738 
+reg2hw_intr_state == -251
+
+GUARANTEES:
+G({rx && true} |-> (hw2reg_fifo_ctrl == 0))
+G({true ##1 reg2hw_wdata} |-> intr_tx_done_o)
+G({true ##1 !(reg2hw_wdata == 0)} |-> intr_tx_watermark_o)
+G({true ##1 !(reg2hw_ctrl == 0)} |-> (hw2reg_status == -4))
+G({true ##1 !(reg2hw_intr_state == -255)} |-> intr_tx_done_o)

@@ -1,0 +1,4 @@
+ASSUMES: A == B
+
+GUARANTEES:  
+G(A_equal)            

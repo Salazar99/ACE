@@ -1,0 +1,3 @@
+ASSUMES: valid_in == 1 
+
+GUARANTEES: G(true |-> {##[1:4] valid_out}) 

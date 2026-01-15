@@ -1,0 +1,4 @@
+ASSUMES True
+
+GUARANTEE
+ G(start |-> {##17 done})

@@ -1,0 +1,7 @@
+ASSUMES:
+operator_i == 1
+
+
+GUARANTEES:
+ G({operand_b_i} |-> result_o)                
+ G({operand_a_i} |-> result_o)                

@@ -1,0 +1,4 @@
+ASSUMES  in > 0
+
+GUARANTEES
+ G({start} |-> {##12 out && done && !error})

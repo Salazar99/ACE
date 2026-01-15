@@ -1,0 +1,5 @@
+ASSUMES: a + cin + b == 256
+
+GUARANTEES:  
+G((cout))            
+G((!sum))              

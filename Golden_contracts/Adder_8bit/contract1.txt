@@ -1,0 +1,4 @@
+ASSUMES:  a + cin + b == 0
+
+GUARANTEES:
+G((!sum && !cout))

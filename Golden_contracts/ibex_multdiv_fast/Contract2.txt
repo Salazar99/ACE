@@ -1,0 +1,6 @@
+ASSUMES:
+true
+
+GUARANTEES:
+ G({(op_a_i && op_b_i)} |-> multdiv_result_o)                
+ G({mult_sel_i} |-> valid_o)                                 
