@@ -8,11 +8,11 @@ This tool allows for the extraction of A/G contracts starting from a IP.
 ## Getting Started
 The repository presents the following folders:
 ```bash
-├──DATE26/                              #DATE26 results and tests folder
-|  ├── DATE26_Copilot_mined_contracts/  # LLM generated contracts
-|  ├── DATE26_mined_contracts/          # ACE generated contracts
-|  ├── DATE26_golden_specs/             # Golden specifications of the tested IPs 
-|  └── DATE26_tests/                    # Test cases of the methodology
+├──FDL26/                              #FDL26 results and tests folder
+|  ├── FDL26_Copilot_mined_contracts/  # LLM generated contracts
+|  ├── FDL26_mined_contracts/          # ACE generated contracts
+|  ├── FDL26_golden_specs/             # Golden specifications of the tested IPs 
+|  └── FDL26_tests/                    # Test cases of the methodology
 |
 ├── Detection_trace_gen                 #Detection trace source code
 ├── InvGen                              #Invariant generation source code 
@@ -50,4 +50,4 @@ Set the $ACEROOT ambient variable by executing:
 export ACEROOT = /path_to_repo/ACE
 ```
 
-Navigate to DATE26/DATE26_tests to find all the designs and associated scripts for each step
+Navigate to FDL26/FDL26_tests to find all the designs and associated scripts for each step
