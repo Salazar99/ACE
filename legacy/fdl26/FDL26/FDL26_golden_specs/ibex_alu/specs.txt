@@ -1,0 +1,14 @@
+operator_i == 0 (ALU_ADD): Computes the 32‑bit sum operand_a_i + operand_b_i using the internal adder and outputs the result on result_o (same as adder_result_o). 
+For this non‑comparison operation, comparison_result_o defaults to (a==b) and is_equal_result_o asserts if the operands are equal.
+
+operator_i == 1 (ALU_SUB): Computes the 32‑bit difference operand_a_i - operand_b_i using a negate‑B plus carry‑in adder scheme and drives it on result_o (which matches adder_result_o). 
+As a side effect for non‑comparison ops, comparison_result_o outputs (a==b) by default and is_equal_result_o asserts when the subtraction result is zero. 
+
+operator_i == 3 (ALU_OR): Performs a bitwise OR between operand_a_i and operand_b_i and returns the 32‑bit result on result_o. 
+For this non‑comparison op, comparison_result_o still reflects (a==b) by default and is_equal_result_o indicates equality. 
+
+operator_i == 4 (ALU_AND): Performs a bitwise AND between operand_a_i and operand_b_i and returns the 32‑bit result on result_o. 
+As with other non‑comparison ops, comparison_result_o equals (a==b) by default and is_equal_result_o asserts when the operands are equal. 
+
+operator_i == 29 (ALU_EQ): Computes equality by subtracting operand_b_i from operand_a_i internally and outputs a boolean (LSB only, upper bits zero) on result_o, with comparison_result_o carrying the same predicate. 
+is_equal_result_o mirrors the equality test, while adder_result_o holds the intermediate subtraction value used for the comparison.

@@ -1,0 +1,71 @@
+{
+ "name": "adder_8bit",
+ "traces": [
+  "../traces/adder_8bit/mine_*.csv"
+ ],
+ "holdout": [
+  "../traces/adder_8bit/holdout_*.csv"
+ ],
+ "inputs": [
+  "a",
+  "b",
+  "cin"
+ ],
+ "outputs": [
+  "sum",
+  "cout"
+ ],
+ "events": [
+  "cout == 1"
+ ],
+ "horizon": 1,
+ "h_pre": 1,
+ "h_post": 1,
+ "grammar": "G1",
+ "episode_mode": "split",
+ "references": [
+  "G((a + b + cin <= 255) |-> (sum == a + b + cin))",
+  "G((a + b + cin <= 255) |-> (cout == 0))",
+  "G((a + b + cin >= 256) |-> (cout == 1))",
+  "G((a + b + cin >= 256) |-> (sum == a + b + cin - 256))",
+  "G((a == 0 && b == 0) |-> (sum == cin))",
+  "G((a <= 127 && b <= 127) |-> (cout == 0))",
+  "G((b == 0 && cin == 0) |-> (sum == a))"
+ ],
+ "extra_props": [
+  {
+   "exp": "a + b + cin <= 255",
+   "loc": "a,dt",
+   "stage": "guarantee"
+  },
+  {
+   "exp": "sum == a + b + cin",
+   "loc": "c",
+   "stage": "guarantee"
+  },
+  {
+   "exp": "a + b + cin >= 256",
+   "loc": "a,dt",
+   "stage": "guarantee"
+  },
+  {
+   "exp": "sum == a + b + cin - 256",
+   "loc": "c",
+   "stage": "guarantee"
+  },
+  {
+   "exp": "sum == cin",
+   "loc": "c",
+   "stage": "guarantee"
+  },
+  {
+   "exp": "sum == a",
+   "loc": "c",
+   "stage": "guarantee"
+  }
+ ],
+ "reference_assumptions": [
+  "a <= 255 && b <= 255",
+  "cin <= 1"
+ ]
+}

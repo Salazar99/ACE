@@ -1,0 +1,29 @@
+# ibex_alu: golden contracts
+# 18 guarantees under 2 assumptions, all confirmed on the mining and held-out corpora
+
+CONTRACT ibex_alu.1    [A: A1]
+A: operator_i <= 34
+G: G((operator_i == 1 && operand_a_i >= operand_b_i) |-> (result_o == operand_a_i - operand_b_i))    [ALU2]
+   G((operator_i == 4) |-> (result_o <= operand_a_i))    [ALU3]
+   G((operator_i == 4) |-> (result_o <= operand_b_i))    [ALU4]
+   G((operator_i == 3) |-> (result_o >= operand_a_i))    [ALU5]
+   G((operator_i == 3) |-> (result_o >= operand_b_i))    [ALU6]
+   G((operator_i == 2 && operand_b_i == 0) |-> (result_o == operand_a_i))    [ALU7]
+   G((operator_i == 10 && operand_b_i == 1 && operand_a_i <= 2147483647) |-> (result_o == operand_a_i * 2))    [ALU8]
+   G((operator_i == 9 && operand_b_i == 1) |-> (result_o * 2 <= operand_a_i))    [ALU9]
+   G((operator_i == 9 && operand_b_i == 1) |-> (result_o * 2 + 1 >= operand_a_i))    [ALU10]
+   G((operator_i == 26 && operand_a_i < operand_b_i) |-> (comparison_result_o == 1))    [ALU11]
+   G((operator_i == 26 && operand_a_i >= operand_b_i) |-> (comparison_result_o == 0))    [ALU12]
+   G((operator_i == 29 && operand_a_i == operand_b_i) |-> (comparison_result_o == 1))    [ALU13]
+   G((operator_i == 29 && operand_a_i == operand_b_i) |-> (is_equal_result_o == 1))    [ALU14]
+   G((operator_i == 30 && operand_a_i == operand_b_i) |-> (comparison_result_o == 0))    [ALU15]
+   G((operator_i == 32) |-> (result_o <= operand_a_i))    [ALU16]
+   G((operator_i == 34) |-> (result_o >= operand_a_i))    [ALU17]
+   G((operator_i == 0 && operand_b_i == 0) |-> (result_o == operand_a_i))    [ALU18]
+
+CONTRACT ibex_alu.2    [A: A1, A2]
+A: operator_i <= 34 && operand_a_i + operand_b_i <= 4294967295
+G: G((operator_i == 0 && operand_a_i + operand_b_i <= 4294967295) |-> (result_o == operand_a_i + operand_b_i))    [ALU1]
+
+# 1 further properties are recorded as out of grammar (see candidates.json for the reasons):
+#   ALU-EQ-ALL: is_equal_result_o == 1

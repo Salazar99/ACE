@@ -1,0 +1,24 @@
+# multi_16bit: golden contracts
+# 9 guarantees under 3 assumptions, all confirmed on the mining and held-out corpora
+
+CONTRACT multi_16bit.1    [A: none]
+A: true
+G: G((rst_n == 0) |-> (done == 0))    [MUL1]
+   G((rst_n == 0) |-> (yout == 0))    [MUL2]
+
+CONTRACT multi_16bit.2    [A: A1]
+A: rst_n == 1
+G: G((done == 1) |=> (done == 0))    [MUL3]
+   G((done == 1 && ain == 0) |-> (yout == 0))    [MUL6]
+   G((done == 1 && bin == 0) |-> (yout == 0))    [MUL7]
+   G((done == 1 && ain == 1) |-> (yout == bin))    [MUL8]
+   G((start == 0) |=> (done == 0))    [MUL10]
+
+CONTRACT multi_16bit.3    [A: A1, A3]
+A: rst_n == 1 && ain <= 65535 && bin <= 65535
+G: G((done == 1) |-> (yout == ain * bin))    [MUL5]
+   G((done == 1) |-> (yout <= 4294836225))    [MUL9]
+
+# 2 further properties are recorded as out of grammar (see candidates.json for the reasons):
+#   MUL-EARLY: done == 0
+#   MUL4: G(rst_n == 1 |-> ##[1:H] done == 1)

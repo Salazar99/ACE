@@ -1,0 +1,30 @@
+A_equal stuck at 0
+G({A == B} |-> DU) 
+G({(!(A < B) && !(A > B))} |-> DU)
+
+
+A_equal stuck at 1   
+G({!(A == B)} |-> DU)
+G({A > B} |-> DU) 
+
+#########################################
+
+A_greater stuck at 0
+G({A > B} |-> DU)
+G({(!(A < B) && !(A == B))} |-> DU)
+
+
+A_greater stuck at 1
+G({!(A > B)} |-> DU)              
+G({(A < B)} |-> DU)               
+
+##########################################
+
+A_less stuck at 0 
+G({A < B} |-> DU) 
+G({(!(A == B) && !(A > B))} |-> DU)
+
+
+A_less stuck at 1
+G({!(A < B)} |-> DU)
+G({(A > B)} |-> DU)

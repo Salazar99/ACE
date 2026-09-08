@@ -1,0 +1,22 @@
+# ibex_csr: golden contracts
+# 6 guarantees under 2 assumptions, all confirmed on the mining and held-out corpora
+
+CONTRACT ibex_csr.1    [A: none]
+A: true
+G: G((rst_n == 0) |-> (rd_data_o == 0))    [CSR1]
+
+CONTRACT ibex_csr.2    [A: A1]
+A: rst_n == 1
+G: G((rst_n == 1) |-> (rd_error_o == 0))    [CSR5]
+
+CONTRACT ibex_csr.3    [A: A1, A2]
+A: rst_n == 1 && wr_data_i <= 16777215
+G: G((wr_en_i == 1 && wr_data_i == 0) |=> (rd_data_o == 0))    [CSR2]
+   G((wr_en_i == 1 && wr_data_i == 16777215) |=> (rd_data_o == 16777215))    [CSR3]
+   G((wr_en_i == 1 && wr_data_i == 1) |=> (rd_data_o == 1))    [CSR4]
+   G((wr_en_i == 1) |=> (rd_data_o <= 16777215))    [CSR6]
+
+# 3 further properties are recorded as out of grammar (see candidates.json for the reasons):
+#   CSR-PAST: rd_data_o == $past(wr_data_i)
+#   CSR-HOLD: $stable(rd_data_o)
+#   CSR7: G(rst_n == 0 |=> rd_data_o == 0)

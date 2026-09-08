@@ -1,0 +1,26 @@
+CONTRACT arbiter4.1
+A: true
+G: G((rst_n == 0) |=> (gnt_valid == 0))
+   G((rst_n == 0) |=> (gnt_id == 0))
+   G((gnt_valid == 1) |-> (gnt0 + gnt1 + gnt2 + gnt3 == 1))
+   G((gnt_valid == 0) |-> (gnt0 + gnt1 + gnt2 + gnt3 == 0))
+   G((req0 + req1 + req2 + req3 == 0) |=> (gnt_valid == 0))
+   G((gnt0 == 1) |-> (gnt_id == 0))
+   G((gnt1 == 1) |-> (gnt_id == 1))
+   G((gnt2 == 1) |-> (gnt_id == 2))
+   G((gnt3 == 1) |-> (gnt_id == 3))
+
+CONTRACT arbiter4.2
+A: rst_n == 1
+G: G((req0 + req1 + req2 + req3 == 1 && req0 == 1) |=> (gnt0 == 1))
+   G((req0 + req1 + req2 + req3 == 1 && req1 == 1) |=> (gnt1 == 1))
+   G((req0 + req1 + req2 + req3 == 1 && req2 == 1) |=> (gnt2 == 1))
+   G((req0 + req1 + req2 + req3 == 1 && req3 == 1) |=> (gnt3 == 1))
+   G((req0 == 1 && gnt0 == 0) |-> ##[1:4] (gnt0 == 1))
+   G((req1 == 1 && gnt1 == 0) |-> ##[1:4] (gnt1 == 1))
+   G((req2 == 1 && gnt2 == 0) |-> ##[1:4] (gnt2 == 1))
+   G((req3 == 1 && gnt3 == 0) |-> ##[1:4] (gnt3 == 1))
+
+CONTRACT arbiter4.3
+A: rst_n == 1 && req0 + req1 + req2 + req3 >= 1
+G: G((rst_n == 1 && req0 + req1 + req2 + req3 >= 1) |=> (gnt_valid == 1))

@@ -1,0 +1,7 @@
+G({!(in > 0) ##12 true} |-> DU)
+G({in == 0 ##12 true} |-> DU)
+G({!start ##12 true} |-> DU)
+G({start ##1 true} |-> DU)
+G({(in > 0) ##1 true} |-> DU)
+G({in < 0 ##12 true} |-> DU)
+G({(in < 0) ##1 true} |-> DU)

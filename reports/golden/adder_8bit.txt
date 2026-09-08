@@ -1,0 +1,12 @@
+# adder_8bit: golden contracts
+# 7 guarantees under 2 assumptions, all confirmed on the mining and held-out corpora
+
+CONTRACT adder_8bit.1    [A: A1, A2]
+A: a <= 255 && b <= 255 && cin <= 1
+G: G((a + b + cin <= 255) |-> (sum == a + b + cin))    [ADD1]
+   G((a + b + cin <= 255) |-> (cout == 0))    [ADD2]
+   G((a + b + cin >= 256) |-> (cout == 1))    [ADD3]
+   G((a + b + cin >= 256) |-> (sum == a + b + cin - 256))    [ADD4]
+   G((a == 0 && b == 0) |-> (sum == cin))    [ADD5]
+   G((a <= 127 && b <= 127) |-> (cout == 0))    [ADD6]
+   G((b == 0 && cin == 0) |-> (sum == a))    [ADD7]

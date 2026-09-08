@@ -1,0 +1,11 @@
+<harm>
+	<context name="default">
+		<template check="1" exp="G((a + b + cin > 255) |-> DU)" />
+		<template check="1" exp="G({(a + b + cin <= 255)} |-> DU)" />
+		<template check="1" exp="G({(a + b + cin == 256)} |-> DU)" />
+		<template check="1" exp="G((a + b + cin) == 0 |-> DU)" />
+	</context>
+</harm>
+
+
+

@@ -1,0 +1,33 @@
+# ibex_multdiv_fast: golden contracts
+# 13 guarantees under 4 assumptions, all confirmed on the mining and held-out corpora
+
+CONTRACT ibex_multdiv_fast.1    [A: none]
+A: true
+G: G((rst_n == 0) |-> (valid_o == 0))    [MD1]
+
+CONTRACT ibex_multdiv_fast.2    [A: A1]
+A: rst_n == 1
+G: G(((mult_en_i == 0) ##1 (mult_en_i == 1)) |-> (##[1:40] valid_o == 1))    [MD2]
+   G((valid_o == 1 && div_en_i == 1 && operator_i == 3 && op_b_i >= 1) |-> (multdiv_result_o < op_b_i))    [MD9]
+   G((mult_en_i == 1 && op_b_i == 0) |-> (##[1:40] (valid_o == 1 && multdiv_result_o == 0)))    [MD10]
+   G((mult_en_i == 0 && div_en_i == 0) |-> (valid_o == 0))    [MD12]
+   G((valid_o == 1 && mult_en_i == 1 && op_a_i == 0) |-> (multdiv_result_o == 0))    [MD13]
+
+CONTRACT ibex_multdiv_fast.3    [A: A1, A2]
+A: rst_n == 1 && op_b_i >= 1
+G: G(((div_en_i == 0) ##1 (div_en_i == 1)) |-> (##[1:40] valid_o == 1))    [MD3]
+   G((valid_o == 1 && div_en_i == 1 && operator_i == 2 && op_b_i >= 1) |-> (multdiv_result_o * op_b_i <= op_a_i))    [MD7]
+   G((valid_o == 1 && div_en_i == 1 && operator_i == 2 && op_b_i >= 1) |-> (multdiv_result_o * op_b_i + op_b_i > op_a_i))    [MD8]
+   G(((div_en_i == 0) ##1 (rst_n == 1 && div_en_i == 1 && operator_i == 2 && op_a_i == 0 && op_b_i >= 1)) |-> (##[1:40] (valid_o == 1 && multdiv_result_o == 0)))    [MD11]
+
+CONTRACT ibex_multdiv_fast.4    [A: A1, A3]
+A: rst_n == 1 && op_b_i == 0
+G: G(((div_en_i == 0) ##1 (rst_n == 1 && div_en_i == 1 && operator_i == 2 && op_b_i == 0)) |-> (##[1:40] (valid_o == 1 && multdiv_result_o == 4294967295)))    [MD4]
+   G(((div_en_i == 0) ##1 (rst_n == 1 && div_en_i == 1 && operator_i == 3 && op_b_i == 0)) |-> (##[1:40] (valid_o == 1 && multdiv_result_o == op_a_i)))    [MD5]
+
+CONTRACT ibex_multdiv_fast.5    [A: A1, A4]
+A: rst_n == 1 && op_a_i * op_b_i <= 4294967295
+G: G((valid_o == 1 && mult_en_i == 1 && operator_i == 0) |-> (multdiv_result_o == op_a_i * op_b_i))    [MD6]
+
+# 1 further properties are recorded as out of grammar (see candidates.json for the reasons):
+#   MD-EXACT-LATENCY: ##2 valid_o == 1

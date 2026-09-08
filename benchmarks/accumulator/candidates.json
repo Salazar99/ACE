@@ -1,0 +1,117 @@
+{
+ "design": "accumulator",
+ "contracts": [
+  {
+   "id": "ACC1",
+   "kind": "reset",
+   "template": "G1",
+   "assumption_ids": [],
+   "guarantee": "G((rst_n == 0) |-> (valid_out == 0))",
+   "props": [],
+   "rationale": "asynchronous reset clears the valid flag in the same cycle"
+  },
+  {
+   "id": "ACC2",
+   "kind": "reset",
+   "template": "G1",
+   "assumption_ids": [],
+   "guarantee": "G((rst_n == 0) |-> (data_out == 0))",
+   "props": [],
+   "rationale": "asynchronous reset clears the accumulator in the same cycle"
+  },
+  {
+   "id": "ACC3",
+   "kind": "protocol",
+   "template": "G2",
+   "assumption_ids": [
+    "A1"
+   ],
+   "guarantee": "G((valid_out == 1) |=> (valid_out == 0))",
+   "props": [],
+   "rationale": "valid_out is a one-cycle pulse: the counter restarts as soon as it fires"
+  },
+  {
+   "id": "ACC4",
+   "kind": "protocol",
+   "template": "G4",
+   "assumption_ids": [
+    "A1"
+   ],
+   "guarantee": "G((valid_out == 1 && valid_in == 0) |=> (valid_out == 0))",
+   "props": [],
+   "rationale": "after a pulse the design needs valid_in to make progress (ready_add = !valid_out | valid_in)"
+  },
+  {
+   "id": "ACC5",
+   "kind": "result",
+   "template": "G4",
+   "assumption_ids": [
+    "A1",
+    "A3"
+   ],
+   "guarantee": "G((valid_out == 1 && valid_in == 1) |=> (data_out <= 255))",
+   "props": [
+    {
+     "exp": "data_out <= 255",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
+   "rationale": "the sample accepted right after a pulse starts a new accumulation, so the total is one sample wide"
+  },
+  {
+   "id": "ACC6",
+   "kind": "result",
+   "template": "G1",
+   "assumption_ids": [
+    "A1"
+   ],
+   "guarantee": "G((rst_n == 1) |-> (data_out <= 1020))",
+   "props": [
+    {
+     "exp": "data_out <= 1020",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
+   "rationale": "four 8-bit samples cannot exceed the width of the output register"
+  }
+ ],
+ "out_of_grammar": [
+  {
+   "id": "ACC-RESETDISJ",
+   "assumption": "valid_in == 1",
+   "guarantee": "##[1:4] valid_out == 1 || ##[1:4] rst_n == 0",
+   "why_not_minable": "a disjunctive consequent is not produced by any template; the earlier version of ACC7 needed it because a reset inside the window discharges the obligation. If the nominal traces keep resets outside the window this is unnecessary"
+  },
+  {
+   "id": "ACC7",
+   "assumption": "A: rst_n == 1, valid_in == 1",
+   "guarantee": "G((valid_out == 0 && valid_in == 1) |-> ##[1:H] valid_out == 1)",
+   "why_not_minable": "a bounded-response guarantee whose window can lose the assumption. The invariants rst_n == 1 and valid_in == 1 hold at the sample the guarantee fires on, but the environment may drop either one inside the five-cycle window, and the accumulator then stalls. Constraining the whole window needs a temporal assumption, which is not an invariant"
+  },
+  {
+   "id": "ACC8",
+   "assumption": "A: rst_n == 1, valid_in == 1",
+   "guarantee": "G(valid_in == 1 |-> ##[1:H] valid_out == 1)",
+   "why_not_minable": "same as ACC7, without the valid_out == 0 precondition"
+  }
+ ],
+ "assumptions": [
+  {
+   "id": "A1",
+   "invariant": "rst_n == 1",
+   "why": "the environment holds reset deasserted"
+  },
+  {
+   "id": "A2",
+   "invariant": "valid_in == 1",
+   "why": "the environment keeps offering samples. The design only advances its counter while valid_out is low, so a sample offered and then withdrawn stalls the accumulation: the bounded-response guarantees are owed only under a continuous stream"
+  },
+  {
+   "id": "A3",
+   "invariant": "data_in <= 255",
+   "why": "samples are 8 bits wide"
+  }
+ ]
+}

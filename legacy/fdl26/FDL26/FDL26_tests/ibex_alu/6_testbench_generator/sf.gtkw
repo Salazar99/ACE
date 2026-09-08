@@ -1,0 +1,28 @@
+[*]
+[*] GTKWave Analyzer v3.3.104 (w)1999-2020 BSI
+[*] Tue Sep  2 09:42:58 2025
+[*]
+[dumpfile] "/home/fabio/Desktop/ACE/Designs/ibex_alu/6_testbench_generator/ibex_alu_0.vcd"
+[dumpfile_mtime] "Tue Sep  2 09:41:49 2025"
+[dumpfile_size] 4654656
+[savefile] "/home/fabio/Desktop/ACE/Designs/ibex_alu/6_testbench_generator/sf.gtkw"
+[timestart] 0
+[size] 1000 600
+[pos] 639 114
+*-6.000000 0 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] test.
+[sst_width] 212
+[signals_width] 182
+[sst_expanded] 1
+[sst_vpaned_height] 148
+@421
+test.clk
+test.rst_n
+test.operator_i[6:0]
+test.operand_a_i[31:0]
+test.operand_b_i[31:0]
+test.result_o[31:0]
+test.comparison_result_o
+test.is_equal_result_o
+[pattern_trace] 1
+[pattern_trace] 0

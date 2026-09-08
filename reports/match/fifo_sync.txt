@@ -1,0 +1,92 @@
+# fifo_sync: golden clause -> what the flow recovered
+# category is trace-bounded: equivalent | mined-stronger (a refinement) | mined-weaker | missed
+
+== GUARANTEES ==
+-- declared vocabulary --
+[   FIFO1] mined-weaker    G((rst_n == 0) |=> (count == 0))
+           witness        G(((!(rst_n == 1)) ##1 (rst_n == 1)) |=> ((count == 0) && (empty == 1)))
+[   FIFO2] mined-weaker    G((rst_n == 0) |=> (empty == 1))
+           witness        G(((!(rst_n == 1)) ##1 (rst_n == 1)) |=> ((count == 0) && (empty == 1)))
+[   FIFO3] equivalent      G((rst_n == 0) |=> (full == 0))
+           witness        G((rst_n == 0) |=> (full == 0))
+[   FIFO4] equivalent      G((count == 0) |-> (empty == 1))
+           witness        G((count == 0) |-> ((count == 0) && (empty == 1)))
+[   FIFO5] equivalent      G((empty == 1) |-> (count == 0))
+           witness        G((count == 0) |-> ((count == 0) && (empty == 1)))
+[   FIFO6] equivalent      G((count == 8) |-> (full == 1))
+           witness        G((count == 8) |-> (full == 1))
+[   FIFO7] equivalent      G((full == 1) |-> (count == 8))
+           witness        G((count == 8) |-> (full == 1))
+[   FIFO8] mined-weaker    G((count >= 1) |-> (empty == 0))
+           witness        G((full == 1) |-> (empty == 0))
+[   FIFO9] mined-weaker    G((count <= 7) |-> (full == 0))
+           witness        G((din == 124) |-> (full == 0))
+[  FIFO10] missed          G(count <= 8)
+[  FIFO11] equivalent      G((empty == 1 && wr_en == 1) |=> (count == 1))
+           witness        G((din >= 0) && (count == 0) && (wr_en == 1) |=> ((count == 1) && (full == 0)))
+[  FIFO12] mined-stronger  G((empty == 1 && wr_en == 1) |=> (empty == 0))
+           witness        G((din >= 0) && (count == 0) && (wr_en == 1) |=> ((count == 1) && (full == 0)))
+[  FIFO13] equivalent      G((empty == 1 && wr_en == 0) |=> (empty == 1))
+           witness        G((din >= 0) && (count == 0) && (wr_en == 0) |=> ((count == 0) && (empty == 1)))
+[  FIFO14] missed          G((full == 1 && rd_en == 0) |=> (full == 1))
+[  FIFO15] equivalent      G((count == 7 && wr_en == 1 && rd_en == 0) |=> (full == 1))
+           witness        G(((!(full == 1)) ##1 (full == 1)) |=> (count == 8))
+[  FIFO16] missed          G((count == 4 && wr_en == 1 && rd_en == 0) |=> (count == 5))
+[  FIFO17] mined-stronger  G((count == 1 && rd_en == 1 && wr_en == 0) |=> (empty == 1))
+           witness        G(((!(empty == 1)) ##1 (empty == 1)) |=> ((count == 0) && (empty == 1)))
+[  FIFO18] mined-stronger  G((wr_en == 1 && rd_en == 1 && full == 0 && empty == 0) |=> (count >= 1))
+           witness        G(((wr_en == 1) ##1 (!(wr_en == 1))) && ((rd_en == 1) ##1 (!(rd_en == 1))) |=> ((empty == 0) && (full == 0)))
+[  FIFO19] equivalent      G((empty == 1 && wr_en == 1) |=> (dout == din))
+           witness        G((din >= 0) && (count == 0) && (wr_en == 1) |=> ((full == 0) && (dout == din)))
+
+-- interface vocabulary --
+[   FIFO1] mined-weaker    G((rst_n == 0) |=> (count == 0))
+           witness        G(((!(rst_n == 1)) ##1 (rst_n == 1)) |=> ((empty == 1) && (count == 0)))
+[   FIFO2] mined-weaker    G((rst_n == 0) |=> (empty == 1))
+           witness        G(((!(rst_n == 1)) ##1 (rst_n == 1)) |=> ((empty == 1) && (count == 0)))
+[   FIFO3] mined-stronger  G((rst_n == 0) |=> (full == 0))
+           witness        G((rst_n == 0) |=> ((full == 0) && (dout * wr_en <= rst_n)))
+[   FIFO4] equivalent      G((count == 0) |-> (empty == 1))
+           witness        G((count == 0) |-> ((empty == 1) && (count == 0)))
+[   FIFO5] equivalent      G((empty == 1) |-> (count == 0))
+           witness        G((count == 0) |-> ((empty == 1) && (count == 0)))
+[   FIFO6] missed          G((count == 8) |-> (full == 1))
+[   FIFO7] missed          G((full == 1) |-> (count == 8))
+[   FIFO8] mined-weaker    G((count >= 1) |-> (empty == 0))
+           witness        G(count >= 1 && count <= 2 |-> (empty == 0))
+[   FIFO9] equivalent      G((count <= 7) |-> (full == 0))
+           witness        G((full == 0) |-> (full * 2 <= rst_n))
+[  FIFO10] missed          G(count <= 8)
+[  FIFO11] equivalent      G((empty == 1 && wr_en == 1) |=> (count == 1))
+           witness        G((din <= 255) && (count == 0) && (wr_en == 1) |=> (count == 1))
+[  FIFO12] mined-stronger  G((empty == 1 && wr_en == 1) |=> (empty == 0))
+           witness        G((din <= 255) && (count == 0) && (wr_en == 1) |=> (count == 1))
+[  FIFO13] equivalent      G((empty == 1 && wr_en == 0) |=> (empty == 1))
+           witness        G((din <= 255) && (count == 0) && (wr_en == 0) |=> ((empty == 1) && (count == 0)))
+[  FIFO14] missed          G((full == 1 && rd_en == 0) |=> (full == 1))
+[  FIFO15] missed          G((count == 7 && wr_en == 1 && rd_en == 0) |=> (full == 1))
+[  FIFO16] missed          G((count == 4 && wr_en == 1 && rd_en == 0) |=> (count == 5))
+[  FIFO17] missed          G((count == 1 && rd_en == 1 && wr_en == 0) |=> (empty == 1))
+[  FIFO18] mined-stronger  G((wr_en == 1 && rd_en == 1 && full == 0 && empty == 0) |=> (count >= 1))
+           witness        G((wr_en == 1) |=> (empty == 0))
+[  FIFO19] equivalent      G((empty == 1 && wr_en == 1) |=> (dout == din))
+           witness        G((din <= 255) && (count == 0) && (wr_en == 1) |=> (dout == din))
+
+# declared: 159 mined, 12 matched a golden clause, 147 with no counterpart
+# interface: 489 mined, 9 matched a golden clause, 480 with no counterpart
+
+== ASSUMPTIONS ==
+-- declared vocabulary --
+[      A1] mined-stronger  rst_n == 1
+           witness        wr_en == 1
+[      A2] equivalent      din <= 255
+           witness        din <= 255
+
+-- interface vocabulary --
+[      A1] mined-stronger  rst_n == 1
+           witness        wr_en == 1
+[      A2] equivalent      din <= 255
+           witness        din <= 255
+
+# declared: 13 mined, 2 matched a golden clause, 11 with no counterpart
+# interface: 14 mined, 2 matched a golden clause, 12 with no counterpart

@@ -1,0 +1,216 @@
+{
+ "design": "adder_8bit",
+ "runs": 5,
+ "samples": 2500,
+ "assumptions": [
+  {
+   "id": "A1",
+   "invariant": "a <= 255 && b <= 255",
+   "why": "the environment drives 8-bit operands",
+   "resolved": "a <= 255 && b <= 255",
+   "positions_checked": 2500,
+   "positions_honoured": 2500,
+   "honoured_rate": 1.0,
+   "stress_positions_checked": 1000,
+   "stress_positions_honoured": 1000,
+   "status": "exercised"
+  },
+  {
+   "id": "A2",
+   "invariant": "cin <= 1",
+   "why": "the carry in is a single bit",
+   "resolved": "cin <= 1",
+   "positions_checked": 2500,
+   "positions_honoured": 2500,
+   "honoured_rate": 1.0,
+   "stress_positions_checked": 1000,
+   "stress_positions_honoured": 1000,
+   "status": "exercised"
+  }
+ ],
+ "contracts": [
+  {
+   "id": "ADD1",
+   "kind": "result",
+   "template": "G1",
+   "assumption_ids": [
+    "A1",
+    "A2"
+   ],
+   "guarantee": "G((a + b + cin <= 255) |-> (sum == a + b + cin))",
+   "props": [
+    {
+     "exp": "a + b + cin <= 255",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "sum == a + b + cin",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
+   "rationale": "without overflow the sum is exact",
+   "resolved": "G((a + b + cin <= 255) |-> (sum == a + b + cin))",
+   "support": 1183,
+   "violations": 0,
+   "excluded_by_assumptions": 0,
+   "holdout_support": 729,
+   "holdout_violations": 0,
+   "stress_support": 495,
+   "stress_violations": 0,
+   "status": "confirmed"
+  },
+  {
+   "id": "ADD2",
+   "kind": "result",
+   "template": "G1",
+   "assumption_ids": [
+    "A1",
+    "A2"
+   ],
+   "guarantee": "G((a + b + cin <= 255) |-> (cout == 0))",
+   "props": [],
+   "rationale": "without overflow no carry leaves the adder",
+   "resolved": "G((a + b + cin <= 255) |-> (cout == 0))",
+   "support": 1183,
+   "violations": 0,
+   "excluded_by_assumptions": 0,
+   "holdout_support": 729,
+   "holdout_violations": 0,
+   "stress_support": 495,
+   "stress_violations": 0,
+   "status": "confirmed"
+  },
+  {
+   "id": "ADD3",
+   "kind": "result",
+   "template": "G1",
+   "assumption_ids": [
+    "A1",
+    "A2"
+   ],
+   "guarantee": "G((a + b + cin >= 256) |-> (cout == 1))",
+   "props": [
+    {
+     "exp": "a + b + cin >= 256",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    }
+   ],
+   "rationale": "on overflow the carry is raised",
+   "resolved": "G((a + b + cin >= 256) |-> (cout == 1))",
+   "support": 1317,
+   "violations": 0,
+   "excluded_by_assumptions": 0,
+   "holdout_support": 771,
+   "holdout_violations": 0,
+   "stress_support": 505,
+   "stress_violations": 0,
+   "status": "confirmed"
+  },
+  {
+   "id": "ADD4",
+   "kind": "result",
+   "template": "G1",
+   "assumption_ids": [
+    "A1",
+    "A2"
+   ],
+   "guarantee": "G((a + b + cin >= 256) |-> (sum == a + b + cin - 256))",
+   "props": [
+    {
+     "exp": "sum == a + b + cin - 256",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
+   "rationale": "on overflow the sum is the low 8 bits",
+   "resolved": "G((a + b + cin >= 256) |-> (sum == a + b + cin - 256))",
+   "support": 1317,
+   "violations": 0,
+   "excluded_by_assumptions": 0,
+   "holdout_support": 771,
+   "holdout_violations": 0,
+   "stress_support": 505,
+   "stress_violations": 0,
+   "status": "confirmed"
+  },
+  {
+   "id": "ADD5",
+   "kind": "result",
+   "template": "G4",
+   "assumption_ids": [
+    "A1",
+    "A2"
+   ],
+   "guarantee": "G((a == 0 && b == 0) |-> (sum == cin))",
+   "props": [
+    {
+     "exp": "sum == cin",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
+   "rationale": "with both operands zero the sum is the carry in",
+   "resolved": "G((a == 0 && b == 0) |-> (sum == cin))",
+   "support": 13,
+   "violations": 0,
+   "excluded_by_assumptions": 0,
+   "holdout_support": 7,
+   "holdout_violations": 0,
+   "stress_support": 5,
+   "stress_violations": 0,
+   "status": "confirmed"
+  },
+  {
+   "id": "ADD6",
+   "kind": "result",
+   "template": "G4",
+   "assumption_ids": [
+    "A1",
+    "A2"
+   ],
+   "guarantee": "G((a <= 127 && b <= 127) |-> (cout == 0))",
+   "props": [],
+   "rationale": "two 7-bit operands plus a carry cannot overflow 8 bits",
+   "resolved": "G((a <= 127 && b <= 127) |-> (cout == 0))",
+   "support": 943,
+   "violations": 0,
+   "excluded_by_assumptions": 0,
+   "holdout_support": 585,
+   "holdout_violations": 0,
+   "stress_support": 384,
+   "stress_violations": 0,
+   "status": "confirmed"
+  },
+  {
+   "id": "ADD7",
+   "kind": "result",
+   "template": "G4",
+   "assumption_ids": [
+    "A1",
+    "A2"
+   ],
+   "guarantee": "G((b == 0 && cin == 0) |-> (sum == a))",
+   "props": [
+    {
+     "exp": "sum == a",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
+   "rationale": "adding zero is the identity",
+   "resolved": "G((b == 0 && cin == 0) |-> (sum == a))",
+   "support": 43,
+   "violations": 0,
+   "excluded_by_assumptions": 0,
+   "holdout_support": 18,
+   "holdout_violations": 0,
+   "stress_support": 21,
+   "stress_violations": 0,
+   "status": "confirmed"
+  }
+ ],
+ "out_of_grammar": []
+}

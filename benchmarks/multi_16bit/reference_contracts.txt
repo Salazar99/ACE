@@ -1,0 +1,17 @@
+CONTRACT multi_16bit.1
+A: true
+G: G((rst_n == 0) |-> (done == 0))
+   G((rst_n == 0) |-> (yout == 0))
+
+CONTRACT multi_16bit.2
+A: rst_n == 1
+G: G((done == 1) |=> (done == 0))
+   G((done == 1 && ain == 0) |-> (yout == 0))
+   G((done == 1 && bin == 0) |-> (yout == 0))
+   G((done == 1 && ain == 1) |-> (yout == bin))
+   G((start == 0) |=> (done == 0))
+
+CONTRACT multi_16bit.3
+A: rst_n == 1 && ain <= 65535 && bin <= 65535
+G: G((done == 1) |-> (yout == ain * bin))
+   G((done == 1) |-> (yout <= 4294836225))

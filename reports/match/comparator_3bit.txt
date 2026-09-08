@@ -1,0 +1,54 @@
+# comparator_3bit: golden clause -> what the flow recovered
+# category is trace-bounded: equivalent | mined-stronger (a refinement) | mined-weaker | missed
+
+== GUARANTEES ==
+-- declared vocabulary --
+[    CMP1] equivalent      G((A > B) |-> (A_greater == 1))
+           witness        G((A > B) |-> ((A_equal == 0) && (A_greater == 1)))
+[    CMP2] equivalent      G((A == B) |-> (A_equal == 1))
+           witness        G((A == B) |-> (A_equal == 1))
+[    CMP3] equivalent      G((A < B) |-> (A_less == 1))
+           witness        G((A < B) |-> ((A_equal == 0) && (A_greater == 0)))
+[    CMP4] equivalent      G((A >= B) |-> (A_less == 0))
+           witness        G((A >= B) |-> (A_less == 0))
+[    CMP5] equivalent      G((A <= B) |-> (A_greater == 0))
+           witness        G((A <= B) |-> (A_greater == 0))
+[    CMP6] equivalent      G((A > B) |-> (A_equal == 0))
+           witness        G((A > B) |-> (A_equal == 0))
+[    CMP7] mined-stronger  G((B == 0) |-> (A_less == 0))
+           witness        G((A >= B) |-> (A_less == 0))
+[    CMP8] mined-stronger  G((A == 7 && B == 0) |-> (A_greater == 1))
+           witness        G((A > B) |-> ((A_equal == 0) && (A_greater == 1)))
+
+-- interface vocabulary --
+[    CMP1] equivalent      G((A > B) |-> (A_greater == 1))
+           witness        G((A_equal == 0) && (A_less == 0) |-> (A_greater == 1))
+[    CMP2] equivalent      G((A == B) |-> (A_equal == 1))
+           witness        G((A_equal == 1) |-> (A_less == A - B))
+[    CMP3] equivalent      G((A < B) |-> (A_less == 1))
+           witness        G((A_greater == 0) && (A_equal == 0) |-> (A_less == 1))
+[    CMP4] equivalent      G((A >= B) |-> (A_less == 0))
+           witness        G((A_less == 0) |-> (A_less * B <= A))
+[    CMP5] mined-weaker    G((A <= B) |-> (A_greater == 0))
+           witness        G((A == 0) |-> (A_greater == 0))
+[    CMP6] equivalent      G((A > B) |-> (A_equal == 0))
+           witness        G((A_greater == 1) |-> (A_equal == 0))
+[    CMP7] equivalent      G((B == 0) |-> (A_less == 0))
+           witness        G((B == 0) |-> (A_less == 0))
+[    CMP8] mined-stronger  G((A == 7 && B == 0) |-> (A_greater == 1))
+           witness        G((A_equal == 0) && (A_less == 0) |-> (A_greater == 1))
+
+# declared: 47 mined, 6 matched a golden clause, 41 with no counterpart
+# interface: 307 mined, 7 matched a golden clause, 300 with no counterpart
+
+== ASSUMPTIONS ==
+-- declared vocabulary --
+[      A1] mined-stronger  A <= 7 && B <= 7
+           witness        A <= 7 && A >= 0 && B <= 7 && B >= 0
+
+-- interface vocabulary --
+[      A1] mined-stronger  A <= 7 && B <= 7
+           witness        A <= 7 && A >= 0 && B <= 7 && B >= 0
+
+# declared: 4 mined, 0 matched a golden clause, 4 with no counterpart
+# interface: 4 mined, 0 matched a golden clause, 4 with no counterpart

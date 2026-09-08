@@ -1,0 +1,65 @@
+# multi_16bit: golden clause -> what the flow recovered
+# category is trace-bounded: equivalent | mined-stronger (a refinement) | mined-weaker | missed
+
+== GUARANTEES ==
+-- declared vocabulary --
+[    MUL1] mined-stronger  G((rst_n == 0) |-> (done == 0))
+           witness        G((start == 0) && (yout == 0) |-> ((done == 0) && (yout == 0)))
+[    MUL2] equivalent      G((rst_n == 0) |-> (yout == 0))
+           witness        G((rst_n == 0) |-> (yout == 0))
+[    MUL3] equivalent      G((done == 1) |=> (done == 0))
+           witness        G((done == 1) |=> (done == 0))
+[    MUL5] equivalent      G((done == 1) |-> (yout == ain * bin))
+           witness        G((done == 1) |-> (yout == ain * bin))
+[    MUL6] mined-stronger  G((done == 1 && ain == 0) |-> (yout == 0))
+           witness        G((ain == 0) |-> (yout == 0))
+[    MUL7] mined-stronger  G((done == 1 && bin == 0) |-> (yout == 0))
+           witness        G((bin == 0) |-> (yout == 0))
+[    MUL8] equivalent      G((done == 1 && ain == 1) |-> (yout == bin))
+           witness        G((ain == 1) && (done == 1) |-> (yout == bin))
+[    MUL9] mined-stronger  G((done == 1) |-> (yout <= 4294836225))
+           witness        G(((done == 1) ##1 (!(done == 1))) |-> ((done == 0) && (yout == ain * bin)))
+[   MUL10] equivalent      G((start == 0) |=> (done == 0))
+           witness        G((start == 0) |=> (done == 0))
+
+-- interface vocabulary --
+[    MUL1] mined-stronger  G((rst_n == 0) |-> (done == 0))
+           witness        G((done == 0) |-> (done * 2 <= rst_n))
+[    MUL2] equivalent      G((rst_n == 0) |-> (yout == 0))
+           witness        G((rst_n == 0) |-> (yout == 0))
+[    MUL3] mined-stronger  G((done == 1) |=> (done == 0))
+           witness        G((done == 1) |=> (done < start))
+[    MUL5] equivalent      G((done == 1) |-> (yout == ain * bin))
+           witness        G(((done == 1) ##1 (!(done == 1))) |-> (yout == ain * bin))
+[    MUL6] mined-stronger  G((done == 1 && ain == 0) |-> (yout == 0))
+           witness        G((ain == 0) |-> (yout == (ain << bin)))
+[    MUL7] mined-stronger  G((done == 1 && bin == 0) |-> (yout == 0))
+           witness        G((start == 1) && (yout == 0) |-> (yout < start))
+[    MUL8] missed          G((done == 1 && ain == 1) |-> (yout == bin))
+[    MUL9] mined-stronger  G((done == 1) |-> (yout <= 4294836225))
+           witness        G(((done == 1) ##1 (!(done == 1))) |-> (done < start))
+[   MUL10] equivalent      G((start == 0) |=> (done == 0))
+           witness        G((start == 0) |=> (done * 2 <= rst_n))
+
+# declared: 199 mined, 9 matched a golden clause, 190 with no counterpart
+# interface: 456 mined, 8 matched a golden clause, 448 with no counterpart
+
+== ASSUMPTIONS ==
+-- declared vocabulary --
+[      A1] mined-weaker    rst_n == 1
+           witness        ain <= 65535
+[      A2] mined-weaker    start == 1
+           witness        ain <= 65535
+[      A3] mined-stronger  ain <= 65535 && bin <= 65535
+           witness        ain == 0
+
+-- interface vocabulary --
+[      A1] mined-weaker    rst_n == 1
+           witness        ain <= 65535
+[      A2] mined-weaker    start == 1
+           witness        ain <= 65535
+[      A3] mined-stronger  ain <= 65535 && bin <= 65535
+           witness        ain == 0
+
+# declared: 10 mined, 2 matched a golden clause, 8 with no counterpart
+# interface: 10 mined, 2 matched a golden clause, 8 with no counterpart

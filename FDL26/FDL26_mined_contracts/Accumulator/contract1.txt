@@ -1,4 +1,0 @@
-ASSUMES: rst_n == 1 && valid_in == 1 
-
-GUARANTEES:  G({rst_n} |-> {##[1:4] valid_out}) 
-             G({valid_in} |-> {##[1:4] valid_out}) 

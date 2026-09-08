@@ -1,0 +1,25 @@
+-- ASSUMPTIONS
+A1:  G (¬rst_ni → (¬mult_en_i ∧ ¬div_en_i))
+A2:  G ¬(mult_en_i ∧ div_en_i)
+A3:  G ((mult_en_i ∨ div_en_i) → multdiv_ready_id_i)
+A4:  G (mult_sel_i ↔ mult_en_i) ∧ G (div_sel_i ↔ div_en_i)
+A5:  G ((mult_en_i ∨ div_en_i) → 
+         ((op_a_i U valid_o) ∧ (op_b_i U valid_o) ∧ 
+          (operator_i U valid_o) ∧ (signed_mode_i U valid_o) ∧
+          (equal_to_zero_i U valid_o) ∧ (data_ind_timing_i U valid_o)))
+
+-- GUARANTEES
+G1:  G (¬rst_ni → ¬valid_o)
+G2:  G (valid_o → multdiv_ready_id_i)
+
+G3:  G (rst_ni ∧ mult_en_i →
+         (valid_o ∧ (multdiv_result_o = mul32(op_a_i, op_b_i, signed_mode_i))))
+
+G4a: G (rst_ni ∧ div_en_i ∧ (op_b_i ≠ 0) →
+         F (valid_o ∧ (multdiv_result_o = quot32(op_a_i, op_b_i, signed_mode_i))))
+G4b: G (rst_ni ∧ div_en_i ∧ (op_b_i = 0) →
+         F (valid_o ∧ (multdiv_result_o = 0xFFFF_FFFF)))
+
+G5:  G ((¬mult_en_i ∧ ¬div_en_i) → ¬X valid_o)
+
+G6:  G (imd_val_we_o → F valid_o)

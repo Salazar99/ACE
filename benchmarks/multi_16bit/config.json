@@ -1,0 +1,61 @@
+{
+ "name": "multi_16bit",
+ "traces": [
+  "../traces/multi_16bit/mine_*.csv"
+ ],
+ "holdout": [
+  "../traces/multi_16bit/holdout_*.csv"
+ ],
+ "inputs": [
+  "rst_n",
+  "start",
+  "ain",
+  "bin"
+ ],
+ "outputs": [
+  "yout",
+  "done"
+ ],
+ "events": [
+  "done == 1"
+ ],
+ "horizon": 20,
+ "h_pre": 2,
+ "h_post": 20,
+ "grammar": "G3",
+ "episode_mode": "split",
+ "references": [
+  "G((rst_n == 0) |-> (done == 0))",
+  "G((rst_n == 0) |-> (yout == 0))",
+  "G((done == 1) |=> (done == 0))",
+  "G((done == 1) |-> (yout == ain * bin))",
+  "G((done == 1 && ain == 0) |-> (yout == 0))",
+  "G((done == 1 && bin == 0) |-> (yout == 0))",
+  "G((done == 1 && ain == 1) |-> (yout == bin))",
+  "G((done == 1) |-> (yout <= 4294836225))",
+  "G((start == 0) |=> (done == 0))"
+ ],
+ "reset": "rst_n == 0",
+ "extra_props": [
+  {
+   "exp": "yout == ain * bin",
+   "loc": "c",
+   "stage": "guarantee"
+  },
+  {
+   "exp": "yout == bin",
+   "loc": "c",
+   "stage": "guarantee"
+  },
+  {
+   "exp": "yout <= 4294836225",
+   "loc": "c",
+   "stage": "guarantee"
+  }
+ ],
+ "reference_assumptions": [
+  "rst_n == 1",
+  "start == 1",
+  "ain <= 65535 && bin <= 65535"
+ ]
+}

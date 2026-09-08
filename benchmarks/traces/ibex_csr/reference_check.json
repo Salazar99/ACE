@@ -1,0 +1,190 @@
+{
+ "design": "ibex_csr",
+ "runs": 5,
+ "samples": 2500,
+ "assumptions": [
+  {
+   "id": "A1",
+   "invariant": "rst_n == 1",
+   "why": "the environment holds reset deasserted",
+   "resolved": "rst_n == 1",
+   "positions_checked": 2500,
+   "positions_honoured": 2341,
+   "honoured_rate": 0.9364,
+   "stress_positions_checked": 1000,
+   "stress_positions_honoured": 938,
+   "status": "exercised"
+  },
+  {
+   "id": "A2",
+   "invariant": "wr_data_i <= 16777215",
+   "why": "the environment writes values inside 24 bits",
+   "resolved": "wr_data_i <= 16777215",
+   "positions_checked": 2500,
+   "positions_honoured": 2500,
+   "honoured_rate": 1.0,
+   "stress_positions_checked": 1000,
+   "stress_positions_honoured": 1000,
+   "status": "exercised"
+  }
+ ],
+ "contracts": [
+  {
+   "id": "CSR1",
+   "kind": "reset",
+   "template": "G1",
+   "assumption_ids": [],
+   "guarantee": "G((rst_n == 0) |-> (rd_data_o == 0))",
+   "props": [],
+   "rationale": "asynchronous reset drives the register to its reset value in the same cycle",
+   "resolved": "G((rst_n == 0) |-> (rd_data_o == 0))",
+   "support": 159,
+   "violations": 0,
+   "excluded_by_assumptions": 0,
+   "holdout_support": 71,
+   "holdout_violations": 0,
+   "stress_support": 62,
+   "stress_violations": 0,
+   "status": "confirmed"
+  },
+  {
+   "id": "CSR2",
+   "kind": "protocol",
+   "template": "G2",
+   "assumption_ids": [
+    "A1",
+    "A2"
+   ],
+   "guarantee": "G((wr_en_i == 1 && wr_data_i == 0) |=> (rd_data_o == 0))",
+   "props": [],
+   "rationale": "a write of zero is visible on the read port one cycle later",
+   "resolved": "G((wr_en_i == 1 && wr_data_i == 0) |=> (rd_data_o == 0))",
+   "support": 5,
+   "violations": 0,
+   "excluded_by_assumptions": 159,
+   "holdout_support": 3,
+   "holdout_violations": 0,
+   "stress_support": 2,
+   "stress_violations": 0,
+   "status": "confirmed"
+  },
+  {
+   "id": "CSR3",
+   "kind": "protocol",
+   "template": "G2",
+   "assumption_ids": [
+    "A1",
+    "A2"
+   ],
+   "guarantee": "G((wr_en_i == 1 && wr_data_i == 16777215) |=> (rd_data_o == 16777215))",
+   "props": [
+    {
+     "exp": "rd_data_o == 16777215",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
+   "rationale": "a write of all-ones is visible one cycle later",
+   "resolved": "G((wr_en_i == 1 && wr_data_i == 16777215) |=> (rd_data_o == 16777215))",
+   "support": 10,
+   "violations": 0,
+   "excluded_by_assumptions": 159,
+   "holdout_support": 6,
+   "holdout_violations": 0,
+   "stress_support": 4,
+   "stress_violations": 0,
+   "status": "confirmed"
+  },
+  {
+   "id": "CSR4",
+   "kind": "protocol",
+   "template": "G2",
+   "assumption_ids": [
+    "A1",
+    "A2"
+   ],
+   "guarantee": "G((wr_en_i == 1 && wr_data_i == 1) |=> (rd_data_o == 1))",
+   "props": [],
+   "rationale": "a write of one is visible one cycle later",
+   "resolved": "G((wr_en_i == 1 && wr_data_i == 1) |=> (rd_data_o == 1))",
+   "support": 5,
+   "violations": 0,
+   "excluded_by_assumptions": 159,
+   "holdout_support": 3,
+   "holdout_violations": 0,
+   "stress_support": 2,
+   "stress_violations": 0,
+   "status": "confirmed"
+  },
+  {
+   "id": "CSR5",
+   "kind": "result",
+   "template": "G1",
+   "assumption_ids": [
+    "A1"
+   ],
+   "guarantee": "G((rst_n == 1) |-> (rd_error_o == 0))",
+   "props": [],
+   "rationale": "with ShadowCopy disabled the error output is tied low",
+   "resolved": "G((rst_n == 1) |-> (rd_error_o == 0))",
+   "support": 2341,
+   "violations": 0,
+   "excluded_by_assumptions": 159,
+   "holdout_support": 1429,
+   "holdout_violations": 0,
+   "stress_support": 938,
+   "stress_violations": 0,
+   "status": "confirmed"
+  },
+  {
+   "id": "CSR6",
+   "kind": "protocol",
+   "template": "G2",
+   "assumption_ids": [
+    "A1",
+    "A2"
+   ],
+   "guarantee": "G((wr_en_i == 1) |=> (rd_data_o <= 16777215))",
+   "props": [
+    {
+     "exp": "rd_data_o <= 16777215",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
+   "rationale": "the read port never leaves the range the environment writes",
+   "resolved": "G((wr_en_i == 1) |=> (rd_data_o <= 16777215))",
+   "support": 988,
+   "violations": 0,
+   "excluded_by_assumptions": 159,
+   "holdout_support": 561,
+   "holdout_violations": 0,
+   "stress_support": 446,
+   "stress_violations": 0,
+   "status": "confirmed"
+  }
+ ],
+ "out_of_grammar": [
+  {
+   "id": "CSR-PAST",
+   "assumption": "wr_en_i == 1",
+   "guarantee": "rd_data_o == $past(wr_data_i)",
+   "why_not_minable": "HARM's proposition grammar has $past/$stable/$rose/$fell, so HARM CAN mine this. The flow's own evaluator cannot parse it, so it cannot be validated or matched here. Adding $past to ace2/formula.py would make the general write-through contract minable instead of the three value-specific ones (CSR2-CSR4)",
+   "minable": false
+  },
+  {
+   "id": "CSR-HOLD",
+   "assumption": "wr_en_i == 0",
+   "guarantee": "$stable(rd_data_o)",
+   "why_not_minable": "same reason: needs $stable in the flow's evaluator",
+   "minable": false
+  },
+  {
+   "id": "CSR7",
+   "assumption": "A: ",
+   "guarantee": "G(rst_n == 0 |=> rd_data_o == 0)",
+   "why_not_minable": "the guarantee is owed only if the environment issues no write in the cycle reset is released. That is an obligation over the NEXT sample, and an assumption made of invariants cannot constrain the future: an invariant restricts the sample it is evaluated at. CSR1 covers the same-cycle part of the reset behaviour",
+   "minable": false
+  }
+ ]
+}

@@ -1,0 +1,34 @@
+# sqrt: golden contracts
+# 13 guarantees under 3 assumptions, all confirmed on the mining and held-out corpora
+
+CONTRACT sqrt.1    [A: none]
+A: true
+G: G((rst == 1) |-> (done == 0))    [SQ1]
+   G((rst == 1) |-> (error == 0))    [SQ2]
+   G((rst == 1) |-> (out == 0))    [SQ3]
+   G((rst == 1) |=> (done == 0))    [SQ10]
+
+CONTRACT sqrt.2    [A: A1]
+A: rst == 0
+G: G((start == 1 && in >= 2147483648) |=> (error == 1))    [SQ6]
+
+CONTRACT sqrt.3    [A: A1, A2]
+A: rst == 0 && in >= 0
+G: G((start == 1 && in >= 0) |-> (##[1:24] done == 1))    [SQ7]
+   G((start == 1 && in >= 0) |-> (##[1:24] error == 0))    [SQ8]
+   G((start == 1 && in == 0) |-> ##[1:24] (done == 1 && out == 0))    [SQ11]
+   G((start == 1 && in >= 4 && in <= 8) |-> ##[1:24] (done == 1 && out == 2))    [SQ12]
+   G((start == 1 && in >= 1 && in <= 1000) |-> ##[1:24] (done == 1 && out <= 32))    [SQ13]
+
+CONTRACT sqrt.4    [A: A1, A3]
+A: rst == 0 && in < 0
+G: G((start == 1 && in < 0) |-> (##[1:3] out == 0))    [SQ9]
+
+CONTRACT sqrt.5    [A: A3]
+A: in < 0
+G: G((start == 1 && in < 0) |=> (error == 1))    [SQ4]
+   G((start == 1 && in < 0) |=> (done == 1))    [SQ5]
+
+# 2 further properties are recorded as out of grammar (see candidates.json for the reasons):
+#   SQ-VALUE: out == 2
+#   SQ-EXACT: out * out <= in && (out + 1) * (out + 1) > in

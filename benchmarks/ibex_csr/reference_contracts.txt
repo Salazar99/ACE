@@ -1,0 +1,14 @@
+CONTRACT ibex_csr.1
+A: true
+G: G((rst_n == 0) |-> (rd_data_o == 0))
+
+CONTRACT ibex_csr.2
+A: rst_n == 1
+G: G((rst_n == 1) |-> (rd_error_o == 0))
+
+CONTRACT ibex_csr.3
+A: rst_n == 1 && wr_data_i <= 16777215
+G: G((wr_en_i == 1 && wr_data_i == 0) |=> (rd_data_o == 0))
+   G((wr_en_i == 1 && wr_data_i == 16777215) |=> (rd_data_o == 16777215))
+   G((wr_en_i == 1 && wr_data_i == 1) |=> (rd_data_o == 1))
+   G((wr_en_i == 1) |=> (rd_data_o <= 16777215))

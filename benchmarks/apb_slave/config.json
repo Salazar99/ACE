@@ -1,0 +1,66 @@
+{
+ "name": "apb_slave",
+ "traces": [
+  "../traces/apb_slave/mine_*.csv"
+ ],
+ "holdout": [
+  "../traces/apb_slave/holdout_*.csv"
+ ],
+ "inputs": [
+  "presetn",
+  "psel",
+  "penable",
+  "pwrite",
+  "paddr",
+  "pwdata"
+ ],
+ "outputs": [
+  "prdata",
+  "pready",
+  "pslverr"
+ ],
+ "events": [
+  "pready == 1",
+  "pslverr == 1"
+ ],
+ "horizon": 5,
+ "h_pre": 2,
+ "h_post": 5,
+ "grammar": "G3",
+ "episode_mode": "split",
+ "reset": "presetn == 0",
+ "max_antecedent_props": 3,
+ "extra_props": [
+  {
+   "exp": "prdata == pwdata",
+   "loc": "c",
+   "stage": "guarantee"
+  }
+ ],
+ "references": [
+  "G((presetn == 0) |=> (pready == 0))",
+  "G((presetn == 0) |=> (pslverr == 0))",
+  "G((presetn == 0) |=> (prdata == 0))",
+  "G((psel == 0) |=> (pready == 0))",
+  "G((psel == 0) |=> (pslverr == 0))",
+  "G((penable == 0) |=> (pready == 0))",
+  "G((psel == 1 && penable == 1 && paddr <= 2) |=> (pready == 1))",
+  "G((psel == 1 && penable == 1 && paddr <= 3) |=> (pslverr == 0))",
+  "G((psel == 1 && penable == 1 && paddr >= 4) |=> (pslverr == 1))",
+  "G((psel == 1 && penable == 1 && paddr >= 4) |=> (pready == 1))",
+  "G((pslverr == 1) |-> (pready == 1))",
+  "G((psel == 1 && penable == 0 && paddr <= 2) |-> ##2 (pready == 1))",
+  "G((psel == 1 && penable == 0 && paddr == 3) |-> ##4 (pready == 1))",
+  "G((psel == 1 && penable == 0 && paddr >= 4) |-> ##2 (pslverr == 1))",
+  "G((psel == 1 && penable == 0 && paddr == 3) |=> (pready == 0))",
+  "G((psel == 1 && penable == 1 && paddr == 3 && pready == 0) |-> ##[1:3] (pready == 1))",
+  "G((psel == 1 && penable == 0 && pwrite == 0 && paddr <= 2) |-> ##2 (prdata == pwdata))",
+  "G((psel == 1 && penable == 0 && pwrite == 0 && paddr == 3) |-> ##4 (prdata == pwdata))"
+ ],
+ "reference_assumptions": [
+  "presetn == 1",
+  "paddr <= 3",
+  "paddr >= 4",
+  "pwdata <= 255"
+ ]
+}

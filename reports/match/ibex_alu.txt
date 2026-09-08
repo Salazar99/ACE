@@ -1,0 +1,85 @@
+# ibex_alu: golden clause -> what the flow recovered
+# category is trace-bounded: equivalent | mined-stronger (a refinement) | mined-weaker | missed
+
+== GUARANTEES ==
+-- declared vocabulary --
+[    ALU1] mined-stronger  G((operator_i == 0 && operand_a_i + operand_b_i <= 4294967295) |-> (result_o == operand_a_i + operand_b_i))
+           witness        G((operator_i == 0) |-> (result_o == operand_a_i + operand_b_i))
+[    ALU2] equivalent      G((operator_i == 1 && operand_a_i >= operand_b_i) |-> (result_o == operand_a_i - operand_b_i))
+           witness        G((operator_i == 1) && (operand_a_i >= operand_b_i) |-> (result_o == operand_a_i - operand_b_i))
+[    ALU3] missed          G((operator_i == 4) |-> (result_o <= operand_a_i))
+[    ALU4] equivalent      G((operator_i == 4) |-> (result_o <= operand_b_i))
+           witness        G((operator_i == 4) |-> (result_o <= operand_b_i))
+[    ALU5] equivalent      G((operator_i == 3) |-> (result_o >= operand_a_i))
+           witness        G((operator_i == 3) |-> (result_o >= operand_a_i))
+[    ALU6] equivalent      G((operator_i == 3) |-> (result_o >= operand_b_i))
+           witness        G((operator_i == 3) |-> (result_o >= operand_b_i))
+[    ALU7] equivalent      G((operator_i == 2 && operand_b_i == 0) |-> (result_o == operand_a_i))
+           witness        G((operator_i == 2) && (operand_b_i == 0) |-> (result_o == operand_a_i))
+[    ALU8] missed          G((operator_i == 10 && operand_b_i == 1 && operand_a_i <= 2147483647) |-> (result_o == operand_a_i * 2))
+[    ALU9] missed          G((operator_i == 9 && operand_b_i == 1) |-> (result_o * 2 <= operand_a_i))
+[   ALU10] missed          G((operator_i == 9 && operand_b_i == 1) |-> (result_o * 2 + 1 >= operand_a_i))
+[   ALU11] mined-stronger  G((operator_i == 26 && operand_a_i < operand_b_i) |-> (comparison_result_o == 1))
+           witness        G((comparison_result_o == 1) && (is_equal_result_o == 0) |-> ((comparison_result_o == 1) && (result_o <= operand_a_i)))
+[   ALU12] equivalent      G((operator_i == 26 && operand_a_i >= operand_b_i) |-> (comparison_result_o == 0))
+           witness        G((operator_i == 26) && (operand_a_i >= operand_b_i) |-> (comparison_result_o == 0))
+[   ALU13] mined-stronger  G((operator_i == 29 && operand_a_i == operand_b_i) |-> (comparison_result_o == 1))
+           witness        G((result_o == 1) && (is_equal_result_o == 1) |-> (comparison_result_o == 1))
+[   ALU14] mined-stronger  G((operator_i == 29 && operand_a_i == operand_b_i) |-> (is_equal_result_o == 1))
+           witness        G((comparison_result_o == 1) && (operand_a_i == operand_b_i) |-> (is_equal_result_o == 1))
+[   ALU15] mined-stronger  G((operator_i == 30 && operand_a_i == operand_b_i) |-> (comparison_result_o == 0))
+           witness        G((comparison_result_o == 0) && (is_equal_result_o == 1) |-> ((comparison_result_o == 0) && (result_o <= operand_a_i)))
+[   ALU16] missed          G((operator_i == 32) |-> (result_o <= operand_a_i))
+[   ALU17] equivalent      G((operator_i == 34) |-> (result_o >= operand_a_i))
+           witness        G((operator_i == 34) |-> (result_o >= operand_a_i))
+[   ALU18] mined-stronger  G((operator_i == 0 && operand_b_i == 0) |-> (result_o == operand_a_i))
+           witness        G((operator_i == 0) && (operand_b_i == 0) |-> ((is_equal_result_o == 0) && (result_o == operand_a_i)))
+
+-- interface vocabulary --
+[    ALU1] mined-stronger  G((operator_i == 0 && operand_a_i + operand_b_i <= 4294967295) |-> (result_o == operand_a_i + operand_b_i))
+           witness        G((operator_i == 0) |-> (comparison_result_o == (operator_i << operand_a_i)))
+[    ALU2] missed          G((operator_i == 1 && operand_a_i >= operand_b_i) |-> (result_o == operand_a_i - operand_b_i))
+[    ALU3] mined-stronger  G((operator_i == 4) |-> (result_o <= operand_a_i))
+           witness        G((operator_i == 4) |-> (result_o == (operand_a_i & operand_b_i)))
+[    ALU4] equivalent      G((operator_i == 4) |-> (result_o <= operand_b_i))
+           witness        G((operator_i == 4) |-> (result_o <= operand_b_i))
+[    ALU5] mined-stronger  G((operator_i == 3) |-> (result_o >= operand_a_i))
+           witness        G((operator_i == 3) |-> (result_o == (operand_a_i | operand_b_i)))
+[    ALU6] mined-stronger  G((operator_i == 3) |-> (result_o >= operand_b_i))
+           witness        G((operator_i == 3) |-> (result_o == (operand_a_i | operand_b_i)))
+[    ALU7] missed          G((operator_i == 2 && operand_b_i == 0) |-> (result_o == operand_a_i))
+[    ALU8] missed          G((operator_i == 10 && operand_b_i == 1 && operand_a_i <= 2147483647) |-> (result_o == operand_a_i * 2))
+[    ALU9] missed          G((operator_i == 9 && operand_b_i == 1) |-> (result_o * 2 <= operand_a_i))
+[   ALU10] missed          G((operator_i == 9 && operand_b_i == 1) |-> (result_o * 2 + 1 >= operand_a_i))
+[   ALU11] missed          G((operator_i == 26 && operand_a_i < operand_b_i) |-> (comparison_result_o == 1))
+[   ALU12] mined-stronger  G((operator_i == 26 && operand_a_i >= operand_b_i) |-> (comparison_result_o == 0))
+           witness        G((comparison_result_o == 0) |-> ((comparison_result_o == 0) && (is_equal_result_o * 2 <= operator_i)))
+[   ALU13] mined-stronger  G((operator_i == 29 && operand_a_i == operand_b_i) |-> (comparison_result_o == 1))
+           witness        G((result_o == 1) && (is_equal_result_o == 1) |-> (comparison_result_o == 1))
+[   ALU14] missed          G((operator_i == 29 && operand_a_i == operand_b_i) |-> (is_equal_result_o == 1))
+[   ALU15] mined-stronger  G((operator_i == 30 && operand_a_i == operand_b_i) |-> (comparison_result_o == 0))
+           witness        G((comparison_result_o == 0) |-> ((comparison_result_o == 0) && (is_equal_result_o * 2 <= operator_i)))
+[   ALU16] missed          G((operator_i == 32) |-> (result_o <= operand_a_i))
+[   ALU17] mined-stronger  G((operator_i == 34) |-> (result_o >= operand_a_i))
+           witness        G((operator_i == 34) |-> (comparison_result_o >= operand_a_i))
+[   ALU18] mined-stronger  G((operator_i == 0 && operand_b_i == 0) |-> (result_o == operand_a_i))
+           witness        G((operator_i == 0) && (operand_b_i == 0) |-> (result_o == 12345))
+
+# declared: 303 mined, 13 matched a golden clause, 290 with no counterpart
+# interface: 542 mined, 8 matched a golden clause, 534 with no counterpart
+
+== ASSUMPTIONS ==
+-- declared vocabulary --
+[      A1] equivalent      operator_i <= 34
+           witness        operator_i <= 34
+[      A2] mined-stronger  operand_a_i + operand_b_i <= 4294967295
+           witness        operand_a_i <= 12345
+
+-- interface vocabulary --
+[      A1] equivalent      operator_i <= 34
+           witness        operator_i <= 34
+[      A2] mined-stronger  operand_a_i + operand_b_i <= 4294967295
+           witness        operand_a_i <= 12345
+
+# declared: 10 mined, 2 matched a golden clause, 8 with no counterpart
+# interface: 10 mined, 2 matched a golden clause, 8 with no counterpart

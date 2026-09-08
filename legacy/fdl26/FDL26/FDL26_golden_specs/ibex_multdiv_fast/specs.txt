@@ -1,0 +1,5 @@
+When div_sel_i = 1: the module selects the division datapath, writing the evolving remainder into imd_val_d_o[0], staging the denominator into imd_val_d_o[1] (with imd_val_we_o[1] asserted), and finally driving multdiv_result_o from imd_val_q_i[0][31:0] (quotient for DIV, remainder for REM). 
+Handshake and latency are handled by the division FSM; valid_o goes high when the divide/rem sequence is complete.
+
+When div_sel_i = 0: the module selects the multiply datapath, writing the running MAC result into imd_val_d_o[0] and directly outputting the product (low or high word depending on MD_OP_*) via multdiv_result_o = mac_res_d[31:0]. 
+The division staging path (imd_val_[1]) is idle in this case.

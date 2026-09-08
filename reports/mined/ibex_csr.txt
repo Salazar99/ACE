@@ -1,0 +1,46 @@
+# ibex_csr: mined contracts (declared vocabulary)
+# backend in-process-templates, 5 runs, 2500 samples
+# a clause marked [*] is the witness the scorer matched to a golden clause
+
+CONTRACT ibex_csr.mined.1    [event rd_data_o == 0, triggers rst_n == 0 && wr_en_i == 0, rst_n < wr_en_i, rst_n == 0 && wr_en_i < wr_data_i, rst_n == 0, 63 episodes]
+A: rst_n >= 0 && rst_n <= 1 && wr_en_i >= 0 && wr_en_i <= 1 && wr_data_i >= 0 && wr_data_i <= 65475 && wr_en_i <= wr_data_i
+G: rd_data_o <= 65475
+   G(rst_n == 0 |-> (rd_data_o == 0)) [*]
+   G((rst_n == 0) && (wr_en_i == 0) |=> (rd_data_o == 0))
+   G(((rst_n == 1) ##1 (!(rst_n == 1))) |-> (rd_data_o == 0))
+   G(((rst_n == 1) ##1 (!(rst_n == 1))) |=> (rd_data_o == 0))
+   G((wr_data_i == 0) |-> (rd_data_o == 0))
+   G((wr_data_i == 23130) |-> ##2 (rd_data_o == 0))
+   G((wr_data_i == 0) |=> (rd_data_o == 0)) [*]
+   G((wr_data_i == 31519) |-> ##2 (rd_data_o == 0))
+   G((wr_en_i == 0) && (wr_data_i == 31519) |=> (rd_data_o == 0))
+   G((wr_data_i == 13193) |-> ##2 (rd_data_o == 0))
+   G((wr_en_i == 0) && (wr_data_i == 13193) |=> (rd_data_o == 0))
+   G(((wr_en_i == 1) ##1 (!(wr_en_i == 1))) |-> ##2 (rd_data_o == 0))
+   G((wr_data_i == 21571) |-> ##2 (rd_data_o == 0))
+   G((wr_en_i == 0) |-> ##[1:2] (rd_data_o == 0))
+# 7 temporal environment clauses were also mined (not part of A, which is a conjunction of invariants):
+#   G(rst_n < wr_en_i |-> (wr_data_i >= 1473))
+#   G(rst_n < wr_en_i |-> (wr_data_i <= 62521))
+#   G(rst_n == 0 |-> (wr_en_i >= 0))
+#   G(rst_n == 0 |-> (wr_en_i <= 1))
+#   G(rst_n == 0 |-> (wr_data_i <= 65475))
+#   G(rst_n == 0 |-> (wr_en_i <= wr_data_i))
+#   G(rst_n == 0 |-> (wr_data_i >= 0))
+
+CONTRACT ibex_csr.mined.2    [event rd_data_o >= 8388608, triggers rst_n < wr_data_i, rst_n == 1 && wr_data_i == 16777215, wr_data_i == 16777215, rst_n == 1 && wr_en_i == wr_data_i, 5 episodes]
+A: rst_n == 1 && wr_en_i >= 0 && wr_en_i <= 1 && wr_data_i >= 0 && wr_data_i <= 16777215
+G: G((wr_data_i == 16777215) |=> (rd_data_o == 16777215)) [*]
+   G(((wr_en_i == 1) ##1 (!(wr_en_i == 1))) |-> ##2 (rd_data_o == 16777215))
+   G((rd_data_o == 0) |-> ##2 (rd_data_o == 16777215))
+   G((rd_data_o == 1) |-> ##2 (rd_data_o == 0))
+   G((wr_data_i == 0) |=> (rd_data_o == 0)) [*]
+   G((wr_en_i == 0) && (wr_data_i == 16777215) |-> (rd_data_o == 16777215))
+   G((wr_data_i == 1) |-> (rd_data_o == 1))
+   G((wr_data_i == 1) |=> (rd_data_o == 1)) [*]
+   G((wr_data_i == 42405) |-> (rd_data_o == 16777215))
+   G((wr_en_i == 0) && (wr_data_i == 0) |-> (rd_data_o == 0))
+   G((wr_en_i == 1) && (wr_data_i == 0) |-> (rd_data_o == 1))
+# 2 temporal environment clauses were also mined (not part of A, which is a conjunction of invariants):
+#   G(wr_data_i == 16777215 |-> (rst_n == 1))
+#   G(wr_en_i == wr_data_i |-> (rst_n == 1))

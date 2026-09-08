@@ -1,0 +1,47 @@
+<harm>
+	<context name="default">
+
+		<prop exp="in > 0" loc="a, dt"/>
+		<prop exp="in < 0" loc="a, dt"/>
+		<prop exp="in == 0" loc="a, dt"/>
+		<prop exp="start" loc="a, dt"/>
+
+		<prop exp="out_DU" loc="c"/>
+		<prop exp="error_DU" loc="c"/>
+		<prop exp="done_DU" loc="c"/>
+		<prop exp="!out_DU" loc="c"/>
+		<prop exp="!error_DU" loc="c"/>
+		<prop exp="!done_DU" loc="c"/>
+
+
+
+		<!--<template dtLimits="2D,2W,4A,0E,U" exp="G({..#1&..}|-> X(camallia_u::EncDec && X[23]camallia_u::Dvld))" /> 
+		<template dtLimits="2D,2W,4A,0E,U" exp="G({..#1&..}|-> X(!camallia_u::EncDec && X[23]camallia_u::Dvld))" /> -->
+
+
+	
+
+		<template dtLimits="2D,2W,4A,0E,U" exp="G(P0 |-> ##12 P1)" />
+		<template dtLimits="2D,2W,4A,0E,U" exp="G(P2 |-> ##1 P3)" />
+		<template dtLimits="2D,2W,4A,0E,U" exp="G(P4 |-> ##12 P5 && P6)" />
+		<template dtLimits="2D,2W,4A,0E,U" exp="G(P7 |-> ##1 P8 && P9)" />
+		<template dtLimits="2D,2W,4A,0E,U" exp="G(P10 && P11 |-> ##12 P12 && P13 && P14)" />
+
+		<template dtLimits="2D,2W,4A,0E,U" exp="G(..&&.. |-> ##12 P15)" />
+		<template dtLimits="2D,2W,4A,0E,U" exp="G(..#1&.. |-> ##1 P16)" />
+
+		<template dtLimits="2D,2W,4A,0E,U" exp="G(..&&.. |-> P17)" />
+		<template dtLimits="2D,2W,4A,0E,U" exp="G(..#1&.. |-> P18)" />
+		<template dtLimits="3A,-0.1E,U" exp="G({..##1..}|-> X(P19))" /> 
+		<template dtLimits="2D,2W,4A,0E,U" exp="G(P20 |-> P21)" />
+
+
+		<sort name="1/(1+afct)" exp="1/(1+afct)"/>
+		<sort name="ATCT-AFCT" exp="atct-afct"/>
+
+
+	</context>
+</harm>
+
+
+

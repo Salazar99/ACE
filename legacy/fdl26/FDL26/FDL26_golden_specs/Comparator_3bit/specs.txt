@@ -1,0 +1,5 @@
+Comparison Logic: The module compares the two 3-bit binary numbers A and B using combinational logic.
+- The outputs A_greater, A_equal, and A_less are determined based on the comparison of A and B.
+- A_greater is set to 1 if A > B, A_equal is set to 1 if A == B, and A_less is set to 1 if A < B.
+
+Output Encoding: The outputs are mutually exclusive, meaning only one of the three outputs will be high (1) at any given time, based on the comparison results.

@@ -1,0 +1,39 @@
+# adder_8bit: mined contracts (declared vocabulary)
+# backend in-process-templates, 5 runs, 2500 samples
+# a clause marked [*] is the witness the scorer matched to a golden clause
+
+CONTRACT adder_8bit.mined.1    [event cout == 1, triggers cin == 0, a > b, 214 episodes]
+A: a >= 0 && a <= 255 && b >= 0 && b <= 255 && cin >= 0 && cin <= 1
+G: G(cin == 0 |-> (cout <= b))
+   G((a + b + cin >= 256) |-> (cout == 1)) [*]
+   G((cout == 1) |-> ((cout == 1) && (sum == a + b + cin - 256)))
+   G((cout == 1) |-> (sum == a + b + cin - 256))
+   G((a + b + cin <= 255) |-> (cout == 0)) [*]
+   G((cout == 0) |-> ((cout == 0) && (sum == a + b + cin)))
+   G((cout == 0) |-> (sum == a + b + cin))
+   G(((!(cout == 1)) ##1 (cout == 1)) |-> ((cout == 1) && (sum == a + b + cin - 256)))
+   G(((!(cout == 1)) ##1 (cout == 1)) |-> (cout == 1))
+   G(((!(cout == 1)) ##1 (cout == 1)) |-> (sum == a + b + cin - 256))
+   G(((cout == 1) ##1 (!(cout == 1))) |-> ((cout == 0) && (sum == a + b + cin)))
+   G(((cout == 1) ##1 (!(cout == 1))) |-> (cout == 0))
+   G(((cout == 1) ##1 (!(cout == 1))) |-> (sum == a + b + cin))
+   G((sum == 3) && (a + b + cin >= 256) |-> ((cout == 1) && (sum == 3)))
+   G((sum == 0) && (a + b + cin >= 256) |-> ((cout == 1) && (sum == 0)))
+   G((sum == 0) && (a + b + cin >= 256) |-> ((sum == 0) && (cout == 1)))
+   G((sum == 6) && (a + b + cin >= 256) |-> ((cout == 1) && (sum == 6)))
+   G((sum == 4) && (a + b + cin >= 256) |-> ((cout == 1) && (sum == 4)))
+   G((sum == 1) && (a + b + cin >= 256) |-> ((cout == 1) && (sum == 1)))
+   G((sum == 1) && (a + b + cin >= 256) |-> ((sum == 1) && (cout == 1)))
+   G((sum == 5) && (a + b + cin >= 256) |-> ((cout == 1) && (sum == 5)))
+   G((cin == 0) && (sum == 0) |-> (sum == cin))
+   G((cin == 1) && (sum == 1) |-> (sum == cin))
+   G((sum == 6) && (a + b + cin <= 255) |-> ((cout == 0) && (sum == 6)))
+   G((a == 1) && (cout == 1) |-> (sum == 0))
+   G((a == 6) && (sum == 6) |-> (sum == a)) [*]
+# 6 temporal environment clauses were also mined (not part of A, which is a conjunction of invariants):
+#   G(cin == 0 |-> (a >= 0))
+#   G(cin == 0 |-> (a <= 255))
+#   G(cin == 0 |-> (b >= 0))
+#   G(cin == 0 |-> (b <= 255))
+#   G(a > b |-> (cin >= 0))
+#   G(a > b |-> (cin <= 1))

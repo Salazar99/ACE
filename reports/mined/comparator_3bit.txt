@@ -1,0 +1,108 @@
+# comparator_3bit: mined contracts (declared vocabulary)
+# backend in-process-templates, 5 runs, 2000 samples
+# a clause marked [*] is the witness the scorer matched to a golden clause
+
+CONTRACT comparator_3bit.mined.1    [event A_greater == 1, triggers B == 7, A == 5, 155 episodes]
+A: A >= 0 && A <= 7 && B >= 0 && B <= 7
+G: G(B == 7 |-> (A_equal <= A))
+   G(A == 5 |-> (A_equal <= B))
+   G((A >= B) |-> (A_less == 0)) [*]
+   G((A <= B) |-> (A_greater == 0)) [*]
+   G((A > B) |-> ((A_equal == 0) && (A_greater == 1))) [*]
+   G((A > B) |-> ((A_equal == 0) && (A_less == 0)))
+   G((A > B) |-> ((A_greater == 1) && (A_equal == 0)))
+   G((A > B) |-> ((A_greater == 1) && (A_less == 0)))
+   G((A > B) |-> ((A_less == 0) && (A_equal == 0)))
+   G((A > B) |-> ((A_less == 0) && (A_greater == 1)))
+   G((A > B) |-> (A_equal == 0)) [*]
+   G((A > B) |-> (A_greater == 1))
+   G((A < B) |-> ((A_equal == 0) && (A_greater == 0))) [*]
+   G((A < B) |-> ((A_equal == 0) && (A_less == 1)))
+   G((A < B) |-> ((A_greater == 0) && (A_equal == 0)))
+   G((A < B) |-> ((A_greater == 0) && (A_less == 1)))
+   G((A < B) |-> ((A_less == 1) && (A_equal == 0)))
+   G((A < B) |-> ((A_less == 1) && (A_greater == 0)))
+   G((A < B) |-> (A_equal == 0))
+   G((A < B) |-> (A_less == 1))
+   G(((!(A_greater == 1)) ##1 (A_greater == 1)) |-> ((A_equal == 0) && (A_greater == 1)))
+   G(((!(A_greater == 1)) ##1 (A_greater == 1)) |-> ((A_equal == 0) && (A_less == 0)))
+   G(((!(A_greater == 1)) ##1 (A_greater == 1)) |-> ((A_greater == 1) && (A_equal == 0)))
+   G(((!(A_greater == 1)) ##1 (A_greater == 1)) |-> ((A_greater == 1) && (A_less == 0)))
+   G(((!(A_greater == 1)) ##1 (A_greater == 1)) |-> ((A_less == 0) && (A_equal == 0)))
+   G(((!(A_greater == 1)) ##1 (A_greater == 1)) |-> ((A_less == 0) && (A_greater == 1)))
+   G(((!(A_greater == 1)) ##1 (A_greater == 1)) |-> (A_equal == 0))
+   G(((!(A_greater == 1)) ##1 (A_greater == 1)) |-> (A_greater == 1))
+   G(((!(A_greater == 1)) ##1 (A_greater == 1)) |-> (A_less == 0))
+   G(((A_less == 1) ##1 (!(A_less == 1))) |-> (A_less == 0))
+   G(((A_greater == 1) ##1 (!(A_greater == 1))) |-> (A_greater == 0))
+   G(((!(A_less == 1)) ##1 (A_less == 1)) |-> ((A_equal == 0) && (A_greater == 0)))
+   G(((!(A_less == 1)) ##1 (A_less == 1)) |-> ((A_equal == 0) && (A_less == 1)))
+   G(((!(A_less == 1)) ##1 (A_less == 1)) |-> ((A_greater == 0) && (A_equal == 0)))
+   G(((!(A_less == 1)) ##1 (A_less == 1)) |-> ((A_greater == 0) && (A_less == 1)))
+   G(((!(A_less == 1)) ##1 (A_less == 1)) |-> ((A_less == 1) && (A_equal == 0)))
+   G(((!(A_less == 1)) ##1 (A_less == 1)) |-> ((A_less == 1) && (A_greater == 0)))
+   G(((!(A_less == 1)) ##1 (A_less == 1)) |-> (A_equal == 0))
+   G(((!(A_less == 1)) ##1 (A_less == 1)) |-> (A_greater == 0))
+   G(((!(A_less == 1)) ##1 (A_less == 1)) |-> (A_less == 1))
+   G((A == B) |-> (A_equal == 1)) [*]
+   G(((A_equal == 1) ##1 (!(A_equal == 1))) |-> (A_equal == 0))
+   G(((!(A_equal == 1)) ##1 (A_equal == 1)) |-> (A_equal == 1))
+   G(((!(A_equal == 1)) ##1 (A_equal == 1)) |-> (A_greater == 0))
+   G(((!(A_equal == 1)) ##1 (A_equal == 1)) |-> (A_less == 0))
+# 4 temporal environment clauses were also mined (not part of A, which is a conjunction of invariants):
+#   G(B == 7 |-> (A >= 0))
+#   G(B == 7 |-> (A <= 7))
+#   G(A == 5 |-> (B >= 0))
+#   G(A == 5 |-> (B <= 7))
+
+# region for event `A_equal == 1` skipped: no candidate passed selection
+
+CONTRACT comparator_3bit.mined.2    [event A_less == 1, triggers A == B, B == 6, 153 episodes]
+A: A >= 0 && A <= 7 && B >= 0 && B <= 7
+G: G(A == B |-> (A_equal == 1))
+   G(B == 6 |-> (A_equal <= A))
+   G((A <= B) |-> (A_greater == 0)) [*]
+   G((A < B) |-> ((A_equal == 0) && (A_greater == 0))) [*]
+   G((A < B) |-> ((A_equal == 0) && (A_less == 1)))
+   G((A < B) |-> ((A_greater == 0) && (A_equal == 0)))
+   G((A < B) |-> ((A_greater == 0) && (A_less == 1)))
+   G((A < B) |-> ((A_less == 1) && (A_equal == 0)))
+   G((A < B) |-> ((A_less == 1) && (A_greater == 0)))
+   G((A < B) |-> (A_equal == 0))
+   G((A < B) |-> (A_less == 1))
+   G((A >= B) |-> (A_less == 0)) [*]
+   G((A > B) |-> ((A_equal == 0) && (A_greater == 1))) [*]
+   G((A > B) |-> ((A_equal == 0) && (A_less == 0)))
+   G((A > B) |-> ((A_greater == 1) && (A_equal == 0)))
+   G((A > B) |-> ((A_greater == 1) && (A_less == 0)))
+   G((A > B) |-> ((A_less == 0) && (A_equal == 0)))
+   G((A > B) |-> ((A_less == 0) && (A_greater == 1)))
+   G((A > B) |-> (A_equal == 0)) [*]
+   G((A > B) |-> (A_greater == 1))
+   G(((!(A_less == 1)) ##1 (A_less == 1)) |-> ((A_equal == 0) && (A_greater == 0)))
+   G(((!(A_less == 1)) ##1 (A_less == 1)) |-> ((A_equal == 0) && (A_less == 1)))
+   G(((!(A_less == 1)) ##1 (A_less == 1)) |-> ((A_greater == 0) && (A_equal == 0)))
+   G(((!(A_less == 1)) ##1 (A_less == 1)) |-> ((A_greater == 0) && (A_less == 1)))
+   G(((!(A_less == 1)) ##1 (A_less == 1)) |-> ((A_less == 1) && (A_equal == 0)))
+   G(((!(A_less == 1)) ##1 (A_less == 1)) |-> ((A_less == 1) && (A_greater == 0)))
+   G(((!(A_less == 1)) ##1 (A_less == 1)) |-> (A_equal == 0))
+   G(((!(A_less == 1)) ##1 (A_less == 1)) |-> (A_greater == 0))
+   G(((!(A_less == 1)) ##1 (A_less == 1)) |-> (A_less == 1))
+   G(((A_less == 1) ##1 (!(A_less == 1))) |-> (A_less == 0))
+   G(((A_equal == 1) ##1 (!(A_equal == 1))) |-> (A_equal == 0))
+   G(((!(A_equal == 1)) ##1 (A_equal == 1)) |-> (A_equal == 1))
+   G(((!(A_equal == 1)) ##1 (A_equal == 1)) |-> (A_greater == 0))
+   G(((!(A_equal == 1)) ##1 (A_equal == 1)) |-> (A_less == 0))
+   G(((A_greater == 1) ##1 (!(A_greater == 1))) |-> (A_greater == 0))
+   G(((!(A_greater == 1)) ##1 (A_greater == 1)) |-> ((A_equal == 0) && (A_greater == 1)))
+   G(((!(A_greater == 1)) ##1 (A_greater == 1)) |-> ((A_equal == 0) && (A_less == 0)))
+   G(((!(A_greater == 1)) ##1 (A_greater == 1)) |-> ((A_greater == 1) && (A_equal == 0)))
+   G(((!(A_greater == 1)) ##1 (A_greater == 1)) |-> ((A_greater == 1) && (A_less == 0)))
+   G(((!(A_greater == 1)) ##1 (A_greater == 1)) |-> ((A_less == 0) && (A_equal == 0)))
+   G(((!(A_greater == 1)) ##1 (A_greater == 1)) |-> ((A_less == 0) && (A_greater == 1)))
+   G(((!(A_greater == 1)) ##1 (A_greater == 1)) |-> (A_equal == 0))
+   G(((!(A_greater == 1)) ##1 (A_greater == 1)) |-> (A_greater == 1))
+   G(((!(A_greater == 1)) ##1 (A_greater == 1)) |-> (A_less == 0))
+# 2 temporal environment clauses were also mined (not part of A, which is a conjunction of invariants):
+#   G(B == 6 |-> (A >= 0))
+#   G(B == 6 |-> (A <= 7))

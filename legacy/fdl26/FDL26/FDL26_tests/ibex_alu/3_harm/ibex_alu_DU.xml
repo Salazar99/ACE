@@ -1,0 +1,33 @@
+<harm>
+	<context name="default">
+
+
+		<prop exp="rst_n" loc="a"/>
+
+
+		<prop exp="result_o_DU" loc="c, dt"/>
+
+		<numeric clustering="K,10Max,0.01WCSS,==" exp="operator_i" loc="a"/>
+
+		<!--<template dtLimits="2D,2W,4A,0E,U" exp="G({..#1&..}|-> X(camallia_u::EncDec && X[23]camallia_u::Dvld))" /> 
+		<template dtLimits="2D,2W,4A,0E,U" exp="G({..#1&..}|-> X(!camallia_u::EncDec && X[23]camallia_u::Dvld))" /> -->
+
+		<template exp="G(P0 && P1 |-> P2)" />
+
+		<template check="1" exp="G(rst_n && operator_i == 0 |-> result_o_DU)" />
+		<template check="1" exp="G(rst_n && operator_i == 1 |-> result_o_DU)" />
+		<template check="1" exp="G(rst_n && operator_i == 3 |-> result_o_DU)" />
+		<template check="1" exp="G(rst_n && operator_i == 4 |-> result_o_DU)" />
+		<template check="1" exp="G(rst_n && operator_i == 29 |-> result_o_DU)" />
+
+		
+
+		<!-- <sort name="ATCT-AFCT" exp="atct - afct"/>
+		<sort name="ATCT-AFCT" exp="atct / (atct + afct)"/>-->
+		<sort name="1/(1+afct)" exp="1 / (1 + afct)"/>
+		<sort name="ATCT-AFCT" exp="atct - afct"/>
+	</context>
+</harm>
+
+
+

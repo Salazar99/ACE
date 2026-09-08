@@ -1,0 +1,7 @@
+-- Assumptions
+0 ≤ a ≤ 255 ∧ 0 ≤ b ≤ 255 ∧ (cin = 0 ∨ cin = 1)
+clk = 0 ∨ clk = 1
+
+-- Guarantees
+G ( (¬clk ∧ X clk) → ( sum + 256*cout = a + b + cin ) )
+G ( (¬clk ∧ X clk) → ( 0 ≤ sum ≤ 255 ∧ (cout = 0 ∨ cout = 1) ) )

@@ -1,0 +1,95 @@
+# apb_slave: golden clause -> what the flow recovered
+# category is trace-bounded: equivalent | mined-stronger (a refinement) | mined-weaker | missed
+
+== GUARANTEES ==
+-- declared vocabulary --
+[    APB1] mined-stronger  G((presetn == 0) |=> (pready == 0))
+           witness        G((penable == 0) |=> ((pready == 0) && (pslverr == 0)))
+[    APB2] mined-stronger  G((presetn == 0) |=> (pslverr == 0))
+           witness        G((paddr == 0) |=> (pslverr == 0))
+[    APB3] mined-weaker    G((presetn == 0) |=> (prdata == 0))
+           witness        G(((!(presetn == 1)) ##1 (presetn == 1)) |=> (prdata == 0))
+[    APB4] mined-stronger  G((psel == 0) |=> (pready == 0))
+           witness        G((penable == 0) |=> ((pready == 0) && (pslverr == 0)))
+[    APB5] mined-stronger  G((psel == 0) |=> (pslverr == 0))
+           witness        G((penable == 0) |=> ((pready == 0) && (pslverr == 0)))
+[    APB6] equivalent      G((penable == 0) |=> (pready == 0))
+           witness        G((penable == 0) |=> ((pready == 0) && (pslverr == 0)))
+[    APB7] mined-weaker    G((psel == 1 && penable == 1 && paddr <= 2) |=> (pready == 1))
+           witness        G((penable == 1) && (paddr == 2) |=> (pready == 1))
+[    APB8] mined-stronger  G((psel == 1 && penable == 1 && paddr <= 3) |=> (pslverr == 0))
+           witness        G(paddr >= 0 && paddr <= 3 |=> (pslverr == 0))
+[    APB9] mined-weaker    G((psel == 1 && penable == 1 && paddr >= 4) |=> (pslverr == 1))
+           witness        G(((!(pslverr == 1)) ##1 (pslverr == 1)) |=> ((pready == 1) && (pslverr == 1)))
+[   APB10] mined-weaker    G((psel == 1 && penable == 1 && paddr >= 4) |=> (pready == 1))
+           witness        G(((!(pslverr == 1)) ##1 (pslverr == 1)) |=> (pready == 1))
+[   APB11] equivalent      G((pslverr == 1) |-> (pready == 1))
+           witness        G((pslverr == 1) |-> (pready == 1))
+[   APB12] missed          G((psel == 1 && penable == 0 && paddr <= 2) |-> ##2 (pready == 1))
+[   APB13] equivalent      G((psel == 1 && penable == 0 && paddr == 3) |-> ##4 (pready == 1))
+           witness        G((penable == 0) && (paddr == 3) && (psel == 1) |-> ##4 (pready == 1))
+[   APB14] missed          G((psel == 1 && penable == 0 && paddr >= 4) |-> ##2 (pslverr == 1))
+[   APB15] mined-stronger  G((psel == 1 && penable == 0 && paddr == 3) |=> (pready == 0))
+           witness        G((paddr == 3) |-> ##1 ((pready == 0) && (pslverr == 0)))
+[   APB16] missed          G((psel == 1 && penable == 1 && paddr == 3 && pready == 0) |-> ##[1:3] (pready == 1))
+[   APB17] missed          G((psel == 1 && penable == 0 && pwrite == 0 && paddr <= 2) |-> ##2 (prdata == pwdata))
+[   APB18] missed          G((psel == 1 && penable == 0 && pwrite == 0 && paddr == 3) |-> ##4 (prdata == pwdata))
+
+-- interface vocabulary --
+[    APB1] mined-stronger  G((presetn == 0) |=> (pready == 0))
+           witness        G((penable == 0) |=> ((pready == 0) && (pslverr == 0)))
+[    APB2] mined-stronger  G((presetn == 0) |=> (pslverr == 0))
+           witness        G((paddr == 0) |-> ##1 ((pslverr == 0) && (prdata * penable <= presetn)))
+[    APB3] mined-stronger  G((presetn == 0) |=> (prdata == 0))
+           witness        G((presetn == 0) |=> (prdata == penable - paddr))
+[    APB4] mined-stronger  G((psel == 0) |=> (pready == 0))
+           witness        G((penable == 0) |=> ((pready == 0) && (pslverr == 0)))
+[    APB5] mined-stronger  G((psel == 0) |=> (pslverr == 0))
+           witness        G((penable == 0) |=> ((pready == 0) && (pslverr == 0)))
+[    APB6] equivalent      G((penable == 0) |=> (pready == 0))
+           witness        G((penable == 0) |=> ((pready == 0) && (pslverr == 0)))
+[    APB7] mined-weaker    G((psel == 1 && penable == 1 && paddr <= 2) |=> (pready == 1))
+           witness        G((paddr == 2) && (prdata <= 255) && (penable == 1) |=> (pready == 1))
+[    APB8] missed          G((psel == 1 && penable == 1 && paddr <= 3) |=> (pslverr == 0))
+[    APB9] mined-weaker    G((psel == 1 && penable == 1 && paddr >= 4) |=> (pslverr == 1))
+           witness        G(((!(pslverr == 1)) ##1 (pslverr == 1)) |=> (prdata * paddr + paddr > penable))
+[   APB10] mined-weaker    G((psel == 1 && penable == 1 && paddr >= 4) |=> (pready == 1))
+           witness        G(((!(pslverr == 1)) ##1 (pslverr == 1)) |=> (pready == 1))
+[   APB11] equivalent      G((pslverr == 1) |-> (pready == 1))
+           witness        G((pslverr == 1) |-> (pready == 1))
+[   APB12] missed          G((psel == 1 && penable == 0 && paddr <= 2) |-> ##2 (pready == 1))
+[   APB13] equivalent      G((psel == 1 && penable == 0 && paddr == 3) |-> ##4 (pready == 1))
+           witness        G((penable == 0) && (paddr == 3) && (psel == 1) |-> ##4 (pready == 1))
+[   APB14] missed          G((psel == 1 && penable == 0 && paddr >= 4) |-> ##2 (pslverr == 1))
+[   APB15] mined-stronger  G((psel == 1 && penable == 0 && paddr == 3) |=> (pready == 0))
+           witness        G((penable == 0) |=> ((pready == 0) && (pslverr == 0)))
+[   APB16] missed          G((psel == 1 && penable == 1 && paddr == 3 && pready == 0) |-> ##[1:3] (pready == 1))
+[   APB17] missed          G((psel == 1 && penable == 0 && pwrite == 0 && paddr <= 2) |-> ##2 (prdata == pwdata))
+[   APB18] missed          G((psel == 1 && penable == 0 && pwrite == 0 && paddr == 3) |-> ##4 (prdata == pwdata))
+
+# declared: 243 mined, 10 matched a golden clause, 233 with no counterpart
+# interface: 861 mined, 8 matched a golden clause, 853 with no counterpart
+
+== ASSUMPTIONS ==
+-- declared vocabulary --
+[      A1] mined-stronger  presetn == 1
+           witness        penable == 1
+[      A2] mined-stronger  paddr <= 3
+           witness        presetn == 0
+[      A3] mined-weaker    paddr >= 4
+           witness        paddr <= 7
+[      A4] equivalent      pwdata <= 255
+           witness        pwdata <= 255
+
+-- interface vocabulary --
+[      A1] mined-stronger  presetn == 1
+           witness        penable == 1
+[      A2] mined-stronger  paddr <= 3
+           witness        presetn == 0
+[      A3] mined-weaker    paddr >= 4
+           witness        paddr <= 7
+[      A4] equivalent      pwdata <= 255
+           witness        pwdata <= 255
+
+# declared: 22 mined, 4 matched a golden clause, 18 with no counterpart
+# interface: 22 mined, 4 matched a golden clause, 18 with no counterpart

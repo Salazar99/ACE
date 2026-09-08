@@ -1,0 +1,211 @@
+{
+ "design": "apb_slave",
+ "assumptions": [
+  {
+   "id": "A1",
+   "invariant": "presetn == 1",
+   "why": "the environment holds reset deasserted while it drives transfers"
+  },
+  {
+   "id": "A2",
+   "invariant": "paddr <= 3",
+   "why": "the environment addresses the register map. The error-response contracts are claimed under the complementary assumption instead"
+  },
+  {
+   "id": "A3",
+   "invariant": "paddr >= 4",
+   "why": "the complementary environment: an address outside the map, which is what the error contracts are about"
+  },
+  {
+   "id": "A4",
+   "invariant": "pwdata <= 255",
+   "why": "the environment supplies an 8-bit payload, and on a read it drives pwdata with the value it last wrote to that address. Only the width half of that is statable as an invariant, which is exactly why the read-back contracts break on the stress corpus"
+  }
+ ],
+ "contracts": [
+  {
+   "id": "APB1",
+   "kind": "reset",
+   "template": "G2",
+   "assumption_ids": [],
+   "guarantee": "G((presetn == 0) |=> (pready == 0))",
+   "props": [],
+   "rationale": "reset clears the response"
+  },
+  {
+   "id": "APB2",
+   "kind": "reset",
+   "template": "G2",
+   "assumption_ids": [],
+   "guarantee": "G((presetn == 0) |=> (pslverr == 0))",
+   "props": [],
+   "rationale": "reset clears the error flag"
+  },
+  {
+   "id": "APB3",
+   "kind": "reset",
+   "template": "G2",
+   "assumption_ids": [],
+   "guarantee": "G((presetn == 0) |=> (prdata == 0))",
+   "props": [],
+   "rationale": "reset clears the read data register"
+  },
+  {
+   "id": "APB4",
+   "kind": "protocol",
+   "template": "G2",
+   "assumption_ids": [],
+   "guarantee": "G((psel == 0) |=> (pready == 0))",
+   "props": [],
+   "rationale": "an unselected slave does not respond"
+  },
+  {
+   "id": "APB5",
+   "kind": "protocol",
+   "template": "G2",
+   "assumption_ids": [],
+   "guarantee": "G((psel == 0) |=> (pslverr == 0))",
+   "props": [],
+   "rationale": "an unselected slave raises no error"
+  },
+  {
+   "id": "APB6",
+   "kind": "protocol",
+   "template": "G2",
+   "assumption_ids": [],
+   "guarantee": "G((penable == 0) |=> (pready == 0))",
+   "props": [],
+   "rationale": "no response outside an access phase: pready is only ever raised in answer to psel && penable"
+  },
+  {
+   "id": "APB7",
+   "kind": "protocol",
+   "template": "G4",
+   "assumption_ids": ["A1", "A2"],
+   "guarantee": "G((psel == 1 && penable == 1 && paddr <= 2) |=> (pready == 1))",
+   "props": [],
+   "rationale": "a fast register never stalls: the access phase is answered in the next cycle"
+  },
+  {
+   "id": "APB8",
+   "kind": "protocol",
+   "template": "G4",
+   "assumption_ids": ["A1", "A2"],
+   "guarantee": "G((psel == 1 && penable == 1 && paddr <= 3) |=> (pslverr == 0))",
+   "props": [],
+   "rationale": "no error response inside the register map"
+  },
+  {
+   "id": "APB9",
+   "kind": "error",
+   "template": "G4",
+   "assumption_ids": ["A1", "A3"],
+   "guarantee": "G((psel == 1 && penable == 1 && paddr >= 4) |=> (pslverr == 1))",
+   "props": [],
+   "rationale": "an access outside the map is answered with an error"
+  },
+  {
+   "id": "APB10",
+   "kind": "error",
+   "template": "G4",
+   "assumption_ids": ["A1", "A3"],
+   "guarantee": "G((psel == 1 && penable == 1 && paddr >= 4) |=> (pready == 1))",
+   "props": [],
+   "rationale": "an error response completes immediately: the slave never stalls a bad address"
+  },
+  {
+   "id": "APB11",
+   "kind": "error",
+   "template": "G1",
+   "assumption_ids": [],
+   "guarantee": "G((pslverr == 1) |-> (pready == 1))",
+   "props": [],
+   "rationale": "an error is only signalled together with the completion of the transfer, which is the APB rule"
+  },
+  {
+   "id": "APB12",
+   "kind": "latency",
+   "template": "G4",
+   "assumption_ids": ["A1", "A2"],
+   "guarantee": "G((psel == 1 && penable == 0 && paddr <= 2) |-> ##2 (pready == 1))",
+   "props": [],
+   "rationale": "a transfer that starts on a fast register completes two cycles later, counted from the setup phase. Keying the latency contract on the setup phase rather than the access phase is what makes it a fixed delay: the access phase is held until pready, so from its last cycle the delay is one and from its first it is the full latency"
+  },
+  {
+   "id": "APB13",
+   "kind": "latency",
+   "template": "G4",
+   "assumption_ids": ["A1", "A2"],
+   "guarantee": "G((psel == 1 && penable == 0 && paddr == 3) |-> ##4 (pready == 1))",
+   "props": [],
+   "rationale": "the slow register's two wait states make the latency four cycles from the setup phase. This is the wait-state contract, and its exact-latency form is only expressible because the environment holds the request until pready"
+  },
+  {
+   "id": "APB14",
+   "kind": "latency",
+   "template": "G4",
+   "assumption_ids": ["A1", "A3"],
+   "guarantee": "G((psel == 1 && penable == 0 && paddr >= 4) |-> ##2 (pslverr == 1))",
+   "props": [],
+   "rationale": "an unmapped transfer reports its error two cycles after it starts"
+  },
+  {
+   "id": "APB15",
+   "kind": "latency",
+   "template": "G4",
+   "assumption_ids": ["A1", "A2"],
+   "guarantee": "G((psel == 1 && penable == 0 && paddr == 3) |=> (pready == 0))",
+   "props": [],
+   "rationale": "the slow register does stall: the cycle after the setup phase carries no response"
+  },
+  {
+   "id": "APB16",
+   "kind": "latency",
+   "template": "G4",
+   "assumption_ids": ["A1", "A2"],
+   "guarantee": "G((psel == 1 && penable == 1 && paddr == 3 && pready == 0) |-> ##[1:3] (pready == 1))",
+   "props": [],
+   "rationale": "a stalled access on the slow register completes within three cycles. Four propositions in the antecedent - the fourth excludes the cycle in which the transfer has already completed - so this one needs a three-deep decision tree plus the response signal in the antecedent"
+  },
+  {
+   "id": "APB17",
+   "kind": "data",
+   "template": "G4",
+   "assumption_ids": ["A1", "A2", "A4"],
+   "guarantee": "G((psel == 1 && penable == 0 && pwrite == 0 && paddr <= 2) |-> ##2 (prdata == pwdata))",
+   "props": [
+    {"exp": "prdata == pwdata", "loc": "c", "stage": "guarantee"}
+   ],
+   "rationale": "the register reads back the value that was written to it. Register read-back is a relation between two transactions an unbounded number of cycles apart; it becomes a fixed-delay contract only because the environment drives pwdata with the value it expects, which is an obligation no invariant can state. It breaks on the stress corpus, where pwdata is random"
+  },
+  {
+   "id": "APB18",
+   "kind": "data",
+   "template": "G4",
+   "assumption_ids": ["A1", "A2", "A4"],
+   "guarantee": "G((psel == 1 && penable == 0 && pwrite == 0 && paddr == 3) |-> ##4 (prdata == pwdata))",
+   "props": [],
+   "rationale": "the same read-back contract on the slow register, at its own latency"
+  }
+ ],
+ "out_of_grammar": [
+  {
+   "id": "APB-READBACK",
+   "assumption": "presetn == 1 && the environment respects the protocol",
+   "guarantee": "a read of address a returns the value of the last write to a",
+   "why_not_minable": "the write and the read are separate transactions an unbounded number of cycles apart, so the property needs either a past operator over an unbounded window or a model of the register file. APB17 and APB18 are the finite-trace surrogate, bought by making the environment carry the expected value on pwdata"
+  },
+  {
+   "id": "APB-SETUP-ACCESS",
+   "assumption": "none",
+   "guarantee": "G(psel && !penable |=> psel && penable)",
+   "why_not_minable": "this is an obligation on the MASTER, not on the slave, so it belongs in A rather than G - and A is a conjunction of invariants, which cannot say 'the next cycle'. It is the clearest instance in the benchmark of an environment obligation that the contract shape cannot express: the flow can mine it as a temporal environment clause, but not as an assumption"
+  },
+  {
+   "id": "APB-STABLE",
+   "assumption": "none",
+   "guarantee": "G(psel && penable && !pready |=> paddr and pwdata unchanged)",
+   "why_not_minable": "request stability needs $stable (or $past on every request signal), which the evaluator does not have. Every latency and data contract here depends on it, which is why they all break on the stress corpus"
+  }
+ ]
+}

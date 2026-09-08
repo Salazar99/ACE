@@ -1,0 +1,2291 @@
+{
+  "benchmark": "adder_8bit",
+  "overrides": {},
+  "episode_covers_horizon": true,
+  "ace2_version": "0.1.0",
+  "runs": 5,
+  "samples": 2500,
+  "trace_budget": null,
+  "seed": 0,
+  "temporal_backend": "in-process-templates",
+  "regions": [
+    {
+      "event": "cout == 1",
+      "assumptions": [
+        {
+          "text": "a >= 0",
+          "kind": "propositional",
+          "role": "assumption",
+          "backend": "in-process",
+          "scope": "episode",
+          "region": {
+            "clause": "a >= 0",
+            "support": 1709,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "global_support": {
+            "clause": "a >= 0",
+            "support": 2500,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "region_specific": false,
+          "held_out": {
+            "support": 1498,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "kept": true
+        },
+        {
+          "text": "a <= 255",
+          "kind": "propositional",
+          "role": "assumption",
+          "backend": "in-process",
+          "scope": "episode",
+          "region": {
+            "clause": "a <= 255",
+            "support": 1709,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "global_support": {
+            "clause": "a <= 255",
+            "support": 2500,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "region_specific": false,
+          "held_out": {
+            "support": 1498,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "kept": true
+        },
+        {
+          "text": "b >= 0",
+          "kind": "propositional",
+          "role": "assumption",
+          "backend": "in-process",
+          "scope": "episode",
+          "region": {
+            "clause": "b >= 0",
+            "support": 1709,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "global_support": {
+            "clause": "b >= 0",
+            "support": 2500,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "region_specific": false,
+          "held_out": {
+            "support": 1498,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "kept": true
+        },
+        {
+          "text": "b <= 255",
+          "kind": "propositional",
+          "role": "assumption",
+          "backend": "in-process",
+          "scope": "episode",
+          "region": {
+            "clause": "b <= 255",
+            "support": 1709,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "global_support": {
+            "clause": "b <= 255",
+            "support": 2500,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "region_specific": false,
+          "held_out": {
+            "support": 1498,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "kept": true
+        },
+        {
+          "text": "cin >= 0",
+          "kind": "propositional",
+          "role": "assumption",
+          "backend": "in-process",
+          "scope": "episode",
+          "region": {
+            "clause": "cin >= 0",
+            "support": 1709,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "global_support": {
+            "clause": "cin >= 0",
+            "support": 2500,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "region_specific": false,
+          "held_out": {
+            "support": 1498,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "kept": true
+        },
+        {
+          "text": "cin <= 1",
+          "kind": "propositional",
+          "role": "assumption",
+          "backend": "in-process",
+          "scope": "episode",
+          "region": {
+            "clause": "cin <= 1",
+            "support": 1709,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "global_support": {
+            "clause": "cin <= 1",
+            "support": 2500,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "region_specific": false,
+          "held_out": {
+            "support": 1498,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "kept": true
+        },
+        {
+          "text": "G(cin == 0 |-> (a >= 0))",
+          "kind": "propositional",
+          "role": "assumption",
+          "backend": "in-process",
+          "scope": "anchor:cin == 0",
+          "region": {
+            "clause": "G(cin == 0 |-> (a >= 0))",
+            "support": 815,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "global_support": {
+            "clause": "G(cin == 0 |-> (a >= 0))",
+            "support": 1224,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "region_specific": false,
+          "held_out": {
+            "support": 774,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "kept": true
+        },
+        {
+          "text": "G(cin == 0 |-> (a <= 255))",
+          "kind": "propositional",
+          "role": "assumption",
+          "backend": "in-process",
+          "scope": "anchor:cin == 0",
+          "region": {
+            "clause": "G(cin == 0 |-> (a <= 255))",
+            "support": 815,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "global_support": {
+            "clause": "G(cin == 0 |-> (a <= 255))",
+            "support": 1224,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "region_specific": false,
+          "held_out": {
+            "support": 774,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "kept": true
+        },
+        {
+          "text": "G(cin == 0 |-> (b >= 0))",
+          "kind": "propositional",
+          "role": "assumption",
+          "backend": "in-process",
+          "scope": "anchor:cin == 0",
+          "region": {
+            "clause": "G(cin == 0 |-> (b >= 0))",
+            "support": 815,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "global_support": {
+            "clause": "G(cin == 0 |-> (b >= 0))",
+            "support": 1224,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "region_specific": false,
+          "held_out": {
+            "support": 774,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "kept": true
+        },
+        {
+          "text": "G(cin == 0 |-> (b <= 255))",
+          "kind": "propositional",
+          "role": "assumption",
+          "backend": "in-process",
+          "scope": "anchor:cin == 0",
+          "region": {
+            "clause": "G(cin == 0 |-> (b <= 255))",
+            "support": 815,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "global_support": {
+            "clause": "G(cin == 0 |-> (b <= 255))",
+            "support": 1224,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "region_specific": false,
+          "held_out": {
+            "support": 774,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "kept": true
+        },
+        {
+          "text": "G(a > b |-> (cin >= 0))",
+          "kind": "propositional",
+          "role": "assumption",
+          "backend": "in-process",
+          "scope": "anchor:a > b",
+          "region": {
+            "clause": "G(a > b |-> (cin >= 0))",
+            "support": 1232,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "global_support": {
+            "clause": "G(a > b |-> (cin >= 0))",
+            "support": 1775,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "region_specific": false,
+          "held_out": {
+            "support": 1036,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "kept": true
+        },
+        {
+          "text": "G(a > b |-> (cin <= 1))",
+          "kind": "propositional",
+          "role": "assumption",
+          "backend": "in-process",
+          "scope": "anchor:a > b",
+          "region": {
+            "clause": "G(a > b |-> (cin <= 1))",
+            "support": 1232,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "global_support": {
+            "clause": "G(a > b |-> (cin <= 1))",
+            "support": 1775,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "region_specific": false,
+          "held_out": {
+            "support": 1036,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "kept": true
+        }
+      ],
+      "guarantees": [
+        {
+          "text": "G(cin == 0 |-> (cout <= b))",
+          "kind": "propositional",
+          "role": "guarantee",
+          "backend": "in-process",
+          "scope": "anchor:cin == 0",
+          "region": {
+            "clause": "G(cin == 0 |-> (cout <= b))",
+            "support": 815,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "global_support": {
+            "clause": "G(cin == 0 |-> (cout <= b))",
+            "support": 1224,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "region_specific": false,
+          "held_out": {
+            "support": 774,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "kept": true
+        },
+        {
+          "text": "G((a + b + cin >= 256) |-> (cout == 1))",
+          "kind": "temporal",
+          "role": "guarantee",
+          "backend": "in-process-templates",
+          "scope": "episode",
+          "region": {
+            "clause": "G((a + b + cin >= 256) |-> (cout == 1))",
+            "support": 1035,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "global_support": {
+            "clause": "G((a + b + cin >= 256) |-> (cout == 1))",
+            "support": 1317,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "region_specific": false,
+          "held_out": {
+            "support": 771,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "kept": true
+        },
+        {
+          "text": "G((cout == 1) |-> ((cout == 1) && (sum == a + b + cin - 256)))",
+          "kind": "temporal",
+          "role": "guarantee",
+          "backend": "in-process-templates",
+          "scope": "episode",
+          "region": {
+            "clause": "G((cout == 1) |-> ((cout == 1) && (sum == a + b + cin - 256)))",
+            "support": 1035,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "global_support": {
+            "clause": "G((cout == 1) |-> ((cout == 1) && (sum == a + b + cin - 256)))",
+            "support": 1317,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "region_specific": false,
+          "held_out": {
+            "support": 771,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "kept": false
+        },
+        {
+          "text": "G((cout == 1) |-> (sum == a + b + cin - 256))",
+          "kind": "temporal",
+          "role": "guarantee",
+          "backend": "in-process-templates",
+          "scope": "episode",
+          "region": {
+            "clause": "G((cout == 1) |-> (sum == a + b + cin - 256))",
+            "support": 1035,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "global_support": {
+            "clause": "G((cout == 1) |-> (sum == a + b + cin - 256))",
+            "support": 1317,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "region_specific": false,
+          "held_out": {
+            "support": 771,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "kept": false
+        },
+        {
+          "text": "G((a + b + cin <= 255) |-> (cout == 0))",
+          "kind": "temporal",
+          "role": "guarantee",
+          "backend": "in-process-templates",
+          "scope": "episode",
+          "region": {
+            "clause": "G((a + b + cin <= 255) |-> (cout == 0))",
+            "support": 674,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "global_support": {
+            "clause": "G((a + b + cin <= 255) |-> (cout == 0))",
+            "support": 1183,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "region_specific": false,
+          "held_out": {
+            "support": 727,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "kept": true
+        },
+        {
+          "text": "G((cout == 0) |-> ((cout == 0) && (sum == a + b + cin)))",
+          "kind": "temporal",
+          "role": "guarantee",
+          "backend": "in-process-templates",
+          "scope": "episode",
+          "region": {
+            "clause": "G((cout == 0) |-> ((cout == 0) && (sum == a + b + cin)))",
+            "support": 674,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "global_support": {
+            "clause": "G((cout == 0) |-> ((cout == 0) && (sum == a + b + cin)))",
+            "support": 1183,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "region_specific": false,
+          "held_out": {
+            "support": 727,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "kept": false
+        },
+        {
+          "text": "G((cout == 0) |-> (sum == a + b + cin))",
+          "kind": "temporal",
+          "role": "guarantee",
+          "backend": "in-process-templates",
+          "scope": "episode",
+          "region": {
+            "clause": "G((cout == 0) |-> (sum == a + b + cin))",
+            "support": 674,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "global_support": {
+            "clause": "G((cout == 0) |-> (sum == a + b + cin))",
+            "support": 1183,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "region_specific": false,
+          "held_out": {
+            "support": 727,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "kept": false
+        },
+        {
+          "text": "G(((!(cout == 1)) ##1 (cout == 1)) |-> ((cout == 1) && (sum == a + b + cin - 256)))",
+          "kind": "temporal",
+          "role": "guarantee",
+          "backend": "in-process-templates",
+          "scope": "episode",
+          "region": {
+            "clause": "G(((!(cout == 1)) ##1 (cout == 1)) |-> ((cout == 1) && (sum == a + b + cin - 256)))",
+            "support": 400,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "global_support": {
+            "clause": "G(((!(cout == 1)) ##1 (cout == 1)) |-> ((cout == 1) && (sum == a + b + cin - 256)))",
+            "support": 620,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "region_specific": false,
+          "held_out": {
+            "support": 374,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "kept": false
+        },
+        {
+          "text": "G(((!(cout == 1)) ##1 (cout == 1)) |-> (cout == 1))",
+          "kind": "temporal",
+          "role": "guarantee",
+          "backend": "in-process-templates",
+          "scope": "episode",
+          "region": {
+            "clause": "G(((!(cout == 1)) ##1 (cout == 1)) |-> (cout == 1))",
+            "support": 400,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "global_support": {
+            "clause": "G(((!(cout == 1)) ##1 (cout == 1)) |-> (cout == 1))",
+            "support": 620,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "region_specific": false,
+          "held_out": {
+            "support": 374,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "kept": true
+        },
+        {
+          "text": "G(((!(cout == 1)) ##1 (cout == 1)) |-> (sum == a + b + cin - 256))",
+          "kind": "temporal",
+          "role": "guarantee",
+          "backend": "in-process-templates",
+          "scope": "episode",
+          "region": {
+            "clause": "G(((!(cout == 1)) ##1 (cout == 1)) |-> (sum == a + b + cin - 256))",
+            "support": 400,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "global_support": {
+            "clause": "G(((!(cout == 1)) ##1 (cout == 1)) |-> (sum == a + b + cin - 256))",
+            "support": 620,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "region_specific": false,
+          "held_out": {
+            "support": 374,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "kept": false
+        },
+        {
+          "text": "G(((cout == 1) ##1 (!(cout == 1))) |-> ((cout == 0) && (sum == a + b + cin)))",
+          "kind": "temporal",
+          "role": "guarantee",
+          "backend": "in-process-templates",
+          "scope": "episode",
+          "region": {
+            "clause": "G(((cout == 1) ##1 (!(cout == 1))) |-> ((cout == 0) && (sum == a + b + cin)))",
+            "support": 342,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "global_support": {
+            "clause": "G(((cout == 1) ##1 (!(cout == 1))) |-> ((cout == 0) && (sum == a + b + cin)))",
+            "support": 618,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "region_specific": false,
+          "held_out": {
+            "support": 372,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "kept": false
+        },
+        {
+          "text": "G(((cout == 1) ##1 (!(cout == 1))) |-> (cout == 0))",
+          "kind": "temporal",
+          "role": "guarantee",
+          "backend": "in-process-templates",
+          "scope": "episode",
+          "region": {
+            "clause": "G(((cout == 1) ##1 (!(cout == 1))) |-> (cout == 0))",
+            "support": 342,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "global_support": {
+            "clause": "G(((cout == 1) ##1 (!(cout == 1))) |-> (cout == 0))",
+            "support": 618,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "region_specific": false,
+          "held_out": {
+            "support": 372,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "kept": true
+        },
+        {
+          "text": "G(((cout == 1) ##1 (!(cout == 1))) |-> (sum == a + b + cin))",
+          "kind": "temporal",
+          "role": "guarantee",
+          "backend": "in-process-templates",
+          "scope": "episode",
+          "region": {
+            "clause": "G(((cout == 1) ##1 (!(cout == 1))) |-> (sum == a + b + cin))",
+            "support": 342,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "global_support": {
+            "clause": "G(((cout == 1) ##1 (!(cout == 1))) |-> (sum == a + b + cin))",
+            "support": 618,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "region_specific": false,
+          "held_out": {
+            "support": 372,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "kept": false
+        },
+        {
+          "text": "G((sum == 3) && (a + b + cin >= 256) |-> ((cout == 1) && (sum == 3)))",
+          "kind": "temporal",
+          "role": "guarantee",
+          "backend": "in-process-templates",
+          "scope": "episode",
+          "region": {
+            "clause": "G((sum == 3) && (a + b + cin >= 256) |-> ((cout == 1) && (sum == 3)))",
+            "support": 122,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "global_support": {
+            "clause": "G((sum == 3) && (a + b + cin >= 256) |-> ((cout == 1) && (sum == 3)))",
+            "support": 150,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "region_specific": false,
+          "held_out": {
+            "support": 74,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "kept": true
+        },
+        {
+          "text": "G((sum == 0) && (a + b + cin >= 256) |-> ((cout == 1) && (sum == 0)))",
+          "kind": "temporal",
+          "role": "guarantee",
+          "backend": "in-process-templates",
+          "scope": "episode",
+          "region": {
+            "clause": "G((sum == 0) && (a + b + cin >= 256) |-> ((cout == 1) && (sum == 0)))",
+            "support": 117,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "global_support": {
+            "clause": "G((sum == 0) && (a + b + cin >= 256) |-> ((cout == 1) && (sum == 0)))",
+            "support": 154,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "region_specific": false,
+          "held_out": {
+            "support": 92,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "kept": true
+        },
+        {
+          "text": "G((sum == 0) && (a + b + cin >= 256) |-> ((sum == 0) && (cout == 1)))",
+          "kind": "temporal",
+          "role": "guarantee",
+          "backend": "in-process-templates",
+          "scope": "episode",
+          "region": {
+            "clause": "G((sum == 0) && (a + b + cin >= 256) |-> ((sum == 0) && (cout == 1)))",
+            "support": 117,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "global_support": {
+            "clause": "G((sum == 0) && (a + b + cin >= 256) |-> ((sum == 0) && (cout == 1)))",
+            "support": 154,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "region_specific": false,
+          "held_out": {
+            "support": 92,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "kept": false
+        },
+        {
+          "text": "G((sum == 6) && (a + b + cin >= 256) |-> ((cout == 1) && (sum == 6)))",
+          "kind": "temporal",
+          "role": "guarantee",
+          "backend": "in-process-templates",
+          "scope": "episode",
+          "region": {
+            "clause": "G((sum == 6) && (a + b + cin >= 256) |-> ((cout == 1) && (sum == 6)))",
+            "support": 116,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "global_support": {
+            "clause": "G((sum == 6) && (a + b + cin >= 256) |-> ((cout == 1) && (sum == 6)))",
+            "support": 146,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "region_specific": false,
+          "held_out": {
+            "support": 74,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "kept": true
+        },
+        {
+          "text": "G((sum == 4) && (a + b + cin >= 256) |-> ((cout == 1) && (sum == 4)))",
+          "kind": "temporal",
+          "role": "guarantee",
+          "backend": "in-process-templates",
+          "scope": "episode",
+          "region": {
+            "clause": "G((sum == 4) && (a + b + cin >= 256) |-> ((cout == 1) && (sum == 4)))",
+            "support": 109,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "global_support": {
+            "clause": "G((sum == 4) && (a + b + cin >= 256) |-> ((cout == 1) && (sum == 4)))",
+            "support": 139,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "region_specific": false,
+          "held_out": {
+            "support": 88,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "kept": true
+        },
+        {
+          "text": "G((sum == 1) && (a + b + cin >= 256) |-> ((cout == 1) && (sum == 1)))",
+          "kind": "temporal",
+          "role": "guarantee",
+          "backend": "in-process-templates",
+          "scope": "episode",
+          "region": {
+            "clause": "G((sum == 1) && (a + b + cin >= 256) |-> ((cout == 1) && (sum == 1)))",
+            "support": 105,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "global_support": {
+            "clause": "G((sum == 1) && (a + b + cin >= 256) |-> ((cout == 1) && (sum == 1)))",
+            "support": 128,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "region_specific": false,
+          "held_out": {
+            "support": 94,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "kept": true
+        },
+        {
+          "text": "G((sum == 1) && (a + b + cin >= 256) |-> ((sum == 1) && (cout == 1)))",
+          "kind": "temporal",
+          "role": "guarantee",
+          "backend": "in-process-templates",
+          "scope": "episode",
+          "region": {
+            "clause": "G((sum == 1) && (a + b + cin >= 256) |-> ((sum == 1) && (cout == 1)))",
+            "support": 105,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "global_support": {
+            "clause": "G((sum == 1) && (a + b + cin >= 256) |-> ((sum == 1) && (cout == 1)))",
+            "support": 128,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "region_specific": false,
+          "held_out": {
+            "support": 94,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "kept": false
+        },
+        {
+          "text": "G((sum == 5) && (a + b + cin >= 256) |-> ((cout == 1) && (sum == 5)))",
+          "kind": "temporal",
+          "role": "guarantee",
+          "backend": "in-process-templates",
+          "scope": "episode",
+          "region": {
+            "clause": "G((sum == 5) && (a + b + cin >= 256) |-> ((cout == 1) && (sum == 5)))",
+            "support": 102,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "global_support": {
+            "clause": "G((sum == 5) && (a + b + cin >= 256) |-> ((cout == 1) && (sum == 5)))",
+            "support": 126,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "region_specific": false,
+          "held_out": {
+            "support": 84,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "kept": true
+        },
+        {
+          "text": "G((cin == 0) && (sum == 0) |-> (sum == cin))",
+          "kind": "temporal",
+          "role": "guarantee",
+          "backend": "in-process-templates",
+          "scope": "episode",
+          "region": {
+            "clause": "G((cin == 0) && (sum == 0) |-> (sum == cin))",
+            "support": 62,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "global_support": {
+            "clause": "G((cin == 0) && (sum == 0) |-> (sum == cin))",
+            "support": 86,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "region_specific": false,
+          "held_out": {
+            "support": 45,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "kept": true
+        },
+        {
+          "text": "G((cin == 1) && (sum == 1) |-> (sum == cin))",
+          "kind": "temporal",
+          "role": "guarantee",
+          "backend": "in-process-templates",
+          "scope": "episode",
+          "region": {
+            "clause": "G((cin == 1) && (sum == 1) |-> (sum == cin))",
+            "support": 52,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "global_support": {
+            "clause": "G((cin == 1) && (sum == 1) |-> (sum == cin))",
+            "support": 64,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "region_specific": false,
+          "held_out": {
+            "support": 45,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "kept": true
+        },
+        {
+          "text": "G((sum == 6) && (a + b + cin <= 255) |-> ((cout == 0) && (sum == 6)))",
+          "kind": "temporal",
+          "role": "guarantee",
+          "backend": "in-process-templates",
+          "scope": "episode",
+          "region": {
+            "clause": "G((sum == 6) && (a + b + cin <= 255) |-> ((cout == 0) && (sum == 6)))",
+            "support": 21,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "global_support": {
+            "clause": "G((sum == 6) && (a + b + cin <= 255) |-> ((cout == 0) && (sum == 6)))",
+            "support": 36,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "region_specific": false,
+          "held_out": {
+            "support": 18,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "kept": true
+        },
+        {
+          "text": "G((a == 1) && (cout == 1) |-> (sum == 0))",
+          "kind": "temporal",
+          "role": "guarantee",
+          "backend": "in-process-templates",
+          "scope": "episode",
+          "region": {
+            "clause": "G((a == 1) && (cout == 1) |-> (sum == 0))",
+            "support": 5,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "global_support": {
+            "clause": "G((a == 1) && (cout == 1) |-> (sum == 0))",
+            "support": 5,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "region_specific": false,
+          "held_out": {
+            "support": 3,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "kept": true
+        },
+        {
+          "text": "G((a == 6) && (sum == 6) |-> (sum == a))",
+          "kind": "temporal",
+          "role": "guarantee",
+          "backend": "in-process-templates",
+          "scope": "episode",
+          "region": {
+            "clause": "G((a == 6) && (sum == 6) |-> (sum == a))",
+            "support": 4,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "global_support": {
+            "clause": "G((a == 6) && (sum == 6) |-> (sum == a))",
+            "support": 7,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "region_specific": false,
+          "held_out": {
+            "support": 1,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          "kept": true
+        }
+      ],
+      "triggers": [
+        {
+          "trigger": "cin == 0",
+          "assertion": "G((cin == 0) |-> ##[1:1] (cout == 1))",
+          "atct": 344,
+          "afct": 294,
+          "support": 638,
+          "smoothed_recall": 0.539062,
+          "explained_occurrences": 344
+        },
+        {
+          "trigger": "a > b",
+          "assertion": "G((a > b) |-> ##[1:1] (cout == 1))",
+          "atct": 275,
+          "afct": 233,
+          "support": 508,
+          "smoothed_recall": 0.541176,
+          "explained_occurrences": 275
+        }
+      ],
+      "provenance": {
+        "event": "cout == 1",
+        "triggers": [
+          "cin == 0",
+          "a > b"
+        ],
+        "grammar": "G1",
+        "horizon": 1,
+        "h_pre": 1,
+        "h_post": 1,
+        "episode_mode": "split",
+        "episodes": 214,
+        "episode_samples": 1709,
+        "episode_provenance_ok": true,
+        "temporal_backend": "in-process-templates",
+        "propositional_backend": "in-process",
+        "region_csvs": [
+          "results/declared/adder_8bit/work/region_cout_1/episode_00000.csv",
+          "results/declared/adder_8bit/work/region_cout_1/episode_00001.csv",
+          "results/declared/adder_8bit/work/region_cout_1/episode_00002.csv",
+          "results/declared/adder_8bit/work/region_cout_1/episode_00003.csv",
+          "results/declared/adder_8bit/work/region_cout_1/episode_00004.csv",
+          "results/declared/adder_8bit/work/region_cout_1/episode_00005.csv",
+          "results/declared/adder_8bit/work/region_cout_1/episode_00006.csv",
+          "results/declared/adder_8bit/work/region_cout_1/episode_00007.csv",
+          "..."
+        ]
+      },
+      "metrics": {
+        "assumptions": 12,
+        "guarantees": 26,
+        "dropped": 113,
+        "trace_consistent": {
+          "positions": 1709,
+          "violations": 0,
+          "rate": 0.0,
+          "method": "trace-bounded"
+        }
+      },
+      "dropped": [
+        {
+          "clause": "sum >= 0",
+          "why": "domain-trivial: holds at every corpus position, so it restates a signal domain"
+        },
+        {
+          "clause": "sum <= 255",
+          "why": "domain-trivial: holds at every corpus position, so it restates a signal domain"
+        },
+        {
+          "clause": "cout >= 0",
+          "why": "domain-trivial: holds at every corpus position, so it restates a signal domain"
+        },
+        {
+          "clause": "cout <= 1",
+          "why": "domain-trivial: holds at every corpus position, so it restates a signal domain"
+        },
+        {
+          "clause": "cout <= a",
+          "why": "domain-trivial: holds at every corpus position, so it restates a signal domain"
+        },
+        {
+          "clause": "G(cin == 0 |-> (sum >= 0))",
+          "why": "domain-trivial: consequent `sum >= 0` holds at every corpus position, so the antecedent selects nothing"
+        },
+        {
+          "clause": "G(cin == 0 |-> (sum <= 255))",
+          "why": "domain-trivial: consequent `sum <= 255` holds at every corpus position, so the antecedent selects nothing"
+        },
+        {
+          "clause": "G(cin == 0 |-> (cout >= 0))",
+          "why": "domain-trivial: consequent `cout >= 0` holds at every corpus position, so the antecedent selects nothing"
+        },
+        {
+          "clause": "G(cin == 0 |-> (cout <= 1))",
+          "why": "domain-trivial: consequent `cout <= 1` holds at every corpus position, so the antecedent selects nothing"
+        },
+        {
+          "clause": "G(cin == 0 |-> (cout <= a))",
+          "why": "domain-trivial: consequent `cout <= a` holds at every corpus position, so the antecedent selects nothing"
+        },
+        {
+          "clause": "G(a > b |-> (sum >= 0))",
+          "why": "domain-trivial: consequent `sum >= 0` holds at every corpus position, so the antecedent selects nothing"
+        },
+        {
+          "clause": "G(a > b |-> (sum <= 255))",
+          "why": "domain-trivial: consequent `sum <= 255` holds at every corpus position, so the antecedent selects nothing"
+        },
+        {
+          "clause": "G(a > b |-> (cout >= 0))",
+          "why": "domain-trivial: consequent `cout >= 0` holds at every corpus position, so the antecedent selects nothing"
+        },
+        {
+          "clause": "G(a > b |-> (cout <= 1))",
+          "why": "domain-trivial: consequent `cout <= 1` holds at every corpus position, so the antecedent selects nothing"
+        },
+        {
+          "clause": "G(cin == 0)",
+          "why": "violated on 894 of 1709 region positions"
+        },
+        {
+          "clause": "G(a > b)",
+          "why": "violated on 477 of 1709 region positions"
+        },
+        {
+          "clause": "G((a + b + cin >= 256) |-> (sum == a + b + cin - 256))",
+          "why": "subsumed by `G((cout == 1) |-> (sum == a + b + cin - 256))`"
+        },
+        {
+          "clause": "G((a + b + cin >= 256) |-> ((cout == 1) && (sum == a + b + cin - 256)))",
+          "why": "subsumed by `G((cout == 1) |-> ((cout == 1) && (sum == a + b + cin - 256)))`"
+        },
+        {
+          "clause": "G((a + b + cin <= 255) |-> (sum == a + b + cin))",
+          "why": "subsumed by `G((cout == 0) |-> (sum == a + b + cin))`"
+        },
+        {
+          "clause": "G((a + b + cin <= 255) |-> ((cout == 0) && (sum == a + b + cin)))",
+          "why": "subsumed by `G((cout == 0) |-> ((cout == 0) && (sum == a + b + cin)))`"
+        },
+        {
+          "clause": "G((cin == 0) && (sum == 1) |-> (cout == 1))",
+          "why": "subsumed by `G((a + b + cin >= 256) |-> (cout == 1))`"
+        },
+        {
+          "clause": "G((cin == 0) && (sum == 1) |-> (sum == a + b + cin - 256))",
+          "why": "subsumed by `G((cout == 1) |-> (sum == a + b + cin - 256))`"
+        },
+        {
+          "clause": "G((cin == 0) && (sum == 1) |-> ((cout == 1) && (sum == 1)))",
+          "why": "subsumed by `G((sum == 1) && (a + b + cin >= 256) |-> ((cout == 1) && (sum == 1)))`"
+        },
+        {
+          "clause": "G((cin == 0) && (sum == 1) |-> ((sum == 1) && (cout == 1)))",
+          "why": "subsumed by `G((sum == 1) && (a + b + cin >= 256) |-> ((sum == 1) && (cout == 1)))`"
+        },
+        {
+          "clause": "G((cin == 0) && (sum == 1) |-> ((cout == 1) && (sum == a + b + cin - 256)))",
+          "why": "subsumed by `G((cout == 1) |-> ((cout == 1) && (sum == a + b + cin - 256)))`"
+        },
+        {
+          "clause": "G((cin == 1) && (sum == 0) |-> (cout == 1))",
+          "why": "subsumed by `G((a + b + cin >= 256) |-> (cout == 1))`"
+        },
+        {
+          "clause": "G((cin == 1) && (sum == 0) |-> (sum == a + b + cin - 256))",
+          "why": "subsumed by `G((cout == 1) |-> (sum == a + b + cin - 256))`"
+        },
+        {
+          "clause": "G((cin == 1) && (sum == 0) |-> ((cout == 1) && (sum == 0)))",
+          "why": "subsumed by `G((sum == 0) && (a + b + cin >= 256) |-> ((cout == 1) && (sum == 0)))`"
+        },
+        {
+          "clause": "G((cin == 1) && (sum == 0) |-> ((sum == 0) && (cout == 1)))",
+          "why": "subsumed by `G((sum == 0) && (a + b + cin >= 256) |-> ((sum == 0) && (cout == 1)))`"
+        },
+        {
+          "clause": "G((cin == 1) && (sum == 0) |-> ((cout == 1) && (sum == a + b + cin - 256)))",
+          "why": "subsumed by `G((cout == 1) |-> ((cout == 1) && (sum == a + b + cin - 256)))`"
+        },
+        {
+          "clause": "G((a == 5) |-> (cout == 0))",
+          "why": "subsumed by `G((a + b + cin <= 255) |-> (cout == 0))`"
+        },
+        {
+          "clause": "G((a == 5) |-> (sum == a + b + cin))",
+          "why": "subsumed by `G((cout == 0) |-> (sum == a + b + cin))`"
+        },
+        {
+          "clause": "G((a == 5) |-> ((cout == 0) && (sum == a + b + cin)))",
+          "why": "subsumed by `G((cout == 0) |-> ((cout == 0) && (sum == a + b + cin)))`"
+        },
+        {
+          "clause": "G((a == 2) |-> (cout == 0))",
+          "why": "subsumed by `G((a + b + cin <= 255) |-> (cout == 0))`"
+        },
+        {
+          "clause": "G((a == 2) |-> (sum == a + b + cin))",
+          "why": "subsumed by `G((cout == 0) |-> (sum == a + b + cin))`"
+        },
+        {
+          "clause": "G((a == 2) |-> ((cout == 0) && (sum == a + b + cin)))",
+          "why": "subsumed by `G((cout == 0) |-> ((cout == 0) && (sum == a + b + cin)))`"
+        },
+        {
+          "clause": "G((a == 6) |-> (cout == 0))",
+          "why": "subsumed by `G((a + b + cin <= 255) |-> (cout == 0))`"
+        },
+        {
+          "clause": "G((a == 6) |-> (sum == a + b + cin))",
+          "why": "subsumed by `G((cout == 0) |-> (sum == a + b + cin))`"
+        },
+        {
+          "clause": "G((a == 6) |-> ((cout == 0) && (sum == a + b + cin)))",
+          "why": "subsumed by `G((cout == 0) |-> ((cout == 0) && (sum == a + b + cin)))`"
+        },
+        {
+          "clause": "G((a == 0) |-> (cout == 0))",
+          "why": "subsumed by `G((a + b + cin <= 255) |-> (cout == 0))`"
+        },
+        {
+          "clause": "G((a == 15) |-> (cout == 0))",
+          "why": "subsumed by `G((a + b + cin <= 255) |-> (cout == 0))`"
+        },
+        {
+          "clause": "G((a == 0) |-> (sum == a + b + cin))",
+          "why": "subsumed by `G((cout == 0) |-> (sum == a + b + cin))`"
+        },
+        {
+          "clause": "G((a == 15) |-> (sum == a + b + cin))",
+          "why": "subsumed by `G((cout == 0) |-> (sum == a + b + cin))`"
+        },
+        {
+          "clause": "G((a == 0) |-> ((cout == 0) && (sum == a + b + cin)))",
+          "why": "subsumed by `G((cout == 0) |-> ((cout == 0) && (sum == a + b + cin)))`"
+        },
+        {
+          "clause": "G((a == 15) |-> ((cout == 0) && (sum == a + b + cin)))",
+          "why": "subsumed by `G((cout == 0) |-> ((cout == 0) && (sum == a + b + cin)))`"
+        },
+        {
+          "clause": "G((a == 1) && (cin == 0) |-> (cout == 0))",
+          "why": "subsumed by `G((a + b + cin <= 255) |-> (cout == 0))`"
+        },
+        {
+          "clause": "G((a == 1) && (cin == 0) |-> (sum == a + b + cin))",
+          "why": "subsumed by `G((cout == 0) |-> (sum == a + b + cin))`"
+        },
+        {
+          "clause": "G((a == 1) && (cin == 0) |-> ((cout == 0) && (sum == a + b + cin)))",
+          "why": "subsumed by `G((cout == 0) |-> ((cout == 0) && (sum == a + b + cin)))`"
+        },
+        {
+          "clause": "G((b == 8) && (sum == 5) |-> (cout == 1))",
+          "why": "subsumed by `G((a + b + cin >= 256) |-> (cout == 1))`"
+        },
+        {
+          "clause": "G((b == 8) && (sum == 5) |-> (sum == a + b + cin - 256))",
+          "why": "subsumed by `G((cout == 1) |-> (sum == a + b + cin - 256))`"
+        },
+        {
+          "clause": "G((a == 5) && (sum == 6) |-> ((cout == 0) && (sum == 6)))",
+          "why": "subsumed by `G((sum == 6) && (a + b + cin <= 255) |-> ((cout == 0) && (sum == 6)))`"
+        },
+        {
+          "clause": "G((b == 8) && (sum == 5) |-> ((cout == 1) && (sum == 5)))",
+          "why": "subsumed by `G((sum == 5) && (a + b + cin >= 256) |-> ((cout == 1) && (sum == 5)))`"
+        },
+        {
+          "clause": "G((b == 8) && (sum == 5) |-> ((cout == 1) && (sum == a + b + cin - 256)))",
+          "why": "subsumed by `G((cout == 1) |-> ((cout == 1) && (sum == a + b + cin - 256)))`"
+        },
+        {
+          "clause": "G((a == 1) && (sum == 0) |-> (cout == 1))",
+          "why": "subsumed by `G((a + b + cin >= 256) |-> (cout == 1))`"
+        },
+        {
+          "clause": "G((b == 8) && (sum == 3) |-> (cout == 1))",
+          "why": "subsumed by `G((a + b + cin >= 256) |-> (cout == 1))`"
+        },
+        {
+          "clause": "G((a == 0) && (sum == 1) |-> (sum == cin))",
+          "why": "subsumed by `G((cin == 1) && (sum == 1) |-> (sum == cin))`"
+        },
+        {
+          "clause": "G((b == 11) && (sum == 3) |-> (cout == 1))",
+          "why": "subsumed by `G((a + b + cin >= 256) |-> (cout == 1))`"
+        },
+        {
+          "clause": "G((b == 13) && (sum == 3) |-> (cout == 1))",
+          "why": "subsumed by `G((a + b + cin >= 256) |-> (cout == 1))`"
+        },
+        {
+          "clause": "G((sum == 1) && (cout == 0) |-> (sum == cin))",
+          "why": "subsumed by `G((cin == 1) && (sum == 1) |-> (sum == cin))`"
+        },
+        {
+          "clause": "G((sum == 1) && (a + b + cin <= 255) |-> (sum == cin))",
+          "why": "subsumed by `G((cin == 1) && (sum == 1) |-> (sum == cin))`"
+        },
+        {
+          "clause": "G((a == 1) && (sum == 0) |-> (sum == a + b + cin - 256))",
+          "why": "subsumed by `G((cout == 1) |-> (sum == a + b + cin - 256))`"
+        },
+        {
+          "clause": "G((b == 8) && (sum == 3) |-> (sum == a + b + cin - 256))",
+          "why": "subsumed by `G((cout == 1) |-> (sum == a + b + cin - 256))`"
+        },
+        {
+          "clause": "G((a == 1) && (sum == 0) |-> ((cout == 1) && (sum == 0)))",
+          "why": "subsumed by `G((sum == 0) && (a + b + cin >= 256) |-> ((cout == 1) && (sum == 0)))`"
+        },
+        {
+          "clause": "G((a == 1) && (sum == 0) |-> ((sum == 0) && (cout == 1)))",
+          "why": "subsumed by `G((sum == 0) && (a + b + cin >= 256) |-> ((sum == 0) && (cout == 1)))`"
+        },
+        {
+          "clause": "G((b == 11) && (sum == 3) |-> (sum == a + b + cin - 256))",
+          "why": "subsumed by `G((cout == 1) |-> (sum == a + b + cin - 256))`"
+        },
+        {
+          "clause": "G((b == 13) && (sum == 3) |-> (sum == a + b + cin - 256))",
+          "why": "subsumed by `G((cout == 1) |-> (sum == a + b + cin - 256))`"
+        },
+        {
+          "clause": "G((b == 8) && (sum == 3) |-> ((cout == 1) && (sum == 3)))",
+          "why": "subsumed by `G((sum == 3) && (a + b + cin >= 256) |-> ((cout == 1) && (sum == 3)))`"
+        },
+        {
+          "clause": "G((a == 1) && (cout == 1) |-> ((cout == 1) && (sum == 0)))",
+          "why": "subsumed by `G((sum == 0) && (a + b + cin >= 256) |-> ((cout == 1) && (sum == 0)))`"
+        },
+        {
+          "clause": "G((a == 1) && (cout == 1) |-> ((sum == 0) && (cout == 1)))",
+          "why": "subsumed by `G((sum == 0) && (a + b + cin >= 256) |-> ((sum == 0) && (cout == 1)))`"
+        },
+        {
+          "clause": "G((b == 11) && (sum == 3) |-> ((cout == 1) && (sum == 3)))",
+          "why": "subsumed by `G((sum == 3) && (a + b + cin >= 256) |-> ((cout == 1) && (sum == 3)))`"
+        },
+        {
+          "clause": "G((b == 13) && (sum == 3) |-> ((cout == 1) && (sum == 3)))",
+          "why": "subsumed by `G((sum == 3) && (a + b + cin >= 256) |-> ((cout == 1) && (sum == 3)))`"
+        },
+        {
+          "clause": "G((a == 1) && (sum == 0) |-> ((cout == 1) && (sum == a + b + cin - 256)))",
+          "why": "subsumed by `G((cout == 1) |-> ((cout == 1) && (sum == a + b + cin - 256)))`"
+        },
+        {
+          "clause": "G((b == 8) && (sum == 3) |-> ((cout == 1) && (sum == a + b + cin - 256)))",
+          "why": "subsumed by `G((cout == 1) |-> ((cout == 1) && (sum == a + b + cin - 256)))`"
+        },
+        {
+          "clause": "G((b == 11) && (sum == 3) |-> ((cout == 1) && (sum == a + b + cin - 256)))",
+          "why": "subsumed by `G((cout == 1) |-> ((cout == 1) && (sum == a + b + cin - 256)))`"
+        },
+        {
+          "clause": "G((b == 13) && (sum == 3) |-> ((cout == 1) && (sum == a + b + cin - 256)))",
+          "why": "subsumed by `G((cout == 1) |-> ((cout == 1) && (sum == a + b + cin - 256)))`"
+        },
+        {
+          "clause": "G((a == 1) && (sum == 4) |-> (cout == 0))",
+          "why": "subsumed by `G((a + b + cin <= 255) |-> (cout == 0))`"
+        },
+        {
+          "clause": "G((b == 7) && (sum == 0) |-> (cout == 1))",
+          "why": "subsumed by `G((a + b + cin >= 256) |-> (cout == 1))`"
+        },
+        {
+          "clause": "G((b == 7) && (sum == 1) |-> (cout == 1))",
+          "why": "subsumed by `G((a + b + cin >= 256) |-> (cout == 1))`"
+        },
+        {
+          "clause": "G((b == 7) && (sum == 4) |-> (cout == 1))",
+          "why": "subsumed by `G((a + b + cin >= 256) |-> (cout == 1))`"
+        },
+        {
+          "clause": "G((a == 1) && (sum == 4) |-> (sum == a + b + cin))",
+          "why": "subsumed by `G((cout == 0) |-> (sum == a + b + cin))`"
+        },
+        {
+          "clause": "G((b == 7) && (sum == 0) |-> (sum == a + b + cin - 256))",
+          "why": "subsumed by `G((cout == 1) |-> (sum == a + b + cin - 256))`"
+        },
+        {
+          "clause": "G((b == 7) && (sum == 1) |-> (sum == a + b + cin - 256))",
+          "why": "subsumed by `G((cout == 1) |-> (sum == a + b + cin - 256))`"
+        },
+        {
+          "clause": "G((b == 7) && (sum == 4) |-> (sum == a + b + cin - 256))",
+          "why": "subsumed by `G((cout == 1) |-> (sum == a + b + cin - 256))`"
+        },
+        {
+          "clause": "G((a == 2) && (sum == 6) |-> ((cout == 0) && (sum == 6)))",
+          "why": "subsumed by `G((sum == 6) && (a + b + cin <= 255) |-> ((cout == 0) && (sum == 6)))`"
+        },
+        {
+          "clause": "G((a == 6) && (sum == 6) |-> ((cout == 0) && (sum == 6)))",
+          "why": "subsumed by `G((sum == 6) && (a + b + cin <= 255) |-> ((cout == 0) && (sum == 6)))`"
+        },
+        {
+          "clause": "G((b == 7) && (sum == 0) |-> ((cout == 1) && (sum == 0)))",
+          "why": "subsumed by `G((sum == 0) && (a + b + cin >= 256) |-> ((cout == 1) && (sum == 0)))`"
+        },
+        {
+          "clause": "G((b == 7) && (sum == 0) |-> ((sum == 0) && (cout == 1)))",
+          "why": "subsumed by `G((sum == 0) && (a + b + cin >= 256) |-> ((sum == 0) && (cout == 1)))`"
+        },
+        {
+          "clause": "G((b == 7) && (sum == 1) |-> ((cout == 1) && (sum == 1)))",
+          "why": "subsumed by `G((sum == 1) && (a + b + cin >= 256) |-> ((cout == 1) && (sum == 1)))`"
+        },
+        {
+          "clause": "G((b == 7) && (sum == 1) |-> ((sum == 1) && (cout == 1)))",
+          "why": "subsumed by `G((sum == 1) && (a + b + cin >= 256) |-> ((sum == 1) && (cout == 1)))`"
+        },
+        {
+          "clause": "G((b == 7) && (sum == 4) |-> ((cout == 1) && (sum == 4)))",
+          "why": "subsumed by `G((sum == 4) && (a + b + cin >= 256) |-> ((cout == 1) && (sum == 4)))`"
+        },
+        {
+          "clause": "G((a == 1) && (sum == 4) |-> ((cout == 0) && (sum == a + b + cin)))",
+          "why": "subsumed by `G((cout == 0) |-> ((cout == 0) && (sum == a + b + cin)))`"
+        },
+        {
+          "clause": "G((b == 7) && (sum == 0) |-> ((cout == 1) && (sum == a + b + cin - 256)))",
+          "why": "subsumed by `G((cout == 1) |-> ((cout == 1) && (sum == a + b + cin - 256)))`"
+        },
+        {
+          "clause": "G((b == 7) && (sum == 1) |-> ((cout == 1) && (sum == a + b + cin - 256)))",
+          "why": "subsumed by `G((cout == 1) |-> ((cout == 1) && (sum == a + b + cin - 256)))`"
+        },
+        {
+          "clause": "G((b == 7) && (sum == 4) |-> ((cout == 1) && (sum == a + b + cin - 256)))",
+          "why": "subsumed by `G((cout == 1) |-> ((cout == 1) && (sum == a + b + cin - 256)))`"
+        },
+        {
+          "clause": "G((a == 1) && (b == 8) |-> (cout == 0))",
+          "why": "subsumed by `G((a + b + cin <= 255) |-> (cout == 0))`"
+        },
+        {
+          "clause": "G((a == 1) && (sum == 5) |-> (cout == 0))",
+          "why": "subsumed by `G((a + b + cin <= 255) |-> (cout == 0))`"
+        },
+        {
+          "clause": "G((b == 11) && (sum == 0) |-> (cout == 1))",
+          "why": "subsumed by `G((a + b + cin >= 256) |-> (cout == 1))`"
+        },
+        {
+          "clause": "G((a == 1) && (b == 8) |-> (sum == a + b + cin))",
+          "why": "subsumed by `G((cout == 0) |-> (sum == a + b + cin))`"
+        },
+        {
+          "clause": "G((a == 1) && (sum == 5) |-> (sum == a + b + cin))",
+          "why": "subsumed by `G((cout == 0) |-> (sum == a + b + cin))`"
+        },
+        {
+          "clause": "G((b == 4) && (sum == 0) |-> ((cout == 1) && (sum == 0)))",
+          "why": "subsumed by `G((sum == 0) && (a + b + cin >= 256) |-> ((cout == 1) && (sum == 0)))`"
+        },
+        {
+          "clause": "G((b == 4) && (sum == 0) |-> ((sum == 0) && (cout == 1)))",
+          "why": "subsumed by `G((sum == 0) && (a + b + cin >= 256) |-> ((sum == 0) && (cout == 1)))`"
+        },
+        {
+          "clause": "G((b == 7) && (sum == 3) |-> ((cout == 1) && (sum == 3)))",
+          "why": "subsumed by `G((sum == 3) && (a + b + cin >= 256) |-> ((cout == 1) && (sum == 3)))`"
+        },
+        {
+          "clause": "G((b == 8) && (sum == 0) |-> ((cout == 1) && (sum == 0)))",
+          "why": "subsumed by `G((sum == 0) && (a + b + cin >= 256) |-> ((cout == 1) && (sum == 0)))`"
+        },
+        {
+          "clause": "G((b == 8) && (sum == 0) |-> ((sum == 0) && (cout == 1)))",
+          "why": "subsumed by `G((sum == 0) && (a + b + cin >= 256) |-> ((sum == 0) && (cout == 1)))`"
+        },
+        {
+          "clause": "G((b == 11) && (sum == 0) |-> ((cout == 1) && (sum == 0)))",
+          "why": "subsumed by `G((sum == 0) && (a + b + cin >= 256) |-> ((cout == 1) && (sum == 0)))`"
+        },
+        {
+          "clause": "G((b == 11) && (sum == 0) |-> ((sum == 0) && (cout == 1)))",
+          "why": "subsumed by `G((sum == 0) && (a + b + cin >= 256) |-> ((sum == 0) && (cout == 1)))`"
+        },
+        {
+          "clause": "G((b == 13) && (sum == 4) |-> ((cout == 1) && (sum == 4)))",
+          "why": "subsumed by `G((sum == 4) && (a + b + cin >= 256) |-> ((cout == 1) && (sum == 4)))`"
+        },
+        {
+          "clause": "G((b == 13) && (sum == 5) |-> ((cout == 1) && (sum == 5)))",
+          "why": "subsumed by `G((sum == 5) && (a + b + cin >= 256) |-> ((cout == 1) && (sum == 5)))`"
+        },
+        {
+          "clause": "G((b == 13) && (sum == 6) |-> ((cout == 1) && (sum == 6)))",
+          "why": "subsumed by `G((sum == 6) && (a + b + cin >= 256) |-> ((cout == 1) && (sum == 6)))`"
+        },
+        {
+          "clause": "G((b == 15) && (sum == 5) |-> ((cout == 1) && (sum == 5)))",
+          "why": "subsumed by `G((sum == 5) && (a + b + cin >= 256) |-> ((cout == 1) && (sum == 5)))`"
+        },
+        {
+          "clause": "G((b == 15) && (sum == 6) |-> ((cout == 1) && (sum == 6)))",
+          "why": "subsumed by `G((sum == 6) && (a + b + cin >= 256) |-> ((cout == 1) && (sum == 6)))`"
+        },
+        {
+          "clause": "G((a == 1) && (b == 8) |-> ((cout == 0) && (sum == a + b + cin)))",
+          "why": "subsumed by `G((cout == 0) |-> ((cout == 0) && (sum == a + b + cin)))`"
+        },
+        {
+          "clause": "G((a == 1) && (sum == 5) |-> ((cout == 0) && (sum == a + b + cin)))",
+          "why": "subsumed by `G((cout == 0) |-> ((cout == 0) && (sum == a + b + cin)))`"
+        }
+      ],
+      "validation": {
+        "held_out_units": 4,
+        "clauses": [
+          {
+            "clause": "a >= 0",
+            "support": 1498,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          {
+            "clause": "a <= 255",
+            "support": 1498,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          {
+            "clause": "b >= 0",
+            "support": 1498,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          {
+            "clause": "b <= 255",
+            "support": 1498,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          {
+            "clause": "cin >= 0",
+            "support": 1498,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          {
+            "clause": "cin <= 1",
+            "support": 1498,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          {
+            "clause": "G(cin == 0 |-> (a >= 0))",
+            "support": 774,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          {
+            "clause": "G(cin == 0 |-> (a <= 255))",
+            "support": 774,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          {
+            "clause": "G(cin == 0 |-> (b >= 0))",
+            "support": 774,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          {
+            "clause": "G(cin == 0 |-> (b <= 255))",
+            "support": 774,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          {
+            "clause": "G(a > b |-> (cin >= 0))",
+            "support": 1036,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          {
+            "clause": "G(a > b |-> (cin <= 1))",
+            "support": 1036,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          {
+            "clause": "G(cin == 0 |-> (cout <= b))",
+            "support": 774,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          {
+            "clause": "G((a + b + cin >= 256) |-> (cout == 1))",
+            "support": 771,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          {
+            "clause": "G((cout == 1) |-> ((cout == 1) && (sum == a + b + cin - 256)))",
+            "support": 771,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          {
+            "clause": "G((cout == 1) |-> (sum == a + b + cin - 256))",
+            "support": 771,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          {
+            "clause": "G((a + b + cin <= 255) |-> (cout == 0))",
+            "support": 727,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          {
+            "clause": "G((cout == 0) |-> ((cout == 0) && (sum == a + b + cin)))",
+            "support": 727,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          {
+            "clause": "G((cout == 0) |-> (sum == a + b + cin))",
+            "support": 727,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          {
+            "clause": "G(((!(cout == 1)) ##1 (cout == 1)) |-> ((cout == 1) && (sum == a + b + cin - 256)))",
+            "support": 374,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          {
+            "clause": "G(((!(cout == 1)) ##1 (cout == 1)) |-> (cout == 1))",
+            "support": 374,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          {
+            "clause": "G(((!(cout == 1)) ##1 (cout == 1)) |-> (sum == a + b + cin - 256))",
+            "support": 374,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          {
+            "clause": "G(((cout == 1) ##1 (!(cout == 1))) |-> ((cout == 0) && (sum == a + b + cin)))",
+            "support": 372,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          {
+            "clause": "G(((cout == 1) ##1 (!(cout == 1))) |-> (cout == 0))",
+            "support": 372,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          {
+            "clause": "G(((cout == 1) ##1 (!(cout == 1))) |-> (sum == a + b + cin))",
+            "support": 372,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          {
+            "clause": "G((sum == 3) && (a + b + cin >= 256) |-> ((cout == 1) && (sum == 3)))",
+            "support": 74,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          {
+            "clause": "G((sum == 0) && (a + b + cin >= 256) |-> ((cout == 1) && (sum == 0)))",
+            "support": 92,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          {
+            "clause": "G((sum == 0) && (a + b + cin >= 256) |-> ((sum == 0) && (cout == 1)))",
+            "support": 92,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          {
+            "clause": "G((sum == 6) && (a + b + cin >= 256) |-> ((cout == 1) && (sum == 6)))",
+            "support": 74,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          {
+            "clause": "G((sum == 4) && (a + b + cin >= 256) |-> ((cout == 1) && (sum == 4)))",
+            "support": 88,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          {
+            "clause": "G((sum == 1) && (a + b + cin >= 256) |-> ((cout == 1) && (sum == 1)))",
+            "support": 94,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          {
+            "clause": "G((sum == 1) && (a + b + cin >= 256) |-> ((sum == 1) && (cout == 1)))",
+            "support": 94,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          {
+            "clause": "G((sum == 5) && (a + b + cin >= 256) |-> ((cout == 1) && (sum == 5)))",
+            "support": 84,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          {
+            "clause": "G((cin == 0) && (sum == 0) |-> (sum == cin))",
+            "support": 45,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          {
+            "clause": "G((cin == 1) && (sum == 1) |-> (sum == cin))",
+            "support": 45,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          {
+            "clause": "G((sum == 6) && (a + b + cin <= 255) |-> ((cout == 0) && (sum == 6)))",
+            "support": 18,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          {
+            "clause": "G((a == 1) && (cout == 1) |-> (sum == 0))",
+            "support": 3,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          },
+          {
+            "clause": "G((a == 6) && (sum == 6) |-> (sum == a))",
+            "support": 1,
+            "violations": 0,
+            "violation_rate": 0.0,
+            "vacuous": false,
+            "method": "trace-bounded"
+          }
+        ],
+        "minimization": {
+          "kept": [
+            "a >= 0",
+            "a <= 255",
+            "b >= 0",
+            "b <= 255",
+            "cin >= 0",
+            "cin <= 1",
+            "G(cin == 0 |-> (a >= 0))",
+            "G(cin == 0 |-> (a <= 255))",
+            "G(cin == 0 |-> (b >= 0))",
+            "G(cin == 0 |-> (b <= 255))",
+            "G(a > b |-> (cin >= 0))",
+            "G(a > b |-> (cin <= 1))",
+            "G(cin == 0 |-> (cout <= b))",
+            "G((a + b + cin >= 256) |-> (cout == 1))",
+            "G((a + b + cin <= 255) |-> (cout == 0))",
+            "G(((!(cout == 1)) ##1 (cout == 1)) |-> (cout == 1))",
+            "G(((cout == 1) ##1 (!(cout == 1))) |-> (cout == 0))",
+            "G((sum == 3) && (a + b + cin >= 256) |-> ((cout == 1) && (sum == 3)))",
+            "G((sum == 0) && (a + b + cin >= 256) |-> ((cout == 1) && (sum == 0)))",
+            "G((sum == 6) && (a + b + cin >= 256) |-> ((cout == 1) && (sum == 6)))",
+            "G((sum == 4) && (a + b + cin >= 256) |-> ((cout == 1) && (sum == 4)))",
+            "G((sum == 1) && (a + b + cin >= 256) |-> ((cout == 1) && (sum == 1)))",
+            "G((sum == 5) && (a + b + cin >= 256) |-> ((cout == 1) && (sum == 5)))",
+            "G((cin == 0) && (sum == 0) |-> (sum == cin))",
+            "G((cin == 1) && (sum == 1) |-> (sum == cin))",
+            "G((sum == 6) && (a + b + cin <= 255) |-> ((cout == 0) && (sum == 6)))",
+            "G((a == 1) && (cout == 1) |-> (sum == 0))",
+            "G((a == 6) && (sum == 6) |-> (sum == a))"
+          ],
+          "refinements": [
+            {
+              "stronger": "G(cin == 0 |-> (cout <= b))",
+              "weaker": "G(cin == 0 |-> (a >= 0))"
+            },
+            {
+              "stronger": "G(cin == 0 |-> (cout <= b))",
+              "weaker": "G(cin == 0 |-> (a <= 255))"
+            },
+            {
+              "stronger": "G(cin == 0 |-> (cout <= b))",
+              "weaker": "G(cin == 0 |-> (b >= 0))"
+            },
+            {
+              "stronger": "G(cin == 0 |-> (cout <= b))",
+              "weaker": "G(cin == 0 |-> (b <= 255))"
+            },
+            {
+              "stronger": "G((sum == 0) && (a + b + cin >= 256) |-> ((cout == 1) && (sum == 0)))",
+              "weaker": "G((a == 1) && (cout == 1) |-> (sum == 0))"
+            }
+          ],
+          "removed": [
+            "G((cout == 1) |-> ((cout == 1) && (sum == a + b + cin - 256)))",
+            "G((cout == 1) |-> (sum == a + b + cin - 256))",
+            "G((cout == 0) |-> ((cout == 0) && (sum == a + b + cin)))",
+            "G((cout == 0) |-> (sum == a + b + cin))",
+            "G(((!(cout == 1)) ##1 (cout == 1)) |-> ((cout == 1) && (sum == a + b + cin - 256)))",
+            "G(((!(cout == 1)) ##1 (cout == 1)) |-> (sum == a + b + cin - 256))",
+            "G(((cout == 1) ##1 (!(cout == 1))) |-> ((cout == 0) && (sum == a + b + cin)))",
+            "G(((cout == 1) ##1 (!(cout == 1))) |-> (sum == a + b + cin))",
+            "G((sum == 0) && (a + b + cin >= 256) |-> ((sum == 0) && (cout == 1)))",
+            "G((sum == 1) && (a + b + cin >= 256) |-> ((sum == 1) && (cout == 1)))"
+          ],
+          "method": "trace-bounded"
+        },
+        "reference_match": {
+          "per_reference": {
+            "G((a + b + cin <= 255) |-> (sum == a + b + cin))": {
+              "category": "equivalent",
+              "mined": "G((a + b + cin <= 255) |-> (cout == 0))"
+            },
+            "G((a + b + cin <= 255) |-> (cout == 0))": {
+              "category": "equivalent",
+              "mined": "G((a + b + cin <= 255) |-> (cout == 0))"
+            },
+            "G((a + b + cin >= 256) |-> (cout == 1))": {
+              "category": "equivalent",
+              "mined": "G((a + b + cin >= 256) |-> (cout == 1))"
+            },
+            "G((a + b + cin >= 256) |-> (sum == a + b + cin - 256))": {
+              "category": "equivalent",
+              "mined": "G((a + b + cin >= 256) |-> (cout == 1))"
+            },
+            "G((a == 0 && b == 0) |-> (sum == cin))": {
+              "category": "missed",
+              "mined": null
+            },
+            "G((a <= 127 && b <= 127) |-> (cout == 0))": {
+              "category": "mined-stronger",
+              "mined": "G((a + b + cin <= 255) |-> (cout == 0))"
+            },
+            "G((b == 0 && cin == 0) |-> (sum == a))": {
+              "category": "mined-weaker",
+              "mined": "G((a == 6) && (sum == 6) |-> (sum == a))"
+            }
+          },
+          "unmatched_mined": [
+            "a >= 0",
+            "a <= 255",
+            "b >= 0",
+            "b <= 255",
+            "cin >= 0",
+            "cin <= 1",
+            "G(cin == 0 |-> (a >= 0))",
+            "G(cin == 0 |-> (a <= 255))",
+            "G(cin == 0 |-> (b >= 0))",
+            "G(cin == 0 |-> (b <= 255))",
+            "G(a > b |-> (cin >= 0))",
+            "G(a > b |-> (cin <= 1))",
+            "G(cin == 0 |-> (cout <= b))",
+            "G(((!(cout == 1)) ##1 (cout == 1)) |-> (cout == 1))",
+            "G(((cout == 1) ##1 (!(cout == 1))) |-> (cout == 0))",
+            "G((sum == 3) && (a + b + cin >= 256) |-> ((cout == 1) && (sum == 3)))",
+            "G((sum == 0) && (a + b + cin >= 256) |-> ((cout == 1) && (sum == 0)))",
+            "G((sum == 6) && (a + b + cin >= 256) |-> ((cout == 1) && (sum == 6)))",
+            "G((sum == 4) && (a + b + cin >= 256) |-> ((cout == 1) && (sum == 4)))",
+            "G((sum == 1) && (a + b + cin >= 256) |-> ((cout == 1) && (sum == 1)))",
+            "G((sum == 5) && (a + b + cin >= 256) |-> ((cout == 1) && (sum == 5)))",
+            "G((cin == 0) && (sum == 0) |-> (sum == cin))",
+            "G((cin == 1) && (sum == 1) |-> (sum == cin))",
+            "G((sum == 6) && (a + b + cin <= 255) |-> ((cout == 0) && (sum == 6)))",
+            "G((a == 1) && (cout == 1) |-> (sum == 0))"
+          ],
+          "equivalent_recall": 0.5714285714285714,
+          "acceptable_recall": 0.7142857142857143,
+          "method": "trace-bounded"
+        },
+        "note": "held-out corpus decomposed with the same event and triggers",
+        "method": "trace-bounded"
+      },
+      "labels": {
+        "event": "cout == 1",
+        "occurrences": 1317,
+        "samples": 2500,
+        "density": 0.5268,
+        "runs_with_occurrences": 5
+      },
+      "candidate_source": "observed values and interface relations (harm unavailable)",
+      "trigger_selection": {
+        "event": "cout == 1",
+        "selected": [
+          {
+            "trigger": "cin == 0",
+            "assertion": "G((cin == 0) |-> ##[1:1] (cout == 1))",
+            "atct": 344,
+            "afct": 294,
+            "support": 638,
+            "smoothed_recall": 0.539062,
+            "explained_occurrences": 344
+          },
+          {
+            "trigger": "a > b",
+            "assertion": "G((a > b) |-> ##[1:1] (cout == 1))",
+            "atct": 275,
+            "afct": 233,
+            "support": 508,
+            "smoothed_recall": 0.541176,
+            "explained_occurrences": 275
+          }
+        ],
+        "coverage": 0.416097,
+        "overlap": 0.05391,
+        "unassigned": 0.583903,
+        "unassigned_occurrences": 769,
+        "rejected": {
+          "a < b": "smoothed recall 0.513 does not beat the 0.528 a null predicate with 472 matches would score (base rate 0.528): it does not discriminate the event",
+          "a < cin": "24 matches is below 131 (10% of 1317 occurrences): too little support to explain the event",
+          "a <= 255": "5 matches is below 131 (10% of 1317 occurrences): too little support to explain the event",
+          "a == 1": "57 matches is below 131 (10% of 1317 occurrences): too little support to explain the event",
+          "a == 1 && b < cin": "2 matches is below 131 (10% of 1317 occurrences): too little support to explain the event",
+          "a == 1 && b <= 255": "57 matches is below 131 (10% of 1317 occurrences): too little support to explain the event",
+          "a == 1 && b == 0": "3 matches is below 131 (10% of 1317 occurrences): too little support to explain the event",
+          "a == 1 && b == 13": "4 matches is below 131 (10% of 1317 occurrences): too little support to explain the event",
+          "a == 1 && b == 15": "4 matches is below 131 (10% of 1317 occurrences): too little support to explain the event",
+          "a == 1 && b == 5": "4 matches is below 131 (10% of 1317 occurrences): too little support to explain the event",
+          "a == 1 && b == 7": "1 matches is below 131 (10% of 1317 occurrences): too little support to explain the event",
+          "a == 1 && b == 8": "4 matches is below 131 (10% of 1317 occurrences): too little support to explain the event",
+          "a == 1 && b == cin": "2 matches is below 131 (10% of 1317 occurrences): too little support to explain the event",
+          "a == 1 && b > cin": "53 matches is below 131 (10% of 1317 occurrences): too little support to explain the event",
+          "a == 1 && b >= 0": "57 matches is below 131 (10% of 1317 occurrences): too little support to explain the event",
+          "a == 1 && cin <= 1": "57 matches is below 131 (10% of 1317 occurrences): too little support to explain the event",
+          "a == 1 && cin == 0": "25 matches is below 131 (10% of 1317 occurrences): too little support to explain the event",
+          "a == 1 && cin == 1": "33 matches is below 131 (10% of 1317 occurrences): too little support to explain the event",
+          "a == 1 && cin >= 0": "57 matches is below 131 (10% of 1317 occurrences): too little support to explain the event",
+          "a == 10": "55 matches is below 131 (10% of 1317 occurrences): too little support to explain the event",
+          "a == 15": "56 matches is below 131 (10% of 1317 occurrences): too little support to explain the event",
+          "a == 2": "57 matches is below 131 (10% of 1317 occurrences): too little support to explain the event",
+          "a == 2 && b < cin": "1 matches is below 131 (10% of 1317 occurrences): too little support to explain the event",
+          "a == 2 && b <= 255": "57 matches is below 131 (10% of 1317 occurrences): too little support to explain the event",
+          "a == 2 && b == 0": "1 matches is below 131 (10% of 1317 occurrences): too little support to explain the event",
+          "a == 2 && b == 13": "4 matches is below 131 (10% of 1317 occurrences): too little support to explain the event",
+          "a == 2 && b == 15": "2 matches is below 131 (10% of 1317 occurrences): too little support to explain the event",
+          "a == 2 && b == 5": "2 matches is below 131 (10% of 1317 occurrences): too little support to explain the event",
+          "a == 2 && b == 7": "5 matches is below 131 (10% of 1317 occurrences): too little support to explain the event",
+          "a == 2 && b == 8": "5 matches is below 131 (10% of 1317 occurrences): too little support to explain the event",
+          "a == 2 && b == cin": "1 matches is below 131 (10% of 1317 occurrences): too little support to explain the event",
+          "a == 2 && b > cin": "55 matches is below 131 (10% of 1317 occurrences): too little support to explain the event",
+          "a == 2 && b >= 0": "57 matches is below 131 (10% of 1317 occurrences): too little support to explain the event",
+          "a == 2 && cin <= 1": "57 matches is below 131 (10% of 1317 occurrences): too little support to explain the event",
+          "a == 2 && cin == 0": "33 matches is below 131 (10% of 1317 occurrences): too little support to explain the event",
+          "a == 2 && cin == 1": "24 matches is below 131 (10% of 1317 occurrences): too little support to explain the event",
+          "a == 2 && cin >= 0": "57 matches is below 131 (10% of 1317 occurrences): too little support to explain the event",
+          "a == 5": "69 matches is below 131 (10% of 1317 occurrences): too little support to explain the event",
+          "a == 5 && b == 0": "4 matches is below 131 (10% of 1317 occurrences): too little support to explain the event",
+          "a == 6": "60 matches is below 131 (10% of 1317 occurrences): too little support to explain the event",
+          "a == b": "74 matches is below 131 (10% of 1317 occurrences): too little support to explain the event",
+          "a == cin": "60 matches is below 131 (10% of 1317 occurrences): too little support to explain the event",
+          "a > cin": "78 matches is below 131 (10% of 1317 occurrences): too little support to explain the event",
+          "a >= 0": "5 matches is below 131 (10% of 1317 occurrences): too little support to explain the event",
+          "b < cin": "36 matches is below 131 (10% of 1317 occurrences): too little support to explain the event",
+          "b <= 255": "5 matches is below 131 (10% of 1317 occurrences): too little support to explain the event",
+          "b == 0": "64 matches is below 131 (10% of 1317 occurrences): too little support to explain the event",
+          "b == 13": "83 matches is below 131 (10% of 1317 occurrences): too little support to explain the event",
+          "b == 15": "81 matches is below 131 (10% of 1317 occurrences): too little support to explain the event",
+          "b == 5": "67 matches is below 131 (10% of 1317 occurrences): too little support to explain the event",
+          "b == 7": "66 matches is below 131 (10% of 1317 occurrences): too little support to explain the event",
+          "b == 8": "72 matches is below 131 (10% of 1317 occurrences): too little support to explain the event",
+          "b == cin": "72 matches is below 131 (10% of 1317 occurrences): too little support to explain the event",
+          "b > cin": "93 matches is below 131 (10% of 1317 occurrences): too little support to explain the event",
+          "b >= 0": "5 matches is below 131 (10% of 1317 occurrences): too little support to explain the event",
+          "cin <= 1": "5 matches is below 131 (10% of 1317 occurrences): too little support to explain the event",
+          "cin == 1": "smoothed recall 0.496 does not beat the 0.528 a null predicate with 637 matches would score (base rate 0.528): it does not discriminate the event",
+          "cin >= 0": "5 matches is below 131 (10% of 1317 occurrences): too little support to explain the event"
+        }
+      }
+    }
+  ],
+  "timers_s": {
+    "load": 0.0111,
+    "1_label:cout == 1": 0.0024,
+    "2_triggers:cout == 1": 0.3811,
+    "3_episodes:cout == 1": 0.0654,
+    "4_mine:cout == 1": 2.7433
+  }
+}

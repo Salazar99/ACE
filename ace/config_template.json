@@ -1,0 +1,43 @@
+{
+ "name": "BENCHMARK",
+ "traces": [
+  "$ACEROOT/FDL26/FDL26_tests/BENCHMARK/1_csv/*.csv"
+ ],
+ "holdout": [
+  "independently generated runs, kept out of mining; [] to skip Step 5"
+ ],
+ "inputs": [
+  "environment-facing signals: trigger and assumption vocabulary"
+ ],
+ "outputs": [
+  "observable outputs: event and guarantee vocabulary"
+ ],
+ "events": [
+  "output predicates that anchor decomposition, e.g. done == 1"
+ ],
+ "horizon": "H in G(trigger |-> ##[1:H] event); how long the response may take",
+ "h_pre": "samples kept before an anchor (setup conditions the miner needs to see)",
+ "h_post": "samples kept after an anchor (the response the miner needs to see)",
+ "grammar": "G1|G2|G3|G4|G5, see backends.GRAMMARS",
+ "episode_mode": "split (one CSV per episode, HARM reads them as separate traces) or concat",
+ "min_recall": "reject candidates below this smoothed recall (default 0.5)",
+ "min_gain": "reject candidates whose marginal event coverage is below this (default 0.05)",
+ "redundancy_weight": "lambda in score = gain + smoothed_recall - lambda*redundancy",
+ "max_triggers": "stop after this many triggers per event (default 8)",
+ "edge_props": "add rising/falling edge propositions for two-valued signals (default true)",
+ "compound_consequents": "allow a flag-and-value conjunction in the consequent slot (default true)",
+ "max_antecedent_props": "propositions conjoined in an antecedent, 2 or 3 (default 2)",
+ "min_lift": "extra smoothed recall a trigger must have over the base event rate (default 0)",
+ "min_trigger_support": "a trigger must match at least this share of the event count (default 0.1)",
+ "trigger_onsets": "count a trigger match only where it was false at the previous sample (default true)",
+ "reset": "propositional expression that marks a reset sample, passed to HARM as --reset",
+ "max_ass": "HARM --max-ass: keep at most this many assertions after ranking (optional)",
+ "min_frank": "HARM --min-frank: drop assertions below this ranking score (optional)",
+ "numeric_clustering": "HARM <numeric clustering=...> for bitvectors (optional; default K,10Max,0.01WCSS,><,==)",
+ "trigger_candidates": [
+  "optional explicit candidate list; omit to mine them with HARM"
+ ],
+ "references": [
+  "hand-encoded reference clauses from the IP documentation, for Step 5"
+ ]
+}

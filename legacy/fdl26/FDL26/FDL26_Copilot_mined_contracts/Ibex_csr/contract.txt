@@ -1,0 +1,5 @@
+ASSUME:
+(No assumptions were strictly validated from the trace beyond default behavior)
+
+GUARANTEE:
+G (wr_en_i → X(rd_data_o = wr_data_i))

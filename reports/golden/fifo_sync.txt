@@ -1,0 +1,35 @@
+# fifo_sync: golden contracts
+# 19 guarantees under 2 assumptions, all confirmed on the mining and held-out corpora
+
+CONTRACT fifo_sync.1    [A: none]
+A: true
+G: G((rst_n == 0) |=> (count == 0))    [FIFO1]
+   G((rst_n == 0) |=> (empty == 1))    [FIFO2]
+   G((rst_n == 0) |=> (full == 0))    [FIFO3]
+   G((count == 0) |-> (empty == 1))    [FIFO4]
+   G((empty == 1) |-> (count == 0))    [FIFO5]
+   G((count == 8) |-> (full == 1))    [FIFO6]
+   G((full == 1) |-> (count == 8))    [FIFO7]
+   G((count >= 1) |-> (empty == 0))    [FIFO8]
+   G((count <= 7) |-> (full == 0))    [FIFO9]
+   G(count <= 8)    [FIFO10]
+
+CONTRACT fifo_sync.2    [A: A1]
+A: rst_n == 1
+G: G((empty == 1 && wr_en == 1) |=> (count == 1))    [FIFO11]
+   G((empty == 1 && wr_en == 1) |=> (empty == 0))    [FIFO12]
+   G((empty == 1 && wr_en == 0) |=> (empty == 1))    [FIFO13]
+   G((full == 1 && rd_en == 0) |=> (full == 1))    [FIFO14]
+   G((count == 7 && wr_en == 1 && rd_en == 0) |=> (full == 1))    [FIFO15]
+   G((count == 4 && wr_en == 1 && rd_en == 0) |=> (count == 5))    [FIFO16]
+   G((count == 1 && rd_en == 1 && wr_en == 0) |=> (empty == 1))    [FIFO17]
+   G((wr_en == 1 && rd_en == 1 && full == 0 && empty == 0) |=> (count >= 1))    [FIFO18]
+
+CONTRACT fifo_sync.3    [A: A1, A2]
+A: rst_n == 1 && din <= 255
+G: G((empty == 1 && wr_en == 1) |=> (dout == din))    [FIFO19]
+
+# 3 further properties are recorded as out of grammar (see candidates.json for the reasons):
+#   FIFO-ORDER: the k-th value read equals the k-th value written
+#   FIFO-INCREMENT: G(wr_en && !rd_en && !full |=> count == $past(count) + 1)
+#   FIFO-PROTECTION: G(full && wr_en && !rd_en |=> count == 8) and G(empty && rd_en && !wr_en |=> count == 0)

@@ -1,0 +1,27 @@
+CONTRACT sqrt.1
+A: true
+G: G((rst == 1) |-> (done == 0))
+   G((rst == 1) |-> (error == 0))
+   G((rst == 1) |-> (out == 0))
+   G((rst == 1) |=> (done == 0))
+
+CONTRACT sqrt.2
+A: rst == 0
+G: G((start == 1 && in >= 2147483648) |=> (error == 1))
+
+CONTRACT sqrt.3
+A: rst == 0 && in >= 0
+G: G((start == 1 && in >= 0) |-> (##[1:24] done == 1))
+   G((start == 1 && in >= 0) |-> (##[1:24] error == 0))
+   G((start == 1 && in == 0) |-> ##[1:24] (done == 1 && out == 0))
+   G((start == 1 && in >= 4 && in <= 8) |-> ##[1:24] (done == 1 && out == 2))
+   G((start == 1 && in >= 1 && in <= 1000) |-> ##[1:24] (done == 1 && out <= 32))
+
+CONTRACT sqrt.4
+A: rst == 0 && in < 0
+G: G((start == 1 && in < 0) |-> (##[1:3] out == 0))
+
+CONTRACT sqrt.5
+A: in < 0
+G: G((start == 1 && in < 0) |=> (error == 1))
+   G((start == 1 && in < 0) |=> (done == 1))

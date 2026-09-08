@@ -1,0 +1,251 @@
+{
+ "design": "comparator_3bit",
+ "runs": 5,
+ "samples": 2000,
+ "assumptions": [
+  {
+   "id": "A1",
+   "invariant": "A <= 7 && B <= 7",
+   "why": "the environment drives 3-bit operands",
+   "resolved": "A <= 7 && B <= 7",
+   "positions_checked": 2000,
+   "positions_honoured": 2000,
+   "honoured_rate": 1.0,
+   "stress_positions_checked": 800,
+   "stress_positions_honoured": 800,
+   "status": "exercised"
+  }
+ ],
+ "contracts": [
+  {
+   "id": "CMP1",
+   "kind": "result",
+   "template": "G1",
+   "assumption_ids": [
+    "A1"
+   ],
+   "guarantee": "G((A > B) |-> (A_greater == 1))",
+   "props": [
+    {
+     "exp": "A > B",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "A_greater == 1",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
+   "rationale": "strictly greater raises the flag",
+   "resolved": "G((A > B) |-> (A_greater == 1))",
+   "support": 869,
+   "violations": 0,
+   "excluded_by_assumptions": 0,
+   "holdout_support": 531,
+   "holdout_violations": 0,
+   "stress_support": 333,
+   "stress_violations": 0,
+   "status": "confirmed"
+  },
+  {
+   "id": "CMP2",
+   "kind": "result",
+   "template": "G1",
+   "assumption_ids": [
+    "A1"
+   ],
+   "guarantee": "G((A == B) |-> (A_equal == 1))",
+   "props": [
+    {
+     "exp": "A == B",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "A_equal == 1",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
+   "rationale": "equal operands raise the flag",
+   "resolved": "G((A == B) |-> (A_equal == 1))",
+   "support": 235,
+   "violations": 0,
+   "excluded_by_assumptions": 0,
+   "holdout_support": 140,
+   "holdout_violations": 0,
+   "stress_support": 115,
+   "stress_violations": 0,
+   "status": "confirmed"
+  },
+  {
+   "id": "CMP3",
+   "kind": "result",
+   "template": "G1",
+   "assumption_ids": [
+    "A1"
+   ],
+   "guarantee": "G((A < B) |-> (A_less == 1))",
+   "props": [
+    {
+     "exp": "A < B",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "A_less == 1",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
+   "rationale": "strictly smaller raises the flag",
+   "resolved": "G((A < B) |-> (A_less == 1))",
+   "support": 896,
+   "violations": 0,
+   "excluded_by_assumptions": 0,
+   "holdout_support": 529,
+   "holdout_violations": 0,
+   "stress_support": 352,
+   "stress_violations": 0,
+   "status": "confirmed"
+  },
+  {
+   "id": "CMP4",
+   "kind": "result",
+   "template": "G1",
+   "assumption_ids": [
+    "A1"
+   ],
+   "guarantee": "G((A >= B) |-> (A_less == 0))",
+   "props": [
+    {
+     "exp": "A >= B",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "A_less == 0",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
+   "rationale": "the less flag is necessary",
+   "resolved": "G((A >= B) |-> (A_less == 0))",
+   "support": 1104,
+   "violations": 0,
+   "excluded_by_assumptions": 0,
+   "holdout_support": 671,
+   "holdout_violations": 0,
+   "stress_support": 448,
+   "stress_violations": 0,
+   "status": "confirmed"
+  },
+  {
+   "id": "CMP5",
+   "kind": "result",
+   "template": "G1",
+   "assumption_ids": [
+    "A1"
+   ],
+   "guarantee": "G((A <= B) |-> (A_greater == 0))",
+   "props": [
+    {
+     "exp": "A <= B",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "A_greater == 0",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
+   "rationale": "the greater flag is necessary",
+   "resolved": "G((A <= B) |-> (A_greater == 0))",
+   "support": 1131,
+   "violations": 0,
+   "excluded_by_assumptions": 0,
+   "holdout_support": 669,
+   "holdout_violations": 0,
+   "stress_support": 467,
+   "stress_violations": 0,
+   "status": "confirmed"
+  },
+  {
+   "id": "CMP6",
+   "kind": "result",
+   "template": "G1",
+   "assumption_ids": [
+    "A1"
+   ],
+   "guarantee": "G((A > B) |-> (A_equal == 0))",
+   "props": [
+    {
+     "exp": "A_equal == 0",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
+   "rationale": "greater and equal are exclusive",
+   "resolved": "G((A > B) |-> (A_equal == 0))",
+   "support": 869,
+   "violations": 0,
+   "excluded_by_assumptions": 0,
+   "holdout_support": 531,
+   "holdout_violations": 0,
+   "stress_support": 333,
+   "stress_violations": 0,
+   "status": "confirmed"
+  },
+  {
+   "id": "CMP7",
+   "kind": "result",
+   "template": "G1",
+   "assumption_ids": [
+    "A1"
+   ],
+   "guarantee": "G((B == 0) |-> (A_less == 0))",
+   "props": [],
+   "rationale": "no 3-bit value is below zero",
+   "resolved": "G((B == 0) |-> (A_less == 0))",
+   "support": 250,
+   "violations": 0,
+   "excluded_by_assumptions": 0,
+   "holdout_support": 142,
+   "holdout_violations": 0,
+   "stress_support": 91,
+   "stress_violations": 0,
+   "status": "confirmed"
+  },
+  {
+   "id": "CMP8",
+   "kind": "result",
+   "template": "G4",
+   "assumption_ids": [
+    "A1"
+   ],
+   "guarantee": "G((A == 7 && B == 0) |-> (A_greater == 1))",
+   "props": [],
+   "rationale": "extreme operand pair, a directed corner of the sweep",
+   "resolved": "G((A == 7 && B == 0) |-> (A_greater == 1))",
+   "support": 24,
+   "violations": 0,
+   "excluded_by_assumptions": 0,
+   "holdout_support": 21,
+   "holdout_violations": 0,
+   "stress_support": 10,
+   "stress_violations": 0,
+   "status": "confirmed"
+  }
+ ],
+ "out_of_grammar": [
+  {
+   "id": "CMP-ONEHOT",
+   "assumption": "(none)",
+   "guarantee": "A_greater + A_equal + A_less == 1",
+   "why_not_minable": "unconditioned invariant: every HARM template produces an implication, so there is no antecedent to put it under. The flow's propositional path can state it as a bare clause, but the temporal backend cannot mine it",
+   "minable": false
+  }
+ ]
+}

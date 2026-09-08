@@ -1,0 +1,311 @@
+{
+ "design": "ibex_alu",
+ "contracts": [
+  {
+   "id": "ALU1",
+   "kind": "result",
+   "template": "G4",
+   "assumption_ids": [
+    "A1",
+    "A2"
+   ],
+   "guarantee": "G((operator_i == 0 && operand_a_i + operand_b_i <= 4294967295) |-> (result_o == operand_a_i + operand_b_i))",
+   "props": [
+    {
+     "exp": "operand_a_i + operand_b_i <= 4294967295",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "result_o == operand_a_i + operand_b_i",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
+   "rationale": "ADD without a 32-bit wrap is exact"
+  },
+  {
+   "id": "ALU2",
+   "kind": "result",
+   "template": "G4",
+   "assumption_ids": [
+    "A1"
+   ],
+   "guarantee": "G((operator_i == 1 && operand_a_i >= operand_b_i) |-> (result_o == operand_a_i - operand_b_i))",
+   "props": [
+    {
+     "exp": "operand_a_i >= operand_b_i",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "result_o == operand_a_i - operand_b_i",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
+   "rationale": "SUB without borrow is exact"
+  },
+  {
+   "id": "ALU3",
+   "kind": "result",
+   "template": "G1",
+   "assumption_ids": [
+    "A1"
+   ],
+   "guarantee": "G((operator_i == 4) |-> (result_o <= operand_a_i))",
+   "props": [
+    {
+     "exp": "result_o <= operand_a_i",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
+   "rationale": "AND cannot exceed the first operand"
+  },
+  {
+   "id": "ALU4",
+   "kind": "result",
+   "template": "G1",
+   "assumption_ids": [
+    "A1"
+   ],
+   "guarantee": "G((operator_i == 4) |-> (result_o <= operand_b_i))",
+   "props": [
+    {
+     "exp": "result_o <= operand_b_i",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
+   "rationale": "AND cannot exceed the second operand"
+  },
+  {
+   "id": "ALU5",
+   "kind": "result",
+   "template": "G1",
+   "assumption_ids": [
+    "A1"
+   ],
+   "guarantee": "G((operator_i == 3) |-> (result_o >= operand_a_i))",
+   "props": [
+    {
+     "exp": "result_o >= operand_a_i",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
+   "rationale": "OR is at least the first operand"
+  },
+  {
+   "id": "ALU6",
+   "kind": "result",
+   "template": "G1",
+   "assumption_ids": [
+    "A1"
+   ],
+   "guarantee": "G((operator_i == 3) |-> (result_o >= operand_b_i))",
+   "props": [
+    {
+     "exp": "result_o >= operand_b_i",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
+   "rationale": "OR is at least the second operand"
+  },
+  {
+   "id": "ALU7",
+   "kind": "result",
+   "template": "G4",
+   "assumption_ids": [
+    "A1"
+   ],
+   "guarantee": "G((operator_i == 2 && operand_b_i == 0) |-> (result_o == operand_a_i))",
+   "props": [
+    {
+     "exp": "result_o == operand_a_i",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
+   "rationale": "XOR with zero is the identity"
+  },
+  {
+   "id": "ALU8",
+   "kind": "result",
+   "template": "G4",
+   "assumption_ids": [
+    "A1"
+   ],
+   "guarantee": "G((operator_i == 10 && operand_b_i == 1 && operand_a_i <= 2147483647) |-> (result_o == operand_a_i * 2))",
+   "props": [
+    {
+     "exp": "operand_b_i == 1 && operand_a_i <= 2147483647",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "result_o == operand_a_i * 2",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
+   "rationale": "a left shift by one doubles, absent a wrap. The two-condition antecedent is one declared proposition, which HARM's proposition grammar allows"
+  },
+  {
+   "id": "ALU9",
+   "kind": "result",
+   "template": "G4",
+   "assumption_ids": [
+    "A1"
+   ],
+   "guarantee": "G((operator_i == 9 && operand_b_i == 1) |-> (result_o * 2 <= operand_a_i))",
+   "props": [
+    {
+     "exp": "result_o * 2 <= operand_a_i",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
+   "rationale": "a logical right shift by one is a floored halving (lower bound)"
+  },
+  {
+   "id": "ALU10",
+   "kind": "result",
+   "template": "G4",
+   "assumption_ids": [
+    "A1"
+   ],
+   "guarantee": "G((operator_i == 9 && operand_b_i == 1) |-> (result_o * 2 + 1 >= operand_a_i))",
+   "props": [
+    {
+     "exp": "result_o * 2 + 1 >= operand_a_i",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
+   "rationale": "a logical right shift by one is a floored halving (upper bound)"
+  },
+  {
+   "id": "ALU11",
+   "kind": "result",
+   "template": "G4",
+   "assumption_ids": [
+    "A1"
+   ],
+   "guarantee": "G((operator_i == 26 && operand_a_i < operand_b_i) |-> (comparison_result_o == 1))",
+   "props": [
+    {
+     "exp": "operand_a_i < operand_b_i",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    }
+   ],
+   "rationale": "unsigned less-than holds"
+  },
+  {
+   "id": "ALU12",
+   "kind": "result",
+   "template": "G4",
+   "assumption_ids": [
+    "A1"
+   ],
+   "guarantee": "G((operator_i == 26 && operand_a_i >= operand_b_i) |-> (comparison_result_o == 0))",
+   "props": [],
+   "rationale": "unsigned less-than fails"
+  },
+  {
+   "id": "ALU13",
+   "kind": "result",
+   "template": "G4",
+   "assumption_ids": [
+    "A1"
+   ],
+   "guarantee": "G((operator_i == 29 && operand_a_i == operand_b_i) |-> (comparison_result_o == 1))",
+   "props": [
+    {
+     "exp": "operand_a_i == operand_b_i",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    }
+   ],
+   "rationale": "equality of identical operands"
+  },
+  {
+   "id": "ALU14",
+   "kind": "result",
+   "template": "G4",
+   "assumption_ids": [
+    "A1"
+   ],
+   "guarantee": "G((operator_i == 29 && operand_a_i == operand_b_i) |-> (is_equal_result_o == 1))",
+   "props": [],
+   "rationale": "the equality output agrees while a comparison operation is selected"
+  },
+  {
+   "id": "ALU15",
+   "kind": "result",
+   "template": "G4",
+   "assumption_ids": [
+    "A1"
+   ],
+   "guarantee": "G((operator_i == 30 && operand_a_i == operand_b_i) |-> (comparison_result_o == 0))",
+   "props": [],
+   "rationale": "inequality of identical operands fails"
+  },
+  {
+   "id": "ALU16",
+   "kind": "result",
+   "template": "G1",
+   "assumption_ids": [
+    "A1"
+   ],
+   "guarantee": "G((operator_i == 32) |-> (result_o <= operand_a_i))",
+   "props": [],
+   "rationale": "unsigned minimum is a lower bound"
+  },
+  {
+   "id": "ALU17",
+   "kind": "result",
+   "template": "G1",
+   "assumption_ids": [
+    "A1"
+   ],
+   "guarantee": "G((operator_i == 34) |-> (result_o >= operand_a_i))",
+   "props": [],
+   "rationale": "unsigned maximum is an upper bound"
+  },
+  {
+   "id": "ALU18",
+   "kind": "result",
+   "template": "G4",
+   "assumption_ids": [
+    "A1"
+   ],
+   "guarantee": "G((operator_i == 0 && operand_b_i == 0) |-> (result_o == operand_a_i))",
+   "props": [],
+   "rationale": "adding zero is the identity"
+  }
+ ],
+ "out_of_grammar": [
+  {
+   "id": "ALU-EQ-ALL",
+   "assumption": "operand_a_i == operand_b_i",
+   "guarantee": "is_equal_result_o == 1",
+   "why_not_minable": "true only while a comparison operation is selected, so it needs the operator range in the antecedent as well; kept as ALU14 with the operator pinned instead"
+  }
+ ],
+ "assumptions": [
+  {
+   "id": "A1",
+   "invariant": "operator_i <= 34",
+   "why": "the environment selects one of the RV32I operations the trace covers"
+  },
+  {
+   "id": "A2",
+   "invariant": "operand_a_i + operand_b_i <= 4294967295",
+   "why": "the environment supplies operands whose sum does not wrap 32 bits. The tool computes over integers while the RTL wraps, so the arithmetic guarantees are owed only in this regime"
+  }
+ ]
+}

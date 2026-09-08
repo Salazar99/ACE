@@ -1,0 +1,262 @@
+{
+ "design": "ibex_multdiv_fast",
+ "contracts": [
+  {
+   "id": "MD1",
+   "kind": "reset",
+   "template": "G1",
+   "assumption_ids": [],
+   "guarantee": "G((rst_n == 0) |-> (valid_o == 0))",
+   "props": [],
+   "rationale": "asynchronous reset withdraws the valid handshake"
+  },
+  {
+   "id": "MD2",
+   "kind": "protocol",
+   "template": "G5",
+   "assumption_ids": [
+    "A1"
+   ],
+   "guarantee": "G(((mult_en_i == 0) ##1 (mult_en_i == 1)) |-> (##[1:H] valid_o == 1))",
+   "props": [],
+   "rationale": "a multiplication request completes. The two-cycle antecedent is a rising edge, which is the shape HARM's decision-tree template builds; any cycle with the enable high would also match the last cycle of a finished operation"
+  },
+  {
+   "id": "MD3",
+   "kind": "protocol",
+   "template": "G5",
+   "assumption_ids": [
+    "A1",
+    "A2"
+   ],
+   "guarantee": "G(((div_en_i == 0) ##1 (div_en_i == 1)) |-> (##[1:H] valid_o == 1))",
+   "props": [],
+   "rationale": "a division request completes within the long divider's latency"
+  },
+  {
+   "id": "MD4",
+   "kind": "protocol",
+   "template": "G5",
+   "assumption_ids": [
+    "A1",
+    "A3"
+   ],
+   "guarantee": "G(((div_en_i == 0) ##1 (rst_n == 1 && div_en_i == 1 && operator_i == 2 && op_b_i == 0)) |-> (##[1:H] (valid_o == 1 && multdiv_result_o == 4294967295)))",
+   "props": [
+    {
+     "exp": "valid_o == 1 && multdiv_result_o == 4294967295",
+     "loc": "c",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "rst_n == 1 && div_en_i == 1 && operator_i == 2 && op_b_i == 0",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    }
+   ],
+   "rationale": "RISC-V defines division by zero as all-ones. Anchored on the rising edge of the enable, like MD2 and MD3"
+  },
+  {
+   "id": "MD5",
+   "kind": "protocol",
+   "template": "G5",
+   "assumption_ids": [
+    "A1",
+    "A3"
+   ],
+   "guarantee": "G(((div_en_i == 0) ##1 (rst_n == 1 && div_en_i == 1 && operator_i == 3 && op_b_i == 0)) |-> (##[1:H] (valid_o == 1 && multdiv_result_o == op_a_i)))",
+   "props": [
+    {
+     "exp": "valid_o == 1 && multdiv_result_o == op_a_i",
+     "loc": "c",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "rst_n == 1 && div_en_i == 1 && operator_i == 3 && op_b_i == 0",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    }
+   ],
+   "rationale": "RISC-V defines remainder by zero as the numerator. The three-condition antecedent is one declared proposition. Anchored on the rising edge of the enable, like MD2 and MD3"
+  },
+  {
+   "id": "MD6",
+   "kind": "result",
+   "template": "G4",
+   "assumption_ids": [
+    "A1",
+    "A4"
+   ],
+   "guarantee": "G((valid_o == 1 && mult_en_i == 1 && operator_i == 0) |-> (multdiv_result_o == op_a_i * op_b_i))",
+   "props": [
+    {
+     "exp": "valid_o == 1 && mult_en_i == 1 && operator_i == 0",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "multdiv_result_o == op_a_i * op_b_i",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
+   "rationale": "at the handshake the low multiplication result is the product"
+  },
+  {
+   "id": "MD7",
+   "kind": "result",
+   "template": "G4",
+   "assumption_ids": [
+    "A1",
+    "A2"
+   ],
+   "guarantee": "G((valid_o == 1 && div_en_i == 1 && operator_i == 2 && op_b_i >= 1) |-> (multdiv_result_o * op_b_i <= op_a_i))",
+   "props": [
+    {
+     "exp": "valid_o == 1 && div_en_i == 1 && operator_i == 2 && op_b_i >= 1",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "multdiv_result_o * op_b_i <= op_a_i",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
+   "rationale": "the quotient never exceeds the numerator when multiplied back"
+  },
+  {
+   "id": "MD8",
+   "kind": "result",
+   "template": "G4",
+   "assumption_ids": [
+    "A1",
+    "A2"
+   ],
+   "guarantee": "G((valid_o == 1 && div_en_i == 1 && operator_i == 2 && op_b_i >= 1) |-> (multdiv_result_o * op_b_i + op_b_i > op_a_i))",
+   "props": [
+    {
+     "exp": "multdiv_result_o * op_b_i + op_b_i > op_a_i",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
+   "rationale": "and one more divisor overshoots it: together the two bound the quotient exactly"
+  },
+  {
+   "id": "MD9",
+   "kind": "result",
+   "template": "G4",
+   "assumption_ids": [
+    "A1"
+   ],
+   "guarantee": "G((valid_o == 1 && div_en_i == 1 && operator_i == 3 && op_b_i >= 1) |-> (multdiv_result_o < op_b_i))",
+   "props": [
+    {
+     "exp": "valid_o == 1 && div_en_i == 1 && operator_i == 3 && op_b_i >= 1",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "multdiv_result_o < op_b_i",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
+   "rationale": "a remainder is strictly below the divisor"
+  },
+  {
+   "id": "MD10",
+   "kind": "protocol",
+   "template": "G4",
+   "assumption_ids": [
+    "A1"
+   ],
+   "guarantee": "G((mult_en_i == 1 && op_b_i == 0) |-> (##[1:H] (valid_o == 1 && multdiv_result_o == 0)))",
+   "props": [
+    {
+     "exp": "valid_o == 1 && multdiv_result_o == 0",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
+   "rationale": "multiplication by zero"
+  },
+  {
+   "id": "MD11",
+   "kind": "protocol",
+   "template": "G5",
+   "assumption_ids": [
+    "A1",
+    "A2"
+   ],
+   "guarantee": "G(((div_en_i == 0) ##1 (rst_n == 1 && div_en_i == 1 && operator_i == 2 && op_a_i == 0 && op_b_i >= 1)) |-> (##[1:H] (valid_o == 1 && multdiv_result_o == 0)))",
+   "props": [
+    {
+     "exp": "rst_n == 1 && div_en_i == 1 && operator_i == 2 && op_a_i == 0 && op_b_i >= 1",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    }
+   ],
+   "rationale": "zero divided by a non-zero divisor. Anchored on the rising edge of the enable, like MD2 and MD3"
+  },
+  {
+   "id": "MD12",
+   "kind": "result",
+   "template": "G4",
+   "assumption_ids": [
+    "A1"
+   ],
+   "guarantee": "G((mult_en_i == 0 && div_en_i == 0) |-> (valid_o == 0))",
+   "props": [],
+   "rationale": "with neither enable asserted the unit does not signal a result"
+  },
+  {
+   "id": "MD13",
+   "kind": "result",
+   "template": "G4",
+   "assumption_ids": [
+    "A1"
+   ],
+   "guarantee": "G((valid_o == 1 && mult_en_i == 1 && op_a_i == 0) |-> (multdiv_result_o == 0))",
+   "props": [
+    {
+     "exp": "valid_o == 1 && mult_en_i == 1 && op_a_i == 0",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    }
+   ],
+   "rationale": "a zero operand annihilates the product"
+  }
+ ],
+ "out_of_grammar": [
+  {
+   "id": "MD-EXACT-LATENCY",
+   "assumption": "(mult_en_i == 0) ##1 (mult_en_i == 1)",
+   "guarantee": "##2 valid_o == 1",
+   "why_not_minable": "the exact latency (MULL 2, MULH 3, DIV 36, divide-by-zero 1) is not a template shape: every template with a delay uses a window. The windows in MD2-MD5 are the minable approximation"
+  }
+ ],
+ "assumptions": [
+  {
+   "id": "A1",
+   "invariant": "rst_n == 1",
+   "why": "the environment holds reset deasserted"
+  },
+  {
+   "id": "A2",
+   "invariant": "op_b_i >= 1",
+   "why": "the environment supplies a non-zero divisor; the divide-by-zero guarantees are claimed under A3 instead"
+  },
+  {
+   "id": "A3",
+   "invariant": "op_b_i == 0",
+   "why": "the divide-by-zero environment"
+  },
+  {
+   "id": "A4",
+   "invariant": "op_a_i * op_b_i <= 4294967295",
+   "why": "the environment supplies operands whose product fits in 32 bits"
+  }
+ ]
+}

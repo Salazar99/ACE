@@ -1,0 +1,19 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        
+        {
+            "name": "Python Debugger: Current File",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${file}",
+            "args": [ "--csv", "~/ACE/DATE_tests/uart/2_fault_injection/Detection_traces/DT_bool_intr_tx_done_o_0.csv",
+  "--ass", "G(((reg2hw_intr_test == 8738) U (reg2hw_intr_state == -251)) ##2 true -> Detected)",
+  "--out", "filtered_intr_tx_done_0.csv"],
+            "console": "integratedTerminal"
+        }
+    ]
+}

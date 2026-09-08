@@ -1,0 +1,27 @@
+CONTRACT fifo_sync.1
+A: true
+G: G((rst_n == 0) |=> (count == 0))
+   G((rst_n == 0) |=> (empty == 1))
+   G((rst_n == 0) |=> (full == 0))
+   G((count == 0) |-> (empty == 1))
+   G((empty == 1) |-> (count == 0))
+   G((count == 8) |-> (full == 1))
+   G((full == 1) |-> (count == 8))
+   G((count >= 1) |-> (empty == 0))
+   G((count <= 7) |-> (full == 0))
+   G(count <= 8)
+
+CONTRACT fifo_sync.2
+A: rst_n == 1
+G: G((empty == 1 && wr_en == 1) |=> (count == 1))
+   G((empty == 1 && wr_en == 1) |=> (empty == 0))
+   G((empty == 1 && wr_en == 0) |=> (empty == 1))
+   G((full == 1 && rd_en == 0) |=> (full == 1))
+   G((count == 7 && wr_en == 1 && rd_en == 0) |=> (full == 1))
+   G((count == 4 && wr_en == 1 && rd_en == 0) |=> (count == 5))
+   G((count == 1 && rd_en == 1 && wr_en == 0) |=> (empty == 1))
+   G((wr_en == 1 && rd_en == 1 && full == 0 && empty == 0) |=> (count >= 1))
+
+CONTRACT fifo_sync.3
+A: rst_n == 1 && din <= 255
+G: G((empty == 1 && wr_en == 1) |=> (dout == din))

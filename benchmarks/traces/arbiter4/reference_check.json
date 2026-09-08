@@ -1,0 +1,436 @@
+{
+ "design": "arbiter4",
+ "runs": 5,
+ "samples": 5000,
+ "assumptions": [
+  {
+   "id": "A1",
+   "invariant": "rst_n == 1",
+   "why": "the environment holds reset deasserted while it arbitrates",
+   "resolved": "rst_n == 1",
+   "positions_checked": 5000,
+   "positions_honoured": 4832,
+   "honoured_rate": 0.9664,
+   "stress_positions_checked": 2000,
+   "stress_positions_honoured": 1869,
+   "status": "exercised"
+  },
+  {
+   "id": "A2",
+   "invariant": "req0 + req1 + req2 + req3 >= 1",
+   "why": "at least one requester is asking. The grant-liveness guarantee is about that environment; when nobody asks the arbiter must stay quiet, which is a separate contract with no assumption",
+   "resolved": "req0 + req1 + req2 + req3 >= 1",
+   "positions_checked": 5000,
+   "positions_honoured": 2542,
+   "honoured_rate": 0.5084,
+   "stress_positions_checked": 2000,
+   "stress_positions_honoured": 1080,
+   "status": "exercised"
+  }
+ ],
+ "contracts": [
+  {
+   "id": "ARB1",
+   "kind": "reset",
+   "template": "G2",
+   "assumption_ids": [],
+   "guarantee": "G((rst_n == 0) |=> (gnt_valid == 0))",
+   "props": [],
+   "rationale": "reset clears the grant register",
+   "resolved": "G((rst_n == 0) |=> (gnt_valid == 0))",
+   "support": 167,
+   "violations": 0,
+   "excluded_by_assumptions": 0,
+   "holdout_support": 111,
+   "holdout_violations": 0,
+   "stress_support": 131,
+   "stress_violations": 0,
+   "status": "confirmed"
+  },
+  {
+   "id": "ARB2",
+   "kind": "reset",
+   "template": "G2",
+   "assumption_ids": [],
+   "guarantee": "G((rst_n == 0) |=> (gnt_id == 0))",
+   "props": [],
+   "rationale": "reset returns the granted index to zero",
+   "resolved": "G((rst_n == 0) |=> (gnt_id == 0))",
+   "support": 167,
+   "violations": 0,
+   "excluded_by_assumptions": 0,
+   "holdout_support": 111,
+   "holdout_violations": 0,
+   "stress_support": 131,
+   "stress_violations": 0,
+   "status": "confirmed"
+  },
+  {
+   "id": "ARB3",
+   "kind": "safety",
+   "template": "G1",
+   "assumption_ids": [],
+   "guarantee": "G((gnt_valid == 1) |-> (gnt0 + gnt1 + gnt2 + gnt3 == 1))",
+   "props": [
+    {
+     "exp": "gnt0 + gnt1 + gnt2 + gnt3 == 1",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
+   "rationale": "mutual exclusion: a valid grant is a grant to exactly one requester. This is the canonical arbiter property and it is expressible only because the grant bits can be summed",
+   "resolved": "G((gnt_valid == 1) |-> (gnt0 + gnt1 + gnt2 + gnt3 == 1))",
+   "support": 2540,
+   "violations": 0,
+   "excluded_by_assumptions": 0,
+   "holdout_support": 1483,
+   "holdout_violations": 0,
+   "stress_support": 1080,
+   "stress_violations": 0,
+   "status": "confirmed"
+  },
+  {
+   "id": "ARB4",
+   "kind": "safety",
+   "template": "G1",
+   "assumption_ids": [],
+   "guarantee": "G((gnt_valid == 0) |-> (gnt0 + gnt1 + gnt2 + gnt3 == 0))",
+   "props": [
+    {
+     "exp": "gnt0 + gnt1 + gnt2 + gnt3 == 0",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
+   "rationale": "no grant line is raised without the validity flag",
+   "resolved": "G((gnt_valid == 0) |-> (gnt0 + gnt1 + gnt2 + gnt3 == 0))",
+   "support": 2460,
+   "violations": 0,
+   "excluded_by_assumptions": 0,
+   "holdout_support": 1517,
+   "holdout_violations": 0,
+   "stress_support": 920,
+   "stress_violations": 0,
+   "status": "confirmed"
+  },
+  {
+   "id": "ARB5",
+   "kind": "safety",
+   "template": "G2",
+   "assumption_ids": [],
+   "guarantee": "G((req0 + req1 + req2 + req3 == 0) |=> (gnt_valid == 0))",
+   "props": [
+    {
+     "exp": "req0 + req1 + req2 + req3 == 0",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    }
+   ],
+   "rationale": "no spurious grant: with nobody asking, the next cycle carries no grant",
+   "resolved": "G((req0 + req1 + req2 + req3 == 0) |=> (gnt_valid == 0))",
+   "support": 2455,
+   "violations": 0,
+   "excluded_by_assumptions": 0,
+   "holdout_support": 1514,
+   "holdout_violations": 0,
+   "stress_support": 918,
+   "stress_violations": 0,
+   "status": "confirmed"
+  },
+  {
+   "id": "ARB6",
+   "kind": "liveness",
+   "template": "G4",
+   "assumption_ids": [
+    "A1",
+    "A2"
+   ],
+   "guarantee": "G((rst_n == 1 && req0 + req1 + req2 + req3 >= 1) |=> (gnt_valid == 1))",
+   "props": [
+    {
+     "exp": "req0 + req1 + req2 + req3 >= 1",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    }
+   ],
+   "rationale": "grant liveness at one-cycle granularity: any request is answered in the next cycle, because the arbiter is never idle while someone asks",
+   "resolved": "G((rst_n == 1 && req0 + req1 + req2 + req3 >= 1) |=> (gnt_valid == 1))",
+   "support": 2540,
+   "violations": 0,
+   "excluded_by_assumptions": 2458,
+   "holdout_support": 1483,
+   "holdout_violations": 0,
+   "stress_support": 1080,
+   "stress_violations": 0,
+   "status": "confirmed"
+  },
+  {
+   "id": "ARB7",
+   "kind": "encoding",
+   "template": "G1",
+   "assumption_ids": [],
+   "guarantee": "G((gnt0 == 1) |-> (gnt_id == 0))",
+   "props": [],
+   "rationale": "the index agrees with the grant lines",
+   "resolved": "G((gnt0 == 1) |-> (gnt_id == 0))",
+   "support": 641,
+   "violations": 0,
+   "excluded_by_assumptions": 0,
+   "holdout_support": 406,
+   "holdout_violations": 0,
+   "stress_support": 295,
+   "stress_violations": 0,
+   "status": "confirmed"
+  },
+  {
+   "id": "ARB8",
+   "kind": "encoding",
+   "template": "G1",
+   "assumption_ids": [],
+   "guarantee": "G((gnt1 == 1) |-> (gnt_id == 1))",
+   "props": [],
+   "rationale": "the index agrees with the grant lines",
+   "resolved": "G((gnt1 == 1) |-> (gnt_id == 1))",
+   "support": 630,
+   "violations": 0,
+   "excluded_by_assumptions": 0,
+   "holdout_support": 314,
+   "holdout_violations": 0,
+   "stress_support": 280,
+   "stress_violations": 0,
+   "status": "confirmed"
+  },
+  {
+   "id": "ARB9",
+   "kind": "encoding",
+   "template": "G1",
+   "assumption_ids": [],
+   "guarantee": "G((gnt2 == 1) |-> (gnt_id == 2))",
+   "props": [],
+   "rationale": "the index agrees with the grant lines",
+   "resolved": "G((gnt2 == 1) |-> (gnt_id == 2))",
+   "support": 618,
+   "violations": 0,
+   "excluded_by_assumptions": 0,
+   "holdout_support": 377,
+   "holdout_violations": 0,
+   "stress_support": 275,
+   "stress_violations": 0,
+   "status": "confirmed"
+  },
+  {
+   "id": "ARB10",
+   "kind": "encoding",
+   "template": "G1",
+   "assumption_ids": [],
+   "guarantee": "G((gnt3 == 1) |-> (gnt_id == 3))",
+   "props": [],
+   "rationale": "the index agrees with the grant lines",
+   "resolved": "G((gnt3 == 1) |-> (gnt_id == 3))",
+   "support": 651,
+   "violations": 0,
+   "excluded_by_assumptions": 0,
+   "holdout_support": 386,
+   "holdout_violations": 0,
+   "stress_support": 230,
+   "stress_violations": 0,
+   "status": "confirmed"
+  },
+  {
+   "id": "ARB11",
+   "kind": "priority",
+   "template": "G4",
+   "assumption_ids": [
+    "A1"
+   ],
+   "guarantee": "G((req0 + req1 + req2 + req3 == 1 && req0 == 1) |=> (gnt0 == 1))",
+   "props": [
+    {
+     "exp": "req0 + req1 + req2 + req3 == 1",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    }
+   ],
+   "rationale": "a sole requester is served immediately, whatever the rotation pointer is",
+   "resolved": "G((req0 + req1 + req2 + req3 == 1 && req0 == 1) |=> (gnt0 == 1))",
+   "support": 240,
+   "violations": 0,
+   "excluded_by_assumptions": 168,
+   "holdout_support": 175,
+   "holdout_violations": 0,
+   "stress_support": 76,
+   "stress_violations": 0,
+   "status": "confirmed"
+  },
+  {
+   "id": "ARB12",
+   "kind": "priority",
+   "template": "G4",
+   "assumption_ids": [
+    "A1"
+   ],
+   "guarantee": "G((req0 + req1 + req2 + req3 == 1 && req1 == 1) |=> (gnt1 == 1))",
+   "props": [],
+   "rationale": "a sole requester is served immediately",
+   "resolved": "G((req0 + req1 + req2 + req3 == 1 && req1 == 1) |=> (gnt1 == 1))",
+   "support": 231,
+   "violations": 0,
+   "excluded_by_assumptions": 168,
+   "holdout_support": 111,
+   "holdout_violations": 0,
+   "stress_support": 76,
+   "stress_violations": 0,
+   "status": "confirmed"
+  },
+  {
+   "id": "ARB13",
+   "kind": "priority",
+   "template": "G4",
+   "assumption_ids": [
+    "A1"
+   ],
+   "guarantee": "G((req0 + req1 + req2 + req3 == 1 && req2 == 1) |=> (gnt2 == 1))",
+   "props": [],
+   "rationale": "a sole requester is served immediately",
+   "resolved": "G((req0 + req1 + req2 + req3 == 1 && req2 == 1) |=> (gnt2 == 1))",
+   "support": 258,
+   "violations": 0,
+   "excluded_by_assumptions": 168,
+   "holdout_support": 168,
+   "holdout_violations": 0,
+   "stress_support": 80,
+   "stress_violations": 0,
+   "status": "confirmed"
+  },
+  {
+   "id": "ARB14",
+   "kind": "priority",
+   "template": "G4",
+   "assumption_ids": [
+    "A1"
+   ],
+   "guarantee": "G((req0 + req1 + req2 + req3 == 1 && req3 == 1) |=> (gnt3 == 1))",
+   "props": [],
+   "rationale": "a sole requester is served immediately",
+   "resolved": "G((req0 + req1 + req2 + req3 == 1 && req3 == 1) |=> (gnt3 == 1))",
+   "support": 268,
+   "violations": 0,
+   "excluded_by_assumptions": 168,
+   "holdout_support": 177,
+   "holdout_violations": 0,
+   "stress_support": 49,
+   "stress_violations": 0,
+   "status": "confirmed"
+  },
+  {
+   "id": "ARB15",
+   "kind": "fairness",
+   "template": "G4",
+   "assumption_ids": [
+    "A1"
+   ],
+   "guarantee": "G((req0 == 1 && gnt0 == 0) |-> ##[1:4] (gnt0 == 1))",
+   "props": [],
+   "rationale": "bounded fairness: a request that has not just been served is served within four cycles, because priority rotates past whoever was served. Four is the exact bound - three at 1:3 - and it is the one contract here that depends on the environment holding its request until granted, which no invariant can state. It breaks on the stress corpus, and that is the point",
+   "resolved": "G((req0 == 1 && gnt0 == 0) |-> ##[1:4] (gnt0 == 1))",
+   "support": 723,
+   "violations": 0,
+   "excluded_by_assumptions": 168,
+   "holdout_support": 438,
+   "holdout_violations": 0,
+   "stress_support": 684,
+   "stress_violations": 170,
+   "status": "confirmed"
+  },
+  {
+   "id": "ARB16",
+   "kind": "fairness",
+   "template": "G4",
+   "assumption_ids": [
+    "A1"
+   ],
+   "guarantee": "G((req1 == 1 && gnt1 == 0) |-> ##[1:4] (gnt1 == 1))",
+   "props": [],
+   "rationale": "bounded fairness for requester 1",
+   "resolved": "G((req1 == 1 && gnt1 == 0) |-> ##[1:4] (gnt1 == 1))",
+   "support": 797,
+   "violations": 0,
+   "excluded_by_assumptions": 168,
+   "holdout_support": 370,
+   "holdout_violations": 0,
+   "stress_support": 722,
+   "stress_violations": 193,
+   "status": "confirmed"
+  },
+  {
+   "id": "ARB17",
+   "kind": "fairness",
+   "template": "G4",
+   "assumption_ids": [
+    "A1"
+   ],
+   "guarantee": "G((req2 == 1 && gnt2 == 0) |-> ##[1:4] (gnt2 == 1))",
+   "props": [],
+   "rationale": "bounded fairness for requester 2",
+   "resolved": "G((req2 == 1 && gnt2 == 0) |-> ##[1:4] (gnt2 == 1))",
+   "support": 787,
+   "violations": 0,
+   "excluded_by_assumptions": 168,
+   "holdout_support": 453,
+   "holdout_violations": 0,
+   "stress_support": 703,
+   "stress_violations": 162,
+   "status": "confirmed"
+  },
+  {
+   "id": "ARB18",
+   "kind": "fairness",
+   "template": "G4",
+   "assumption_ids": [
+    "A1"
+   ],
+   "guarantee": "G((req3 == 1 && gnt3 == 0) |-> ##[1:4] (gnt3 == 1))",
+   "props": [],
+   "rationale": "bounded fairness for requester 3",
+   "resolved": "G((req3 == 1 && gnt3 == 0) |-> ##[1:4] (gnt3 == 1))",
+   "support": 777,
+   "violations": 0,
+   "excluded_by_assumptions": 168,
+   "holdout_support": 448,
+   "holdout_violations": 0,
+   "stress_support": 679,
+   "stress_violations": 220,
+   "status": "confirmed"
+  }
+ ],
+ "out_of_grammar": [
+  {
+   "id": "ARB-ROTATION",
+   "assumption": "rst_n == 1",
+   "guarantee": "$past(gnt_id) == i |-> the next grant goes to the first requester at or after i+1",
+   "why_not_minable": "round-robin order is a relation between consecutive grants, so it needs a past operator over the granted index. The evaluator has no $past (HARM's proposition grammar does), and the rotation pointer is not an observable output",
+   "minable": false
+  },
+  {
+   "id": "ARB-NO-CONSECUTIVE",
+   "assumption": "rst_n == 1 && two requesters asking",
+   "guarantee": "no requester is granted twice in a row while another is asking",
+   "why_not_minable": "same past-operator problem: the property compares a grant against the previous grant. It is the fairness property an engineer would write, and the bounded-window form (ARB15-18) is what the template family can express instead",
+   "minable": false
+  },
+  {
+   "id": "ARB-STARVATION",
+   "assumption": "rst_n == 1 && req_i held until granted",
+   "guarantee": "F(gnt_i == 1)",
+   "why_not_minable": "unbounded liveness is not a finite-trace property and no template in the family is unbounded. The four-cycle window is the finite-trace surrogate, and it is only true because the rotation makes the bound exist",
+   "minable": false
+  },
+  {
+   "id": "ARB-HOLD",
+   "assumption": "rst_n == 1",
+   "guarantee": "G(gnt_i == 1 |-> $past(req_i) == 1)",
+   "why_not_minable": "a grant answers the PREVIOUS cycle's request, and the requester drops its request as soon as it is served, so 'a grant only goes to someone asking' is false in the same-sample form and needs $past. ARB5 is the in-grammar statement of the same idea: with nobody asking, nobody is granted",
+   "minable": false
+  }
+ ]
+}

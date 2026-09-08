@@ -1,0 +1,121 @@
+{
+ "backend": "in-process-templates",
+ "regions": 2,
+ "skipped": [
+  "A_equal == 1"
+ ],
+ "mined_invariants": [
+  "A <= 7",
+  "A >= 0",
+  "B <= 7",
+  "B >= 0"
+ ],
+ "mined_instances": [
+  "G(((!(A_equal == 1)) ##1 (A_equal == 1)) |-> (A_equal == 1))",
+  "G(((!(A_equal == 1)) ##1 (A_equal == 1)) |-> (A_greater == 0))",
+  "G(((!(A_equal == 1)) ##1 (A_equal == 1)) |-> (A_less == 0))",
+  "G(((!(A_greater == 1)) ##1 (A_greater == 1)) |-> ((A_equal == 0) && (A_greater == 1)))",
+  "G(((!(A_greater == 1)) ##1 (A_greater == 1)) |-> ((A_equal == 0) && (A_less == 0)))",
+  "G(((!(A_greater == 1)) ##1 (A_greater == 1)) |-> ((A_greater == 1) && (A_equal == 0)))",
+  "G(((!(A_greater == 1)) ##1 (A_greater == 1)) |-> ((A_greater == 1) && (A_less == 0)))",
+  "G(((!(A_greater == 1)) ##1 (A_greater == 1)) |-> ((A_less == 0) && (A_equal == 0)))",
+  "G(((!(A_greater == 1)) ##1 (A_greater == 1)) |-> ((A_less == 0) && (A_greater == 1)))",
+  "G(((!(A_greater == 1)) ##1 (A_greater == 1)) |-> (A_equal == 0))",
+  "G(((!(A_greater == 1)) ##1 (A_greater == 1)) |-> (A_greater == 1))",
+  "G(((!(A_greater == 1)) ##1 (A_greater == 1)) |-> (A_less == 0))",
+  "G(((!(A_less == 1)) ##1 (A_less == 1)) |-> ((A_equal == 0) && (A_greater == 0)))",
+  "G(((!(A_less == 1)) ##1 (A_less == 1)) |-> ((A_equal == 0) && (A_less == 1)))",
+  "G(((!(A_less == 1)) ##1 (A_less == 1)) |-> ((A_greater == 0) && (A_equal == 0)))",
+  "G(((!(A_less == 1)) ##1 (A_less == 1)) |-> ((A_greater == 0) && (A_less == 1)))",
+  "G(((!(A_less == 1)) ##1 (A_less == 1)) |-> ((A_less == 1) && (A_equal == 0)))",
+  "G(((!(A_less == 1)) ##1 (A_less == 1)) |-> ((A_less == 1) && (A_greater == 0)))",
+  "G(((!(A_less == 1)) ##1 (A_less == 1)) |-> (A_equal == 0))",
+  "G(((!(A_less == 1)) ##1 (A_less == 1)) |-> (A_greater == 0))",
+  "G(((!(A_less == 1)) ##1 (A_less == 1)) |-> (A_less == 1))",
+  "G(((A_equal == 1) ##1 (!(A_equal == 1))) |-> (A_equal == 0))",
+  "G(((A_greater == 1) ##1 (!(A_greater == 1))) |-> (A_greater == 0))",
+  "G(((A_less == 1) ##1 (!(A_less == 1))) |-> (A_less == 0))",
+  "G((A < B) |-> ((A_equal == 0) && (A_greater == 0)))",
+  "G((A < B) |-> ((A_equal == 0) && (A_less == 1)))",
+  "G((A < B) |-> ((A_greater == 0) && (A_equal == 0)))",
+  "G((A < B) |-> ((A_greater == 0) && (A_less == 1)))",
+  "G((A < B) |-> ((A_less == 1) && (A_equal == 0)))",
+  "G((A < B) |-> ((A_less == 1) && (A_greater == 0)))",
+  "G((A < B) |-> (A_equal == 0))",
+  "G((A < B) |-> (A_less == 1))",
+  "G((A <= B) |-> (A_greater == 0))",
+  "G((A == B) |-> (A_equal == 1))",
+  "G((A > B) |-> ((A_equal == 0) && (A_greater == 1)))",
+  "G((A > B) |-> ((A_equal == 0) && (A_less == 0)))",
+  "G((A > B) |-> ((A_greater == 1) && (A_equal == 0)))",
+  "G((A > B) |-> ((A_greater == 1) && (A_less == 0)))",
+  "G((A > B) |-> ((A_less == 0) && (A_equal == 0)))",
+  "G((A > B) |-> ((A_less == 0) && (A_greater == 1)))",
+  "G((A > B) |-> (A_equal == 0))",
+  "G((A > B) |-> (A_greater == 1))",
+  "G((A >= B) |-> (A_less == 0))",
+  "G(A == 5 |-> (A_equal <= B))",
+  "G(A == B |-> (A_equal == 1))",
+  "G(B == 6 |-> (A_equal <= A))",
+  "G(B == 7 |-> (A_equal <= A))"
+ ],
+ "assumptions": {
+  "references": 1,
+  "mined": 5,
+  "recall": 0.0,
+  "acceptable_recall": 1.0,
+  "categories": {
+   "mined-stronger": 1
+  },
+  "detail": {
+   "A <= 7 && B <= 7": {
+    "category": "mined-stronger",
+    "mined": "A <= 7 && A >= 0 && B <= 7 && B >= 0"
+   }
+  }
+ },
+ "guarantees": {
+  "references": 8,
+  "mined": 47,
+  "recall": 0.75,
+  "acceptable_recall": 1.0,
+  "categories": {
+   "equivalent": 6,
+   "mined-stronger": 2
+  },
+  "detail": {
+   "G((A > B) |-> (A_greater == 1))": {
+    "category": "equivalent",
+    "mined": "G((A > B) |-> ((A_equal == 0) && (A_greater == 1)))"
+   },
+   "G((A == B) |-> (A_equal == 1))": {
+    "category": "equivalent",
+    "mined": "G((A == B) |-> (A_equal == 1))"
+   },
+   "G((A < B) |-> (A_less == 1))": {
+    "category": "equivalent",
+    "mined": "G((A < B) |-> ((A_equal == 0) && (A_greater == 0)))"
+   },
+   "G((A >= B) |-> (A_less == 0))": {
+    "category": "equivalent",
+    "mined": "G((A >= B) |-> (A_less == 0))"
+   },
+   "G((A <= B) |-> (A_greater == 0))": {
+    "category": "equivalent",
+    "mined": "G((A <= B) |-> (A_greater == 0))"
+   },
+   "G((A > B) |-> (A_equal == 0))": {
+    "category": "equivalent",
+    "mined": "G((A > B) |-> (A_equal == 0))"
+   },
+   "G((B == 0) |-> (A_less == 0))": {
+    "category": "mined-stronger",
+    "mined": "G((A >= B) |-> (A_less == 0))"
+   },
+   "G((A == 7 && B == 0) |-> (A_greater == 1))": {
+    "category": "mined-stronger",
+    "mined": "G((A > B) |-> ((A_equal == 0) && (A_greater == 1)))"
+   }
+  }
+ }
+}

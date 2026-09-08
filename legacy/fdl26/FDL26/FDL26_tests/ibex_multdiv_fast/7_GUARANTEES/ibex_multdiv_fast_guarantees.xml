@@ -1,0 +1,40 @@
+<harm>
+	<context name="default">
+
+		<prop exp="rst_ni" loc="a, dt"/>
+		<prop exp="mult_sel_i" loc="a, dt"/>
+		<prop exp="div_sel_i" loc="a, dt"/>
+		<prop exp="operator_i" loc="a, dt"/>
+		<prop exp="op_a_i" loc="a, dt"/>
+		<prop exp="op_b_i" loc="a, dt"/>
+
+		<prop exp="multdiv_result_o" loc="c"/>
+		<prop exp="valid_o" loc="c"/>
+
+		<!--<template dtLimits="2D,2W,4A,0E,U" exp="G({..#1&..}|-> X(camallia_u::EncDec && X[23]camallia_u::Dvld))" /> 
+		<template dtLimits="2D,2W,4A,0E,U" exp="G({..#1&..}|-> X(!camallia_u::EncDec && X[23]camallia_u::Dvld))" /> -->
+
+
+		<!--<template dtLimits="4A,3D,2D,-0.1E,U,O" exp="G(..&&.. |-> ..##[1,20]..)" />-->
+		<!--<template exp="G(P0 |-> ##[1,20] P1)" />-->
+		<template exp="G(P2 |-> P3)" />
+		<template exp="G(P4 |-> P5 && P6)" />
+		<template exp="G(P7 && P8 |-> P9)" />
+		<template exp="G(P10 && P11 && P12 |-> P13)" />
+		<template dtLimits="3D,3W,4A,0E,U" exp="G(..&&.. |-> P1)" />
+		<template dtLimits="3D,3W,4A,0E,U" exp="G(..#1&.. |-> P2)" />
+		<template dtLimits="3A,-0.1E,U" exp="G({..##1..}|-> X(P0))" /> 
+		<template exp="G(!P0 ##1 P1 ##36 true |-> P2)" />
+		<template exp="G(!P0 ##1 P1 |-> P2)" />
+		
+
+		<template check="1" exp="G(!mult_sel_i ##1 mult_sel_i |-> valid_o_DU)" />
+
+		<sort name="1/(1+afct)" exp="1/(1+afct)"/>
+  		<sort name="ATCT-AFCT" exp="atct-afct"/>
+
+	</context>
+</harm>
+
+
+

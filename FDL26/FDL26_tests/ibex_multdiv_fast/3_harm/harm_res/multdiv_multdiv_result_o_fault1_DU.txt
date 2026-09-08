@@ -1,2 +1,0 @@
-G({!div_sel_i ##1 mult_sel_i} |-> DU)
-G({!mult_sel_i ##1 mult_sel_i} |-> DU)

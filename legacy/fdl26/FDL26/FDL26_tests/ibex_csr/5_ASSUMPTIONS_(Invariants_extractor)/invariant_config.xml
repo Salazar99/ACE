@@ -1,0 +1,5 @@
+<harm>
+ 	<context name="default">
+<template exp="G(true |-> (  wr_en_i ==1 ))" />
+</context>
+</harm>

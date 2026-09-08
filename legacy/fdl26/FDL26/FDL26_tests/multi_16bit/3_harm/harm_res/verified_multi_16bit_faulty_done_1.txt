@@ -1,0 +1,4 @@
+G({!bin ##1 bin ##17 true} |-> DU)
+G({!bin ##1 ain ##17 true} |-> DU)
+G({!ain ##1 bin ##17 true} |-> DU)
+G({!ain ##1 ain ##17 true} |-> DU)

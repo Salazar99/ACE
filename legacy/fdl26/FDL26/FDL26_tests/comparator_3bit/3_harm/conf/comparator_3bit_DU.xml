@@ -1,0 +1,28 @@
+<harm>
+	<context name="default">
+
+		<prop exp="A > B" loc="a, dt"/>
+		<prop exp="A < B" loc="a, dt"/>
+		<prop exp="A == B" loc="a, dt"/>
+
+		<prop exp="A_greater_DU" loc="c"/>
+		<prop exp="A_equal_DU" loc="c"/>
+		<prop exp="A_less_DU" loc="c"/>
+
+		<!--<template dtLimits="2D,2W,4A,0E,U" exp="G({..#1&..}|-> X(camallia_u::EncDec && X[23]camallia_u::Dvld))" /> 
+		<template dtLimits="2D,2W,4A,0E,U" exp="G({..#1&..}|-> X(!camallia_u::EncDec && X[23]camallia_u::Dvld))" /> -->
+
+		<template dtLimits="2D,2W,4A,0E,U" exp="G(P0 |-> P2)" />
+		<template dtLimits="2D,2W,4A,0E,U" exp="G(P3 |-> P5)" />
+		<template dtLimits="2D,2W,4A,0E,U" exp="G(P6 |-> P8)" />
+
+		<!--<template check="1" exp="G((tbench_top::intf::in > 0) |-> ##12 out_DU)" />
+		<template check="1" exp="G((tbench_top::intf::in < 0) |-> ##1 error_DU)" />-->
+
+		<sort name="1/(1+afct)" exp="1/(1+afct)"/>
+		<sort name="ATCT-AFCT" exp="atct-afct"/>
+	</context>
+</harm>
+
+
+

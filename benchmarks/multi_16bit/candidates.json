@@ -1,0 +1,151 @@
+{
+ "design": "multi_16bit",
+ "contracts": [
+  {
+   "id": "MUL1",
+   "kind": "reset",
+   "template": "G1",
+   "assumption_ids": [],
+   "guarantee": "G((rst_n == 0) |-> (done == 0))",
+   "props": [],
+   "rationale": "reset clears the done flag"
+  },
+  {
+   "id": "MUL2",
+   "kind": "reset",
+   "template": "G1",
+   "assumption_ids": [],
+   "guarantee": "G((rst_n == 0) |-> (yout == 0))",
+   "props": [],
+   "rationale": "reset clears the product register"
+  },
+  {
+   "id": "MUL3",
+   "kind": "protocol",
+   "template": "G2",
+   "assumption_ids": [
+    "A1"
+   ],
+   "guarantee": "G((done == 1) |=> (done == 0))",
+   "props": [],
+   "rationale": "done is a one-cycle pulse (raised at count 16, cleared at 17)"
+  },
+  {
+   "id": "MUL5",
+   "kind": "result",
+   "template": "G1",
+   "assumption_ids": [
+    "A1",
+    "A3"
+   ],
+   "guarantee": "G((done == 1) |-> (yout == ain * bin))",
+   "props": [
+    {
+     "exp": "yout == ain * bin",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
+   "rationale": "at the pulse the product register holds the product of the held operands"
+  },
+  {
+   "id": "MUL6",
+   "kind": "result",
+   "template": "G4",
+   "assumption_ids": [
+    "A1"
+   ],
+   "guarantee": "G((done == 1 && ain == 0) |-> (yout == 0))",
+   "props": [],
+   "rationale": "zero multiplicand"
+  },
+  {
+   "id": "MUL7",
+   "kind": "result",
+   "template": "G4",
+   "assumption_ids": [
+    "A1"
+   ],
+   "guarantee": "G((done == 1 && bin == 0) |-> (yout == 0))",
+   "props": [],
+   "rationale": "zero multiplier"
+  },
+  {
+   "id": "MUL8",
+   "kind": "result",
+   "template": "G4",
+   "assumption_ids": [
+    "A1"
+   ],
+   "guarantee": "G((done == 1 && ain == 1) |-> (yout == bin))",
+   "props": [
+    {
+     "exp": "yout == bin",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
+   "rationale": "unit multiplicand is the identity"
+  },
+  {
+   "id": "MUL9",
+   "kind": "result",
+   "template": "G1",
+   "assumption_ids": [
+    "A1",
+    "A3"
+   ],
+   "guarantee": "G((done == 1) |-> (yout <= 4294836225))",
+   "props": [
+    {
+     "exp": "yout <= 4294836225",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
+   "rationale": "the product of two 16-bit operands cannot exceed 65535 squared"
+  },
+  {
+   "id": "MUL10",
+   "kind": "protocol",
+   "template": "G2",
+   "assumption_ids": [
+    "A1"
+   ],
+   "guarantee": "G((start == 0) |=> (done == 0))",
+   "props": [],
+   "rationale": "with start low the counter is held at zero, so no pulse can be produced"
+  }
+ ],
+ "out_of_grammar": [
+  {
+   "id": "MUL-EARLY",
+   "assumption": "(start == 0) ##1 (start == 1) ##1 ... x17",
+   "guarantee": "done == 0",
+   "why_not_minable": "'done is not raised early' needs a 17-cycle sequence antecedent. HARM's decision-tree template builds multi-cycle antecedents, but not to that depth, and the exact-latency form is outside every fixed template"
+  },
+  {
+   "id": "MUL4",
+   "assumption": "A: rst_n == 1, start == 1",
+   "guarantee": "G(rst_n == 1 |-> ##[1:H] done == 1)",
+   "why_not_minable": "a bounded-response guarantee whose window can lose the assumption. Both invariants hold at the sample the guarantee fires on, but start drops when the operation ends, so the 20-cycle window runs into idle samples and no pulse arrives. Constraining the window needs a temporal assumption; an invariant only restricts the sample it is evaluated at"
+  }
+ ],
+ "assumptions": [
+  {
+   "id": "A1",
+   "invariant": "rst_n == 1",
+   "why": "the environment holds reset deasserted"
+  },
+  {
+   "id": "A2",
+   "invariant": "start == 1",
+   "why": "the environment holds the request asserted. The shift counter only advances while start is high, so an operation that loses start never completes"
+  },
+  {
+   "id": "A3",
+   "invariant": "ain <= 65535 && bin <= 65535",
+   "why": "the environment drives 16-bit operands"
+  }
+ ]
+}

@@ -1,0 +1,9 @@
+CONTRACT adder_8bit.1
+A: a <= 255 && b <= 255 && cin <= 1
+G: G((a + b + cin <= 255) |-> (sum == a + b + cin))
+   G((a + b + cin <= 255) |-> (cout == 0))
+   G((a + b + cin >= 256) |-> (cout == 1))
+   G((a + b + cin >= 256) |-> (sum == a + b + cin - 256))
+   G((a == 0 && b == 0) |-> (sum == cin))
+   G((a <= 127 && b <= 127) |-> (cout == 0))
+   G((b == 0 && cin == 0) |-> (sum == a))

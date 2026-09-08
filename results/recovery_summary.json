@@ -1,0 +1,178 @@
+[
+ {
+  "design": "arbiter4",
+  "vocabulary": {
+   "interface_family": 150,
+   "declared": 5
+  },
+  "declared": {
+   "backend": "in-process-templates",
+   "regions": 2,
+   "assumptions": {
+    "references": 2,
+    "mined": 18,
+    "recall": 0.0,
+    "acceptable_recall": 1.0,
+    "categories": {
+     "mined-stronger": 2
+    }
+   },
+   "guarantees": {
+    "references": 18,
+    "mined": 384,
+    "recall": 0.8333333333333334,
+    "acceptable_recall": 0.9444444444444444,
+    "categories": {
+     "mined-stronger": 2,
+     "equivalent": 15,
+     "mined-weaker": 1
+    }
+   }
+  },
+  "interface": {
+   "backend": "in-process-templates",
+   "regions": 2,
+   "assumptions": {
+    "references": 2,
+    "mined": 18,
+    "recall": 0.0,
+    "acceptable_recall": 1.0,
+    "categories": {
+     "mined-stronger": 2
+    }
+   },
+   "guarantees": {
+    "references": 18,
+    "mined": 856,
+    "recall": 0.2222222222222222,
+    "acceptable_recall": 0.2777777777777778,
+    "categories": {
+     "mined-weaker": 5,
+     "equivalent": 4,
+     "mined-stronger": 1,
+     "missed": 8
+    }
+   }
+  }
+ },
+ {
+  "design": "fifo_sync",
+  "vocabulary": {
+   "interface_family": 150,
+   "declared": 1
+  },
+  "declared": {
+   "backend": "in-process-templates",
+   "regions": 1,
+   "assumptions": {
+    "references": 2,
+    "mined": 14,
+    "recall": 0.5,
+    "acceptable_recall": 1.0,
+    "categories": {
+     "mined-stronger": 1,
+     "equivalent": 1
+    }
+   },
+   "guarantees": {
+    "references": 19,
+    "mined": 159,
+    "recall": 0.47368421052631576,
+    "acceptable_recall": 0.631578947368421,
+    "categories": {
+     "mined-weaker": 4,
+     "equivalent": 9,
+     "missed": 3,
+     "mined-stronger": 3
+    }
+   }
+  },
+  "interface": {
+   "backend": "in-process-templates",
+   "regions": 1,
+   "assumptions": {
+    "references": 2,
+    "mined": 15,
+    "recall": 0.5,
+    "acceptable_recall": 1.0,
+    "categories": {
+     "mined-stronger": 1,
+     "equivalent": 1
+    }
+   },
+   "guarantees": {
+    "references": 19,
+    "mined": 489,
+    "recall": 0.3157894736842105,
+    "acceptable_recall": 0.47368421052631576,
+    "categories": {
+     "mined-weaker": 3,
+     "mined-stronger": 3,
+     "equivalent": 6,
+     "missed": 7
+    }
+   }
+  }
+ },
+ {
+  "design": "apb_slave",
+  "vocabulary": {
+   "interface_family": 150,
+   "declared": 1
+  },
+  "declared": {
+   "backend": "in-process-templates",
+   "regions": 2,
+   "assumptions": {
+    "references": 4,
+    "mined": 23,
+    "recall": 0.25,
+    "acceptable_recall": 0.75,
+    "categories": {
+     "mined-stronger": 2,
+     "mined-weaker": 1,
+     "equivalent": 1
+    }
+   },
+   "guarantees": {
+    "references": 18,
+    "mined": 243,
+    "recall": 0.16666666666666666,
+    "acceptable_recall": 0.5,
+    "categories": {
+     "mined-stronger": 6,
+     "mined-weaker": 4,
+     "equivalent": 3,
+     "missed": 5
+    }
+   }
+  },
+  "interface": {
+   "backend": "in-process-templates",
+   "regions": 2,
+   "assumptions": {
+    "references": 4,
+    "mined": 23,
+    "recall": 0.25,
+    "acceptable_recall": 0.75,
+    "categories": {
+     "mined-stronger": 2,
+     "mined-weaker": 1,
+     "equivalent": 1
+    }
+   },
+   "guarantees": {
+    "references": 18,
+    "mined": 861,
+    "recall": 0.16666666666666666,
+    "acceptable_recall": 0.5,
+    "categories": {
+     "mined-stronger": 6,
+     "equivalent": 3,
+     "mined-weaker": 3,
+     "missed": 6
+    }
+   }
+  }
+ }
+]

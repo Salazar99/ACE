@@ -1,53 +1,87 @@
 # ACE
-Assume-guarantee Contract Extractor
 
-## Description
+Assume-guarantee Contract Extractor: mines A/G contracts for an IP from its simulation
+traces, treating the IP as a black box.
 
-This tool allows for the extraction of A/G contracts starting from a IP.
+A contract is a pair `(A, G)`. **A** is a conjunction of invariants - propositional
+predicates over the environment, no temporal operator. **G** is a conjunction of whole
+`G(antecedent -> consequent)` properties. A guarantee is claimed only at the samples where
+every invariant of its A holds, and nothing from A is ever folded into a guarantee's
+antecedent. `benchmarks/CONTRACTS.md` states the shape in full.
 
-## Getting Started
-The repository presents the following folders:
+The flow is `ace/`: five steps, one module each, implementing the DATE2027 methodology
+(output-guided behavioral decomposition). It replaces the FDL26 fault-injection flow, which
+is unchanged under `legacy/fdl26/` so the two can be compared; `MIGRATION.md` maps one onto
+the other.
+
+## Layout
+
 ```bash
-├──FDL26/                              #FDL26 results and tests folder
-|  ├── FDL26_Copilot_mined_contracts/  # LLM generated contracts
-|  ├── FDL26_mined_contracts/          # ACE generated contracts
-|  ├── FDL26_golden_specs/             # Golden specifications of the tested IPs 
-|  └── FDL26_tests/                    # Test cases of the methodology
-|
-├── Detection_trace_gen                 #Detection trace source code
-├── InvGen                              #Invariant generation source code 
-├── tb_generator                        #Testbench generation source code
-├── third_party                         #Third party install folder
-├── trace_filtering                     #Trace filtering source code
-└── README.md 
-```
-### Dependencies
-
-* third_parties tools (see Installing section)
-* python3
-* QuestaSim (for the IP simulation)
-
-### Installing
-1. Clone the repository
-
-2. Enter third_party directory
-    ```bash
-    cd ACE/third_party
-    ```
-
-3. Install dependencies by executing
-    ```bash
-    bash install_all.sh
-    ```
-
-4. Install QuestaSim
-
-5. Install python 3
-
-### Executing program
-Set the $ACEROOT ambient variable by executing:
-```bash
-export ACEROOT = /path_to_repo/ACE
+├── ace/                  # the flow: labeling, triggers, episodes, mining, validation
+│                         #   + formula (evaluator), templates (miner), traces, backends
+├── benchmarks/           # the trace benchmark: 11 designs with a confirmed reference set
+│   ├── <design>/         #   tb_<design>.sv, generate.sh, config.json, candidates.json,
+│   │                     #   reference_contracts.txt, and rtl/ for the 3 protocol blocks
+│   ├── traces/<design>/  #   10 traces: 5 mining, 3 held-out, 2 stress
+│   ├── run.py            #   build, simulate, validate the reference contracts
+│   ├── CONTRACTS.md      #   the contract shape and why the benchmark is built this way
+│   └── README.md         #   per-design index: what each one contributes
+├── tools/                # score_recovery, report_bundle, report_recovery, HARM check
+├── tests/                # self-checks: evaluator semantics, recovery traps, flow end to end
+├── results/              # mining output per design, per vocabulary setting
+├── reports/              # MINING_REPORT.md + golden / mined / match contract text
+├── RECOVERY.md           # what comes back, and why each miss is missed
+├── CONTRACT_RECOVERY.md  # per-design expected-against-mined comparison
+├── MIGRATION.md          # what this refactor replaced, moved and deleted
+└── legacy/fdl26/         # the FDL26 flow, its step outputs and its RTL (nothing imports it)
 ```
 
-Navigate to FDL26/FDL26_tests to find all the designs and associated scripts for each step
+## Quickstart
+
+Python 3.10+ and the standard library are enough for everything except producing new traces.
+
+    python3 tests/test_formula.py                      # evaluator semantics
+    python3 tests/test_recovery.py                     # selection and comparison traps
+    python3 tests/test_flow.py                         # steps 1-5, no external tools
+
+    python3 benchmarks/run.py --validate-only          # re-check all 135 golden contracts
+    python3 -m ace benchmarks/sqrt/config.json --out results/declared/sqrt
+    python3 tools/score_recovery.py benchmarks/*/config.json --out results
+    python3 tools/report_bundle.py --results results --out reports
+
+Regenerating traces needs verilator 5.x on PATH:
+
+    python3 benchmarks/run.py                          # all 11 designs
+    python3 benchmarks/run.py --design sqrt
+    cd benchmarks/arbiter4 && ./generate.sh            # one design, standalone
+
+The eight FDL26 designs are compiled from `legacy/fdl26/FDL26/FDL26_tests`, which `run.py`
+finds on its own (`--ace-root` overrides it, for RTL kept outside this repository). The three
+protocol designs carry their own RTL. All testbenches are plain SystemVerilog driven by
+plusargs (`+seed`, `+cycles`, `+scenario`, `+out`), so QuestaSim runs them the same way.
+
+HARM is optional. Without it, `ace/templates.py` instantiates the same templates over the
+same vocabulary in process; `tools/check_harm.py` reports whether an installation is usable
+and `tools/install_harm.sh` builds one.
+
+## Where the numbers are
+
+`reports/MINING_REPORT.md` is the headline: mined against golden, per design, in both
+vocabulary settings, plus which golden clauses came back listed by id.
+
+| vocabulary | golden | mined | equivalent | refinement | weaker | missed | exact | acceptable |
+|---|---|---|---|---|---|---|---|---|
+| declared | 135 | 2092 | 64 | 41 | 10 | 20 | 47% | 78% |
+| interface | 135 | 6301 | 35 | 37 | 13 | 50 | 26% | 53% |
+
+Every reference set is confirmed on its own traces before it is used as a reference: all 135
+guarantees hold on the mining and held-out corpora, and 28 assumptions are exercised.
+Categories are trace-bounded throughout - agreement on the observed corpus, not a proof.
+
+## Dependencies
+
+* python3 (3.10+), standard library only, for the flow, the scoring and the reports
+* verilator 5.x, to regenerate traces (or QuestaSim, via the same plusargs)
+* HARM, optional, as the temporal backend (see `ace/README.md`)
+* the FDL26 flow additionally needs `legacy/fdl26/third_party/` and QuestaSim, as before,
+  and its scripts still hardcode paths that the move one level down invalidated

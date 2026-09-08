@@ -1,0 +1,52 @@
+# adder_8bit: golden clause -> what the flow recovered
+# category is trace-bounded: equivalent | mined-stronger (a refinement) | mined-weaker | missed
+
+== GUARANTEES ==
+-- declared vocabulary --
+[    ADD1] equivalent      G((a + b + cin <= 255) |-> (sum == a + b + cin))
+           witness        G((a + b + cin <= 255) |-> (cout == 0))
+[    ADD2] equivalent      G((a + b + cin <= 255) |-> (cout == 0))
+           witness        G((a + b + cin <= 255) |-> (cout == 0))
+[    ADD3] equivalent      G((a + b + cin >= 256) |-> (cout == 1))
+           witness        G((a + b + cin >= 256) |-> (cout == 1))
+[    ADD4] equivalent      G((a + b + cin >= 256) |-> (sum == a + b + cin - 256))
+           witness        G((a + b + cin >= 256) |-> (cout == 1))
+[    ADD5] missed          G((a == 0 && b == 0) |-> (sum == cin))
+[    ADD6] mined-stronger  G((a <= 127 && b <= 127) |-> (cout == 0))
+           witness        G((a + b + cin <= 255) |-> (cout == 0))
+[    ADD7] mined-weaker    G((b == 0 && cin == 0) |-> (sum == a))
+           witness        G((a == 6) && (sum == 6) |-> (sum == a))
+
+-- interface vocabulary --
+[    ADD1] equivalent      G((a + b + cin <= 255) |-> (sum == a + b + cin))
+           witness        G((cout == 0) |-> ((cout == 0) && (sum >= a)))
+[    ADD2] equivalent      G((a + b + cin <= 255) |-> (cout == 0))
+           witness        G((cout == 0) |-> ((cout == 0) && (sum >= a)))
+[    ADD3] equivalent      G((a + b + cin >= 256) |-> (cout == 1))
+           witness        G((cout == 1) |-> ((cout == 1) && (sum * cin <= a)))
+[    ADD4] equivalent      G((a + b + cin >= 256) |-> (sum == a + b + cin - 256))
+           witness        G((cout == 1) |-> ((cout == 1) && (sum * cin <= a)))
+[    ADD5] missed          G((a == 0 && b == 0) |-> (sum == cin))
+[    ADD6] mined-stronger  G((a <= 127 && b <= 127) |-> (cout == 0))
+           witness        G((cout == 0) |-> ((cout == 0) && (sum >= a)))
+[    ADD7] mined-weaker    G((b == 0 && cin == 0) |-> (sum == a))
+           witness        G((a == 6) && (sum == 6) |-> (sum == (a | b)))
+
+# declared: 26 mined, 3 matched a golden clause, 23 with no counterpart
+# interface: 304 mined, 3 matched a golden clause, 301 with no counterpart
+
+== ASSUMPTIONS ==
+-- declared vocabulary --
+[      A1] mined-stronger  a <= 255 && b <= 255
+           witness        a <= 255 && a >= 0 && b <= 255 && b >= 0 && cin <= 1 && cin >= 0
+[      A2] equivalent      cin <= 1
+           witness        cin <= 1
+
+-- interface vocabulary --
+[      A1] mined-stronger  a <= 255 && b <= 255
+           witness        a <= 255 && a >= 0 && b <= 255 && b >= 0 && cin <= 1 && cin >= 0
+[      A2] equivalent      cin <= 1
+           witness        cin <= 1
+
+# declared: 6 mined, 1 matched a golden clause, 5 with no counterpart
+# interface: 6 mined, 1 matched a golden clause, 5 with no counterpart

@@ -1,9 +1,0 @@
-		
-<harm>
-	<context name="default">
-        <template check="1" exp="G({valid_in} |-> {##1 DU})" />
-        <template check="1" exp="G({valid_in} |-> {##4 DU})" />
-        <template check="1" exp="G({data_in} |-> {##1 DU})" />
-        <template check="1" exp="G({data_in} |-> {##4 DU})" />
-	</context>
-</harm>

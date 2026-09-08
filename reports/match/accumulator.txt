@@ -1,0 +1,51 @@
+# accumulator: golden clause -> what the flow recovered
+# category is trace-bounded: equivalent | mined-stronger (a refinement) | mined-weaker | missed
+
+== GUARANTEES ==
+-- declared vocabulary --
+[    ACC1] mined-stronger  G((rst_n == 0) |-> (valid_out == 0))
+           witness        G((data_out == 0) |-> ((data_out == 0) && (valid_out == 0)))
+[    ACC2] equivalent      G((rst_n == 0) |-> (data_out == 0))
+           witness        G((rst_n == 0) |-> (data_out == 0))
+[    ACC3] equivalent      G((valid_out == 1) |=> (valid_out == 0))
+           witness        G((valid_out == 1) |=> (valid_out == 0))
+[    ACC4] mined-stronger  G((valid_out == 1 && valid_in == 0) |=> (valid_out == 0))
+           witness        G((valid_out == 1) |=> (valid_out == 0))
+[    ACC5] equivalent      G((valid_out == 1 && valid_in == 1) |=> (data_out <= 255))
+           witness        G((valid_in == 1) && (valid_out == 1) |=> (data_out <= 255))
+[    ACC6] missed          G((rst_n == 1) |-> (data_out <= 1020))
+
+-- interface vocabulary --
+[    ACC1] mined-stronger  G((rst_n == 0) |-> (valid_out == 0))
+           witness        G((data_out == 0) |-> ((valid_out == 0) && (data_out * valid_in <= rst_n)))
+[    ACC2] equivalent      G((rst_n == 0) |-> (data_out == 0))
+           witness        G((rst_n == 0) |-> (data_out == 0))
+[    ACC3] equivalent      G((valid_out == 1) |=> (valid_out == 0))
+           witness        G((valid_out == 1) |=> (valid_out * 2 <= rst_n))
+[    ACC4] mined-stronger  G((valid_out == 1 && valid_in == 0) |=> (valid_out == 0))
+           witness        G((valid_out == 1) |=> ((valid_out == 0) && (data_out * data_in + data_in > rst_n)))
+[    ACC5] missed          G((valid_out == 1 && valid_in == 1) |=> (data_out <= 255))
+[    ACC6] missed          G((rst_n == 1) |-> (data_out <= 1020))
+
+# declared: 120 mined, 4 matched a golden clause, 116 with no counterpart
+# interface: 509 mined, 4 matched a golden clause, 505 with no counterpart
+
+== ASSUMPTIONS ==
+-- declared vocabulary --
+[      A1] mined-stronger  rst_n == 1
+           witness        data_in == 1
+[      A2] mined-weaker    valid_in == 1
+           witness        data_in <= 255
+[      A3] equivalent      data_in <= 255
+           witness        data_in <= 255
+
+-- interface vocabulary --
+[      A1] mined-stronger  rst_n == 1
+           witness        data_in == 1
+[      A2] equivalent      valid_in == 1
+           witness        valid_in == 1
+[      A3] equivalent      data_in <= 255
+           witness        data_in <= 255
+
+# declared: 11 mined, 2 matched a golden clause, 9 with no counterpart
+# interface: 11 mined, 3 matched a golden clause, 8 with no counterpart

@@ -1,4 +1,0 @@
-G({(!(in < 0) && start) ##12 true} |-> DU)
-G({in > 0 ##12 true} |-> DU)
-G({(in < 0) ##1 true} |-> DU)
-G({(in == 0 && start) ##12 true} |-> DU)
