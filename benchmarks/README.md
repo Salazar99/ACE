@@ -44,9 +44,9 @@ deliberately NOT part of the reference corpus. A well-formed contract is vacuous
 traces rather than violated, because its assumption excludes them; that is visible as a drop in
 support in `reference_check.json`.
 
-The generated traces ship as `benchmarks/traces.zip` (extract it in place: it unpacks to
-`benchmarks/traces/<design>/`). Re-running `run.py` regenerates them and overwrites whatever
-is there.
+The generated traces ship extracted, under `benchmarks/traces/<design>/`, so nothing has to be
+unpacked before `--validate-only` or a mining run. Re-running `run.py` regenerates them and
+overwrites whatever is there.
 
 ## Trace format
 
@@ -118,7 +118,7 @@ assumption cannot say about the future.
    drive directed corners first and seeded random after; keep the `#1` drive delay and the
    late sample point; write only the observable interface.
 2. Add it to `DESIGNS` in `run.py` with its RTL files in compile order.
-3. Write `benchmarks/<design>/config.json` (see `../ace/configs/_template.json` for the
+3. Write `benchmarks/<design>/config.json` (see `../ace/config_template.json` for the
    fields) and `benchmarks/<design>/candidates.json` with the proposed A -> G contracts.
 4. Run `run.py`. Contracts that come back `violated` or `vacuous` are the interesting ones:
    either the clause is wrong, or the stimulus never creates the situation, or the design does

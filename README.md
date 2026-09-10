@@ -11,8 +11,7 @@ antecedent. `benchmarks/CONTRACTS.md` states the shape in full.
 
 The flow is `ace/`: five steps, one module each, implementing the DATE2027 methodology
 (output-guided behavioral decomposition). It replaces the FDL26 fault-injection flow, which
-is unchanged under `legacy/fdl26/` so the two can be compared; `MIGRATION.md` maps one onto
-the other.
+is unchanged under `legacy/fdl26/` so the two can be compared.
 
 ## Layout
 
@@ -30,9 +29,9 @@ the other.
 ├── tests/                # self-checks: evaluator semantics, recovery traps, flow end to end
 ├── results/              # mining output per design, per vocabulary setting
 ├── reports/              # MINING_REPORT.md + golden / mined / match contract text
+├── ARCHITECTURE.md       # how the flow works: the five steps, module by module
 ├── RECOVERY.md           # what comes back, and why each miss is missed
 ├── CONTRACT_RECOVERY.md  # per-design expected-against-mined comparison
-├── MIGRATION.md          # what this refactor replaced, moved and deleted
 └── legacy/fdl26/         # the FDL26 flow, its step outputs and its RTL (nothing imports it)
 ```
 

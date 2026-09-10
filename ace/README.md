@@ -5,8 +5,7 @@ assume-guarantee contract mining from black-box IP traces.
 
 This package is the flow itself and depends on nothing else in the repository: the FDL26
 designs are used only as a source of RTL for the trace benchmark. The FDL26 flow itself is
-unchanged under `legacy/fdl26/`, so the two can still be compared; `MIGRATION.md` maps the
-old steps onto these modules.
+unchanged under `legacy/fdl26/`, so the two can still be compared.
 
 ## The five steps
 
@@ -149,7 +148,7 @@ subsumed by a stronger clause, or wrong role for its vocabulary.
 An earlier sketch of this flow lived in `ace2/` (`core.py`, `pipeline.py`, `semantics.py`,
 `configs/`, `test_ace2.py`) - one module per layer. It is reimplemented here, one module per
 flow step, and the sketch has been deleted: it is in the repository's git history if it is
-ever needed, and `MIGRATION.md` keeps the file-by-file map.
+ever needed.
 
 ## Using a local HARM installation
 

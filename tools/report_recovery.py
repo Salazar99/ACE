@@ -8,6 +8,9 @@ back for it, and why nothing did when nothing did.
 One row per reference clause per design, so the report is a checklist rather than a score:
 the categories are the tool's own (`equivalent`, `mined-stronger`, `mined-weaker`, `missed`)
 and the witness column is the mined clause that carried the match, verbatim.
+
+The same run also writes `results/recovery_tables.md` (`--tables`): the same material as one
+row per design, over every `recovery.json` in the results tree.
 """
 from __future__ import annotations
 
@@ -138,14 +141,21 @@ def design_section(design, settings, corpus) -> list:
     return lines
 
 
+def count(detail) -> dict:
+    counts = {c: 0 for c in MARK}
+    for entry in detail.values():
+        counts[entry["category"]] += 1
+    return counts
+
+
 def totals(designs, key) -> list:
     lines = ["| setting | references | equivalent | stronger | weaker | missed | exact | "
              "acceptable |", "|---|---|---|---|---|---|---|---|"]
     for setting in SETTINGS:
         counts = {c: 0 for c in MARK}
         for settings in designs.values():
-            for entry in settings[setting][key]["detail"].values():
-                counts[entry["category"]] += 1
+            for c, v in count(settings[setting][key]["detail"]).items():
+                counts[c] += v
         n = sum(counts.values())
         lines.append(f"| {setting} | {n} | {counts['equivalent']} | "
                      f"{counts['mined-stronger']} | {counts['mined-weaker']} | "
@@ -167,10 +177,71 @@ def misses(designs, corpora) -> list:
     return lines
 
 
+def per_design_tables(designs, corpora) -> list:
+    """The same material as one row per design instead of one row per clause.
+
+    Written from every `recovery.json` under the results tree, not from the designs of one
+    scoring invocation, so the table always covers the whole benchmark even when
+    `score_recovery.py` was last run on a subset.
+    """
+    lines = []
+    for setting in SETTINGS:
+        lines += [f"### {setting} vocabulary", "",
+                  "| design | regions | G refs | equiv | stronger | weaker | missed | "
+                  "recall | acceptable | mined G |",
+                  "|---|---|---|---|---|---|---|---|---|---|"]
+        grand = {c: 0 for c in MARK}
+        for design, settings in designs.items():
+            side = settings[setting]
+            c = count(side["guarantees"]["detail"])
+            n = sum(c.values())
+            for k, v in c.items():
+                grand[k] += v
+            lines.append(
+                f"| {design} | {side['regions']} | {n} | {c['equivalent']} | "
+                f"{c['mined-stronger']} | {c['mined-weaker']} | {c['missed']} | "
+                f"{c['equivalent'] / n:.0%} | "
+                f"{(c['equivalent'] + c['mined-stronger']) / n:.0%} | "
+                f"{len(side['mined_instances'])} |")
+        n = sum(grand.values())
+        lines += [f"| **total** | | **{n}** | **{grand['equivalent']}** | "
+                  f"**{grand['mined-stronger']}** | **{grand['mined-weaker']}** | "
+                  f"**{grand['missed']}** | **{grand['equivalent'] / n:.0%}** | "
+                  f"**{(grand['equivalent'] + grand['mined-stronger']) / n:.0%}** | |", ""]
+
+        lines += ["| design | A refs | equiv | stronger | weaker | missed | mined A |",
+                  "|---|---|---|---|---|---|---|"]
+        grand = {c: 0 for c in MARK}
+        for design, settings in designs.items():
+            side = settings[setting]
+            c = count(side["assumptions"]["detail"])
+            for k, v in c.items():
+                grand[k] += v
+            lines.append(
+                f"| {design} | {sum(c.values())} | {c['equivalent']} | "
+                f"{c['mined-stronger']} | {c['mined-weaker']} | {c['missed']} | "
+                f"{len(side['mined_invariants'])} |")
+        lines += [f"| **total** | **{sum(grand.values())}** | **{grand['equivalent']}** | "
+                  f"**{grand['mined-stronger']}** | **{grand['mined-weaker']}** | "
+                  f"**{grand['missed']}** | |", ""]
+
+        grouped = {}
+        for design, settings in designs.items():
+            for reference, entry in settings[setting]["guarantees"]["detail"].items():
+                if entry["category"] == "missed":
+                    why = cause(reference, corpora.get(design))
+                    grouped[why] = grouped.get(why, 0) + 1
+        lines += ["misses by cause: "
+                  + ", ".join(f"{k} {v}" for k, v in sorted(grouped.items())), ""]
+    return lines
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("results", nargs="?", default="results")
     parser.add_argument("--out", default="CONTRACT_RECOVERY.md")
+    parser.add_argument("--tables", default="results/recovery_tables.md",
+                        help="per-design summary tables, one row per design")
     parser.add_argument("--benchmarks", default="benchmarks",
                         help="where the configs live, to load the traces a diagnosis needs")
     args = parser.parse_args()
@@ -205,6 +276,9 @@ def main():
         lines += design_section(design, settings, corpora.get(design))
     Path(args.out).write_text("\n".join(lines) + "\n")
     print(f"wrote {args.out} ({len(designs)} designs)")
+
+    Path(args.tables).write_text("\n".join(per_design_tables(designs, corpora)) + "\n")
+    print(f"wrote {args.tables} ({len(designs)} designs)")
 
 
 if __name__ == "__main__":

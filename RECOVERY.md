@@ -1,30 +1,26 @@
 # Can the DATE2027 flow extract the reference contracts?
 
-> **Scope of this document.** The analysis below is the eight-design measurement (80
-> reference guarantees, 20 assumptions) and the diagnosis of every miss on it. The
-> benchmark has since grown to eleven designs - `arbiter4`, `fifo_sync` and `apb_slave`
-> added 55 guarantees and 8 assumptions - and the current totals are 64 of 135 exactly and
-> 105 of 135 up to refinement (47% / 78%) with the declared vocabulary, 35 / 72 (26% / 53%)
-> with the interface vocabulary. `reports/MINING_REPORT.md` has those tables per design and
-> per clause id, and `CONTRACT_RECOVERY.md` is regenerated for all eleven. What the three
-> protocol designs add to the picture: arbiter4 is the best design in the benchmark (83%
-> exact), apb_slave the worst (17%), and the two bracket the same limit - how many
-> propositions an antecedent may conjoin.
-
 Short answer: yes for the two clause families the plan actually names — propositional
 invariants and `G(antecedent -> consequent)` template instances — and the numbers are now
 measured rather than argued. With each design's declared proposition vocabulary the flow
-recovers **37 of 80 reference guarantees exactly and 67 of 80 up to refinement (84%)**, and
-relates **all 20 reference assumptions** (5 exactly, 8 as refinements, 7 as weaker bounds,
-none missed). With the vocabulary derived mechanically from the interface instead, and no
-hand-written hints at all, it still recovers **22 exactly and 49 up to refinement (61%)**.
-Twelve reference guarantees remain unrecovered, each for a named reason, and three of those
-are a stimulus gap rather than a tool limit. Nothing here needed a change to the
+recovers **64 of 135 reference guarantees exactly and 105 of 135 up to refinement (78%)**,
+and relates **all 28 reference assumptions** (7 exactly, 13 as refinements, 8 as weaker
+bounds, none missed). With the vocabulary derived mechanically from the interface instead,
+and no hand-written hints at all, it still recovers **35 exactly and 72 up to refinement
+(53%)**. Twenty reference guarantees remain unrecovered, each for a named reason, and one
+of those is a stimulus gap rather than a tool limit. Nothing here needed a change to the
 methodology: every fix was a defect in the implementation of a step the plan already
 specifies, or a modelling decision the plan leaves to the config.
 
+The benchmark is eleven designs: the eight FDL26 blocks, plus `arbiter4`, `fifo_sync` and
+`apb_slave`, which were added because the property shapes a protocol block needs were
+missing entirely. What they add to the picture is the spread at both ends — `arbiter4` is
+the best design in the benchmark (83% exact) and `apb_slave` the worst (17%) — and the two
+bracket the same limit: how many propositions an antecedent may conjoin.
+
     python3 tools/score_recovery.py benchmarks/*/config.json --out results
     python3 tools/report_recovery.py results --out CONTRACT_RECOVERY.md
+    #   ... also writes results/recovery_tables.md (--tables)
     python3 -m pytest tests -q && python3 tests/test_flow.py
 
 `CONTRACT_RECOVERY.md` is the per-contract checklist: every reference clause of every
@@ -56,6 +52,7 @@ with `auto_vocabulary` and no hand-written hints.
 
 | design | regions | refs | equivalent | stronger | weaker | missed | exact | acceptable | mined | interface acceptable |
 |---|---|---|---|---|---|---|---|---|---|---|
+| arbiter4 | 2 | 18 | 15 | 2 | 1 | 0 | 83% | 94% | 384 | 28% |
 | comparator_3bit | 2 | 8 | 6 | 2 | 0 | 0 | 75% | 100% | 47 | 88% |
 | multi_16bit | 1 | 9 | 5 | 4 | 0 | 0 | 56% | 100% | 199 | 89% |
 | sqrt | 1 | 13 | 6 | 6 | 0 | 1 | 46% | 92% | 219 | 54% |
@@ -64,13 +61,27 @@ with `auto_vocabulary` and no hand-written hints.
 | ibex_alu | 2 | 18 | 7 | 6 | 0 | 5 | 39% | 72% | 303 | 56% |
 | adder_8bit | 1 | 7 | 4 | 1 | 1 | 1 | 57% | 71% | 26 | 71% |
 | ibex_csr | 2 | 6 | 1 | 3 | 0 | 2 | 17% | 67% | 24 | 83% |
-| **total (declared)** | | **80** | **37** | **30** | **1** | **12** | **46%** | **84%** | | |
-| **total (interface)** | | **80** | **22** | **27** | **2** | **29** | **28%** | **61%** | | |
+| fifo_sync | 1 | 19 | 9 | 3 | 4 | 3 | 47% | 63% | 159 | 47% |
+| apb_slave | 2 | 18 | 3 | 6 | 4 | 5 | 17% | 50% | 243 | 50% |
+| **total (declared)** | | **135** | **64** | **41** | **10** | **20** | **47%** | **78%** | | |
+| **total (interface)** | | **135** | **35** | **37** | **13** | **50** | **26%** | **53%** | | |
+
+The two protocol designs at the ends of that table bracket one limit between them.
+`arbiter4` is the best in the benchmark because every one of its contracts is a one- or
+two-proposition relation over signals that are all in the vocabulary — mutual exclusion is
+a sum over the grant bits, the encoding contracts are single equalities, and even bounded
+fairness is a two-proposition antecedent with a window. `apb_slave` is the worst because
+almost every contract it has keys on a three- or four-proposition description of the bus
+phase. Nothing else about the two designs differs in a way the flow can see.
 
 ### Assumptions
 
-20 reference assumptions: 5 exact, 8 recovered as refinements, 7 as a weaker form, none
-missed (declared vocabulary; the interface setting reaches 6 exact and 16 up to refinement).
+28 reference assumptions: 7 exact, 13 recovered as refinements, 8 as a weaker form, none
+missed — 25% exact, 71% up to refinement. The interface setting does slightly better on
+this side, 8 exact and 23 up to refinement (29% / 82%), which is the one place in the
+measurement where removing the hints helps: the mechanical family produces more bounds per
+signal, and a bound is what a refinement of an assumption looks like.
+
 Scoring the A side needs one thing the G side does not: since a contract's A is a
 conjunction, a reference assumption written as `A <= 7 && B <= 7` is compared against the
 conjunction of the mined invariants as well as against each one, and a conjunction that
@@ -89,40 +100,91 @@ was violated on the region is re-checked at the samples where the guard holds
 (`validation.evaluate_under`, the semantics the benchmark validates references with), and a
 guard that turns rejected guarantees into clean ones enters A together with them. On the
 divider that recovers three of four reference assumptions as refinements where the previous
-run recovered none, and it is what raised the A side from 45% to 65%.
+run recovered none, and it is what raised the A side from 45% to 65% at the time; the
+eleven-design figure is 71%.
 
-The 7 remaining weaker forms are the original phenomenon: a region bound (`data_in <= 255`,
+The 8 remaining weaker forms are the original phenomenon: a region bound (`data_in <= 255`,
 `in <= 4000000000`) where the reference names a tighter environment restriction that the
-guard search did not need in order to make its guarantees hold.
+guard search did not need in order to make its guarantees hold. The square root accounts
+for three of them on its own, and `apb_slave`'s `pwdata <= 255` is the clearest case of
+why the phenomenon is not a defect: the reference assumption states an obligation the
+invariant language can only half express, so the guard search settles for the half.
 
 ## Why the misses happen
 
-Twelve missed guarantees under the declared vocabulary, and every one has a named cause:
+Twenty missed guarantees under the declared vocabulary, and every one has a named cause.
 
-| cause | count | what it needs |
+`CONTRACT_RECOVERY.md` lists them one clause at a time with a cause per clause, but that
+label comes from `cause()` in `tools/report_recovery.py`, which reads the *shape* of the
+reference clause and returns the first thing that matches. It is cheap and it is right
+about thirteen of the twenty. For the seven it files under "3+ proposition antecedent" the
+shape is a coincidence: checking each one against the mined set in
+`results/declared/<design>/recovery.json` — is the conjunct in the vocabulary at all, does
+the design's cap even reach this depth — splits them three ways. The table below is that
+check, not the generated label:
+
+| cause | count | which, and what it needs |
 |---|---|---|
-| vocabulary or region | 5 | a term the declared family still misses (a signed comparison, an operand-conditioned shift), or a region the flow never enters |
-| unfalsifiable consequent — `rd_error_o == 0`, `data_out <= 1020` | 3 | a stimulus that contradicts the consequent somewhere. The consequent holds at every sample of the corpus, so the clause is a signal domain restated and the flow drops it on purpose. A benchmark gap (no CSR error is ever provoked), not a tool limit — and the one remaining item on the improvement list |
-| sequence antecedent with a 4-proposition guard — `((div_en_i == 0) ##1 (rst_n == 1 && div_en_i == 1 && operator_i == 2 && op_b_i == 0)) \|-> ...` | 2 | an edge conjoined with three value predicates. Edges are now vocabulary entries and plain sequence antecedents are recovered exactly; these two need the edge *and* a three-deep decision tree at once |
+| vocabulary or region | 6 | a term the declared family still misses (a signed comparison, an operand-conditioned shift), or a region the flow never enters |
+| antecedent depth | 4 | `APB16`, `APB17`, `APB18` conjoin **four** propositions, which is above `max_antecedent_props: 3` — the highest setting there is. `ALU8` conjoins three on a design that leaves the cap at its default of 2 |
+| unfalsifiable consequent | 4 | `rd_error_o == 0`, `rd_data_o <= 16777215`, `data_out <= 1020`, `count <= 8`. The consequent holds at every sample of the corpus, so the clause is a signal domain restated and the flow drops it on purpose |
+| instance budget | 2 | `APB12` and `APB14`: cap 3, clause 3, and every conjunct already heads other mined antecedents. The exact conjunction was crowded out |
+| sequence antecedent with a 4-proposition guard | 2 | an edge conjoined with three value predicates. Edges are now vocabulary entries and plain sequence antecedents are recovered exactly; these two need the edge *and* a three-deep decision tree at once |
+| vocabulary — occupancy equalities | 1 | `FIFO16`. Filed as a depth problem, but the cap is 3 and the clause has 3 |
 | compound consequent | 1 | a conjunction of three obligations in the consequent slot (pairs are supported) |
-| 3+ proposition antecedent — `operator_i == 10 && operand_b_i == 1 && operand_a_i <= 2^31` | 1 | `max_antecedent_props: 3`, which exists but is off by default: it is cubic in the vocabulary |
+
+Three of those rows are worth their own sentence, because the generated report would send
+a reader to fix the wrong thing:
+
+* **`FIFO16`** — `G((count == 4 && wr_en == 1 && rd_en == 0) |=> (count == 5))`. Neither
+  the depth nor the cap is the problem. `count == 4` appears in no mined antecedent and
+  `count == 5` appears nowhere in the mined set at all, so the clause could not have been
+  proposed whatever the cap. The occupancy value-equalities it needs were never generated;
+  `mining.generalize` folding the value-equality family into intervals is the likely
+  reason, and it is the one place where that generalisation costs a reference clause.
+* **`APB12` and `APB14`** — the antecedents are three propositions on a design whose cap
+  is three, and every conjunct is already in the search: `psel == 1` and `penable == 0`
+  head 24 mined antecedents each, `paddr <= 2` and `paddr >= 4` six each, and the mined
+  set does contain three-deep antecedents. So the shape was reachable and the flow simply
+  spent the per-consequent budget elsewhere. The nearest mined clause,
+  `G((penable == 0) && paddr >= 4 && paddr <= 5 && (prdata == 85) |-> ##3 (...))`, answers
+  at `##3` where `APB14` says `##2`, which points at the latency-tightening step as well
+  as at the budget. This is the same ranking problem the precision section describes,
+  showing up as a recall loss.
+* **The unfalsifiable four** are not all one thing. `rd_error_o == 0` is a genuine
+  stimulus gap: the benchmark never provokes a CSR error, and a stimulus that did would
+  make the clause minable. `count <= 8` and `data_out <= 1020` are true by construction —
+  the occupancy cannot exceed the depth and four 8-bit samples cannot exceed the output
+  register — so no stimulus could contradict them, and dropping them is the flow behaving
+  correctly rather than a gap to close.
 
 The families that dominated this table before are gone: all five plain sequence antecedents
 now come back exactly, as do both single compound consequents, because a rising edge is a
 vocabulary entry (`(!(x == 1)) ##1 (x == 1)`) rather than a template, and the consequent slot
 takes a flag-and-value conjunction.
 
-`CONTRACT_RECOVERY.md` lists these one clause at a time, with the cause per clause. One
-further limit is visible in the table rather than in the miss counts: **region coverage** —
-a reference clause about a region the flow never enters is unreachable, so more events per
-design, or a residual region for the unexplained samples, would raise the ceiling.
+Two further limits are visible in the table rather than in the miss counts. **Region
+coverage** — a reference clause about a region the flow never enters is unreachable, so
+more events per design, or a residual region for the unexplained samples, would raise the
+ceiling. And **the cap is per design, not global**: `max_antecedent_props: 3` is set for
+`fifo_sync` and `apb_slave` and left at the default everywhere else, so `ALU8` is missed
+by a configuration choice rather than by a limit of the method. Raising it costs run time
+cubic in the vocabulary, which is why it is not simply on.
 
 ## The interface-only column
 
-Recall falls from 84% to 61% when the vocabulary is derived mechanically instead of written
+Recall falls from 78% to 53% when the vocabulary is derived mechanically instead of written
 by hand. That number is the real measure of how much a hint-based miner depends on its
 hints, and extending the family is what moved it: it was 34% when the family stopped at
 pairwise `+ - *` and orderings.
+
+The three protocol designs widened the gap rather than narrowing it, and `arbiter4` shows
+why most sharply: 94% acceptable with the declared vocabulary and 28% without it. Its
+contracts are built on sums over the grant and request bits, and a mechanical family that
+pairs outputs against inputs never produces a four-way sum of same-direction signals. The
+declared-versus-interface gap is therefore not one number about hint dependence; it is
+largely a question of whether the design's natural predicate happens to be in the
+mechanical family at all.
 
 Four families, in the order the vocabulary emits them, each added because a measurement
 demanded it:
@@ -147,9 +209,9 @@ whole. The recall-versus-vocabulary-size curve this exposes is the RQ4 measureme
 
 The first honest run of this measurement produced garbage in both directions — 100%
 "acceptable" recall on designs where nothing useful was mined, and zero regions on five of
-eight designs. Eight things were wrong in ways the earlier validate-the-references-by-hand
-experiments could not expose, in every step from labelling to matching. Each fix now has a
-test in `tests/test_recovery.py`.
+the eight designs the benchmark had then. Eight things were wrong in ways the earlier
+validate-the-references-by-hand experiments could not expose, in every step from labelling
+to matching. Each fix now has a test in `tests/test_recovery.py`.
 
 1. **Trigger selection rejected the real triggers.** A cap on how many samples a candidate
    may match (50%) threw away every enable held high for the duration of an operation. It is
@@ -217,9 +279,12 @@ crowded out every edge-triggered response. There is now a test asserting that ev
 the bitmask pass proposes is non-vacuous and violation-free under the evaluator - the two
 must agree, or the budget is spent on clauses that are dropped again.
 
-**Vocabulary.** Described above: the interface-only recall went from 34% to 61%.
+**Vocabulary.** Described above: the interface-only recall went from 34% to 61% on the
+eight designs this package was measured on. Adding the three protocol designs pulled the
+figure down to 53%, for the reason the interface-only section gives — `arbiter4`'s sums
+are outside the mechanical family entirely.
 
-**Precision.** The mined guarantee set is 3-25x the reference set, and the honest finding is
+**Precision.** The mined guarantee set is 4-28x the reference set, and the honest finding is
 that **no trace-side signal separates the two**. Measured, not assumed:
 
 * Ranking by support, by delay tightness, by antecedent size, or by interface relevance
@@ -265,8 +330,12 @@ Two additions were needed rather than fixes:
 ## Reproducing
 
 `results/<setting>/<design>/recovery.json` holds every reference clause with its category
-and the mined witness; `results/recovery_summary.json` aggregates them with the miss causes;
-`CONTRACT_RECOVERY.md` is the same material as a per-clause report.
+and the mined witness. `CONTRACT_RECOVERY.md` is the same material as a per-clause report
+and `results/recovery_tables.md` as a per-design one; both are written by
+`tools/report_recovery.py` over every `recovery.json` in the results tree, so they always
+cover the whole benchmark. `results/recovery_summary.json` is different: `score_recovery.py`
+writes it with only the designs of that invocation, so it holds a subset whenever the
+scorer was last run on one.
 The flow runs in 10-40 s per design on the mining corpus with no external miner. With HARM
 installed (`HARM_BIN`, verified by `tools/check_harm.py`) the temporal backend switches to
 it and the rest of the flow is unchanged — the instantiator and HARM consume the same
