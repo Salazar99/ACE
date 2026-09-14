@@ -928,13 +928,13 @@
 
 ## Stage times (s)
 
-- load: 0.0345
-- 1_label:(!(done == 1)) ##1 (done == 1): 0.0097
-- 2_triggers:(!(done == 1)) ##1 (done == 1): 1.6619
-- 3_episodes:(!(done == 1)) ##1 (done == 1): 0.0175
-- 4_mine:(!(done == 1)) ##1 (done == 1): 40.0264
-- 1_label:(!(error == 1)) ##1 (error == 1): 0.0133
-- 2_triggers:(!(error == 1)) ##1 (error == 1): 1.7381
-- 3_episodes:(!(error == 1)) ##1 (error == 1): 0.0125
-- 4_mine:(!(error == 1)) ##1 (error == 1): 45.2829
-- 5_merge: 0.0065
+- load: 0.0334
+- 1_label:(!(done == 1)) ##1 (done == 1): 0.0094
+- 2_triggers:(!(done == 1)) ##1 (done == 1): 1.6373
+- 3_episodes:(!(done == 1)) ##1 (done == 1): 0.0164
+- 4_mine:(!(done == 1)) ##1 (done == 1): 38.9128
+- 1_label:(!(error == 1)) ##1 (error == 1): 0.0135
+- 2_triggers:(!(error == 1)) ##1 (error == 1): 1.7358
+- 3_episodes:(!(error == 1)) ##1 (error == 1): 0.012
+- 4_mine:(!(error == 1)) ##1 (error == 1): 44.1378
+- 5_merge: 0.0064
