@@ -15,8 +15,6 @@
 		<prop exp="valid_out == (rst_n &amp; valid_in)" loc="c"/>
 		<prop exp="valid_out == (rst_n | valid_in)" loc="c"/>
 		<prop exp="valid_out == (rst_n ^ valid_in)" loc="c"/>
-		<prop exp="valid_out == (rst_n &lt;&lt; valid_in)" loc="c"/>
-		<prop exp="valid_out == (rst_n &gt;&gt; valid_in)" loc="c"/>
 		<prop exp="valid_out * valid_in &lt;= rst_n" loc="c"/>
 		<prop exp="valid_out * valid_in + valid_in &gt; rst_n" loc="c"/>
 		<prop exp="valid_out &lt; valid_in" loc="c"/>
@@ -28,8 +26,6 @@
 		<prop exp="valid_out == (rst_n &amp; data_in)" loc="c"/>
 		<prop exp="valid_out == (rst_n | data_in)" loc="c"/>
 		<prop exp="valid_out == (rst_n ^ data_in)" loc="c"/>
-		<prop exp="valid_out == (rst_n &lt;&lt; data_in)" loc="c"/>
-		<prop exp="valid_out == (rst_n &gt;&gt; data_in)" loc="c"/>
 		<prop exp="valid_out * data_in &lt;= rst_n" loc="c"/>
 		<prop exp="valid_out * data_in + data_in &gt; rst_n" loc="c"/>
 		<prop exp="valid_out &lt; data_in" loc="c"/>
@@ -39,8 +35,6 @@
 		<prop exp="valid_out == (valid_in &amp; data_in)" loc="c"/>
 		<prop exp="valid_out == (valid_in | data_in)" loc="c"/>
 		<prop exp="valid_out == (valid_in ^ data_in)" loc="c"/>
-		<prop exp="valid_out == (valid_in &lt;&lt; data_in)" loc="c"/>
-		<prop exp="valid_out == (valid_in &gt;&gt; data_in)" loc="c"/>
 		<prop exp="valid_out * data_in &lt;= valid_in" loc="c"/>
 		<prop exp="valid_out * data_in + data_in &gt; valid_in" loc="c"/>
 		<prop exp="valid_out * 2 &lt;= valid_in" loc="c"/>
@@ -62,8 +56,6 @@
 		<prop exp="data_out == (rst_n &amp; valid_in)" loc="c"/>
 		<prop exp="data_out == (rst_n | valid_in)" loc="c"/>
 		<prop exp="data_out == (rst_n ^ valid_in)" loc="c"/>
-		<prop exp="data_out == (rst_n &lt;&lt; valid_in)" loc="c"/>
-		<prop exp="data_out == (rst_n &gt;&gt; valid_in)" loc="c"/>
 		<prop exp="data_out * valid_in &lt;= rst_n" loc="c"/>
 		<prop exp="data_out * valid_in + valid_in &gt; rst_n" loc="c"/>
 		<prop exp="data_out &lt; valid_in" loc="c"/>
@@ -75,8 +67,6 @@
 		<prop exp="data_out == (rst_n &amp; data_in)" loc="c"/>
 		<prop exp="data_out == (rst_n | data_in)" loc="c"/>
 		<prop exp="data_out == (rst_n ^ data_in)" loc="c"/>
-		<prop exp="data_out == (rst_n &lt;&lt; data_in)" loc="c"/>
-		<prop exp="data_out == (rst_n &gt;&gt; data_in)" loc="c"/>
 		<prop exp="data_out * data_in &lt;= rst_n" loc="c"/>
 		<prop exp="data_out * data_in + data_in &gt; rst_n" loc="c"/>
 		<prop exp="data_out &lt; data_in" loc="c"/>
@@ -86,8 +76,6 @@
 		<prop exp="data_out == (valid_in &amp; data_in)" loc="c"/>
 		<prop exp="data_out == (valid_in | data_in)" loc="c"/>
 		<prop exp="data_out == (valid_in ^ data_in)" loc="c"/>
-		<prop exp="data_out == (valid_in &lt;&lt; data_in)" loc="c"/>
-		<prop exp="data_out == (valid_in &gt;&gt; data_in)" loc="c"/>
 		<prop exp="data_out * data_in &lt;= valid_in" loc="c"/>
 		<prop exp="data_out * data_in + data_in &gt; valid_in" loc="c"/>
 		<prop exp="data_out * 2 &lt;= valid_in" loc="c"/>

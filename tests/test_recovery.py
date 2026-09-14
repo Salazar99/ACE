@@ -9,7 +9,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from ace import backends, labeling, mining, templates, triggers, validation
+from ace import labeling, mining, triggers, validation
 from ace.traces import Corpus, Run
 
 REQ_ACK = ["req", "ack", "busy", "mode"]
@@ -34,44 +34,18 @@ def handshake(length=120, latency=3, period=6):
     return Run("handshake", REQ_ACK, rows)
 
 
-def test_instantiate_finds_the_planted_response():
-    run = handshake()
-    corpus = corpus_of(run)
-    mined = templates.instantiate(corpus.runs, backends.GRAMMARS["G3"],
-                                  templates.predicates(run.rows, ["req", "busy"]),
-                                  templates.predicates(run.rows, ["ack"]), horizon=5)
-    assert "G((req == 1) |-> ##3 (ack == 1))" in mined, mined
-    # the window form is offered too, and it is the weaker of the two
-    assert "G((req == 1) |-> ##[1:5] (ack == 1))" in mined
-    kept, dropped = validation.reduce_subsumed(corpus, mined)
+def test_tighten_windows_offers_the_fixed_latency():
+    """HARM fills the window slot from its grammar, so `G(req |-> ##[1:5] ack)` is what comes
+    back for a design that answers at a fixed offset. `mining._tighten_windows` offers the
+    fixed reading alongside it and `reduce_subsumed` keeps the stronger one."""
+    corpus = corpus_of(handshake())
+    window = "G((req == 1) |-> ##[1:5] (ack == 1))"
+    offered = mining._tighten_windows(corpus, [window])
+    assert "G((req == 1) |-> ##3 (ack == 1))" in offered, offered
+    kept, dropped = validation.reduce_subsumed(corpus, offered)
     assert "G((req == 1) |-> ##3 (ack == 1))" in kept
-    assert "G((req == 1) |-> ##[1:5] (ack == 1))" not in kept, "the fixed latency is stronger"
+    assert window not in kept, "the fixed latency is stronger"
     assert any("subsumed" in d["why"] for d in dropped)
-
-
-def test_every_proposed_instance_agrees_with_the_evaluator():
-    """The bitmask pass only proposes; formula.py decides. If the two disagree the budget is
-    spent on clauses that are dropped again, and edge-triggered ones come out a cycle early.
-
-    An antecedent's match ends where its last sample is, delays count from there, and
-    `formula.And` intersects END positions - so a rising edge cannot be conjoined with a
-    same-sample predicate at all.
-    """
-    rows = [{"req": int(t % 6 == 1), "ack": int(t % 6 == 4), "x": t % 3} for t in range(120)]
-    runs = [Run("r", ["req", "ack", "x"], rows)]
-    corpus = corpus_of(*runs)
-    proposed = templates.instantiate(
-        runs, backends.GRAMMARS["G3"],
-        templates.predicates(rows, ["req", "x"]) + templates.edge_predicates(rows, ["req"]),
-        templates.predicates(rows, ["ack"]), horizon=6)
-    for clause in proposed:
-        result = validation.evaluate(corpus, clause)
-        assert not result["violations"], (clause, result)
-        assert not result["vacuous"], (clause, result)
-    # the request edge is at t+1, the response three samples after the match ends
-    assert "G(((!(req == 1)) ##1 (req == 1)) |-> ##3 (ack == 1))" in proposed, proposed
-    # and no clause mixes depths in one antecedent, which the evaluator reads as empty
-    assert not [c for c in proposed if "##1" in c.split("|->")[0] and "&&" in c.split("|->")[0]]
 
 
 def test_vacuity_does_not_make_every_clause_equivalent():

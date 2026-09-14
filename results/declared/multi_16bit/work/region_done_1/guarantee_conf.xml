@@ -1,0 +1,24 @@
+<harm>
+	<context name="default">
+		<prop exp="rst_n == 0" loc="a,dt"/>
+		<prop exp="done == 0" loc="c"/>
+		<prop exp="yout == 0" loc="c"/>
+		<prop exp="done == 1" loc="a,dt"/>
+		<prop exp="yout == ain * bin" loc="c"/>
+		<prop exp="ain == 0" loc="a,dt"/>
+		<prop exp="bin == 0" loc="a,dt"/>
+		<prop exp="yout == bin" loc="c"/>
+		<prop exp="ain == 1" loc="a,dt"/>
+		<prop exp="start == 0" loc="a,dt"/>
+		<prop exp="rst_n" loc="a,c,dt"/>
+		<prop exp="start" loc="a,c,dt"/>
+		<prop exp="done" loc="a,c,dt"/>
+		<numeric clustering="K,10Max,0.01WCSS,&gt;&lt;,==" exp="ain" loc="a,c,dt"/>
+		<numeric clustering="K,10Max,0.01WCSS,&gt;&lt;,==" exp="bin" loc="a,c,dt"/>
+		<numeric clustering="K,10Max,0.01WCSS,&gt;&lt;,==" exp="yout" loc="a,c,dt"/>
+		<template exp="G(P0 |-&gt; P1)" />
+		<template exp="G(P0 |=&gt; P1)" />
+		<template exp="G(P0 |-&gt; ##[1:20] P1)" />
+		<sort name="smoothed_recall" exp="(atct+1)/(atct+afct+2)"/>
+	</context>
+</harm>

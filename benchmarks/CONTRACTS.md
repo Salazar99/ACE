@@ -22,11 +22,15 @@ do not reset mid-operation, release the enable one cycle after the handshake).
 
 Guarantee shapes follow what HARM's templates can produce:
 
-* antecedent of at most two declared propositions joined by `&&` - a conjunction
-  counts as ONE proposition when declared as one, which HARM's proposition grammar
-  allows - or a two-cycle rising-edge sequence for the G5 decision-tree shape. `fifo_sync`
-  and `apb_slave` raise the limit to three (`max_antecedent_props: 3` in their configs),
-  and a handful of their contracts conjoin four, which no setting reaches;
+* antecedent of exactly ONE declared proposition. Under `G1` and `G3`, the grammars every
+  design here uses, the template is `G(P0 |-> ...)` and HARM fills `P0` with a single
+  proposition; the decision tree that would conjoin several is built only for a template
+  carrying a decision-tree placeholder, which only `G5` has and no design uses. A
+  conjunction is therefore reachable only when it is declared as one proposition -
+  `a && b && c` in `props` is a single atom to HARM, which its proposition grammar allows.
+  `ibex_alu` declares one such conjunction and the contract that needs it comes back;
+  `fifo_sync` and `apb_slave` declare none, and their three- and four-signal antecedents
+  are the misses that follow;
 * consequent of exactly one proposition;
 * delay of same-cycle, `|=>`, or `##[1:H]` with H the configured horizon;
 * every compound proposition listed in `props`, which `run.py` writes into the
@@ -361,7 +365,7 @@ Four-sample accumulator behind a valid/valid interface.
 
 *Not producible by any template:*
 
-- **MUL-EARLY** `(start == 0) ##1 (start == 1) ##1 ... x17` -> `done == 0`. 'done is not raised early' needs a 17-cycle sequence antecedent. HARM's decision-tree template builds multi-cycle antecedents, but not to that depth, and the exact-latency form is outside every fixed template.
+- **MUL-EARLY** `(start == 0) ##1 (start == 1) ##1 ... x17` -> `done == 0`. 'done is not raised early' needs a 17-cycle sequence antecedent. Nothing in the vocabulary reaches that far: a declared proposition can hold a two-cycle sequence, not seventeen, and the exact-latency form is outside every fixed template.
 - **MUL4** `A: rst_n == 1, start == 1` -> `G(rst_n == 1 |-> ##[1:H] done == 1)`. a bounded-response guarantee whose window can lose the assumption. Both invariants hold at the sample the guarantee fires on, but start drops when the operation ends, so the 20-cycle window runs into idle samples and no pulse arrives. Constraining the window needs a temporal assumption; an invariant only restricts the sample it is evaluated at.
 
 ## sqrt
@@ -591,7 +595,7 @@ Ibex fast multiplier and long divider (RV32M = RV32MFast).
 | MD13 | result | G4 | `G((valid_o == 1 && mult_en_i == 1 && op_a_i == 0) |-> (multdiv_result_o == 0))` | A1 | 10 / 6 / 4 | confirmed |
 
 - **MD1** asynchronous reset withdraws the valid handshake.
-- **MD2** a multiplication request completes. The two-cycle antecedent is a rising edge, which is the shape HARM's decision-tree template builds; any cycle with the enable high would also match the last cycle of a finished operation.
+- **MD2** a multiplication request completes. The two-cycle antecedent is a rising edge, which the clause language evaluates directly and the flow declares as a vocabulary entry; any cycle with the enable high would also match the last cycle of a finished operation.
 - **MD3** a division request completes within the long divider's latency.
 - **MD4** RISC-V defines division by zero as all-ones. Anchored on the rising edge of the enable, like MD2 and MD3.
 - **MD5** RISC-V defines remainder by zero as the numerator. The three-condition antecedent is one declared proposition. Anchored on the rising edge of the enable, like MD2 and MD3.
@@ -747,8 +751,9 @@ count (4 bit).
   guarantee in the benchmark with no antecedent.
 - FIFO16 pins the increment relation at a single occupancy because the general form needs a
   past operator, and FIFO18 conjoins four propositions in its antecedent. Both mark where
-  the template family runs out; the config sets `max_antecedent_props: 3`, which reaches
-  the first family and not the second.
+  the template family runs out. Neither conjunction is declared as a proposition, so neither
+  can fill the single antecedent slot: FIFO16 is missed, and FIFO18 is recovered only
+  through a stronger clause the flow found by another route.
 - FIFO19 is the data-integrity contract, and it holds only because the environment keeps
   `din` for one more cycle - an obligation no invariant can state, so it breaks on the
   stress corpus where `din` changes every cycle.
@@ -810,8 +815,9 @@ count (4 bit).
   the general form needs a past operator.
 - **FIFO17** the last read empties the queue.
 - **FIFO18** a simultaneous read and write leaves the queue non-empty: the occupancy does
-  not move. Four propositions in the antecedent, so it is out of reach of a two-slot
-  decision tree and in reach of a three-slot one.
+  not move. Four propositions in the antecedent, none of them declared as a conjunction, so
+  the clause itself is unreachable; what the flow recovers is a stronger clause that implies
+  it.
 - **FIFO19** data integrity, first-word-fall-through: the value written into an empty queue
   appears at the output on the next cycle. 92 violations on the stress corpus, none on the
   nominal or held-out ones.
@@ -859,8 +865,10 @@ prdata (8 bit), pready, pslverr.
   pwdata with the value it last wrote to that address. A4 states the width half of that
   obligation, which is all an invariant can say, and the value half is why those two break
   on the stress corpus.
-- APB16 conjoins four propositions, and APB12-APB14 and APB17-APB18 conjoin three; the
-  config sets `max_antecedent_props: 3` for that reason.
+- APB16, APB17 and APB18 conjoin four propositions and APB12-APB14 conjoin three, each over
+  as many different signals. The config declares none of those conjunctions as a single
+  proposition, which is the one way a conjunction reaches the antecedent slot, and all five
+  of the mineable ones are missed for that reason.
 
 *Contracts.* 18 of 18 guarantees confirmed on 5 runs / 6000 samples.
 

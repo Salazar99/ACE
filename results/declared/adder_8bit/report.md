@@ -6,7 +6,7 @@
 
 ## Event `cout == 1`
 - occurrences: 1317 (0.5268 of samples)
-- triggers (observed values and interface relations (harm unavailable)):
+- triggers (observed values and interface relations (harm found no antecedent)):
     - `cin == 0` R=0.262 P=0.539 ATCT=344 AFCT=973 matches 638, explains 344
     - `a > b` R=0.209 P=0.541 ATCT=275 AFCT=1042 matches 508, explains 275
 - coverage 0.416, overlap 0.054, unassigned 0.584
@@ -41,9 +41,9 @@
 
 ## Stage times (s)
 
-- load: 0.0043
-- 1_label:cout == 1: 0.0007
-- 2_triggers:cout == 1: 0.185
-- 3_episodes:cout == 1: 0.0222
-- 4_mine:cout == 1: 0.3036
+- load: 0.0068
+- 1_label:cout == 1: 0.0012
+- 2_triggers:cout == 1: 0.2761
+- 3_episodes:cout == 1: 0.0264
+- 4_mine:cout == 1: 0.4276
 - 5_merge: 0.0

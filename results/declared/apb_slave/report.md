@@ -6,7 +6,7 @@
 
 ## Event `pready == 1`
 - occurrences: 1399 (0.2332 of samples)
-- triggers (observed values and interface relations (harm unavailable)):
+- triggers (observed values and interface relations (harm found no antecedent)):
     - `penable == 1` R=0.999 P=1.000 ATCT=1399 AFCT=0 matches 903, explains 1399
 - coverage 1.000, overlap 0.000, unassigned 0.000
 - episodes: 88 (5665 samples, mode split, provenance ok)
@@ -105,7 +105,7 @@
 
 ## Event `pslverr == 1`
 - occurrences: 90 (0.0150 of samples)
-- triggers (observed values and interface relations (harm unavailable)):
+- triggers (observed values and interface relations (harm found no antecedent)):
     - `penable == 1` R=0.989 P=0.059 ATCT=90 AFCT=0 matches 903, explains 90
 - coverage 1.000, overlap 0.000, unassigned 0.000
 - episodes: 34 (416 samples, mode split, provenance ok)
@@ -260,13 +260,13 @@
 
 ## Stage times (s)
 
-- load: 0.0136
-- 1_label:pready == 1: 0.0013
-- 2_triggers:pready == 1: 0.3892
-- 3_episodes:pready == 1: 0.0229
-- 4_mine:pready == 1: 7.275
+- load: 0.0212
+- 1_label:pready == 1: 0.0022
+- 2_triggers:pready == 1: 0.5786
+- 3_episodes:pready == 1: 0.0297
+- 4_mine:pready == 1: 11.24
 - 1_label:pslverr == 1: 0.001
-- 2_triggers:pslverr == 1: 0.3952
-- 3_episodes:pslverr == 1: 0.0039
-- 4_mine:pslverr == 1: 2.8656
-- 5_merge: 0.3533
+- 2_triggers:pslverr == 1: 0.6031
+- 3_episodes:pslverr == 1: 0.007
+- 4_mine:pslverr == 1: 3.9758
+- 5_merge: 0.4625

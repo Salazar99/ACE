@@ -6,7 +6,7 @@
 
 ## Event `valid_out == 1`
 - occurrences: 1130 (0.0595 of samples)
-- triggers (observed values and interface relations (harm unavailable)):
+- triggers (observed values and interface relations (harm found no antecedent)):
     - `rst_n == 1 && valid_in == 1` R=0.487 P=0.940 ATCT=550 AFCT=580 matches 671, explains 550
 - coverage 0.487, overlap 0.000, unassigned 0.513
 - episodes: 349 (5788 samples, mode split, provenance ok)
@@ -94,9 +94,9 @@
 
 ## Stage times (s)
 
-- load: 0.0323
-- 1_label:valid_out == 1: 0.0032
-- 2_triggers:valid_out == 1: 1.1117
-- 3_episodes:valid_out == 1: 0.0331
-- 4_mine:valid_out == 1: 5.9897
+- load: 0.0963
+- 1_label:valid_out == 1: 0.0091
+- 2_triggers:valid_out == 1: 1.8054
+- 3_episodes:valid_out == 1: 0.0456
+- 4_mine:valid_out == 1: 8.6481
 - 5_merge: 0.0

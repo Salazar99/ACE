@@ -1,0 +1,164 @@
+<harm>
+	<context name="default">
+		<prop exp="yout == rst_n" loc="c"/>
+		<prop exp="yout &lt;= rst_n" loc="c"/>
+		<prop exp="yout &gt;= rst_n" loc="c"/>
+		<prop exp="yout == start" loc="c"/>
+		<prop exp="yout &lt;= start" loc="c"/>
+		<prop exp="yout &gt;= start" loc="c"/>
+		<prop exp="yout == ain" loc="c"/>
+		<prop exp="yout &lt;= ain" loc="c"/>
+		<prop exp="yout &gt;= ain" loc="c"/>
+		<prop exp="yout == bin" loc="c"/>
+		<prop exp="yout &lt;= bin" loc="c"/>
+		<prop exp="yout &gt;= bin" loc="c"/>
+		<prop exp="yout == rst_n + start" loc="c"/>
+		<prop exp="yout == rst_n * start" loc="c"/>
+		<prop exp="yout == rst_n - start" loc="c"/>
+		<prop exp="yout == (rst_n &amp; start)" loc="c"/>
+		<prop exp="yout == (rst_n | start)" loc="c"/>
+		<prop exp="yout == (rst_n ^ start)" loc="c"/>
+		<prop exp="yout * start &lt;= rst_n" loc="c"/>
+		<prop exp="yout * start + start &gt; rst_n" loc="c"/>
+		<prop exp="yout &lt; start" loc="c"/>
+		<prop exp="yout * 2 &lt;= rst_n" loc="c"/>
+		<prop exp="yout * 2 + 1 &gt;= rst_n" loc="c"/>
+		<prop exp="yout == rst_n + ain" loc="c"/>
+		<prop exp="yout == rst_n * ain" loc="c"/>
+		<prop exp="yout == rst_n - ain" loc="c"/>
+		<prop exp="yout == (rst_n &amp; ain)" loc="c"/>
+		<prop exp="yout == (rst_n | ain)" loc="c"/>
+		<prop exp="yout == (rst_n ^ ain)" loc="c"/>
+		<prop exp="yout * ain &lt;= rst_n" loc="c"/>
+		<prop exp="yout * ain + ain &gt; rst_n" loc="c"/>
+		<prop exp="yout &lt; ain" loc="c"/>
+		<prop exp="yout == rst_n + bin" loc="c"/>
+		<prop exp="yout == rst_n * bin" loc="c"/>
+		<prop exp="yout == rst_n - bin" loc="c"/>
+		<prop exp="yout == (rst_n &amp; bin)" loc="c"/>
+		<prop exp="yout == (rst_n | bin)" loc="c"/>
+		<prop exp="yout == (rst_n ^ bin)" loc="c"/>
+		<prop exp="yout * bin &lt;= rst_n" loc="c"/>
+		<prop exp="yout * bin + bin &gt; rst_n" loc="c"/>
+		<prop exp="yout &lt; bin" loc="c"/>
+		<prop exp="yout == start + ain" loc="c"/>
+		<prop exp="yout == start * ain" loc="c"/>
+		<prop exp="yout == start - ain" loc="c"/>
+		<prop exp="yout == (start &amp; ain)" loc="c"/>
+		<prop exp="yout == (start | ain)" loc="c"/>
+		<prop exp="yout == (start ^ ain)" loc="c"/>
+		<prop exp="yout * ain &lt;= start" loc="c"/>
+		<prop exp="yout * ain + ain &gt; start" loc="c"/>
+		<prop exp="yout * 2 &lt;= start" loc="c"/>
+		<prop exp="yout * 2 + 1 &gt;= start" loc="c"/>
+		<prop exp="yout == start + bin" loc="c"/>
+		<prop exp="yout == start * bin" loc="c"/>
+		<prop exp="yout == start - bin" loc="c"/>
+		<prop exp="yout == (start &amp; bin)" loc="c"/>
+		<prop exp="yout == (start | bin)" loc="c"/>
+		<prop exp="yout == (start ^ bin)" loc="c"/>
+		<prop exp="yout * bin &lt;= start" loc="c"/>
+		<prop exp="yout * bin + bin &gt; start" loc="c"/>
+		<prop exp="yout == ain + bin" loc="c"/>
+		<prop exp="yout == ain * bin" loc="c"/>
+		<prop exp="yout == ain - bin" loc="c"/>
+		<prop exp="yout == (ain &amp; bin)" loc="c"/>
+		<prop exp="yout == (ain | bin)" loc="c"/>
+		<prop exp="yout == (ain ^ bin)" loc="c"/>
+		<prop exp="yout * bin &lt;= ain" loc="c"/>
+		<prop exp="yout * bin + bin &gt; ain" loc="c"/>
+		<prop exp="yout * 2 &lt;= ain" loc="c"/>
+		<prop exp="yout * 2 + 1 &gt;= ain" loc="c"/>
+		<prop exp="yout == rst_n + start + ain" loc="c"/>
+		<prop exp="yout == rst_n + start + ain - 256" loc="c"/>
+		<prop exp="yout == rst_n + start + bin" loc="c"/>
+		<prop exp="yout == rst_n + start + bin - 256" loc="c"/>
+		<prop exp="yout == rst_n + ain + bin" loc="c"/>
+		<prop exp="yout == rst_n + ain + bin - 256" loc="c"/>
+		<prop exp="yout == start + ain + bin" loc="c"/>
+		<prop exp="yout == start + ain + bin - 256" loc="c"/>
+		<prop exp="done == rst_n" loc="c"/>
+		<prop exp="done &lt;= rst_n" loc="c"/>
+		<prop exp="done &gt;= rst_n" loc="c"/>
+		<prop exp="done == start" loc="c"/>
+		<prop exp="done &lt;= start" loc="c"/>
+		<prop exp="done &gt;= start" loc="c"/>
+		<prop exp="done == ain" loc="c"/>
+		<prop exp="done &lt;= ain" loc="c"/>
+		<prop exp="done &gt;= ain" loc="c"/>
+		<prop exp="done == bin" loc="c"/>
+		<prop exp="done &lt;= bin" loc="c"/>
+		<prop exp="done &gt;= bin" loc="c"/>
+		<prop exp="done == rst_n + start" loc="c"/>
+		<prop exp="done == rst_n * start" loc="c"/>
+		<prop exp="done == rst_n - start" loc="c"/>
+		<prop exp="done == (rst_n &amp; start)" loc="c"/>
+		<prop exp="done == (rst_n | start)" loc="c"/>
+		<prop exp="done == (rst_n ^ start)" loc="c"/>
+		<prop exp="done * start &lt;= rst_n" loc="c"/>
+		<prop exp="done * start + start &gt; rst_n" loc="c"/>
+		<prop exp="done &lt; start" loc="c"/>
+		<prop exp="done * 2 &lt;= rst_n" loc="c"/>
+		<prop exp="done * 2 + 1 &gt;= rst_n" loc="c"/>
+		<prop exp="done == rst_n + ain" loc="c"/>
+		<prop exp="done == rst_n * ain" loc="c"/>
+		<prop exp="done == rst_n - ain" loc="c"/>
+		<prop exp="done == (rst_n &amp; ain)" loc="c"/>
+		<prop exp="done == (rst_n | ain)" loc="c"/>
+		<prop exp="done == (rst_n ^ ain)" loc="c"/>
+		<prop exp="done * ain &lt;= rst_n" loc="c"/>
+		<prop exp="done * ain + ain &gt; rst_n" loc="c"/>
+		<prop exp="done &lt; ain" loc="c"/>
+		<prop exp="done == rst_n + bin" loc="c"/>
+		<prop exp="done == rst_n * bin" loc="c"/>
+		<prop exp="done == rst_n - bin" loc="c"/>
+		<prop exp="done == (rst_n &amp; bin)" loc="c"/>
+		<prop exp="done == (rst_n | bin)" loc="c"/>
+		<prop exp="done == (rst_n ^ bin)" loc="c"/>
+		<prop exp="done * bin &lt;= rst_n" loc="c"/>
+		<prop exp="done * bin + bin &gt; rst_n" loc="c"/>
+		<prop exp="done &lt; bin" loc="c"/>
+		<prop exp="done == start + ain" loc="c"/>
+		<prop exp="done == start * ain" loc="c"/>
+		<prop exp="done == start - ain" loc="c"/>
+		<prop exp="done == (start &amp; ain)" loc="c"/>
+		<prop exp="done == (start | ain)" loc="c"/>
+		<prop exp="done == (start ^ ain)" loc="c"/>
+		<prop exp="done * ain &lt;= start" loc="c"/>
+		<prop exp="done * ain + ain &gt; start" loc="c"/>
+		<prop exp="done * 2 &lt;= start" loc="c"/>
+		<prop exp="done * 2 + 1 &gt;= start" loc="c"/>
+		<prop exp="done == start + bin" loc="c"/>
+		<prop exp="done == start * bin" loc="c"/>
+		<prop exp="done == start - bin" loc="c"/>
+		<prop exp="done == (start &amp; bin)" loc="c"/>
+		<prop exp="done == (start | bin)" loc="c"/>
+		<prop exp="done == (start ^ bin)" loc="c"/>
+		<prop exp="done * bin &lt;= start" loc="c"/>
+		<prop exp="done * bin + bin &gt; start" loc="c"/>
+		<prop exp="done == ain + bin" loc="c"/>
+		<prop exp="done == ain * bin" loc="c"/>
+		<prop exp="done == ain - bin" loc="c"/>
+		<prop exp="done == (ain &amp; bin)" loc="c"/>
+		<prop exp="done == (ain | bin)" loc="c"/>
+		<prop exp="done == (ain ^ bin)" loc="c"/>
+		<prop exp="done * bin &lt;= ain" loc="c"/>
+		<prop exp="done * bin + bin &gt; ain" loc="c"/>
+		<prop exp="done * 2 &lt;= ain" loc="c"/>
+		<prop exp="done * 2 + 1 &gt;= ain" loc="c"/>
+		<prop exp="done == rst_n + start + ain" loc="c"/>
+		<prop exp="done == rst_n + start + ain - 256" loc="c"/>
+		<prop exp="done == rst_n + start + bin" loc="c"/>
+		<prop exp="done == rst_n + start + bin - 256" loc="c"/>
+		<prop exp="rst_n" loc="a,c,dt"/>
+		<prop exp="start" loc="a,c,dt"/>
+		<prop exp="done" loc="a,c,dt"/>
+		<numeric clustering="K,10Max,0.01WCSS,&gt;&lt;,==" exp="ain" loc="a,c,dt"/>
+		<numeric clustering="K,10Max,0.01WCSS,&gt;&lt;,==" exp="bin" loc="a,c,dt"/>
+		<numeric clustering="K,10Max,0.01WCSS,&gt;&lt;,==" exp="yout" loc="a,c,dt"/>
+		<template exp="G(P0 |-&gt; P1)" />
+		<template exp="G(P0 |=&gt; P1)" />
+		<template exp="G(P0 |-&gt; ##[1:20] P1)" />
+		<sort name="smoothed_recall" exp="(atct+1)/(atct+afct+2)"/>
+	</context>
+</harm>

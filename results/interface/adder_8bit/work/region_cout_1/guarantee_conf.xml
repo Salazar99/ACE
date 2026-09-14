@@ -15,8 +15,6 @@
 		<prop exp="sum == (a &amp; b)" loc="c"/>
 		<prop exp="sum == (a | b)" loc="c"/>
 		<prop exp="sum == (a ^ b)" loc="c"/>
-		<prop exp="sum == (a &lt;&lt; b)" loc="c"/>
-		<prop exp="sum == (a &gt;&gt; b)" loc="c"/>
 		<prop exp="sum * b &lt;= a" loc="c"/>
 		<prop exp="sum * b + b &gt; a" loc="c"/>
 		<prop exp="sum &lt; b" loc="c"/>
@@ -28,8 +26,6 @@
 		<prop exp="sum == (a &amp; cin)" loc="c"/>
 		<prop exp="sum == (a | cin)" loc="c"/>
 		<prop exp="sum == (a ^ cin)" loc="c"/>
-		<prop exp="sum == (a &lt;&lt; cin)" loc="c"/>
-		<prop exp="sum == (a &gt;&gt; cin)" loc="c"/>
 		<prop exp="sum * cin &lt;= a" loc="c"/>
 		<prop exp="sum * cin + cin &gt; a" loc="c"/>
 		<prop exp="sum &lt; cin" loc="c"/>
@@ -39,8 +35,6 @@
 		<prop exp="sum == (b &amp; cin)" loc="c"/>
 		<prop exp="sum == (b | cin)" loc="c"/>
 		<prop exp="sum == (b ^ cin)" loc="c"/>
-		<prop exp="sum == (b &lt;&lt; cin)" loc="c"/>
-		<prop exp="sum == (b &gt;&gt; cin)" loc="c"/>
 		<prop exp="sum * cin &lt;= b" loc="c"/>
 		<prop exp="sum * cin + cin &gt; b" loc="c"/>
 		<prop exp="sum * 2 &lt;= b" loc="c"/>
@@ -62,8 +56,6 @@
 		<prop exp="cout == (a &amp; b)" loc="c"/>
 		<prop exp="cout == (a | b)" loc="c"/>
 		<prop exp="cout == (a ^ b)" loc="c"/>
-		<prop exp="cout == (a &lt;&lt; b)" loc="c"/>
-		<prop exp="cout == (a &gt;&gt; b)" loc="c"/>
 		<prop exp="cout * b &lt;= a" loc="c"/>
 		<prop exp="cout * b + b &gt; a" loc="c"/>
 		<prop exp="cout &lt; b" loc="c"/>
@@ -75,8 +67,6 @@
 		<prop exp="cout == (a &amp; cin)" loc="c"/>
 		<prop exp="cout == (a | cin)" loc="c"/>
 		<prop exp="cout == (a ^ cin)" loc="c"/>
-		<prop exp="cout == (a &lt;&lt; cin)" loc="c"/>
-		<prop exp="cout == (a &gt;&gt; cin)" loc="c"/>
 		<prop exp="cout * cin &lt;= a" loc="c"/>
 		<prop exp="cout * cin + cin &gt; a" loc="c"/>
 		<prop exp="cout &lt; cin" loc="c"/>
@@ -86,8 +76,6 @@
 		<prop exp="cout == (b &amp; cin)" loc="c"/>
 		<prop exp="cout == (b | cin)" loc="c"/>
 		<prop exp="cout == (b ^ cin)" loc="c"/>
-		<prop exp="cout == (b &lt;&lt; cin)" loc="c"/>
-		<prop exp="cout == (b &gt;&gt; cin)" loc="c"/>
 		<prop exp="cout * cin &lt;= b" loc="c"/>
 		<prop exp="cout * cin + cin &gt; b" loc="c"/>
 		<prop exp="cout * 2 &lt;= b" loc="c"/>

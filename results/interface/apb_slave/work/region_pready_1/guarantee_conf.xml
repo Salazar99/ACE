@@ -24,8 +24,6 @@
 		<prop exp="prdata == (presetn &amp; psel)" loc="c"/>
 		<prop exp="prdata == (presetn | psel)" loc="c"/>
 		<prop exp="prdata == (presetn ^ psel)" loc="c"/>
-		<prop exp="prdata == (presetn &lt;&lt; psel)" loc="c"/>
-		<prop exp="prdata == (presetn &gt;&gt; psel)" loc="c"/>
 		<prop exp="prdata * psel &lt;= presetn" loc="c"/>
 		<prop exp="prdata * psel + psel &gt; presetn" loc="c"/>
 		<prop exp="prdata &lt; psel" loc="c"/>
@@ -37,8 +35,6 @@
 		<prop exp="prdata == (presetn &amp; penable)" loc="c"/>
 		<prop exp="prdata == (presetn | penable)" loc="c"/>
 		<prop exp="prdata == (presetn ^ penable)" loc="c"/>
-		<prop exp="prdata == (presetn &lt;&lt; penable)" loc="c"/>
-		<prop exp="prdata == (presetn &gt;&gt; penable)" loc="c"/>
 		<prop exp="prdata * penable &lt;= presetn" loc="c"/>
 		<prop exp="prdata * penable + penable &gt; presetn" loc="c"/>
 		<prop exp="prdata &lt; penable" loc="c"/>
@@ -48,8 +44,6 @@
 		<prop exp="prdata == (presetn &amp; pwrite)" loc="c"/>
 		<prop exp="prdata == (presetn | pwrite)" loc="c"/>
 		<prop exp="prdata == (presetn ^ pwrite)" loc="c"/>
-		<prop exp="prdata == (presetn &lt;&lt; pwrite)" loc="c"/>
-		<prop exp="prdata == (presetn &gt;&gt; pwrite)" loc="c"/>
 		<prop exp="prdata * pwrite &lt;= presetn" loc="c"/>
 		<prop exp="prdata * pwrite + pwrite &gt; presetn" loc="c"/>
 		<prop exp="prdata &lt; pwrite" loc="c"/>
@@ -59,8 +53,6 @@
 		<prop exp="prdata == (presetn &amp; paddr)" loc="c"/>
 		<prop exp="prdata == (presetn | paddr)" loc="c"/>
 		<prop exp="prdata == (presetn ^ paddr)" loc="c"/>
-		<prop exp="prdata == (presetn &lt;&lt; paddr)" loc="c"/>
-		<prop exp="prdata == (presetn &gt;&gt; paddr)" loc="c"/>
 		<prop exp="prdata * paddr &lt;= presetn" loc="c"/>
 		<prop exp="prdata * paddr + paddr &gt; presetn" loc="c"/>
 		<prop exp="prdata &lt; paddr" loc="c"/>
@@ -70,8 +62,6 @@
 		<prop exp="prdata == (presetn &amp; pwdata)" loc="c"/>
 		<prop exp="prdata == (presetn | pwdata)" loc="c"/>
 		<prop exp="prdata == (presetn ^ pwdata)" loc="c"/>
-		<prop exp="prdata == (presetn &lt;&lt; pwdata)" loc="c"/>
-		<prop exp="prdata == (presetn &gt;&gt; pwdata)" loc="c"/>
 		<prop exp="prdata * pwdata &lt;= presetn" loc="c"/>
 		<prop exp="prdata * pwdata + pwdata &gt; presetn" loc="c"/>
 		<prop exp="prdata &lt; pwdata" loc="c"/>
@@ -81,8 +71,6 @@
 		<prop exp="prdata == (psel &amp; penable)" loc="c"/>
 		<prop exp="prdata == (psel | penable)" loc="c"/>
 		<prop exp="prdata == (psel ^ penable)" loc="c"/>
-		<prop exp="prdata == (psel &lt;&lt; penable)" loc="c"/>
-		<prop exp="prdata == (psel &gt;&gt; penable)" loc="c"/>
 		<prop exp="prdata * penable &lt;= psel" loc="c"/>
 		<prop exp="prdata * penable + penable &gt; psel" loc="c"/>
 		<prop exp="prdata * 2 &lt;= psel" loc="c"/>
@@ -93,8 +81,6 @@
 		<prop exp="prdata == (psel &amp; pwrite)" loc="c"/>
 		<prop exp="prdata == (psel | pwrite)" loc="c"/>
 		<prop exp="prdata == (psel ^ pwrite)" loc="c"/>
-		<prop exp="prdata == (psel &lt;&lt; pwrite)" loc="c"/>
-		<prop exp="prdata == (psel &gt;&gt; pwrite)" loc="c"/>
 		<prop exp="prdata * pwrite &lt;= psel" loc="c"/>
 		<prop exp="prdata * pwrite + pwrite &gt; psel" loc="c"/>
 		<prop exp="prdata == psel + paddr" loc="c"/>
@@ -103,8 +89,6 @@
 		<prop exp="prdata == (psel &amp; paddr)" loc="c"/>
 		<prop exp="prdata == (psel | paddr)" loc="c"/>
 		<prop exp="prdata == (psel ^ paddr)" loc="c"/>
-		<prop exp="prdata == (psel &lt;&lt; paddr)" loc="c"/>
-		<prop exp="prdata == (psel &gt;&gt; paddr)" loc="c"/>
 		<prop exp="prdata * paddr &lt;= psel" loc="c"/>
 		<prop exp="prdata * paddr + paddr &gt; psel" loc="c"/>
 		<prop exp="prdata == psel + pwdata" loc="c"/>
@@ -113,8 +97,6 @@
 		<prop exp="prdata == (psel &amp; pwdata)" loc="c"/>
 		<prop exp="prdata == (psel | pwdata)" loc="c"/>
 		<prop exp="prdata == (psel ^ pwdata)" loc="c"/>
-		<prop exp="prdata == (psel &lt;&lt; pwdata)" loc="c"/>
-		<prop exp="prdata == (psel &gt;&gt; pwdata)" loc="c"/>
 		<prop exp="prdata * pwdata &lt;= psel" loc="c"/>
 		<prop exp="prdata * pwdata + pwdata &gt; psel" loc="c"/>
 		<prop exp="prdata == penable + pwrite" loc="c"/>
@@ -123,8 +105,6 @@
 		<prop exp="prdata == (penable &amp; pwrite)" loc="c"/>
 		<prop exp="prdata == (penable | pwrite)" loc="c"/>
 		<prop exp="prdata == (penable ^ pwrite)" loc="c"/>
-		<prop exp="prdata == (penable &lt;&lt; pwrite)" loc="c"/>
-		<prop exp="prdata == (penable &gt;&gt; pwrite)" loc="c"/>
 		<prop exp="prdata * pwrite &lt;= penable" loc="c"/>
 		<prop exp="prdata * pwrite + pwrite &gt; penable" loc="c"/>
 		<prop exp="prdata * 2 &lt;= penable" loc="c"/>
@@ -135,8 +115,6 @@
 		<prop exp="prdata == (penable &amp; paddr)" loc="c"/>
 		<prop exp="prdata == (penable | paddr)" loc="c"/>
 		<prop exp="prdata == (penable ^ paddr)" loc="c"/>
-		<prop exp="prdata == (penable &lt;&lt; paddr)" loc="c"/>
-		<prop exp="prdata == (penable &gt;&gt; paddr)" loc="c"/>
 		<prop exp="prdata * paddr &lt;= penable" loc="c"/>
 		<prop exp="prdata * paddr + paddr &gt; penable" loc="c"/>
 		<prop exp="prdata == penable + pwdata" loc="c"/>
@@ -145,11 +123,33 @@
 		<prop exp="prdata == (penable &amp; pwdata)" loc="c"/>
 		<prop exp="prdata == (penable | pwdata)" loc="c"/>
 		<prop exp="prdata == (penable ^ pwdata)" loc="c"/>
-		<prop exp="prdata == (penable &lt;&lt; pwdata)" loc="c"/>
-		<prop exp="prdata == (penable &gt;&gt; pwdata)" loc="c"/>
 		<prop exp="prdata * pwdata &lt;= penable" loc="c"/>
 		<prop exp="prdata * pwdata + pwdata &gt; penable" loc="c"/>
 		<prop exp="prdata == pwrite + paddr" loc="c"/>
+		<prop exp="prdata == pwrite * paddr" loc="c"/>
+		<prop exp="prdata == pwrite - paddr" loc="c"/>
+		<prop exp="prdata == (pwrite &amp; paddr)" loc="c"/>
+		<prop exp="prdata == (pwrite | paddr)" loc="c"/>
+		<prop exp="prdata == (pwrite ^ paddr)" loc="c"/>
+		<prop exp="prdata * paddr &lt;= pwrite" loc="c"/>
+		<prop exp="prdata * paddr + paddr &gt; pwrite" loc="c"/>
+		<prop exp="prdata * 2 &lt;= pwrite" loc="c"/>
+		<prop exp="prdata * 2 + 1 &gt;= pwrite" loc="c"/>
+		<prop exp="prdata == pwrite + pwdata" loc="c"/>
+		<prop exp="prdata == pwrite * pwdata" loc="c"/>
+		<prop exp="prdata == pwrite - pwdata" loc="c"/>
+		<prop exp="prdata == (pwrite &amp; pwdata)" loc="c"/>
+		<prop exp="prdata == (pwrite | pwdata)" loc="c"/>
+		<prop exp="prdata == (pwrite ^ pwdata)" loc="c"/>
+		<prop exp="prdata * pwdata &lt;= pwrite" loc="c"/>
+		<prop exp="prdata * pwdata + pwdata &gt; pwrite" loc="c"/>
+		<prop exp="prdata == paddr + pwdata" loc="c"/>
+		<prop exp="prdata == paddr * pwdata" loc="c"/>
+		<prop exp="prdata == paddr - pwdata" loc="c"/>
+		<prop exp="prdata == (paddr &amp; pwdata)" loc="c"/>
+		<prop exp="prdata == (paddr | pwdata)" loc="c"/>
+		<prop exp="prdata == (paddr ^ pwdata)" loc="c"/>
+		<prop exp="prdata * pwdata &lt;= paddr" loc="c"/>
 		<prop exp="presetn" loc="a,c,dt"/>
 		<prop exp="psel" loc="a,c,dt"/>
 		<prop exp="penable" loc="a,c,dt"/>

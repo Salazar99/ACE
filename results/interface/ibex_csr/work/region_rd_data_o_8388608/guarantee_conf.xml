@@ -1,0 +1,95 @@
+<harm>
+	<context name="default">
+		<prop exp="rd_data_o == rst_n" loc="c"/>
+		<prop exp="rd_data_o &lt;= rst_n" loc="c"/>
+		<prop exp="rd_data_o &gt;= rst_n" loc="c"/>
+		<prop exp="rd_data_o == wr_en_i" loc="c"/>
+		<prop exp="rd_data_o &lt;= wr_en_i" loc="c"/>
+		<prop exp="rd_data_o &gt;= wr_en_i" loc="c"/>
+		<prop exp="rd_data_o == wr_data_i" loc="c"/>
+		<prop exp="rd_data_o &lt;= wr_data_i" loc="c"/>
+		<prop exp="rd_data_o &gt;= wr_data_i" loc="c"/>
+		<prop exp="rd_data_o == rst_n + wr_en_i" loc="c"/>
+		<prop exp="rd_data_o == rst_n * wr_en_i" loc="c"/>
+		<prop exp="rd_data_o == rst_n - wr_en_i" loc="c"/>
+		<prop exp="rd_data_o == (rst_n &amp; wr_en_i)" loc="c"/>
+		<prop exp="rd_data_o == (rst_n | wr_en_i)" loc="c"/>
+		<prop exp="rd_data_o == (rst_n ^ wr_en_i)" loc="c"/>
+		<prop exp="rd_data_o * wr_en_i &lt;= rst_n" loc="c"/>
+		<prop exp="rd_data_o * wr_en_i + wr_en_i &gt; rst_n" loc="c"/>
+		<prop exp="rd_data_o &lt; wr_en_i" loc="c"/>
+		<prop exp="rd_data_o * 2 &lt;= rst_n" loc="c"/>
+		<prop exp="rd_data_o * 2 + 1 &gt;= rst_n" loc="c"/>
+		<prop exp="rd_data_o == rst_n + wr_data_i" loc="c"/>
+		<prop exp="rd_data_o == rst_n * wr_data_i" loc="c"/>
+		<prop exp="rd_data_o == rst_n - wr_data_i" loc="c"/>
+		<prop exp="rd_data_o == (rst_n &amp; wr_data_i)" loc="c"/>
+		<prop exp="rd_data_o == (rst_n | wr_data_i)" loc="c"/>
+		<prop exp="rd_data_o == (rst_n ^ wr_data_i)" loc="c"/>
+		<prop exp="rd_data_o * wr_data_i &lt;= rst_n" loc="c"/>
+		<prop exp="rd_data_o * wr_data_i + wr_data_i &gt; rst_n" loc="c"/>
+		<prop exp="rd_data_o &lt; wr_data_i" loc="c"/>
+		<prop exp="rd_data_o == wr_en_i + wr_data_i" loc="c"/>
+		<prop exp="rd_data_o == wr_en_i * wr_data_i" loc="c"/>
+		<prop exp="rd_data_o == wr_en_i - wr_data_i" loc="c"/>
+		<prop exp="rd_data_o == (wr_en_i &amp; wr_data_i)" loc="c"/>
+		<prop exp="rd_data_o == (wr_en_i | wr_data_i)" loc="c"/>
+		<prop exp="rd_data_o == (wr_en_i ^ wr_data_i)" loc="c"/>
+		<prop exp="rd_data_o * wr_data_i &lt;= wr_en_i" loc="c"/>
+		<prop exp="rd_data_o * wr_data_i + wr_data_i &gt; wr_en_i" loc="c"/>
+		<prop exp="rd_data_o * 2 &lt;= wr_en_i" loc="c"/>
+		<prop exp="rd_data_o * 2 + 1 &gt;= wr_en_i" loc="c"/>
+		<prop exp="rd_data_o == rst_n + wr_en_i + wr_data_i" loc="c"/>
+		<prop exp="rd_data_o == rst_n + wr_en_i + wr_data_i - 256" loc="c"/>
+		<prop exp="rd_error_o == rst_n" loc="c"/>
+		<prop exp="rd_error_o &lt;= rst_n" loc="c"/>
+		<prop exp="rd_error_o &gt;= rst_n" loc="c"/>
+		<prop exp="rd_error_o == wr_en_i" loc="c"/>
+		<prop exp="rd_error_o &lt;= wr_en_i" loc="c"/>
+		<prop exp="rd_error_o &gt;= wr_en_i" loc="c"/>
+		<prop exp="rd_error_o == wr_data_i" loc="c"/>
+		<prop exp="rd_error_o &lt;= wr_data_i" loc="c"/>
+		<prop exp="rd_error_o &gt;= wr_data_i" loc="c"/>
+		<prop exp="rd_error_o == rst_n + wr_en_i" loc="c"/>
+		<prop exp="rd_error_o == rst_n * wr_en_i" loc="c"/>
+		<prop exp="rd_error_o == rst_n - wr_en_i" loc="c"/>
+		<prop exp="rd_error_o == (rst_n &amp; wr_en_i)" loc="c"/>
+		<prop exp="rd_error_o == (rst_n | wr_en_i)" loc="c"/>
+		<prop exp="rd_error_o == (rst_n ^ wr_en_i)" loc="c"/>
+		<prop exp="rd_error_o * wr_en_i &lt;= rst_n" loc="c"/>
+		<prop exp="rd_error_o * wr_en_i + wr_en_i &gt; rst_n" loc="c"/>
+		<prop exp="rd_error_o &lt; wr_en_i" loc="c"/>
+		<prop exp="rd_error_o * 2 &lt;= rst_n" loc="c"/>
+		<prop exp="rd_error_o * 2 + 1 &gt;= rst_n" loc="c"/>
+		<prop exp="rd_error_o == rst_n + wr_data_i" loc="c"/>
+		<prop exp="rd_error_o == rst_n * wr_data_i" loc="c"/>
+		<prop exp="rd_error_o == rst_n - wr_data_i" loc="c"/>
+		<prop exp="rd_error_o == (rst_n &amp; wr_data_i)" loc="c"/>
+		<prop exp="rd_error_o == (rst_n | wr_data_i)" loc="c"/>
+		<prop exp="rd_error_o == (rst_n ^ wr_data_i)" loc="c"/>
+		<prop exp="rd_error_o * wr_data_i &lt;= rst_n" loc="c"/>
+		<prop exp="rd_error_o * wr_data_i + wr_data_i &gt; rst_n" loc="c"/>
+		<prop exp="rd_error_o &lt; wr_data_i" loc="c"/>
+		<prop exp="rd_error_o == wr_en_i + wr_data_i" loc="c"/>
+		<prop exp="rd_error_o == wr_en_i * wr_data_i" loc="c"/>
+		<prop exp="rd_error_o == wr_en_i - wr_data_i" loc="c"/>
+		<prop exp="rd_error_o == (wr_en_i &amp; wr_data_i)" loc="c"/>
+		<prop exp="rd_error_o == (wr_en_i | wr_data_i)" loc="c"/>
+		<prop exp="rd_error_o == (wr_en_i ^ wr_data_i)" loc="c"/>
+		<prop exp="rd_error_o * wr_data_i &lt;= wr_en_i" loc="c"/>
+		<prop exp="rd_error_o * wr_data_i + wr_data_i &gt; wr_en_i" loc="c"/>
+		<prop exp="rd_error_o * 2 &lt;= wr_en_i" loc="c"/>
+		<prop exp="rd_error_o * 2 + 1 &gt;= wr_en_i" loc="c"/>
+		<prop exp="rd_error_o == rst_n + wr_en_i + wr_data_i" loc="c"/>
+		<prop exp="rd_error_o == rst_n + wr_en_i + wr_data_i - 256" loc="c"/>
+		<prop exp="rst_n" loc="a,c,dt"/>
+		<prop exp="wr_en_i" loc="a,c,dt"/>
+		<prop exp="rd_error_o" loc="a,c,dt"/>
+		<numeric clustering="K,10Max,0.01WCSS,&gt;&lt;,==" exp="wr_data_i" loc="a,c,dt"/>
+		<numeric clustering="K,10Max,0.01WCSS,&gt;&lt;,==" exp="rd_data_o" loc="a,c,dt"/>
+		<template exp="G(P0 |-&gt; P1)" />
+		<template exp="G(P0 |=&gt; P1)" />
+		<template exp="G(P0 |-&gt; ##[1:2] P1)" />
+		<sort name="smoothed_recall" exp="(atct+1)/(atct+afct+2)"/>
+	</context>
+</harm>

@@ -1,0 +1,386 @@
+{
+ "mode": "split",
+ "episodes": 63,
+ "samples": 498,
+ "provenance_ok": true,
+ "windows": [
+  {
+   "csv": "episode_00000.csv",
+   "run": "mine_seed001",
+   "lo": 0,
+   "hi": 7
+  },
+  {
+   "csv": "episode_00001.csv",
+   "run": "mine_seed001",
+   "lo": 20,
+   "hi": 28
+  },
+  {
+   "csv": "episode_00002.csv",
+   "run": "mine_seed001",
+   "lo": 82,
+   "hi": 90
+  },
+  {
+   "csv": "episode_00003.csv",
+   "run": "mine_seed001",
+   "lo": 104,
+   "hi": 109
+  },
+  {
+   "csv": "episode_00004.csv",
+   "run": "mine_seed001",
+   "lo": 137,
+   "hi": 142
+  },
+  {
+   "csv": "episode_00005.csv",
+   "run": "mine_seed001",
+   "lo": 146,
+   "hi": 153
+  },
+  {
+   "csv": "episode_00006.csv",
+   "run": "mine_seed001",
+   "lo": 219,
+   "hi": 224
+  },
+  {
+   "csv": "episode_00007.csv",
+   "run": "mine_seed001",
+   "lo": 274,
+   "hi": 279
+  },
+  {
+   "csv": "episode_00008.csv",
+   "run": "mine_seed001",
+   "lo": 361,
+   "hi": 366
+  },
+  {
+   "csv": "episode_00009.csv",
+   "run": "mine_seed001",
+   "lo": 368,
+   "hi": 375
+  },
+  {
+   "csv": "episode_00010.csv",
+   "run": "mine_seed001",
+   "lo": 485,
+   "hi": 493
+  },
+  {
+   "csv": "episode_00011.csv",
+   "run": "mine_seed002",
+   "lo": 0,
+   "hi": 7
+  },
+  {
+   "csv": "episode_00012.csv",
+   "run": "mine_seed002",
+   "lo": 20,
+   "hi": 28
+  },
+  {
+   "csv": "episode_00013.csv",
+   "run": "mine_seed002",
+   "lo": 30,
+   "hi": 44
+  },
+  {
+   "csv": "episode_00014.csv",
+   "run": "mine_seed002",
+   "lo": 74,
+   "hi": 81
+  },
+  {
+   "csv": "episode_00015.csv",
+   "run": "mine_seed002",
+   "lo": 128,
+   "hi": 135
+  },
+  {
+   "csv": "episode_00016.csv",
+   "run": "mine_seed002",
+   "lo": 137,
+   "hi": 142
+  },
+  {
+   "csv": "episode_00017.csv",
+   "run": "mine_seed002",
+   "lo": 145,
+   "hi": 152
+  },
+  {
+   "csv": "episode_00018.csv",
+   "run": "mine_seed002",
+   "lo": 260,
+   "hi": 268
+  },
+  {
+   "csv": "episode_00019.csv",
+   "run": "mine_seed002",
+   "lo": 279,
+   "hi": 286
+  },
+  {
+   "csv": "episode_00020.csv",
+   "run": "mine_seed002",
+   "lo": 325,
+   "hi": 330
+  },
+  {
+   "csv": "episode_00021.csv",
+   "run": "mine_seed002",
+   "lo": 366,
+   "hi": 380
+  },
+  {
+   "csv": "episode_00022.csv",
+   "run": "mine_seed002",
+   "lo": 392,
+   "hi": 397
+  },
+  {
+   "csv": "episode_00023.csv",
+   "run": "mine_seed002",
+   "lo": 486,
+   "hi": 497
+  },
+  {
+   "csv": "episode_00024.csv",
+   "run": "mine_seed003",
+   "lo": 0,
+   "hi": 7
+  },
+  {
+   "csv": "episode_00025.csv",
+   "run": "mine_seed003",
+   "lo": 20,
+   "hi": 28
+  },
+  {
+   "csv": "episode_00026.csv",
+   "run": "mine_seed003",
+   "lo": 81,
+   "hi": 88
+  },
+  {
+   "csv": "episode_00027.csv",
+   "run": "mine_seed003",
+   "lo": 137,
+   "hi": 145
+  },
+  {
+   "csv": "episode_00028.csv",
+   "run": "mine_seed003",
+   "lo": 156,
+   "hi": 164
+  },
+  {
+   "csv": "episode_00029.csv",
+   "run": "mine_seed003",
+   "lo": 189,
+   "hi": 194
+  },
+  {
+   "csv": "episode_00030.csv",
+   "run": "mine_seed003",
+   "lo": 217,
+   "hi": 222
+  },
+  {
+   "csv": "episode_00031.csv",
+   "run": "mine_seed003",
+   "lo": 329,
+   "hi": 334
+  },
+  {
+   "csv": "episode_00032.csv",
+   "run": "mine_seed003",
+   "lo": 343,
+   "hi": 351
+  },
+  {
+   "csv": "episode_00033.csv",
+   "run": "mine_seed003",
+   "lo": 362,
+   "hi": 367
+  },
+  {
+   "csv": "episode_00034.csv",
+   "run": "mine_seed003",
+   "lo": 385,
+   "hi": 390
+  },
+  {
+   "csv": "episode_00035.csv",
+   "run": "mine_seed003",
+   "lo": 472,
+   "hi": 482
+  },
+  {
+   "csv": "episode_00036.csv",
+   "run": "mine_seed004",
+   "lo": 0,
+   "hi": 7
+  },
+  {
+   "csv": "episode_00037.csv",
+   "run": "mine_seed004",
+   "lo": 20,
+   "hi": 28
+  },
+  {
+   "csv": "episode_00038.csv",
+   "run": "mine_seed004",
+   "lo": 72,
+   "hi": 77
+  },
+  {
+   "csv": "episode_00039.csv",
+   "run": "mine_seed004",
+   "lo": 98,
+   "hi": 103
+  },
+  {
+   "csv": "episode_00040.csv",
+   "run": "mine_seed004",
+   "lo": 107,
+   "hi": 112
+  },
+  {
+   "csv": "episode_00041.csv",
+   "run": "mine_seed004",
+   "lo": 130,
+   "hi": 138
+  },
+  {
+   "csv": "episode_00042.csv",
+   "run": "mine_seed004",
+   "lo": 144,
+   "hi": 149
+  },
+  {
+   "csv": "episode_00043.csv",
+   "run": "mine_seed004",
+   "lo": 198,
+   "hi": 203
+  },
+  {
+   "csv": "episode_00044.csv",
+   "run": "mine_seed004",
+   "lo": 216,
+   "hi": 221
+  },
+  {
+   "csv": "episode_00045.csv",
+   "run": "mine_seed004",
+   "lo": 247,
+   "hi": 259
+  },
+  {
+   "csv": "episode_00046.csv",
+   "run": "mine_seed004",
+   "lo": 261,
+   "hi": 266
+  },
+  {
+   "csv": "episode_00047.csv",
+   "run": "mine_seed004",
+   "lo": 301,
+   "hi": 306
+  },
+  {
+   "csv": "episode_00048.csv",
+   "run": "mine_seed004",
+   "lo": 341,
+   "hi": 349
+  },
+  {
+   "csv": "episode_00049.csv",
+   "run": "mine_seed004",
+   "lo": 357,
+   "hi": 364
+  },
+  {
+   "csv": "episode_00050.csv",
+   "run": "mine_seed004",
+   "lo": 401,
+   "hi": 409
+  },
+  {
+   "csv": "episode_00051.csv",
+   "run": "mine_seed004",
+   "lo": 464,
+   "hi": 471
+  },
+  {
+   "csv": "episode_00052.csv",
+   "run": "mine_seed005",
+   "lo": 0,
+   "hi": 7
+  },
+  {
+   "csv": "episode_00053.csv",
+   "run": "mine_seed005",
+   "lo": 20,
+   "hi": 28
+  },
+  {
+   "csv": "episode_00054.csv",
+   "run": "mine_seed005",
+   "lo": 84,
+   "hi": 89
+  },
+  {
+   "csv": "episode_00055.csv",
+   "run": "mine_seed005",
+   "lo": 118,
+   "hi": 133
+  },
+  {
+   "csv": "episode_00056.csv",
+   "run": "mine_seed005",
+   "lo": 155,
+   "hi": 160
+  },
+  {
+   "csv": "episode_00057.csv",
+   "run": "mine_seed005",
+   "lo": 207,
+   "hi": 212
+  },
+  {
+   "csv": "episode_00058.csv",
+   "run": "mine_seed005",
+   "lo": 305,
+   "hi": 312
+  },
+  {
+   "csv": "episode_00059.csv",
+   "run": "mine_seed005",
+   "lo": 341,
+   "hi": 346
+  },
+  {
+   "csv": "episode_00060.csv",
+   "run": "mine_seed005",
+   "lo": 364,
+   "hi": 369
+  },
+  {
+   "csv": "episode_00061.csv",
+   "run": "mine_seed005",
+   "lo": 448,
+   "hi": 453
+  },
+  {
+   "csv": "episode_00062.csv",
+   "run": "mine_seed005",
+   "lo": 463,
+   "hi": 470
+  }
+ ]
+}

@@ -12,8 +12,6 @@
 		<prop exp="A_greater == (A &amp; B)" loc="c"/>
 		<prop exp="A_greater == (A | B)" loc="c"/>
 		<prop exp="A_greater == (A ^ B)" loc="c"/>
-		<prop exp="A_greater == (A &lt;&lt; B)" loc="c"/>
-		<prop exp="A_greater == (A &gt;&gt; B)" loc="c"/>
 		<prop exp="A_greater * B &lt;= A" loc="c"/>
 		<prop exp="A_greater * B + B &gt; A" loc="c"/>
 		<prop exp="A_greater &lt; B" loc="c"/>
@@ -31,8 +29,6 @@
 		<prop exp="A_equal == (A &amp; B)" loc="c"/>
 		<prop exp="A_equal == (A | B)" loc="c"/>
 		<prop exp="A_equal == (A ^ B)" loc="c"/>
-		<prop exp="A_equal == (A &lt;&lt; B)" loc="c"/>
-		<prop exp="A_equal == (A &gt;&gt; B)" loc="c"/>
 		<prop exp="A_equal * B &lt;= A" loc="c"/>
 		<prop exp="A_equal * B + B &gt; A" loc="c"/>
 		<prop exp="A_equal &lt; B" loc="c"/>
@@ -50,8 +46,6 @@
 		<prop exp="A_less == (A &amp; B)" loc="c"/>
 		<prop exp="A_less == (A | B)" loc="c"/>
 		<prop exp="A_less == (A ^ B)" loc="c"/>
-		<prop exp="A_less == (A &lt;&lt; B)" loc="c"/>
-		<prop exp="A_less == (A &gt;&gt; B)" loc="c"/>
 		<prop exp="A_less * B &lt;= A" loc="c"/>
 		<prop exp="A_less * B + B &gt; A" loc="c"/>
 		<prop exp="A_less &lt; B" loc="c"/>

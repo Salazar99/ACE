@@ -1,9 +1,13 @@
 [
 {
-"time" : "17:13:58",
+"time" : "19:40:11",
 "message" : "Could not mine any assertions for context 'default'"}
 ,
 {
-"time" : "17:27:27",
+"time" : "20:02:46",
+"message" : "Could not mine any assertions for context 'default'"}
+,
+{
+"time" : "22:02:45",
 "message" : "Could not mine any assertions for context 'default'"}
 ]

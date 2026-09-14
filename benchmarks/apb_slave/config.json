@@ -29,7 +29,6 @@
  "grammar": "G3",
  "episode_mode": "split",
  "reset": "presetn == 0",
- "max_antecedent_props": 3,
  "extra_props": [
   {
    "exp": "presetn == 0",

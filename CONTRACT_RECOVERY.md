@@ -9,167 +9,184 @@ Categories are trace-bounded (`method: trace-bounded` everywhere in this flow): 
 
 | setting | references | equivalent | stronger | weaker | missed | exact | acceptable |
 |---|---|---|---|---|---|---|---|
-| declared | 135 | 64 | 41 | 10 | 20 | 47% | 78% |
-| interface | 135 | 35 | 37 | 13 | 50 | 26% | 53% |
+| declared | 130 | 53 | 27 | 2 | 48 | 41% | 62% |
+| interface | 130 | 23 | 14 | 7 | 86 | 18% | 28% |
 
 **Assumptions**
 
 | setting | references | equivalent | stronger | weaker | missed | exact | acceptable |
 |---|---|---|---|---|---|---|---|
-| declared | 28 | 7 | 13 | 8 | 0 | 25% | 71% |
-| interface | 28 | 8 | 15 | 5 | 0 | 29% | 82% |
+| declared | 28 | 9 | 10 | 9 | 0 | 32% | 68% |
+| interface | 28 | 11 | 8 | 9 | 0 | 39% | 68% |
 
 ## Missed guarantees (declared vocabulary)
 
 | design | reference clause | cause |
 |---|---|---|
-| accumulator | `G((rst_n == 1) |-> (data_out <= 1020))` | unfalsifiable consequent |
+| accumulator | `G((valid_out == 1) |=> (valid_out == 0))` | vocabulary or region |
+| accumulator | `G((valid_out == 1 && valid_in == 0) |=> (valid_out == 0))` | vocabulary or region |
+| accumulator | `G((valid_out == 1 && valid_in == 1) |=> (data_out <= 255))` | vocabulary or region |
 | adder_8bit | `G((a == 0 && b == 0) |-> (sum == cin))` | vocabulary or region |
+| adder_8bit | `G((b == 0 && cin == 0) |-> (sum == a))` | vocabulary or region |
+| apb_slave | `G((psel == 1 && penable == 1 && paddr <= 2) |=> (pready == 1))` | 3+ proposition antecedent |
+| apb_slave | `G((psel == 1 && penable == 1 && paddr >= 4) |=> (pslverr == 1))` | 3+ proposition antecedent |
+| apb_slave | `G((psel == 1 && penable == 1 && paddr >= 4) |=> (pready == 1))` | 3+ proposition antecedent |
 | apb_slave | `G((psel == 1 && penable == 0 && paddr <= 2) |-> ##2 (pready == 1))` | 3+ proposition antecedent |
+| apb_slave | `G((psel == 1 && penable == 0 && paddr == 3) |-> ##4 (pready == 1))` | 3+ proposition antecedent |
 | apb_slave | `G((psel == 1 && penable == 0 && paddr >= 4) |-> ##2 (pslverr == 1))` | 3+ proposition antecedent |
 | apb_slave | `G((psel == 1 && penable == 1 && paddr == 3 && pready == 0) |-> ##[1:3] (pready == 1))` | 3+ proposition antecedent |
 | apb_slave | `G((psel == 1 && penable == 0 && pwrite == 0 && paddr <= 2) |-> ##2 (prdata == pwdata))` | 3+ proposition antecedent |
 | apb_slave | `G((psel == 1 && penable == 0 && pwrite == 0 && paddr == 3) |-> ##4 (prdata == pwdata))` | 3+ proposition antecedent |
-| fifo_sync | `G(count <= 8)` | unfalsifiable consequent |
+| arbiter4 | `G((req0 + req1 + req2 + req3 == 1 && req0 == 1) |=> (gnt0 == 1))` | vocabulary or region |
+| arbiter4 | `G((req0 + req1 + req2 + req3 == 1 && req1 == 1) |=> (gnt1 == 1))` | vocabulary or region |
+| arbiter4 | `G((req0 + req1 + req2 + req3 == 1 && req2 == 1) |=> (gnt2 == 1))` | vocabulary or region |
+| arbiter4 | `G((req0 + req1 + req2 + req3 == 1 && req3 == 1) |=> (gnt3 == 1))` | vocabulary or region |
+| arbiter4 | `G((req0 == 1 && gnt0 == 0) |-> ##[1:4] (gnt0 == 1))` | vocabulary or region |
+| arbiter4 | `G((req1 == 1 && gnt1 == 0) |-> ##[1:4] (gnt1 == 1))` | vocabulary or region |
+| arbiter4 | `G((req2 == 1 && gnt2 == 0) |-> ##[1:4] (gnt2 == 1))` | vocabulary or region |
+| arbiter4 | `G((req3 == 1 && gnt3 == 0) |-> ##[1:4] (gnt3 == 1))` | vocabulary or region |
+| fifo_sync | `G((empty == 1 && wr_en == 1) |=> (count == 1))` | vocabulary or region |
+| fifo_sync | `G((empty == 1 && wr_en == 0) |=> (empty == 1))` | vocabulary or region |
 | fifo_sync | `G((full == 1 && rd_en == 0) |=> (full == 1))` | vocabulary or region |
+| fifo_sync | `G((count == 7 && wr_en == 1 && rd_en == 0) |=> (full == 1))` | 3+ proposition antecedent |
 | fifo_sync | `G((count == 4 && wr_en == 1 && rd_en == 0) |=> (count == 5))` | 3+ proposition antecedent |
-| ibex_alu | `G((operator_i == 4) |-> (result_o <= operand_a_i))` | vocabulary or region |
-| ibex_alu | `G((operator_i == 10 && operand_b_i == 1 && operand_a_i <= 2147483647) |-> (result_o == operand_a_i * 2))` | 3+ proposition antecedent |
+| fifo_sync | `G((count == 1 && rd_en == 1 && wr_en == 0) |=> (empty == 1))` | 3+ proposition antecedent |
+| fifo_sync | `G((empty == 1 && wr_en == 1) |=> (dout == din))` | vocabulary or region |
+| ibex_alu | `G((operator_i == 0 && operand_a_i + operand_b_i <= 4294967295) |-> (result_o == operand_a_i + operand_b_i))` | vocabulary or region |
+| ibex_alu | `G((operator_i == 1 && operand_a_i >= operand_b_i) |-> (result_o == operand_a_i - operand_b_i))` | vocabulary or region |
+| ibex_alu | `G((operator_i == 2 && operand_b_i == 0) |-> (result_o == operand_a_i))` | vocabulary or region |
 | ibex_alu | `G((operator_i == 9 && operand_b_i == 1) |-> (result_o * 2 <= operand_a_i))` | vocabulary or region |
 | ibex_alu | `G((operator_i == 9 && operand_b_i == 1) |-> (result_o * 2 + 1 >= operand_a_i))` | vocabulary or region |
-| ibex_alu | `G((operator_i == 32) |-> (result_o <= operand_a_i))` | vocabulary or region |
-| ibex_csr | `G((rst_n == 1) |-> (rd_error_o == 0))` | unfalsifiable consequent |
-| ibex_csr | `G((wr_en_i == 1) |=> (rd_data_o <= 16777215))` | unfalsifiable consequent |
+| ibex_alu | `G((operator_i == 26 && operand_a_i >= operand_b_i) |-> (comparison_result_o == 0))` | vocabulary or region |
+| ibex_alu | `G((operator_i == 30 && operand_a_i == operand_b_i) |-> (comparison_result_o == 0))` | vocabulary or region |
+| ibex_alu | `G((operator_i == 0 && operand_b_i == 0) |-> (result_o == operand_a_i))` | vocabulary or region |
+| ibex_multdiv_fast | `G(((mult_en_i == 0) ##1 (mult_en_i == 1)) |-> (##[1:40] valid_o == 1))` | sequence antecedent |
+| ibex_multdiv_fast | `G(((div_en_i == 0) ##1 (div_en_i == 1)) |-> (##[1:40] valid_o == 1))` | sequence antecedent |
 | ibex_multdiv_fast | `G(((div_en_i == 0) ##1 (rst_n == 1 && div_en_i == 1 && operator_i == 2 && op_b_i == 0)) |-> (##[1:40] (valid_o == 1 && multdiv_result_o == 4294967295)))` | sequence antecedent |
 | ibex_multdiv_fast | `G(((div_en_i == 0) ##1 (rst_n == 1 && div_en_i == 1 && operator_i == 3 && op_b_i == 0)) |-> (##[1:40] (valid_o == 1 && multdiv_result_o == op_a_i)))` | sequence antecedent |
-| sqrt | `G((start == 1 && in == 0) |-> ##[1:24] (done == 1 && out == 0))` | compound consequent |
+| ibex_multdiv_fast | `G((mult_en_i == 1 && op_b_i == 0) |-> (##[1:40] (valid_o == 1 && multdiv_result_o == 0)))` | compound consequent |
+| ibex_multdiv_fast | `G(((div_en_i == 0) ##1 (rst_n == 1 && div_en_i == 1 && operator_i == 2 && op_a_i == 0 && op_b_i >= 1)) |-> (##[1:40] (valid_o == 1 && multdiv_result_o == 0)))` | sequence antecedent |
+| multi_16bit | `G((done == 1 && ain == 1) |-> (yout == bin))` | vocabulary or region |
+| sqrt | `G((start == 1 && in < 0) |=> (error == 1))` | vocabulary or region |
+| sqrt | `G((start == 1 && in >= 2147483648) |=> (error == 1))` | vocabulary or region |
+| sqrt | `G((start == 1 && in < 0) |-> (##[1:3] out == 0))` | vocabulary or region |
+| sqrt | `G((start == 1 && in >= 4 && in <= 8) |-> ##[1:24] (done == 1 && out == 2))` | compound consequent |
 
-totals: 3+ proposition antecedent 7, compound consequent 1, sequence antecedent 2, unfalsifiable consequent 4, vocabulary or region 6
+totals: 3+ proposition antecedent 12, compound consequent 2, sequence antecedent 5, vocabulary or region 29
 
 ## Per design: expected against mined
 
 ## accumulator
 
-1 region(s), backend `in-process-templates`, 11 invariants and 120 template instances mined against 3 expected assumptions and 6 expected guarantees.
+1 region(s), backend `harm`, 9 invariants and 60 template instances mined against 3 expected assumptions and 5 expected guarantees.
 
 ### Guarantees: expected vs mined
 
 | expected | declared | interface | mined witness, or why nothing matched |
 |---|---|---|---|
-| `G((rst_n == 0) |-> (valid_out == 0))` | < mined-stronger | < | `G((data_out == 0) |-> ((data_out == 0) && (valid_out == 0)))` |
-| `G((rst_n == 0) |-> (data_out == 0))` | = equivalent | = | `G((rst_n == 0) |-> (data_out == 0))` |
-| `G((valid_out == 1) |=> (valid_out == 0))` | = equivalent | = | `G((valid_out == 1) |=> (valid_out == 0))` |
-| `G((valid_out == 1 && valid_in == 0) |=> (valid_out == 0))` | < mined-stronger | < | `G((valid_out == 1) |=> (valid_out == 0))` |
-| `G((valid_out == 1 && valid_in == 1) |=> (data_out <= 255))` | = equivalent | - | `G((valid_in == 1) && (valid_out == 1) |=> (data_out <= 255))` |
-| `G((rst_n == 1) |-> (data_out <= 1020))` | - missed | - | unfalsifiable consequent |
+| `G((rst_n == 0) |-> (valid_out == 0))` | = equivalent | - | `G((rst_n == 0) |-> valid_out == 0)` |
+| `G((rst_n == 0) |-> (data_out == 0))` | = equivalent | - | `G((rst_n == 0) |-> data_out == 0)` |
+| `G((valid_out == 1) |=> (valid_out == 0))` | - missed | > | vocabulary or region |
+| `G((valid_out == 1 && valid_in == 0) |=> (valid_out == 0))` | - missed | - | vocabulary or region |
+| `G((valid_out == 1 && valid_in == 1) |=> (data_out <= 255))` | - missed | - | vocabulary or region |
 
 **Mined guarantees with no expected counterpart**
 
-- **declared**: 120 mined, 4 of them matched an expected clause, 116 with no counterpart (sample, alphabetical):
-    - `G(((!(valid_in == 1)) ##1 (valid_in == 1)) && ((!(valid_out == 1)) ##1 (valid_out == 1)) |=> ((valid_out == 0) && (data_out <= 255)))`
-    - `G(((!(valid_in == 1)) ##1 (valid_in == 1)) && ((!(valid_out == 1)) ##1 (valid_out == 1)) |=> (data_out <= 255))`
-    - `G(((!(valid_in == 1)) ##1 (valid_in == 1)) && ((valid_out == 1) ##1 (!(valid_out == 1))) |=> ((valid_out == 0) && (data_out <= 255)))`
-    - `G(((!(valid_in == 1)) ##1 (valid_in == 1)) && ((valid_out == 1) ##1 (!(valid_out == 1))) |=> (data_out <= 255))`
-    - `G(((!(valid_out == 1)) ##1 (valid_out == 1)) |-> (valid_out == 1))`
-    - `G(((!(valid_out == 1)) ##1 (valid_out == 1)) |=> (valid_out == 0))`
-    - `G(((rst_n == 1) ##1 (!(rst_n == 1))) |-> ((data_out == 0) && (valid_out == 0)))`
-    - `G(((rst_n == 1) ##1 (!(rst_n == 1))) |-> ((valid_out == 0) && (data_out <= 255)))`
-    - `G(((rst_n == 1) ##1 (!(rst_n == 1))) |-> ((valid_out == 0) && (data_out == 0)))`
-    - `G(((rst_n == 1) ##1 (!(rst_n == 1))) |-> (data_out <= 255))`
-    - `G(((rst_n == 1) ##1 (!(rst_n == 1))) |-> (data_out == 0))`
-    - `G(((rst_n == 1) ##1 (!(rst_n == 1))) |-> (valid_out == 0))`
-    - ... and 104 more (all of them in `results/declared/accumulator/recovery.json`)
-- **interface**: 509 mined, 4 of them matched an expected clause, 505 with no counterpart (sample, alphabetical):
-    - `G(((!(rst_n == 1)) ##1 (rst_n == 1)) |-> ##2 ((valid_out == 0) && (data_out * valid_in + valid_in > rst_n)))`
-    - `G(((!(rst_n == 1)) ##1 (rst_n == 1)) |-> ##2 ((valid_out == 0) && (data_out >= data_in)))`
-    - `G(((!(rst_n == 1)) ##1 (rst_n == 1)) |-> ##2 ((valid_out == 0) && (data_out >= rst_n)))`
-    - `G(((!(rst_n == 1)) ##1 (rst_n == 1)) |-> ##2 (data_out * valid_in + valid_in > rst_n))`
-    - `G(((!(rst_n == 1)) ##1 (rst_n == 1)) |-> ##2 (data_out >= data_in))`
-    - `G(((!(rst_n == 1)) ##1 (rst_n == 1)) |-> ##4 (valid_out >= valid_in))`
-    - `G(((!(rst_n == 1)) ##1 (rst_n == 1)) |=> (valid_out < valid_in))`
-    - `G(((!(rst_n == 1)) ##1 (rst_n == 1)) |=> (valid_out == (rst_n >> valid_in)))`
-    - `G(((!(rst_n == 1)) ##1 (rst_n == 1)) |=> (valid_out == (rst_n ^ valid_in)))`
-    - `G(((!(rst_n == 1)) ##1 (rst_n == 1)) |=> (valid_out == rst_n - valid_in))`
-    - `G(((!(valid_in == 1)) ##1 (valid_in == 1)) && ((!(valid_out == 1)) ##1 (valid_out == 1)) |-> (data_out * valid_in + valid_in > rst_n))`
-    - `G(((!(valid_in == 1)) ##1 (valid_in == 1)) && ((!(valid_out == 1)) ##1 (valid_out == 1)) |-> (valid_out * valid_in + valid_in > rst_n))`
-    - ... and 493 more (all of them in `results/interface/accumulator/recovery.json`)
+- **declared**: 60 mined, 2 of them matched an expected clause, 58 with no counterpart (sample, alphabetical):
+    - `G((data_in >= 0 && data_in <= 11) |-> (##[1:5] data_out <= 255))`
+    - `G((data_in >= 0 && data_in <= 11) |-> (##[1:5] valid_out == 0))`
+    - `G((data_in >= 113 && data_in <= 143) |-> (##[1:5] data_out <= 255))`
+    - `G((data_in >= 113 && data_in <= 143) |-> (##[1:5] valid_out == 0))`
+    - `G((data_in >= 12 && data_in <= 28) |-> (##[1:5] data_out <= 255))`
+    - `G((data_in >= 12 && data_in <= 28) |-> (##[1:5] valid_out == 0))`
+    - `G((data_in >= 144 && data_in <= 173) |-> (##[1:5] data_out <= 255))`
+    - `G((data_in >= 144 && data_in <= 173) |-> (##[1:5] valid_out == 0))`
+    - `G((data_in >= 174 && data_in <= 202) |-> (##[1:5] data_out <= 255))`
+    - `G((data_in >= 174 && data_in <= 202) |-> (##[1:5] valid_out == 0))`
+    - `G((data_in >= 204 && data_in <= 231) |-> (##[1:5] data_out <= 255))`
+    - `G((data_in >= 204 && data_in <= 231) |-> (##[1:5] valid_out == 0))`
+    - ... and 46 more (all of them in `results/declared/accumulator/recovery.json`)
+- **interface**: 559 mined, 1 of them matched an expected clause, 558 with no counterpart (sample, alphabetical):
+    - `G((data_in >= 0 && data_in <= 11) |-> (##[1:5] data_out >= data_in))`
+    - `G((data_in >= 0 && data_in <= 11) |-> (##[1:5] data_out >= valid_in))`
+    - `G((data_in >= 0 && data_in <= 11) |-> (##[1:5] valid_out * 2 <= rst_n))`
+    - `G((data_in >= 0 && data_in <= 11) |-> (##[1:5] valid_out * 2 <= valid_in))`
+    - `G((data_in >= 0 && data_in <= 11) |-> (##[1:5] valid_out * data_in <= rst_n))`
+    - `G((data_in >= 0 && data_in <= 11) |-> (##[1:5] valid_out * data_in <= valid_in))`
+    - `G((data_in >= 0 && data_in <= 11) |-> (##[1:5] valid_out <= data_in))`
+    - `G((data_in >= 0 && data_in <= 11) |-> (##[1:5] valid_out <= valid_in))`
+    - `G((data_in >= 0 && data_in <= 11) |-> (##[1:5] valid_out == (rst_n & data_in)))`
+    - `G((data_in >= 0 && data_in <= 11) |-> (##[1:5] valid_out == (rst_n | valid_in)))`
+    - `G((data_in >= 0 && data_in <= 11) |-> (##[1:5] valid_out == (valid_in & data_in)))`
+    - `G((data_in >= 0 && data_in <= 11) |-> (##[1:5] valid_out == rst_n))`
+    - ... and 546 more (all of them in `results/interface/accumulator/recovery.json`)
 
 ### Assumptions: expected vs mined
 
 | expected | declared | interface | mined witness, or why nothing matched |
 |---|---|---|---|
-| `rst_n == 1` | < mined-stronger | < | `data_in == 1` |
-| `valid_in == 1` | > mined-weaker | = | `data_in <= 255` |
+| `rst_n == 1` | > mined-weaker | = | `data_in <= 255` |
+| `valid_in == 1` | > mined-weaker | > | `data_in <= 255` |
 | `data_in <= 255` | = equivalent | = | `data_in <= 255` |
 
 **Mined invariants with no expected counterpart**
 
-- **declared**: 11 mined, 2 of them matched an expected clause, 9 with no counterpart (sample, alphabetical):
+- **declared**: 9 mined, 1 of them matched an expected clause, 8 with no counterpart (sample, alphabetical):
+    - `data_in == 0`
+    - `data_in == 1`
     - `data_in >= 0`
     - `rst_n <= 1`
-    - `rst_n == 0`
     - `rst_n >= 0`
     - `valid_in <= 1`
-    - `valid_in <= data_in`
     - `valid_in <= rst_n`
-    - `valid_in == 0`
     - `valid_in >= 0`
-- **interface**: 11 mined, 3 of them matched an expected clause, 8 with no counterpart (sample, alphabetical):
+- **interface**: 10 mined, 2 of them matched an expected clause, 8 with no counterpart (sample, alphabetical):
+    - `data_in == 0`
+    - `data_in == 1`
     - `data_in >= 0`
     - `rst_n <= 1`
     - `rst_n >= 0`
     - `valid_in <= 1`
-    - `valid_in <= data_in`
     - `valid_in <= rst_n`
-    - `valid_in == 0`
     - `valid_in >= 0`
 
 ## adder_8bit
 
-1 region(s), backend `in-process-templates`, 6 invariants and 26 template instances mined against 2 expected assumptions and 7 expected guarantees.
+1 region(s), backend `harm`, 6 invariants and 6 template instances mined against 2 expected assumptions and 7 expected guarantees.
 
 ### Guarantees: expected vs mined
 
 | expected | declared | interface | mined witness, or why nothing matched |
 |---|---|---|---|
-| `G((a + b + cin <= 255) |-> (sum == a + b + cin))` | = equivalent | = | `G((a + b + cin <= 255) |-> (cout == 0))` |
-| `G((a + b + cin <= 255) |-> (cout == 0))` | = equivalent | = | `G((a + b + cin <= 255) |-> (cout == 0))` |
-| `G((a + b + cin >= 256) |-> (cout == 1))` | = equivalent | = | `G((a + b + cin >= 256) |-> (cout == 1))` |
-| `G((a + b + cin >= 256) |-> (sum == a + b + cin - 256))` | = equivalent | = | `G((a + b + cin >= 256) |-> (cout == 1))` |
+| `G((a + b + cin <= 255) |-> (sum == a + b + cin))` | = equivalent | - | `G((a + b + cin <= 255) |-> cout == 0)` |
+| `G((a + b + cin <= 255) |-> (cout == 0))` | = equivalent | - | `G((a + b + cin <= 255) |-> cout == 0)` |
+| `G((a + b + cin >= 256) |-> (cout == 1))` | = equivalent | = | `G((a + b + cin >= 256) |-> cout)` |
+| `G((a + b + cin >= 256) |-> (sum == a + b + cin - 256))` | = equivalent | = | `G((a + b + cin >= 256) |-> cout)` |
 | `G((a == 0 && b == 0) |-> (sum == cin))` | - missed | - | vocabulary or region |
-| `G((a <= 127 && b <= 127) |-> (cout == 0))` | < mined-stronger | < | `G((a + b + cin <= 255) |-> (cout == 0))` |
-| `G((b == 0 && cin == 0) |-> (sum == a))` | > mined-weaker | > | `G((a == 6) && (sum == 6) |-> (sum == a))` |
+| `G((a <= 127 && b <= 127) |-> (cout == 0))` | < mined-stronger | - | `G((a + b + cin <= 255) |-> cout == 0)` |
+| `G((b == 0 && cin == 0) |-> (sum == a))` | - missed | - | vocabulary or region |
 
 **Mined guarantees with no expected counterpart**
 
-- **declared**: 26 mined, 3 of them matched an expected clause, 23 with no counterpart (sample, alphabetical):
-    - `G(((!(cout == 1)) ##1 (cout == 1)) |-> ((cout == 1) && (sum == a + b + cin - 256)))`
-    - `G(((!(cout == 1)) ##1 (cout == 1)) |-> (cout == 1))`
-    - `G(((!(cout == 1)) ##1 (cout == 1)) |-> (sum == a + b + cin - 256))`
-    - `G(((cout == 1) ##1 (!(cout == 1))) |-> ((cout == 0) && (sum == a + b + cin)))`
-    - `G(((cout == 1) ##1 (!(cout == 1))) |-> (cout == 0))`
-    - `G(((cout == 1) ##1 (!(cout == 1))) |-> (sum == a + b + cin))`
-    - `G((a == 1) && (cout == 1) |-> (sum == 0))`
-    - `G((cin == 0) && (sum == 0) |-> (sum == cin))`
-    - `G((cin == 1) && (sum == 1) |-> (sum == cin))`
-    - `G((cout == 0) |-> ((cout == 0) && (sum == a + b + cin)))`
-    - `G((cout == 0) |-> (sum == a + b + cin))`
-    - `G((cout == 1) |-> ((cout == 1) && (sum == a + b + cin - 256)))`
-    - ... and 11 more (all of them in `results/declared/adder_8bit/recovery.json`)
-- **interface**: 304 mined, 3 of them matched an expected clause, 301 with no counterpart (sample, alphabetical):
-    - `G(((!(cin == 1)) ##1 (cin == 1)) && ((cout == 1) ##1 (!(cout == 1))) |-> (cout < cin))`
-    - `G(((!(cin == 1)) ##1 (cin == 1)) && ((cout == 1) ##1 (!(cout == 1))) |-> (sum * cin + cin > a))`
-    - `G(((!(cin == 1)) ##1 (cin == 1)) && ((cout == 1) ##1 (!(cout == 1))) |-> (sum * cin + cin > b))`
-    - `G(((!(cin == 1)) ##1 (cin == 1)) |-> (cout <= cin))`
-    - `G(((!(cout == 1)) ##1 (cout == 1)) |-> ((cout == 1) && (sum * cin <= a)))`
-    - `G(((!(cout == 1)) ##1 (cout == 1)) |-> ((cout == 1) && (sum * cin <= b)))`
-    - `G(((!(cout == 1)) ##1 (cout == 1)) |-> ((cout == 1) && (sum <= a)))`
-    - `G(((!(cout == 1)) ##1 (cout == 1)) |-> ((cout == 1) && (sum <= b)))`
-    - `G(((!(cout == 1)) ##1 (cout == 1)) |-> ((cout == 1) && (sum == a + b + cin - 256)))`
-    - `G(((!(cout == 1)) ##1 (cout == 1)) |-> (cout == 1))`
-    - `G(((!(cout == 1)) ##1 (cout == 1)) |-> (cout >= cin))`
-    - `G(((!(cout == 1)) ##1 (cout == 1)) |-> (sum * cin <= a))`
-    - ... and 289 more (all of them in `results/interface/adder_8bit/recovery.json`)
+- **declared**: 6 mined, 2 of them matched an expected clause, 4 with no counterpart (sample, alphabetical):
+    - `G((a + b + cin <= 255) |-> sum == a + b + cin)`
+    - `G((cout) |-> cout == 1)`
+    - `G((cout) |-> sum == a + b + cin - 256)`
+    - `G(cin == 0 |-> (cout <= b))`
+- **interface**: 190 mined, 1 of them matched an expected clause, 189 with no counterpart (sample, alphabetical):
+    - `G((a >= 0 && a <= 25) |-> cout * 2 <= b)`
+    - `G((a >= 0 && a <= 25) |-> cout * cin <= b)`
+    - `G((a >= 0 && a <= 25) |-> cout <= b)`
+    - `G((a >= 0 && a <= 25) |-> cout <= cin)`
+    - `G((a >= 0 && a <= 25) |-> sum * 2 + 1 >= a)`
+    - `G((a >= 121 && a <= 149) |-> cout * 2 <= a)`
+    - `G((a >= 121 && a <= 149) |-> cout * 2 <= b)`
+    - `G((a >= 121 && a <= 149) |-> cout * cin <= b)`
+    - `G((a >= 121 && a <= 149) |-> cout < b)`
+    - `G((a >= 121 && a <= 149) |-> cout <= b)`
+    - `G((a >= 121 && a <= 149) |-> sum >= cin)`
+    - `G((a >= 151 && a <= 182) |-> cout * 2 <= a)`
+    - ... and 177 more (all of them in `results/interface/adder_8bit/recovery.json`)
 
 ### Assumptions: expected vs mined
 
@@ -195,74 +212,74 @@ totals: 3+ proposition antecedent 7, compound consequent 1, sequence antecedent 
 
 ## apb_slave
 
-2 region(s), backend `in-process-templates`, 22 invariants and 243 template instances mined against 4 expected assumptions and 18 expected guarantees.
+2 region(s), backend `harm`, 20 invariants and 151 template instances mined against 4 expected assumptions and 18 expected guarantees.
 
 ### Guarantees: expected vs mined
 
 | expected | declared | interface | mined witness, or why nothing matched |
 |---|---|---|---|
-| `G((presetn == 0) |=> (pready == 0))` | < mined-stronger | < | `G((penable == 0) |=> ((pready == 0) && (pslverr == 0)))` |
-| `G((presetn == 0) |=> (pslverr == 0))` | < mined-stronger | < | `G((paddr == 0) |=> (pslverr == 0))` |
-| `G((presetn == 0) |=> (prdata == 0))` | > mined-weaker | < | `G(((!(presetn == 1)) ##1 (presetn == 1)) |=> (prdata == 0))` |
-| `G((psel == 0) |=> (pready == 0))` | < mined-stronger | < | `G((penable == 0) |=> ((pready == 0) && (pslverr == 0)))` |
-| `G((psel == 0) |=> (pslverr == 0))` | < mined-stronger | < | `G((penable == 0) |=> ((pready == 0) && (pslverr == 0)))` |
-| `G((penable == 0) |=> (pready == 0))` | = equivalent | = | `G((penable == 0) |=> ((pready == 0) && (pslverr == 0)))` |
-| `G((psel == 1 && penable == 1 && paddr <= 2) |=> (pready == 1))` | > mined-weaker | > | `G((penable == 1) && (paddr == 2) |=> (pready == 1))` |
-| `G((psel == 1 && penable == 1 && paddr <= 3) |=> (pslverr == 0))` | < mined-stronger | - | `G(paddr >= 0 && paddr <= 3 |=> (pslverr == 0))` |
-| `G((psel == 1 && penable == 1 && paddr >= 4) |=> (pslverr == 1))` | > mined-weaker | > | `G(((!(pslverr == 1)) ##1 (pslverr == 1)) |=> ((pready == 1) && (pslverr == 1)))` |
-| `G((psel == 1 && penable == 1 && paddr >= 4) |=> (pready == 1))` | > mined-weaker | > | `G(((!(pslverr == 1)) ##1 (pslverr == 1)) |=> (pready == 1))` |
-| `G((pslverr == 1) |-> (pready == 1))` | = equivalent | = | `G((pslverr == 1) |-> (pready == 1))` |
+| `G((presetn == 0) |=> (pready == 0))` | = equivalent | - | `G((presetn == 0) |=> pready == 0)` |
+| `G((presetn == 0) |=> (pslverr == 0))` | < mined-stronger | - | `G((paddr <= 3) |=> pslverr == 0)` |
+| `G((presetn == 0) |=> (prdata == 0))` | = equivalent | - | `G((presetn == 0) |=> prdata == 0)` |
+| `G((psel == 0) |=> (pready == 0))` | < mined-stronger | - | `G((penable == 0) |=> pready == 0)` |
+| `G((psel == 0) |=> (pslverr == 0))` | < mined-stronger | - | `G((penable == 0) |=> pready == 0)` |
+| `G((penable == 0) |=> (pready == 0))` | = equivalent | - | `G((penable == 0) |=> pready == 0)` |
+| `G((psel == 1 && penable == 1 && paddr <= 2) |=> (pready == 1))` | - missed | - | 3+ proposition antecedent |
+| `G((psel == 1 && penable == 1 && paddr <= 3) |=> (pslverr == 0))` | < mined-stronger | - | `G((paddr <= 3) |=> pslverr == 0)` |
+| `G((psel == 1 && penable == 1 && paddr >= 4) |=> (pslverr == 1))` | - missed | - | 3+ proposition antecedent |
+| `G((psel == 1 && penable == 1 && paddr >= 4) |=> (pready == 1))` | - missed | - | 3+ proposition antecedent |
+| `G((pslverr == 1) |-> (pready == 1))` | = equivalent | = | `G((pslverr) |-> pready)` |
 | `G((psel == 1 && penable == 0 && paddr <= 2) |-> ##2 (pready == 1))` | - missed | - | 3+ proposition antecedent |
-| `G((psel == 1 && penable == 0 && paddr == 3) |-> ##4 (pready == 1))` | = equivalent | = | `G((penable == 0) && (paddr == 3) && (psel == 1) |-> ##4 (pready == 1))` |
+| `G((psel == 1 && penable == 0 && paddr == 3) |-> ##4 (pready == 1))` | - missed | - | 3+ proposition antecedent |
 | `G((psel == 1 && penable == 0 && paddr >= 4) |-> ##2 (pslverr == 1))` | - missed | - | 3+ proposition antecedent |
-| `G((psel == 1 && penable == 0 && paddr == 3) |=> (pready == 0))` | < mined-stronger | < | `G((paddr == 3) |-> ##1 ((pready == 0) && (pslverr == 0)))` |
+| `G((psel == 1 && penable == 0 && paddr == 3) |=> (pready == 0))` | < mined-stronger | - | `G((penable == 0) |=> pready == 0)` |
 | `G((psel == 1 && penable == 1 && paddr == 3 && pready == 0) |-> ##[1:3] (pready == 1))` | - missed | - | 3+ proposition antecedent |
 | `G((psel == 1 && penable == 0 && pwrite == 0 && paddr <= 2) |-> ##2 (prdata == pwdata))` | - missed | - | 3+ proposition antecedent |
 | `G((psel == 1 && penable == 0 && pwrite == 0 && paddr == 3) |-> ##4 (prdata == pwdata))` | - missed | - | 3+ proposition antecedent |
 
 **Mined guarantees with no expected counterpart**
 
-- **declared**: 243 mined, 10 of them matched an expected clause, 233 with no counterpart (sample, alphabetical):
-    - `G(((!(penable == 1)) ##1 (penable == 1)) |-> ##3 (pslverr == 0))`
-    - `G(((!(penable == 1)) ##1 (penable == 1)) |-> ##4 ((pready == 0) && (pslverr == 0)))`
-    - `G(((!(penable == 1)) ##1 (penable == 1)) |-> ##4 ((pslverr == 0) && (pready == 0)))`
-    - `G(((!(penable == 1)) ##1 (penable == 1)) |-> ##4 (pready == 0))`
-    - `G(((!(penable == 1)) ##1 (penable == 1)) |-> ##[1:5] (pready == 1))`
-    - `G(((!(penable == 1)) ##1 (penable == 1)) |-> (pready == 0))`
-    - `G(((!(pready == 1)) ##1 (pready == 1)) |-> ##2 ((pready == 0) && (pslverr == 0)))`
-    - `G(((!(pready == 1)) ##1 (pready == 1)) |-> ##2 ((pslverr == 0) && (pready == 0)))`
-    - `G(((!(pready == 1)) ##1 (pready == 1)) |-> ##2 (pready == 0))`
-    - `G(((!(pready == 1)) ##1 (pready == 1)) |-> ##2 (pslverr == 0))`
-    - `G(((!(pready == 1)) ##1 (pready == 1)) |-> (pready == 1))`
-    - `G(((!(pready == 1)) ##1 (pready == 1)) |=> (pready == 1))`
-    - ... and 221 more (all of them in `results/declared/apb_slave/recovery.json`)
-- **interface**: 861 mined, 8 of them matched an expected clause, 853 with no counterpart (sample, alphabetical):
-    - `G(((!(penable == 1)) ##1 (penable == 1)) |-> ##2 (prdata >= psel))`
-    - `G(((!(penable == 1)) ##1 (penable == 1)) |-> ##3 (pslverr == 0))`
-    - `G(((!(penable == 1)) ##1 (penable == 1)) |-> ##4 ((pready == 0) && (pslverr == 0)))`
-    - `G(((!(penable == 1)) ##1 (penable == 1)) |-> ##4 ((pslverr == 0) && (pready == 0)))`
-    - `G(((!(penable == 1)) ##1 (penable == 1)) |-> ##4 (pready == 0))`
-    - `G(((!(penable == 1)) ##1 (penable == 1)) |-> (pready == 0))`
-    - `G(((!(pready == 1)) ##1 (pready == 1)) |-> ##1 (prdata * paddr + paddr > penable))`
-    - `G(((!(pready == 1)) ##1 (pready == 1)) |-> ##1 (prdata * paddr + paddr > psel))`
-    - `G(((!(pready == 1)) ##1 (pready == 1)) |-> ##2 ((pslverr == 0) && (prdata * penable <= presetn)))`
-    - `G(((!(pready == 1)) ##1 (pready == 1)) |-> ##2 ((pslverr == 0) && (prdata * penable <= psel)))`
-    - `G(((!(pready == 1)) ##1 (pready == 1)) |-> ##2 ((pslverr == 0) && (prdata >= penable)))`
-    - `G(((!(pready == 1)) ##1 (pready == 1)) |-> (pready == 1))`
-    - ... and 841 more (all of them in `results/interface/apb_slave/recovery.json`)
+- **declared**: 151 mined, 5 of them matched an expected clause, 146 with no counterpart (sample, alphabetical):
+    - `G((paddr <= 3) |-> (##[1:5] pready == 0))`
+    - `G((paddr <= 3) |-> (##[1:5] pready == 1))`
+    - `G((paddr <= 3) |-> (##[1:5] pready))`
+    - `G((paddr <= 3) |-> pslverr == 0)`
+    - `G((paddr == 3) |-> (##5 pready == 0))`
+    - `G((paddr == 3) |-> (##[1:5] pslverr == 1))`
+    - `G((paddr == 3) |-> (##[1:5] pslverr))`
+    - `G((paddr == 6) |-> (##4 pready == 0))`
+    - `G((paddr == 6) |-> (##4 pslverr == 0))`
+    - `G((paddr == 6) |-> (##5 pslverr == 0))`
+    - `G((paddr == 7) |-> (##[1:5] pready == 1))`
+    - `G((paddr == 7) |-> (##[1:5] pready))`
+    - ... and 134 more (all of them in `results/declared/apb_slave/recovery.json`)
+- **interface**: 770 mined, 1 of them matched an expected clause, 769 with no counterpart (sample, alphabetical):
+    - `G((paddr == 0) |-> (##5 prdata * penable <= presetn))`
+    - `G((paddr == 0) |-> (##5 prdata * penable <= psel))`
+    - `G((paddr == 0) |-> (##[1:5] prdata * penable <= presetn))`
+    - `G((paddr == 0) |-> (##[1:5] prdata * penable <= psel))`
+    - `G((paddr == 0) |-> (##[1:5] prdata * psel <= presetn))`
+    - `G((paddr == 0) |-> (##[1:5] prdata >= penable))`
+    - `G((paddr == 0) |-> (##[1:5] prdata >= psel))`
+    - `G((paddr == 0) |-> prdata * paddr <= penable)`
+    - `G((paddr == 0) |-> prdata * paddr <= presetn)`
+    - `G((paddr == 0) |-> prdata * paddr <= psel)`
+    - `G((paddr == 0) |-> prdata * paddr <= pwrite)`
+    - `G((paddr == 0) |-> prdata >= paddr)`
+    - ... and 757 more (all of them in `results/interface/apb_slave/recovery.json`)
 
 ### Assumptions: expected vs mined
 
 | expected | declared | interface | mined witness, or why nothing matched |
 |---|---|---|---|
-| `presetn == 1` | < mined-stronger | < | `penable == 1` |
-| `paddr <= 3` | < mined-stronger | < | `presetn == 0` |
+| `presetn == 1` | < mined-stronger | = | `psel == 1` |
+| `paddr <= 3` | > mined-weaker | > | `paddr <= 7` |
 | `paddr >= 4` | > mined-weaker | > | `paddr <= 7` |
 | `pwdata <= 255` | = equivalent | = | `pwdata <= 255` |
 
 **Mined invariants with no expected counterpart**
 
-- **declared**: 22 mined, 4 of them matched an expected clause, 18 with no counterpart (sample, alphabetical):
+- **declared**: 20 mined, 3 of them matched an expected clause, 17 with no counterpart (sample, alphabetical):
     - `paddr >= 0`
     - `penable <= 1`
     - `penable <= presetn`
@@ -272,11 +289,11 @@ totals: 3+ proposition antecedent 7, compound consequent 1, sequence antecedent 
     - `presetn >= 0`
     - `psel <= 1`
     - `psel <= presetn`
-    - `psel == 0`
-    - `psel == 1`
     - `psel >= 0`
-    - ... and 6 more (all of them in `results/declared/apb_slave/recovery.json`)
-- **interface**: 22 mined, 4 of them matched an expected clause, 18 with no counterpart (sample, alphabetical):
+    - `pwdata <= 253`
+    - `pwdata >= 0`
+    - ... and 5 more (all of them in `results/declared/apb_slave/recovery.json`)
+- **interface**: 21 mined, 3 of them matched an expected clause, 18 with no counterpart (sample, alphabetical):
     - `paddr >= 0`
     - `penable <= 1`
     - `penable <= presetn`
@@ -293,74 +310,88 @@ totals: 3+ proposition antecedent 7, compound consequent 1, sequence antecedent 
 
 ## arbiter4
 
-2 region(s), backend `in-process-templates`, 17 invariants and 384 template instances mined against 2 expected assumptions and 18 expected guarantees.
+2 region(s), backend `harm`, 19 invariants and 75 template instances mined against 2 expected assumptions and 18 expected guarantees.
 
 ### Guarantees: expected vs mined
 
 | expected | declared | interface | mined witness, or why nothing matched |
 |---|---|---|---|
-| `G((rst_n == 0) |=> (gnt_valid == 0))` | < mined-stronger | > | `G((req0 + req1 + req2 + req3 == 0) |=> (gnt0 + gnt1 + gnt2 + gnt3 == 0))` |
-| `G((rst_n == 0) |=> (gnt_id == 0))` | < mined-stronger | > | `G((req0 + req1 + req2 + req3 == 0) |=> (gnt0 + gnt1 + gnt2 + gnt3 == 0))` |
-| `G((gnt_valid == 1) |-> (gnt0 + gnt1 + gnt2 + gnt3 == 1))` | = equivalent | > | `G((gnt_valid == 1) |-> (gnt0 + gnt1 + gnt2 + gnt3 == 1))` |
-| `G((gnt_valid == 0) |-> (gnt0 + gnt1 + gnt2 + gnt3 == 0))` | = equivalent | = | `G((gnt0 == 0) && (gnt_id == 0) |-> (gnt_valid == 0))` |
-| `G((req0 + req1 + req2 + req3 == 0) |=> (gnt_valid == 0))` | = equivalent | > | `G((req0 + req1 + req2 + req3 == 0) |=> (gnt0 + gnt1 + gnt2 + gnt3 == 0))` |
-| `G((rst_n == 1 && req0 + req1 + req2 + req3 >= 1) |=> (gnt_valid == 1))` | = equivalent | > | `G((req0 + req1 + req2 + req3 >= 1) |=> (gnt0 + gnt1 + gnt2 + gnt3 == 1))` |
-| `G((gnt0 == 1) |-> (gnt_id == 0))` | = equivalent | < | `G((gnt0 == 1) |-> (gnt_id == 0))` |
-| `G((gnt1 == 1) |-> (gnt_id == 1))` | = equivalent | = | `G((gnt1 == 1) |-> (gnt_id == 1))` |
-| `G((gnt2 == 1) |-> (gnt_id == 2))` | = equivalent | = | `G((gnt2 == 1) |-> (gnt_id == 2))` |
-| `G((gnt3 == 1) |-> (gnt_id == 3))` | = equivalent | = | `G((gnt3 == 1) |-> (gnt_id == 3))` |
-| `G((req0 + req1 + req2 + req3 == 1 && req0 == 1) |=> (gnt0 == 1))` | > mined-weaker | - | `G((gnt0 == 1) && (req0 + req1 + req2 + req3 == 1) |=> (gnt_id == 0))` |
-| `G((req0 + req1 + req2 + req3 == 1 && req1 == 1) |=> (gnt1 == 1))` | = equivalent | - | `G((req1 == 1) && (req0 + req1 + req2 + req3 == 1) |=> (gnt1 == 1))` |
-| `G((req0 + req1 + req2 + req3 == 1 && req2 == 1) |=> (gnt2 == 1))` | = equivalent | - | `G((req2 == 1) && (req0 + req1 + req2 + req3 == 1) |=> (gnt2 == 1))` |
-| `G((req0 + req1 + req2 + req3 == 1 && req3 == 1) |=> (gnt3 == 1))` | = equivalent | - | `G((req3 == 1) && (req0 + req1 + req2 + req3 == 1) |=> (gnt3 == 1))` |
-| `G((req0 == 1 && gnt0 == 0) |-> ##[1:4] (gnt0 == 1))` | = equivalent | - | `G((req0 == 1) && (gnt0 == 0) |-> ##[1:4] (gnt0 == 1))` |
-| `G((req1 == 1 && gnt1 == 0) |-> ##[1:4] (gnt1 == 1))` | = equivalent | - | `G((req1 == 1) && (gnt1 == 0) |-> ##[1:4] (gnt1 == 1))` |
-| `G((req2 == 1 && gnt2 == 0) |-> ##[1:4] (gnt2 == 1))` | = equivalent | - | `G((req2 == 1) && (gnt2 == 0) |-> ##[1:4] (gnt2 == 1))` |
-| `G((req3 == 1 && gnt3 == 0) |-> ##[1:4] (gnt3 == 1))` | = equivalent | - | `G((req3 == 1) && (gnt3 == 0) |-> ##[1:4] (gnt3 == 1))` |
+| `G((rst_n == 0) |=> (gnt_valid == 0))` | < mined-stronger | - | `G((req0 + req1 + req2 + req3 == 0) |=> gnt0 + gnt1 + gnt2 + gnt3 == 0)` |
+| `G((rst_n == 0) |=> (gnt_id == 0))` | < mined-stronger | - | `G((req0 + req1 + req2 + req3 == 0) |=> gnt0 + gnt1 + gnt2 + gnt3 == 0)` |
+| `G((gnt_valid == 1) |-> (gnt0 + gnt1 + gnt2 + gnt3 == 1))` | = equivalent | > | `G((gnt_valid == 1) |-> gnt_valid)` |
+| `G((gnt_valid == 0) |-> (gnt0 + gnt1 + gnt2 + gnt3 == 0))` | = equivalent | - | `G((gnt_valid == 0) |-> gnt0 + gnt1 + gnt2 + gnt3 == 0)` |
+| `G((req0 + req1 + req2 + req3 == 0) |=> (gnt_valid == 0))` | = equivalent | - | `G((req0 + req1 + req2 + req3 == 0) |=> gnt0 + gnt1 + gnt2 + gnt3 == 0)` |
+| `G((rst_n == 1 && req0 + req1 + req2 + req3 >= 1) |=> (gnt_valid == 1))` | = equivalent | > | `G((req0 + req1 + req2 + req3 >= 1) |=> gnt0 + gnt1 + gnt2 + gnt3 == 1)` |
+| `G((gnt0 == 1) |-> (gnt_id == 0))` | = equivalent | = | `G((gnt0) |-> gnt_id == 0)` |
+| `G((gnt1 == 1) |-> (gnt_id == 1))` | = equivalent | = | `G((gnt1 == 1) |-> gnt1)` |
+| `G((gnt2 == 1) |-> (gnt_id == 2))` | = equivalent | = | `G((gnt2 == 1) |-> gnt2)` |
+| `G((gnt3 == 1) |-> (gnt_id == 3))` | = equivalent | = | `G((gnt3 == 1) |-> gnt3)` |
+| `G((req0 + req1 + req2 + req3 == 1 && req0 == 1) |=> (gnt0 == 1))` | - missed | - | vocabulary or region |
+| `G((req0 + req1 + req2 + req3 == 1 && req1 == 1) |=> (gnt1 == 1))` | - missed | - | vocabulary or region |
+| `G((req0 + req1 + req2 + req3 == 1 && req2 == 1) |=> (gnt2 == 1))` | - missed | - | vocabulary or region |
+| `G((req0 + req1 + req2 + req3 == 1 && req3 == 1) |=> (gnt3 == 1))` | - missed | - | vocabulary or region |
+| `G((req0 == 1 && gnt0 == 0) |-> ##[1:4] (gnt0 == 1))` | - missed | - | vocabulary or region |
+| `G((req1 == 1 && gnt1 == 0) |-> ##[1:4] (gnt1 == 1))` | - missed | - | vocabulary or region |
+| `G((req2 == 1 && gnt2 == 0) |-> ##[1:4] (gnt2 == 1))` | - missed | - | vocabulary or region |
+| `G((req3 == 1 && gnt3 == 0) |-> ##[1:4] (gnt3 == 1))` | - missed | - | vocabulary or region |
 
 **Mined guarantees with no expected counterpart**
 
-- **declared**: 384 mined, 16 of them matched an expected clause, 368 with no counterpart (sample, alphabetical):
-    - `G(((!(gnt0 == 1)) ##1 (gnt0 == 1)) && ((gnt1 == 1) ##1 (!(gnt1 == 1))) |-> ##2 (gnt0 + gnt1 + gnt2 + gnt3 == 0))`
-    - `G(((!(gnt0 == 1)) ##1 (gnt0 == 1)) && ((gnt1 == 1) ##1 (!(gnt1 == 1))) |-> ##2 (gnt_valid == 0))`
-    - `G(((!(gnt0 == 1)) ##1 (gnt0 == 1)) && ((gnt1 == 1) ##1 (!(gnt1 == 1))) |=> ((gnt1 == 0) && (gnt2 == 0)))`
-    - `G(((!(gnt0 == 1)) ##1 (gnt0 == 1)) && ((gnt1 == 1) ##1 (!(gnt1 == 1))) |=> ((gnt1 == 0) && (gnt3 == 0)))`
-    - `G(((!(gnt0 == 1)) ##1 (gnt0 == 1)) && ((gnt1 == 1) ##1 (!(gnt1 == 1))) |=> ((gnt2 == 0) && (gnt1 == 0)))`
-    - `G(((!(gnt0 == 1)) ##1 (gnt0 == 1)) && ((gnt1 == 1) ##1 (!(gnt1 == 1))) |=> ((gnt3 == 0) && (gnt1 == 0)))`
-    - `G(((!(gnt0 == 1)) ##1 (gnt0 == 1)) && ((gnt1 == 1) ##1 (!(gnt1 == 1))) |=> (gnt0 == 1))`
-    - `G(((!(gnt0 == 1)) ##1 (gnt0 == 1)) && ((gnt1 == 1) ##1 (!(gnt1 == 1))) |=> (gnt_id == 0))`
-    - `G(((!(gnt0 == 1)) ##1 (gnt0 == 1)) && ((gnt2 == 1) ##1 (!(gnt2 == 1))) |=> ((gnt2 == 0) && (gnt3 == 0)))`
-    - `G(((!(gnt0 == 1)) ##1 (gnt0 == 1)) && ((gnt2 == 1) ##1 (!(gnt2 == 1))) |=> ((gnt3 == 0) && (gnt2 == 0)))`
-    - `G(((!(gnt0 == 1)) ##1 (gnt0 == 1)) |-> ##2 (gnt0 == 0))`
-    - `G(((!(gnt0 == 1)) ##1 (gnt0 == 1)) |-> ##[1:4] ((gnt0 == 0) && (gnt1 == 0)))`
-    - ... and 356 more (all of them in `results/declared/arbiter4/recovery.json`)
-- **interface**: 856 mined, 8 of them matched an expected clause, 848 with no counterpart (sample, alphabetical):
-    - `G(((!(gnt0 == 1)) ##1 (gnt0 == 1)) && ((gnt1 == 1) ##1 (!(gnt1 == 1))) |-> ##1 (gnt0 == (rst_n << req0)))`
-    - `G(((!(gnt0 == 1)) ##1 (gnt0 == 1)) && ((gnt1 == 1) ##1 (!(gnt1 == 1))) |-> ##1 (gnt0 == (rst_n << req1)))`
-    - `G(((!(gnt0 == 1)) ##1 (gnt0 == 1)) && ((gnt1 == 1) ##1 (!(gnt1 == 1))) |-> ##1 (gnt0 == (rst_n << req2)))`
-    - `G(((!(gnt0 == 1)) ##1 (gnt0 == 1)) && ((gnt1 == 1) ##1 (!(gnt1 == 1))) |-> ##1 (gnt0 == (rst_n << req3)))`
-    - `G(((!(gnt0 == 1)) ##1 (gnt0 == 1)) && ((gnt1 == 1) ##1 (!(gnt1 == 1))) |-> ##1 (gnt0 == (rst_n >> req0)))`
-    - `G(((!(gnt0 == 1)) ##1 (gnt0 == 1)) && ((gnt1 == 1) ##1 (!(gnt1 == 1))) |-> ##1 (gnt0 == (rst_n >> req2)))`
-    - `G(((!(gnt0 == 1)) ##1 (gnt0 == 1)) && ((gnt1 == 1) ##1 (!(gnt1 == 1))) |-> ##1 (gnt0 == (rst_n >> req3)))`
-    - `G(((!(gnt0 == 1)) ##1 (gnt0 == 1)) && ((gnt1 == 1) ##1 (!(gnt1 == 1))) |-> ##1 (gnt0 == (rst_n ^ req0)))`
-    - `G(((!(gnt0 == 1)) ##1 (gnt0 == 1)) && ((gnt1 == 1) ##1 (!(gnt1 == 1))) |-> ##1 (gnt0 == (rst_n | req0)))`
-    - `G(((!(gnt0 == 1)) ##1 (gnt0 == 1)) && ((gnt1 == 1) ##1 (!(gnt1 == 1))) |-> ##1 (gnt0 == (rst_n | req1)))`
-    - `G(((!(gnt0 == 1)) ##1 (gnt0 == 1)) && ((gnt1 == 1) ##1 (!(gnt1 == 1))) |-> ##1 (gnt0 == (rst_n | req2)))`
-    - `G(((!(gnt0 == 1)) ##1 (gnt0 == 1)) && ((gnt1 == 1) ##1 (!(gnt1 == 1))) |-> ##1 (gnt0 == (rst_n | req3)))`
-    - ... and 836 more (all of them in `results/interface/arbiter4/recovery.json`)
+- **declared**: 75 mined, 8 of them matched an expected clause, 67 with no counterpart (sample, alphabetical):
+    - `G((gnt0 == 0) |-> (##[1:4] rst_n))`
+    - `G((gnt0 == 1) |-> gnt0)`
+    - `G((gnt0) |-> gnt0 == 1)`
+    - `G((gnt1 == 0) |-> (##[1:4] rst_n))`
+    - `G((gnt1) |-> (##[1:4] gnt_id == 0))`
+    - `G((gnt1) |-> gnt1 == 1)`
+    - `G((gnt1) |-> gnt_id == 1)`
+    - `G((gnt2 == 0) |-> (##[1:4] rst_n))`
+    - `G((gnt2) |-> (##[1:4] gnt_id == 0))`
+    - `G((gnt2) |-> gnt2 == 1)`
+    - `G((gnt2) |-> gnt_id == 2)`
+    - `G((gnt3 == 0) |-> (##[1:4] rst_n))`
+    - ... and 55 more (all of them in `results/declared/arbiter4/recovery.json`)
+- **interface**: 358 mined, 6 of them matched an expected clause, 352 with no counterpart (sample, alphabetical):
+    - `G((gnt0) |-> (##2 gnt0 * req2 <= req1))`
+    - `G((gnt0) |-> (##2 gnt0 * req3 <= req1))`
+    - `G((gnt0) |-> (##2 gnt0 * req3 <= req2))`
+    - `G((gnt0) |-> (##2 gnt0 <= req0))`
+    - `G((gnt0) |-> (##3 gnt0 * req2 <= req1))`
+    - `G((gnt0) |-> (##3 gnt0 * req3 <= req1))`
+    - `G((gnt0) |-> (##3 gnt0 * req3 <= req2))`
+    - `G((gnt0) |-> (##4 gnt0 * req2 <= req1))`
+    - `G((gnt0) |-> (##4 gnt0 * req3 <= req1))`
+    - `G((gnt0) |-> (##[1:4] gnt0 == (req1 & req2)))`
+    - `G((gnt0) |-> (##[1:4] gnt0 == (req1 & req3)))`
+    - `G((gnt0) |-> (##[1:4] gnt0 == req1 * req2))`
+    - ... and 340 more (all of them in `results/interface/arbiter4/recovery.json`)
 
 ### Assumptions: expected vs mined
 
 | expected | declared | interface | mined witness, or why nothing matched |
 |---|---|---|---|
-| `rst_n == 1` | < mined-stronger | < | `req0 == 1` |
-| `req0 + req1 + req2 + req3 >= 1` | < mined-stronger | < | `req0 == 1` |
+| `rst_n == 1` | < mined-stronger | > | `req0 == 1` |
+| `req0 + req1 + req2 + req3 >= 1` | < mined-stronger | > | `req0 == 1` |
 
 **Mined invariants with no expected counterpart**
 
-- **declared**: 17 mined, 1 of them matched an expected clause, 16 with no counterpart (sample, alphabetical):
+- **declared**: 19 mined, 1 of them matched an expected clause, 18 with no counterpart (sample, alphabetical):
     - `req0 <= 1`
     - `req0 <= rst_n`
+    - `req0 == 0`
+    - `req0 >= 0`
+    - `req1 <= 1`
+    - `req1 <= rst_n`
+    - `req1 == 0`
+    - `req1 >= 0`
+    - `req2 <= 1`
+    - `req2 <= rst_n`
+    - `req2 == 0`
+    - `req2 >= 0`
+    - ... and 6 more (all of them in `results/declared/arbiter4/recovery.json`)
+- **interface**: 18 mined, 1 of them matched an expected clause, 17 with no counterpart (sample, alphabetical):
+    - `req0 <= rst_n`
+    - `req0 == 0`
     - `req0 >= 0`
     - `req1 <= 1`
     - `req1 <= rst_n`
@@ -371,71 +402,46 @@ totals: 3+ proposition antecedent 7, compound consequent 1, sequence antecedent 
     - `req2 == 0`
     - `req2 >= 0`
     - `req3 <= 1`
-    - ... and 4 more (all of them in `results/declared/arbiter4/recovery.json`)
-- **interface**: 17 mined, 1 of them matched an expected clause, 16 with no counterpart (sample, alphabetical):
-    - `req0 <= 1`
-    - `req0 <= rst_n`
-    - `req0 >= 0`
-    - `req1 <= 1`
-    - `req1 <= rst_n`
-    - `req1 == 0`
-    - `req1 >= 0`
-    - `req2 <= 1`
-    - `req2 <= rst_n`
-    - `req2 == 0`
-    - `req2 >= 0`
-    - `req3 <= 1`
-    - ... and 4 more (all of them in `results/interface/arbiter4/recovery.json`)
+    - ... and 5 more (all of them in `results/interface/arbiter4/recovery.json`)
 
 ## comparator_3bit
 
-2 region(s), backend `in-process-templates`, 4 invariants and 47 template instances mined against 1 expected assumptions and 8 expected guarantees.
-
-Events with no region: `A_equal == 1`
+3 region(s), backend `harm`, 4 invariants and 10 template instances mined against 1 expected assumptions and 8 expected guarantees.
 
 ### Guarantees: expected vs mined
 
 | expected | declared | interface | mined witness, or why nothing matched |
 |---|---|---|---|
-| `G((A > B) |-> (A_greater == 1))` | = equivalent | = | `G((A > B) |-> ((A_equal == 0) && (A_greater == 1)))` |
-| `G((A == B) |-> (A_equal == 1))` | = equivalent | = | `G((A == B) |-> (A_equal == 1))` |
-| `G((A < B) |-> (A_less == 1))` | = equivalent | = | `G((A < B) |-> ((A_equal == 0) && (A_greater == 0)))` |
-| `G((A >= B) |-> (A_less == 0))` | = equivalent | = | `G((A >= B) |-> (A_less == 0))` |
-| `G((A <= B) |-> (A_greater == 0))` | = equivalent | > | `G((A <= B) |-> (A_greater == 0))` |
-| `G((A > B) |-> (A_equal == 0))` | = equivalent | = | `G((A > B) |-> (A_equal == 0))` |
-| `G((B == 0) |-> (A_less == 0))` | < mined-stronger | = | `G((A >= B) |-> (A_less == 0))` |
-| `G((A == 7 && B == 0) |-> (A_greater == 1))` | < mined-stronger | < | `G((A > B) |-> ((A_equal == 0) && (A_greater == 1)))` |
+| `G((A > B) |-> (A_greater == 1))` | = equivalent | = | `G((A > B) |-> A_greater == 1)` |
+| `G((A == B) |-> (A_equal == 1))` | = equivalent | = | `G((A == B) |-> A_equal == 1)` |
+| `G((A < B) |-> (A_less == 1))` | = equivalent | = | `G((A < B) |-> A_less == 1)` |
+| `G((A >= B) |-> (A_less == 0))` | = equivalent | > | `G((A >= B) |-> A_less == 0)` |
+| `G((A <= B) |-> (A_greater == 0))` | = equivalent | > | `G((A <= B) |-> A_greater == 0)` |
+| `G((A > B) |-> (A_equal == 0))` | = equivalent | = | `G((A > B) |-> A_equal == 0)` |
+| `G((B == 0) |-> (A_less == 0))` | < mined-stronger | = | `G((A >= B) |-> A_less == 0)` |
+| `G((A == 7 && B == 0) |-> (A_greater == 1))` | < mined-stronger | < | `G((A > B) |-> A_greater == 1)` |
 
 **Mined guarantees with no expected counterpart**
 
-- **declared**: 47 mined, 6 of them matched an expected clause, 41 with no counterpart (sample, alphabetical):
-    - `G(((!(A_equal == 1)) ##1 (A_equal == 1)) |-> (A_equal == 1))`
-    - `G(((!(A_equal == 1)) ##1 (A_equal == 1)) |-> (A_greater == 0))`
-    - `G(((!(A_equal == 1)) ##1 (A_equal == 1)) |-> (A_less == 0))`
-    - `G(((!(A_greater == 1)) ##1 (A_greater == 1)) |-> ((A_equal == 0) && (A_greater == 1)))`
-    - `G(((!(A_greater == 1)) ##1 (A_greater == 1)) |-> ((A_equal == 0) && (A_less == 0)))`
-    - `G(((!(A_greater == 1)) ##1 (A_greater == 1)) |-> ((A_greater == 1) && (A_equal == 0)))`
-    - `G(((!(A_greater == 1)) ##1 (A_greater == 1)) |-> ((A_greater == 1) && (A_less == 0)))`
-    - `G(((!(A_greater == 1)) ##1 (A_greater == 1)) |-> ((A_less == 0) && (A_equal == 0)))`
-    - `G(((!(A_greater == 1)) ##1 (A_greater == 1)) |-> ((A_less == 0) && (A_greater == 1)))`
-    - `G(((!(A_greater == 1)) ##1 (A_greater == 1)) |-> (A_equal == 0))`
-    - `G(((!(A_greater == 1)) ##1 (A_greater == 1)) |-> (A_greater == 1))`
-    - `G(((!(A_greater == 1)) ##1 (A_greater == 1)) |-> (A_less == 0))`
-    - ... and 29 more (all of them in `results/declared/comparator_3bit/recovery.json`)
-- **interface**: 307 mined, 7 of them matched an expected clause, 300 with no counterpart (sample, alphabetical):
-    - `G(((!(A_equal == 1)) ##1 (A_equal == 1)) |-> ((A_less == 0) && (A_greater * 2 <= A)))`
-    - `G(((!(A_equal == 1)) ##1 (A_equal == 1)) |-> (A_equal == 1))`
-    - `G(((!(A_equal == 1)) ##1 (A_equal == 1)) |-> (A_greater * 2 <= A))`
-    - `G(((!(A_equal == 1)) ##1 (A_equal == 1)) |-> (A_greater <= B))`
-    - `G(((!(A_equal == 1)) ##1 (A_equal == 1)) |-> (A_greater == (A >> B)))`
-    - `G(((!(A_equal == 1)) ##1 (A_equal == 1)) |-> (A_greater == (A ^ B)))`
-    - `G(((!(A_equal == 1)) ##1 (A_equal == 1)) |-> (A_greater == 0))`
-    - `G(((!(A_equal == 1)) ##1 (A_equal == 1)) |-> (A_greater == A - B))`
-    - `G(((!(A_equal == 1)) ##1 (A_equal == 1)) |-> (A_less * 2 <= A))`
-    - `G(((!(A_equal == 1)) ##1 (A_equal == 1)) |-> (A_less * B <= A))`
-    - `G(((!(A_equal == 1)) ##1 (A_equal == 1)) |-> (A_less <= A))`
-    - `G(((!(A_equal == 1)) ##1 (A_equal == 1)) |-> (A_less == (A >> B)))`
-    - ... and 288 more (all of them in `results/interface/comparator_3bit/recovery.json`)
+- **declared**: 10 mined, 6 of them matched an expected clause, 4 with no counterpart (sample, alphabetical):
+    - `G((A < B) |-> A_equal == 0)`
+    - `G((A < B) |-> A_less)`
+    - `G((A == B) |-> A_equal)`
+    - `G((A > B) |-> A_greater)`
+- **interface**: 67 mined, 7 of them matched an expected clause, 60 with no counterpart (sample, alphabetical):
+    - `G((A == 0) |-> A_equal >= A)`
+    - `G((A == 0) |-> A_greater <= B)`
+    - `G((A == 0) |-> A_greater == (A & B))`
+    - `G((A == 0) |-> A_greater == A * B)`
+    - `G((A == 0) |-> A_greater == A)`
+    - `G((A == 0) |-> A_greater >= A)`
+    - `G((A == 0) |-> A_less >= A)`
+    - `G((A == 2) |-> A_greater * 2 <= A)`
+    - `G((A == 3) |-> A_greater * 2 <= A)`
+    - `G((A == 4) |-> A_greater * 2 <= A)`
+    - `G((A == 5) |-> A_greater * 2 <= A)`
+    - `G((A == 6) |-> A_greater * 2 <= A)`
+    - ... and 48 more (all of them in `results/interface/comparator_3bit/recovery.json`)
 
 ### Assumptions: expected vs mined
 
@@ -458,233 +464,227 @@ Events with no region: `A_equal == 1`
 
 ## fifo_sync
 
-1 region(s), backend `in-process-templates`, 13 invariants and 159 template instances mined against 2 expected assumptions and 19 expected guarantees.
-
-Events with no region: `full == 1`
+2 region(s), backend `harm`, 15 invariants and 205 template instances mined against 2 expected assumptions and 18 expected guarantees.
 
 ### Guarantees: expected vs mined
 
 | expected | declared | interface | mined witness, or why nothing matched |
 |---|---|---|---|
-| `G((rst_n == 0) |=> (count == 0))` | > mined-weaker | > | `G(((!(rst_n == 1)) ##1 (rst_n == 1)) |=> ((count == 0) && (empty == 1)))` |
-| `G((rst_n == 0) |=> (empty == 1))` | > mined-weaker | > | `G(((!(rst_n == 1)) ##1 (rst_n == 1)) |=> ((count == 0) && (empty == 1)))` |
-| `G((rst_n == 0) |=> (full == 0))` | = equivalent | < | `G((rst_n == 0) |=> (full == 0))` |
-| `G((count == 0) |-> (empty == 1))` | = equivalent | = | `G((count == 0) |-> ((count == 0) && (empty == 1)))` |
-| `G((empty == 1) |-> (count == 0))` | = equivalent | = | `G((count == 0) |-> ((count == 0) && (empty == 1)))` |
-| `G((count == 8) |-> (full == 1))` | = equivalent | - | `G((count == 8) |-> (full == 1))` |
-| `G((full == 1) |-> (count == 8))` | = equivalent | - | `G((count == 8) |-> (full == 1))` |
-| `G((count >= 1) |-> (empty == 0))` | > mined-weaker | > | `G((full == 1) |-> (empty == 0))` |
-| `G((count <= 7) |-> (full == 0))` | > mined-weaker | = | `G((din == 124) |-> (full == 0))` |
-| `G(count <= 8)` | - missed | - | unfalsifiable consequent |
-| `G((empty == 1 && wr_en == 1) |=> (count == 1))` | = equivalent | = | `G((din >= 0) && (count == 0) && (wr_en == 1) |=> ((count == 1) && (full == 0)))` |
-| `G((empty == 1 && wr_en == 1) |=> (empty == 0))` | < mined-stronger | < | `G((din >= 0) && (count == 0) && (wr_en == 1) |=> ((count == 1) && (full == 0)))` |
-| `G((empty == 1 && wr_en == 0) |=> (empty == 1))` | = equivalent | = | `G((din >= 0) && (count == 0) && (wr_en == 0) |=> ((count == 0) && (empty == 1)))` |
+| `G((rst_n == 0) |=> (count == 0))` | = equivalent | - | `G((rst_n == 0) |=> count == 0)` |
+| `G((rst_n == 0) |=> (empty == 1))` | = equivalent | - | `G((rst_n == 0) |=> count == 0)` |
+| `G((rst_n == 0) |=> (full == 0))` | = equivalent | - | `G((rst_n == 0) |=> full == 0)` |
+| `G((count == 0) |-> (empty == 1))` | = equivalent | = | `G((count == 0) |-> empty)` |
+| `G((empty == 1) |-> (count == 0))` | = equivalent | = | `G((count == 0) |-> empty)` |
+| `G((count == 8) |-> (full == 1))` | = equivalent | = | `G((full == 1) |-> full)` |
+| `G((full == 1) |-> (count == 8))` | = equivalent | = | `G((full == 1) |-> full)` |
+| `G((count >= 1) |-> (empty == 0))` | = equivalent | - | `G((count >= 1) |-> empty == 0)` |
+| `G((count <= 7) |-> (full == 0))` | = equivalent | > | `G((count <= 7) |-> full == 0)` |
+| `G((empty == 1 && wr_en == 1) |=> (count == 1))` | - missed | - | vocabulary or region |
+| `G((empty == 1 && wr_en == 1) |=> (empty == 0))` | < mined-stronger | - | `G((wr_en) |=> count >= 1)` |
+| `G((empty == 1 && wr_en == 0) |=> (empty == 1))` | - missed | - | vocabulary or region |
 | `G((full == 1 && rd_en == 0) |=> (full == 1))` | - missed | - | vocabulary or region |
-| `G((count == 7 && wr_en == 1 && rd_en == 0) |=> (full == 1))` | = equivalent | - | `G(((!(full == 1)) ##1 (full == 1)) |=> (count == 8))` |
+| `G((count == 7 && wr_en == 1 && rd_en == 0) |=> (full == 1))` | - missed | - | 3+ proposition antecedent |
 | `G((count == 4 && wr_en == 1 && rd_en == 0) |=> (count == 5))` | - missed | - | 3+ proposition antecedent |
-| `G((count == 1 && rd_en == 1 && wr_en == 0) |=> (empty == 1))` | < mined-stronger | - | `G(((!(empty == 1)) ##1 (empty == 1)) |=> ((count == 0) && (empty == 1)))` |
-| `G((wr_en == 1 && rd_en == 1 && full == 0 && empty == 0) |=> (count >= 1))` | < mined-stronger | < | `G(((wr_en == 1) ##1 (!(wr_en == 1))) && ((rd_en == 1) ##1 (!(rd_en == 1))) |=> ((empty == 0) && (full == 0)))` |
-| `G((empty == 1 && wr_en == 1) |=> (dout == din))` | = equivalent | = | `G((din >= 0) && (count == 0) && (wr_en == 1) |=> ((full == 0) && (dout == din)))` |
+| `G((count == 1 && rd_en == 1 && wr_en == 0) |=> (empty == 1))` | - missed | - | 3+ proposition antecedent |
+| `G((wr_en == 1 && rd_en == 1 && full == 0 && empty == 0) |=> (count >= 1))` | < mined-stronger | - | `G((rd_en) |=> count >= 1)` |
+| `G((empty == 1 && wr_en == 1) |=> (dout == din))` | - missed | - | vocabulary or region |
 
 **Mined guarantees with no expected counterpart**
 
-- **declared**: 159 mined, 12 of them matched an expected clause, 147 with no counterpart (sample, alphabetical):
-    - `G(((!(empty == 1)) ##1 (empty == 1)) |-> ((count == 0) && (empty == 1)))`
-    - `G(((!(empty == 1)) ##1 (empty == 1)) |-> ((count == 0) && (full == 0)))`
-    - `G(((!(empty == 1)) ##1 (empty == 1)) |-> ((empty == 1) && (count == 0)))`
-    - `G(((!(empty == 1)) ##1 (empty == 1)) |-> ((empty == 1) && (full == 0)))`
-    - `G(((!(empty == 1)) ##1 (empty == 1)) |-> ((full == 0) && (count == 0)))`
-    - `G(((!(empty == 1)) ##1 (empty == 1)) |-> ((full == 0) && (empty == 1)))`
-    - `G(((!(empty == 1)) ##1 (empty == 1)) |-> (count == 0))`
-    - `G(((!(empty == 1)) ##1 (empty == 1)) |-> (empty == 1))`
-    - `G(((!(empty == 1)) ##1 (empty == 1)) |-> (full == 0))`
-    - `G(((!(empty == 1)) ##1 (empty == 1)) |=> ((count == 0) && (full == 0)))`
-    - `G(((!(empty == 1)) ##1 (empty == 1)) |=> ((empty == 1) && (count == 0)))`
-    - `G(((!(empty == 1)) ##1 (empty == 1)) |=> ((empty == 1) && (full == 0)))`
-    - ... and 135 more (all of them in `results/declared/fifo_sync/recovery.json`)
-- **interface**: 489 mined, 9 of them matched an expected clause, 480 with no counterpart (sample, alphabetical):
-    - `G(((!(empty == 1)) ##1 (empty == 1)) |-> ##1 (full == (rst_n & wr_en)))`
-    - `G(((!(empty == 1)) ##1 (empty == 1)) |-> ##1 (full == (wr_en << rd_en)))`
-    - `G(((!(empty == 1)) ##1 (empty == 1)) |-> ##1 (full == (wr_en >> rd_en)))`
-    - `G(((!(empty == 1)) ##1 (empty == 1)) |-> ##1 (full == (wr_en ^ rd_en)))`
-    - `G(((!(empty == 1)) ##1 (empty == 1)) |-> ##1 (full == (wr_en | rd_en)))`
-    - `G(((!(empty == 1)) ##1 (empty == 1)) |-> ##1 (full == rst_n * wr_en))`
-    - `G(((!(empty == 1)) ##1 (empty == 1)) |-> ##1 (full == wr_en * din))`
-    - `G(((!(empty == 1)) ##1 (empty == 1)) |-> ##1 (full == wr_en + rd_en))`
-    - `G(((!(empty == 1)) ##1 (empty == 1)) |-> ##1 (full == wr_en - rd_en))`
-    - `G(((!(empty == 1)) ##1 (empty == 1)) |-> ##1 (full == wr_en))`
-    - `G(((!(empty == 1)) ##1 (empty == 1)) |-> ##1 (full >= wr_en))`
-    - `G(((!(empty == 1)) ##1 (empty == 1)) |-> ##4 ((full == 0) && (dout * din + din > rd_en)))`
-    - ... and 468 more (all of them in `results/interface/fifo_sync/recovery.json`)
+- **declared**: 205 mined, 8 of them matched an expected clause, 197 with no counterpart (sample, alphabetical):
+    - `G((count == 1) |-> din >= 106 && din <= 139)`
+    - `G((count == 1) |-> dout == din)`
+    - `G((count == 1) |-> dout >= 122 && dout <= 145)`
+    - `G((count == 2) |-> (##[1:4] count >= 1))`
+    - `G((count == 2) |-> (##[1:4] empty == 0))`
+    - `G((count == 3) |-> (##[1:4] count >= 1))`
+    - `G((count == 3) |-> (##[1:4] empty == 0))`
+    - `G((count == 4) |-> (##[1:4] count >= 1))`
+    - `G((count == 4) |-> (##[1:4] empty == 0))`
+    - `G((count == 5) |-> (##2 count == 6))`
+    - `G((count == 5) |-> (##3 full == 0))`
+    - `G((count == 5) |-> (##4 count == 7))`
+    - ... and 185 more (all of them in `results/declared/fifo_sync/recovery.json`)
+- **interface**: 2765 mined, 3 of them matched an expected clause, 2762 with no counterpart (sample, alphabetical):
+    - `G((count == 1) |-> (##[1:4] dout * din + din > rd_en))`
+    - `G((count == 1) |-> (##[1:4] dout * din + din > rst_n))`
+    - `G((count == 1) |-> (##[1:4] dout * din + din > wr_en))`
+    - `G((count == 1) |-> (##[1:4] full * din + din > rd_en))`
+    - `G((count == 1) |-> (##[1:4] full * din + din > wr_en))`
+    - `G((count == 1) |-> (##[1:4] full < din))`
+    - `G((count == 1) |-> din >= 106 && din <= 139)`
+    - `G((count == 1) |-> dout * wr_en <= rst_n)`
+    - `G((count == 1) |-> dout <= din)`
+    - `G((count == 1) |-> dout == (rd_en ^ din))`
+    - `G((count == 1) |-> dout == (rd_en | din))`
+    - `G((count == 1) |-> dout == (wr_en ^ din))`
+    - ... and 2750 more (all of them in `results/interface/fifo_sync/recovery.json`)
 
 ### Assumptions: expected vs mined
 
 | expected | declared | interface | mined witness, or why nothing matched |
 |---|---|---|---|
-| `rst_n == 1` | < mined-stronger | < | `wr_en == 1` |
+| `rst_n == 1` | = equivalent | = | `rst_n == 1` |
 | `din <= 255` | = equivalent | = | `din <= 255` |
 
 **Mined invariants with no expected counterpart**
 
-- **declared**: 13 mined, 2 of them matched an expected clause, 11 with no counterpart (sample, alphabetical):
-    - `din == 10`
+- **declared**: 15 mined, 2 of them matched an expected clause, 13 with no counterpart (sample, alphabetical):
+    - `din == 14`
     - `din >= 0`
     - `rd_en <= 1`
-    - `rd_en <= din`
     - `rd_en <= rst_n`
-    - `rd_en >= 0`
-    - `rst_n <= 1`
-    - `rst_n >= 0`
-    - `wr_en <= 1`
-    - `wr_en <= rst_n`
-    - `wr_en >= 0`
-- **interface**: 14 mined, 2 of them matched an expected clause, 12 with no counterpart (sample, alphabetical):
-    - `din == 10`
-    - `din >= 0`
-    - `rd_en <= 1`
-    - `rd_en <= din`
-    - `rd_en <= rst_n`
+    - `rd_en == 1`
     - `rd_en >= 0`
     - `rst_n <= 1`
     - `rst_n == 0`
     - `rst_n >= 0`
     - `wr_en <= 1`
     - `wr_en <= rst_n`
-    - `wr_en >= 0`
+    - `wr_en == 1`
+    - ... and 1 more (all of them in `results/declared/fifo_sync/recovery.json`)
+- **interface**: 15 mined, 2 of them matched an expected clause, 13 with no counterpart (sample, alphabetical):
+    - `din == 14`
+    - `din >= 0`
+    - `rd_en <= 1`
+    - `rd_en <= rst_n`
+    - `rd_en == 1`
+    - `rd_en >= 0`
+    - `rst_n <= 1`
+    - `rst_n == 0`
+    - `rst_n >= 0`
+    - `wr_en <= 1`
+    - `wr_en <= rst_n`
+    - `wr_en == 1`
+    - ... and 1 more (all of them in `results/interface/fifo_sync/recovery.json`)
 
 ## ibex_alu
 
-2 region(s), backend `in-process-templates`, 10 invariants and 303 template instances mined against 2 expected assumptions and 18 expected guarantees.
-
-Events with no region: `result_o == 0`
+3 region(s), backend `harm`, 9 invariants and 105 template instances mined against 2 expected assumptions and 18 expected guarantees.
 
 ### Guarantees: expected vs mined
 
 | expected | declared | interface | mined witness, or why nothing matched |
 |---|---|---|---|
-| `G((operator_i == 0 && operand_a_i + operand_b_i <= 4294967295) |-> (result_o == operand_a_i + operand_b_i))` | < mined-stronger | < | `G((operator_i == 0) |-> (result_o == operand_a_i + operand_b_i))` |
-| `G((operator_i == 1 && operand_a_i >= operand_b_i) |-> (result_o == operand_a_i - operand_b_i))` | = equivalent | - | `G((operator_i == 1) && (operand_a_i >= operand_b_i) |-> (result_o == operand_a_i - operand_b_i))` |
-| `G((operator_i == 4) |-> (result_o <= operand_a_i))` | - missed | < | vocabulary or region |
-| `G((operator_i == 4) |-> (result_o <= operand_b_i))` | = equivalent | = | `G((operator_i == 4) |-> (result_o <= operand_b_i))` |
-| `G((operator_i == 3) |-> (result_o >= operand_a_i))` | = equivalent | < | `G((operator_i == 3) |-> (result_o >= operand_a_i))` |
-| `G((operator_i == 3) |-> (result_o >= operand_b_i))` | = equivalent | < | `G((operator_i == 3) |-> (result_o >= operand_b_i))` |
-| `G((operator_i == 2 && operand_b_i == 0) |-> (result_o == operand_a_i))` | = equivalent | - | `G((operator_i == 2) && (operand_b_i == 0) |-> (result_o == operand_a_i))` |
-| `G((operator_i == 10 && operand_b_i == 1 && operand_a_i <= 2147483647) |-> (result_o == operand_a_i * 2))` | - missed | - | 3+ proposition antecedent |
+| `G((operator_i == 0 && operand_a_i + operand_b_i <= 4294967295) |-> (result_o == operand_a_i + operand_b_i))` | - missed | - | vocabulary or region |
+| `G((operator_i == 1 && operand_a_i >= operand_b_i) |-> (result_o == operand_a_i - operand_b_i))` | - missed | - | vocabulary or region |
+| `G((operator_i == 4) |-> (result_o <= operand_a_i))` | = equivalent | - | `G((operator_i == 4) |-> result_o <= operand_a_i)` |
+| `G((operator_i == 4) |-> (result_o <= operand_b_i))` | = equivalent | - | `G((operator_i == 4) |-> result_o <= operand_b_i)` |
+| `G((operator_i == 3) |-> (result_o >= operand_a_i))` | = equivalent | - | `G((operator_i == 3) |-> result_o >= operand_a_i)` |
+| `G((operator_i == 3) |-> (result_o >= operand_b_i))` | = equivalent | - | `G((operator_i == 3) |-> result_o >= operand_b_i)` |
+| `G((operator_i == 2 && operand_b_i == 0) |-> (result_o == operand_a_i))` | - missed | - | vocabulary or region |
+| `G((operator_i == 10 && operand_b_i == 1 && operand_a_i <= 2147483647) |-> (result_o == operand_a_i * 2))` | > mined-weaker | > | `G((result_o == 131070) |-> result_o == operand_a_i * 2)` |
 | `G((operator_i == 9 && operand_b_i == 1) |-> (result_o * 2 <= operand_a_i))` | - missed | - | vocabulary or region |
 | `G((operator_i == 9 && operand_b_i == 1) |-> (result_o * 2 + 1 >= operand_a_i))` | - missed | - | vocabulary or region |
-| `G((operator_i == 26 && operand_a_i < operand_b_i) |-> (comparison_result_o == 1))` | < mined-stronger | - | `G((comparison_result_o == 1) && (is_equal_result_o == 0) |-> ((comparison_result_o == 1) && (result_o <= operand_a_i)))` |
-| `G((operator_i == 26 && operand_a_i >= operand_b_i) |-> (comparison_result_o == 0))` | = equivalent | < | `G((operator_i == 26) && (operand_a_i >= operand_b_i) |-> (comparison_result_o == 0))` |
-| `G((operator_i == 29 && operand_a_i == operand_b_i) |-> (comparison_result_o == 1))` | < mined-stronger | < | `G((result_o == 1) && (is_equal_result_o == 1) |-> (comparison_result_o == 1))` |
-| `G((operator_i == 29 && operand_a_i == operand_b_i) |-> (is_equal_result_o == 1))` | < mined-stronger | - | `G((comparison_result_o == 1) && (operand_a_i == operand_b_i) |-> (is_equal_result_o == 1))` |
-| `G((operator_i == 30 && operand_a_i == operand_b_i) |-> (comparison_result_o == 0))` | < mined-stronger | < | `G((comparison_result_o == 0) && (is_equal_result_o == 1) |-> ((comparison_result_o == 0) && (result_o <= operand_a_i)))` |
-| `G((operator_i == 32) |-> (result_o <= operand_a_i))` | - missed | - | vocabulary or region |
-| `G((operator_i == 34) |-> (result_o >= operand_a_i))` | = equivalent | < | `G((operator_i == 34) |-> (result_o >= operand_a_i))` |
-| `G((operator_i == 0 && operand_b_i == 0) |-> (result_o == operand_a_i))` | < mined-stronger | < | `G((operator_i == 0) && (operand_b_i == 0) |-> ((is_equal_result_o == 0) && (result_o == operand_a_i)))` |
+| `G((operator_i == 26 && operand_a_i < operand_b_i) |-> (comparison_result_o == 1))` | < mined-stronger | - | `G((comparison_result_o) |-> comparison_result_o == 1)` |
+| `G((operator_i == 26 && operand_a_i >= operand_b_i) |-> (comparison_result_o == 0))` | - missed | - | vocabulary or region |
+| `G((operator_i == 29 && operand_a_i == operand_b_i) |-> (comparison_result_o == 1))` | < mined-stronger | - | `G((comparison_result_o) |-> comparison_result_o == 1)` |
+| `G((operator_i == 29 && operand_a_i == operand_b_i) |-> (is_equal_result_o == 1))` | < mined-stronger | - | `G((is_equal_result_o) |-> is_equal_result_o == 1)` |
+| `G((operator_i == 30 && operand_a_i == operand_b_i) |-> (comparison_result_o == 0))` | - missed | - | vocabulary or region |
+| `G((operator_i == 32) |-> (result_o <= operand_a_i))` | = equivalent | < | `G((operator_i == 32) |-> result_o <= operand_a_i)` |
+| `G((operator_i == 34) |-> (result_o >= operand_a_i))` | = equivalent | < | `G((operator_i == 34) |-> result_o >= operand_a_i)` |
+| `G((operator_i == 0 && operand_b_i == 0) |-> (result_o == operand_a_i))` | - missed | - | vocabulary or region |
 
 **Mined guarantees with no expected counterpart**
 
-- **declared**: 303 mined, 13 of them matched an expected clause, 290 with no counterpart (sample, alphabetical):
-    - `G(((!(comparison_result_o == 1)) ##1 (comparison_result_o == 1)) && ((is_equal_result_o == 1) ##1 (!(is_equal_result_o == 1))) |-> (result_o == 1))`
-    - `G(((!(comparison_result_o == 1)) ##1 (comparison_result_o == 1)) |-> (comparison_result_o == 1))`
-    - `G(((!(comparison_result_o == 1)) ##1 (comparison_result_o == 1)) |-> (result_o >= operand_b_i))`
-    - `G(((!(is_equal_result_o == 1)) ##1 (is_equal_result_o == 1)) |-> ((comparison_result_o == 1) && (result_o >= operand_b_i)))`
-    - `G(((!(is_equal_result_o == 1)) ##1 (is_equal_result_o == 1)) |-> (comparison_result_o == 1))`
-    - `G(((!(is_equal_result_o == 1)) ##1 (is_equal_result_o == 1)) |-> (is_equal_result_o == 1))`
-    - `G(((!(is_equal_result_o == 1)) ##1 (is_equal_result_o == 1)) |-> (result_o * 2 + 1 >= operand_a_i))`
-    - `G(((!(is_equal_result_o == 1)) ##1 (is_equal_result_o == 1)) |-> (result_o >= operand_a_i))`
-    - `G(((comparison_result_o == 1) ##1 (!(comparison_result_o == 1))) && ((!(is_equal_result_o == 1)) ##1 (is_equal_result_o == 1)) |-> ((comparison_result_o == 0) && (result_o * 2 + 1 >= operand_a_i)))`
-    - `G(((comparison_result_o == 1) ##1 (!(comparison_result_o == 1))) && ((!(is_equal_result_o == 1)) ##1 (is_equal_result_o == 1)) |-> ((comparison_result_o == 0) && (result_o <= operand_b_i)))`
-    - `G(((comparison_result_o == 1) ##1 (!(comparison_result_o == 1))) && ((!(is_equal_result_o == 1)) ##1 (is_equal_result_o == 1)) |-> ((comparison_result_o == 0) && (result_o == operand_a_i - operand_b_i)))`
-    - `G(((comparison_result_o == 1) ##1 (!(comparison_result_o == 1))) && ((!(is_equal_result_o == 1)) ##1 (is_equal_result_o == 1)) |-> ((comparison_result_o == 0) && (result_o >= operand_a_i)))`
-    - ... and 278 more (all of them in `results/declared/ibex_alu/recovery.json`)
-- **interface**: 542 mined, 8 of them matched an expected clause, 534 with no counterpart (sample, alphabetical):
-    - `G(((!(comparison_result_o == 1)) ##1 (comparison_result_o == 1)) && ((is_equal_result_o == 1) ##1 (!(is_equal_result_o == 1))) |-> (result_o == 1))`
-    - `G(((!(comparison_result_o == 1)) ##1 (comparison_result_o == 1)) |-> (comparison_result_o == 1))`
-    - `G(((!(comparison_result_o == 1)) ##1 (comparison_result_o == 1)) |-> (comparison_result_o >= operand_b_i))`
-    - `G(((!(comparison_result_o == 1)) ##1 (comparison_result_o == 1)) |-> (is_equal_result_o * operand_a_i <= operator_i))`
-    - `G(((!(comparison_result_o == 1)) ##1 (comparison_result_o == 1)) |-> (is_equal_result_o * operand_b_i <= operator_i))`
-    - `G(((!(comparison_result_o == 1)) ##1 (comparison_result_o == 1)) |-> (is_equal_result_o >= operand_b_i))`
-    - `G(((!(comparison_result_o == 1)) ##1 (comparison_result_o == 1)) |-> (result_o * 2 <= operator_i))`
-    - `G(((!(comparison_result_o == 1)) ##1 (comparison_result_o == 1)) |-> (result_o * operand_b_i <= operand_a_i))`
-    - `G(((!(comparison_result_o == 1)) ##1 (comparison_result_o == 1)) |-> (result_o * operand_b_i <= operator_i))`
-    - `G(((!(comparison_result_o == 1)) ##1 (comparison_result_o == 1)) |-> (result_o <= operator_i))`
-    - `G(((!(comparison_result_o == 1)) ##1 (comparison_result_o == 1)) |-> (result_o >= operand_b_i))`
-    - `G(((!(is_equal_result_o == 1)) ##1 (is_equal_result_o == 1)) |-> (comparison_result_o * 2 + 1 >= operand_a_i))`
-    - ... and 522 more (all of them in `results/interface/ibex_alu/recovery.json`)
+- **declared**: 105 mined, 9 of them matched an expected clause, 96 with no counterpart (sample, alphabetical):
+    - `G((comparison_result_o) |-> result_o >= -939524096 && result_o <= 364732416)`
+    - `G((is_equal_result_o) |-> result_o >= -939524096 && result_o <= 364732416)`
+    - `G((operand_a_i < operand_b_i) |-> result_o >= -1644167168 && result_o <= 2147483647)`
+    - `G((operand_a_i == 0) |-> result_o >= -2 && result_o <= 32767)`
+    - `G((operand_a_i == 1) |-> result_o * 2 + 1 >= operand_a_i)`
+    - `G((operand_a_i == 1) |-> result_o <= operand_a_i)`
+    - `G((operand_a_i == 12345) |-> result_o <= operand_a_i)`
+    - `G((operand_a_i == 7) |-> result_o >= -2 && result_o <= 32767)`
+    - `G((operand_a_i == operand_b_i) |-> result_o >= -2147483648 && result_o <= 827850752)`
+    - `G((operand_a_i >= -1 && operand_a_i <= 27941) |-> result_o >= -1644167168 && result_o <= 2147483647)`
+    - `G((operand_a_i >= 28184 && operand_a_i <= 65535) |-> result_o >= -1644167168 && result_o <= 2147483647)`
+    - `G((operand_b_i == 0) |-> result_o >= -2 && result_o <= 32767)`
+    - ... and 84 more (all of them in `results/declared/ibex_alu/recovery.json`)
+- **interface**: 362 mined, 3 of them matched an expected clause, 359 with no counterpart (sample, alphabetical):
+    - `G((comparison_result_o) |-> result_o >= -939524096 && result_o <= 364732416)`
+    - `G((is_equal_result_o) |-> result_o <= operator_i)`
+    - `G((is_equal_result_o) |-> result_o >= -939524096 && result_o <= 364732416)`
+    - `G((operand_a_i == 0) |-> comparison_result_o * operand_b_i <= operator_i)`
+    - `G((operand_a_i == 0) |-> comparison_result_o >= operand_a_i)`
+    - `G((operand_a_i == 0) |-> is_equal_result_o * operand_a_i <= operator_i)`
+    - `G((operand_a_i == 0) |-> is_equal_result_o * operand_b_i <= operator_i)`
+    - `G((operand_a_i == 0) |-> is_equal_result_o >= operand_a_i)`
+    - `G((operand_a_i == 0) |-> result_o * 2 <= operator_i)`
+    - `G((operand_a_i == 0) |-> result_o * operand_b_i <= operator_i)`
+    - `G((operand_a_i == 0) |-> result_o <= operator_i)`
+    - `G((operand_a_i == 0) |-> result_o >= -2 && result_o <= 32767)`
+    - ... and 347 more (all of them in `results/interface/ibex_alu/recovery.json`)
 
 ### Assumptions: expected vs mined
 
 | expected | declared | interface | mined witness, or why nothing matched |
 |---|---|---|---|
 | `operator_i <= 34` | = equivalent | = | `operator_i <= 34` |
-| `operand_a_i + operand_b_i <= 4294967295` | < mined-stronger | < | `operand_a_i <= 12345` |
+| `operand_a_i + operand_b_i <= 4294967295` | > mined-weaker | > | `operand_a_i <= 4294967295` |
 
 **Mined invariants with no expected counterpart**
 
-- **declared**: 10 mined, 2 of them matched an expected clause, 8 with no counterpart (sample, alphabetical):
-    - `operand_a_i <= 64061`
+- **declared**: 9 mined, 2 of them matched an expected clause, 7 with no counterpart (sample, alphabetical):
     - `operand_a_i >= 0`
-    - `operand_b_i <= 31`
-    - `operand_b_i <= 64190`
-    - `operand_b_i <= operand_a_i`
+    - `operand_b_i <= 2147483648`
     - `operand_b_i >= 0`
     - `operator_i == 0`
+    - `operator_i == 1`
+    - `operator_i == 2`
     - `operator_i >= 0`
-- **interface**: 10 mined, 2 of them matched an expected clause, 8 with no counterpart (sample, alphabetical):
-    - `operand_a_i <= 64061`
+- **interface**: 9 mined, 2 of them matched an expected clause, 7 with no counterpart (sample, alphabetical):
     - `operand_a_i >= 0`
-    - `operand_b_i <= 31`
-    - `operand_b_i <= 64190`
-    - `operand_b_i <= operand_a_i`
+    - `operand_b_i <= 2147483648`
     - `operand_b_i >= 0`
     - `operator_i == 0`
+    - `operator_i == 1`
+    - `operator_i == 2`
     - `operator_i >= 0`
 
 ## ibex_csr
 
-2 region(s), backend `in-process-templates`, 9 invariants and 24 template instances mined against 2 expected assumptions and 6 expected guarantees.
+2 region(s), backend `harm`, 11 invariants and 51 template instances mined against 2 expected assumptions and 4 expected guarantees.
 
 ### Guarantees: expected vs mined
 
 | expected | declared | interface | mined witness, or why nothing matched |
 |---|---|---|---|
-| `G((rst_n == 0) |-> (rd_data_o == 0))` | = equivalent | = | `G(rst_n == 0 |-> (rd_data_o == 0))` |
-| `G((wr_en_i == 1 && wr_data_i == 0) |=> (rd_data_o == 0))` | < mined-stronger | < | `G((wr_data_i == 0) |=> (rd_data_o == 0))` |
-| `G((wr_en_i == 1 && wr_data_i == 16777215) |=> (rd_data_o == 16777215))` | < mined-stronger | < | `G((wr_data_i == 16777215) |=> (rd_data_o == 16777215))` |
-| `G((wr_en_i == 1 && wr_data_i == 1) |=> (rd_data_o == 1))` | < mined-stronger | < | `G((wr_data_i == 1) |=> (rd_data_o == 1))` |
-| `G((rst_n == 1) |-> (rd_error_o == 0))` | - missed | - | unfalsifiable consequent |
-| `G((wr_en_i == 1) |=> (rd_data_o <= 16777215))` | - missed | < | unfalsifiable consequent |
+| `G((rst_n == 0) |-> (rd_data_o == 0))` | = equivalent | = | `G((rst_n == 0) |-> rd_data_o == 0)` |
+| `G((wr_en_i == 1 && wr_data_i == 0) |=> (rd_data_o == 0))` | < mined-stronger | < | `G((wr_data_i == 0) |=> rd_data_o == 0)` |
+| `G((wr_en_i == 1 && wr_data_i == 16777215) |=> (rd_data_o == 16777215))` | < mined-stronger | < | `G((wr_data_i == 16777215) |=> rd_data_o == 16777215)` |
+| `G((wr_en_i == 1 && wr_data_i == 1) |=> (rd_data_o == 1))` | < mined-stronger | < | `G((wr_data_i == 1) |=> rd_data_o == 1)` |
 
 **Mined guarantees with no expected counterpart**
 
-- **declared**: 24 mined, 4 of them matched an expected clause, 20 with no counterpart (sample, alphabetical):
-    - `G(((rst_n == 1) ##1 (!(rst_n == 1))) |-> (rd_data_o == 0))`
-    - `G(((rst_n == 1) ##1 (!(rst_n == 1))) |=> (rd_data_o == 0))`
-    - `G(((wr_en_i == 1) ##1 (!(wr_en_i == 1))) |-> ##2 (rd_data_o == 0))`
-    - `G(((wr_en_i == 1) ##1 (!(wr_en_i == 1))) |-> ##2 (rd_data_o == 16777215))`
-    - `G((rd_data_o == 0) |-> ##2 (rd_data_o == 16777215))`
-    - `G((rd_data_o == 1) |-> ##2 (rd_data_o == 0))`
-    - `G((rst_n == 0) && (wr_en_i == 0) |=> (rd_data_o == 0))`
-    - `G((wr_data_i == 0) |-> (rd_data_o == 0))`
-    - `G((wr_data_i == 1) |-> (rd_data_o == 1))`
-    - `G((wr_data_i == 13193) |-> ##2 (rd_data_o == 0))`
-    - `G((wr_data_i == 21571) |-> ##2 (rd_data_o == 0))`
-    - `G((wr_data_i == 23130) |-> ##2 (rd_data_o == 0))`
-    - ... and 8 more (all of them in `results/declared/ibex_csr/recovery.json`)
-- **interface**: 865 mined, 5 of them matched an expected clause, 860 with no counterpart (sample, alphabetical):
-    - `G(((!(rst_n == 1)) ##1 (rst_n == 1)) |-> ##1 (rd_data_o * wr_data_i + wr_data_i > rst_n))`
-    - `G(((!(rst_n == 1)) ##1 (rst_n == 1)) |-> ##1 (rd_data_o * wr_data_i + wr_data_i > wr_en_i))`
-    - `G(((!(rst_n == 1)) ##1 (rst_n == 1)) |-> ##1 (rd_error_o * wr_data_i + wr_data_i > rst_n))`
-    - `G(((!(rst_n == 1)) ##1 (rst_n == 1)) |-> ##1 (rd_error_o * wr_data_i + wr_data_i > wr_en_i))`
-    - `G(((!(rst_n == 1)) ##1 (rst_n == 1)) |-> ##1 (rd_error_o < wr_data_i))`
-    - `G(((!(rst_n == 1)) ##1 (rst_n == 1)) |-> ##1 (rd_error_o == (rst_n >> wr_data_i)))`
-    - `G(((!(rst_n == 1)) ##1 (rst_n == 1)) |-> (rd_data_o == wr_en_i * wr_data_i))`
-    - `G(((!(rst_n == 1)) ##1 (rst_n == 1)) |-> (rd_data_o >= wr_en_i))`
-    - `G(((!(rst_n == 1)) ##1 (rst_n == 1)) |=> (rd_data_o * wr_en_i <= rst_n))`
-    - `G(((!(rst_n == 1)) ##1 (rst_n == 1)) |=> (rd_data_o >= wr_en_i))`
-    - `G(((!(rst_n == 1)) ##1 (rst_n == 1)) |=> (rd_error_o == (rst_n & wr_en_i)))`
-    - `G(((!(rst_n == 1)) ##1 (rst_n == 1)) |=> (rd_error_o == (wr_en_i & wr_data_i)))`
-    - ... and 848 more (all of them in `results/interface/ibex_csr/recovery.json`)
+- **declared**: 51 mined, 4 of them matched an expected clause, 47 with no counterpart (sample, alphabetical):
+    - `G((rd_data_o == 0) |-> (##2 rd_data_o == 16777215))`
+    - `G((rd_data_o == 0) |-> (##2 wr_data_i == 16777215))`
+    - `G((rd_data_o == 0) |=> wr_data_i == 16777215)`
+    - `G((rd_data_o == 1) |-> (##2 rd_data_o == 0))`
+    - `G((rd_data_o == 1) |=> wr_data_i == 0)`
+    - `G((rd_data_o == 42405) |-> wr_en_i)`
+    - `G((rd_data_o == 42405) |=> rd_data_o == 23130)`
+    - `G((rd_data_o == 42405) |=> wr_data_i == 23130)`
+    - `G((rd_data_o >= 11105 && rd_data_o <= 17174) |-> (##2 rd_data_o == 0))`
+    - `G((rd_data_o >= 11105 && rd_data_o <= 17174) |-> rst_n)`
+    - `G((rd_data_o >= 18200 && rd_data_o <= 25284) |-> (##2 rd_data_o == 0))`
+    - `G((rd_data_o >= 18200 && rd_data_o <= 25284) |-> rst_n)`
+    - ... and 35 more (all of them in `results/declared/ibex_csr/recovery.json`)
+- **interface**: 758 mined, 4 of them matched an expected clause, 754 with no counterpart (sample, alphabetical):
+    - `G((rd_data_o == 0) |-> (##2 rd_data_o == (rst_n | wr_data_i)))`
+    - `G((rd_data_o == 0) |-> (##2 rd_data_o == (wr_en_i ^ wr_data_i)))`
+    - `G((rd_data_o == 0) |-> (##2 rd_data_o == (wr_en_i | wr_data_i)))`
+    - `G((rd_data_o == 0) |-> (##2 rd_data_o == 16777215))`
+    - `G((rd_data_o == 0) |-> (##2 rd_data_o == rst_n * wr_data_i))`
+    - `G((rd_data_o == 0) |-> (##2 rd_data_o == wr_data_i))`
+    - `G((rd_data_o == 0) |-> (##2 rd_data_o == wr_en_i + wr_data_i))`
+    - `G((rd_data_o == 0) |-> (##2 rd_data_o >= rst_n))`
+    - `G((rd_data_o == 0) |-> (##2 rd_data_o >= wr_data_i))`
+    - `G((rd_data_o == 0) |-> (##2 rd_data_o >= wr_en_i))`
+    - `G((rd_data_o == 0) |-> (##2 rd_error_o * wr_data_i + wr_data_i > rst_n))`
+    - `G((rd_data_o == 0) |-> (##2 rd_error_o * wr_data_i + wr_data_i > wr_en_i))`
+    - ... and 742 more (all of them in `results/interface/ibex_csr/recovery.json`)
 
 ### Assumptions: expected vs mined
 
@@ -695,80 +695,79 @@ Events with no region: `result_o == 0`
 
 **Mined invariants with no expected counterpart**
 
-- **declared**: 9 mined, 2 of them matched an expected clause, 7 with no counterpart (sample, alphabetical):
+- **declared**: 11 mined, 2 of them matched an expected clause, 9 with no counterpart (sample, alphabetical):
     - `rst_n <= 1`
-    - `rst_n >= 0`
-    - `wr_data_i <= 65475`
-    - `wr_data_i >= 0`
-    - `wr_en_i <= 1`
-    - `wr_en_i <= wr_data_i`
-    - `wr_en_i >= 0`
-- **interface**: 14 mined, 2 of them matched an expected clause, 12 with no counterpart (sample, alphabetical):
-    - `rst_n <= 1`
-    - `rst_n == 0`
     - `rst_n >= 0`
     - `wr_data_i <= 65475`
     - `wr_data_i == 0`
-    - `wr_data_i == 19137`
     - `wr_data_i >= 0`
     - `wr_en_i <= 1`
     - `wr_en_i <= wr_data_i`
     - `wr_en_i == 0`
-    - `wr_en_i == 1`
+    - `wr_en_i >= 0`
+- **interface**: 11 mined, 2 of them matched an expected clause, 9 with no counterpart (sample, alphabetical):
+    - `rst_n <= 1`
+    - `rst_n >= 0`
+    - `wr_data_i <= 65475`
+    - `wr_data_i == 0`
+    - `wr_data_i >= 0`
+    - `wr_en_i <= 1`
+    - `wr_en_i <= wr_data_i`
+    - `wr_en_i == 0`
     - `wr_en_i >= 0`
 
 ## ibex_multdiv_fast
 
-1 region(s), backend `in-process-templates`, 17 invariants and 368 template instances mined against 4 expected assumptions and 13 expected guarantees.
+1 region(s), backend `harm`, 19 invariants and 916 template instances mined against 4 expected assumptions and 13 expected guarantees.
 
 ### Guarantees: expected vs mined
 
 | expected | declared | interface | mined witness, or why nothing matched |
 |---|---|---|---|
-| `G((rst_n == 0) |-> (valid_o == 0))` | < mined-stronger | < | `G((mult_en_i == 0) && (div_en_i == 0) |-> (valid_o == 0))` |
-| `G(((mult_en_i == 0) ##1 (mult_en_i == 1)) |-> (##[1:40] valid_o == 1))` | = equivalent | - | `G(((!(mult_en_i == 1)) ##1 (mult_en_i == 1)) |-> ##[1:40] (valid_o == 1))` |
-| `G(((div_en_i == 0) ##1 (div_en_i == 1)) |-> (##[1:40] valid_o == 1))` | = equivalent | - | `G(((!(div_en_i == 1)) ##1 (div_en_i == 1)) |-> ##[1:40] (valid_o == 1))` |
+| `G((rst_n == 0) |-> (valid_o == 0))` | = equivalent | < | `G((rst_n == 0) |-> valid_o == 0)` |
+| `G(((mult_en_i == 0) ##1 (mult_en_i == 1)) |-> (##[1:40] valid_o == 1))` | - missed | - | sequence antecedent |
+| `G(((div_en_i == 0) ##1 (div_en_i == 1)) |-> (##[1:40] valid_o == 1))` | - missed | - | sequence antecedent |
 | `G(((div_en_i == 0) ##1 (rst_n == 1 && div_en_i == 1 && operator_i == 2 && op_b_i == 0)) |-> (##[1:40] (valid_o == 1 && multdiv_result_o == 4294967295)))` | - missed | - | sequence antecedent |
 | `G(((div_en_i == 0) ##1 (rst_n == 1 && div_en_i == 1 && operator_i == 3 && op_b_i == 0)) |-> (##[1:40] (valid_o == 1 && multdiv_result_o == op_a_i)))` | - missed | - | sequence antecedent |
-| `G((valid_o == 1 && mult_en_i == 1 && operator_i == 0) |-> (multdiv_result_o == op_a_i * op_b_i))` | < mined-stronger | - | `G(((mult_en_i == 1) ##1 (!(mult_en_i == 1))) |-> ((valid_o == 0) && (multdiv_result_o == op_a_i * op_b_i)))` |
-| `G((valid_o == 1 && div_en_i == 1 && operator_i == 2 && op_b_i >= 1) |-> (multdiv_result_o * op_b_i <= op_a_i))` | < mined-stronger | - | `G((operator_i == 2) && (valid_o == 1) |-> ((valid_o == 1) && (multdiv_result_o * op_b_i <= op_a_i)))` |
-| `G((valid_o == 1 && div_en_i == 1 && operator_i == 2 && op_b_i >= 1) |-> (multdiv_result_o * op_b_i + op_b_i > op_a_i))` | = equivalent | - | `G((valid_o == 1 && div_en_i == 1 && operator_i == 2 && op_b_i >= 1) |-> (multdiv_result_o * op_b_i + op_b_i > op_a_i))` |
-| `G((valid_o == 1 && div_en_i == 1 && operator_i == 3 && op_b_i >= 1) |-> (multdiv_result_o < op_b_i))` | = equivalent | - | `G((valid_o == 1 && div_en_i == 1 && operator_i == 3 && op_b_i >= 1) |-> (multdiv_result_o < op_b_i))` |
-| `G((mult_en_i == 1 && op_b_i == 0) |-> (##[1:40] (valid_o == 1 && multdiv_result_o == 0)))` | < mined-stronger | - | `G((operator_i == 0) && (op_a_i == 0) |-> ##[1:40] (valid_o == 1 && multdiv_result_o == 0))` |
-| `G(((div_en_i == 0) ##1 (rst_n == 1 && div_en_i == 1 && operator_i == 2 && op_a_i == 0 && op_b_i >= 1)) |-> (##[1:40] (valid_o == 1 && multdiv_result_o == 0)))` | < mined-stronger | - | `G((div_en_i == 0) && (op_a_i == 7) |-> ##[1:40] (valid_o == 1 && multdiv_result_o == 0))` |
-| `G((mult_en_i == 0 && div_en_i == 0) |-> (valid_o == 0))` | = equivalent | = | `G((mult_en_i == 0) && (div_en_i == 0) |-> (valid_o == 0))` |
-| `G((valid_o == 1 && mult_en_i == 1 && op_a_i == 0) |-> (multdiv_result_o == 0))` | < mined-stronger | < | `G((div_en_i == 0) && (op_a_i == 0) |-> (multdiv_result_o == 0))` |
+| `G((valid_o == 1 && mult_en_i == 1 && operator_i == 0) |-> (multdiv_result_o == op_a_i * op_b_i))` | < mined-stronger | < | `G((operator_i == 0) |-> multdiv_result_o == op_a_i * op_b_i)` |
+| `G((valid_o == 1 && div_en_i == 1 && operator_i == 2 && op_b_i >= 1) |-> (multdiv_result_o * op_b_i <= op_a_i))` | = equivalent | - | `G((valid_o == 1 && div_en_i == 1 && operator_i == 2 && op_b_i >= 1) |-> multdiv_result_o * op_b_i <= op_a_i)` |
+| `G((valid_o == 1 && div_en_i == 1 && operator_i == 2 && op_b_i >= 1) |-> (multdiv_result_o * op_b_i + op_b_i > op_a_i))` | = equivalent | - | `G((valid_o == 1 && div_en_i == 1 && operator_i == 2 && op_b_i >= 1) |-> multdiv_result_o * op_b_i + op_b_i > op_a_i)` |
+| `G((valid_o == 1 && div_en_i == 1 && operator_i == 3 && op_b_i >= 1) |-> (multdiv_result_o < op_b_i))` | = equivalent | - | `G((valid_o == 1 && div_en_i == 1 && operator_i == 3 && op_b_i >= 1) |-> multdiv_result_o < op_b_i)` |
+| `G((mult_en_i == 1 && op_b_i == 0) |-> (##[1:40] (valid_o == 1 && multdiv_result_o == 0)))` | - missed | - | compound consequent |
+| `G(((div_en_i == 0) ##1 (rst_n == 1 && div_en_i == 1 && operator_i == 2 && op_a_i == 0 && op_b_i >= 1)) |-> (##[1:40] (valid_o == 1 && multdiv_result_o == 0)))` | - missed | - | sequence antecedent |
+| `G((mult_en_i == 0 && div_en_i == 0) |-> (valid_o == 0))` | > mined-weaker | - | `G((rst_n == 0) |-> valid_o == 0)` |
+| `G((valid_o == 1 && mult_en_i == 1 && op_a_i == 0) |-> (multdiv_result_o == 0))` | = equivalent | - | `G((valid_o == 1 && mult_en_i == 1 && op_a_i == 0) |-> multdiv_result_o == 0)` |
 
 **Mined guarantees with no expected counterpart**
 
-- **declared**: 368 mined, 10 of them matched an expected clause, 358 with no counterpart (sample, alphabetical):
-    - `G(((!(div_en_i == 1)) ##1 (div_en_i == 1)) |-> ##2 (valid_o == 0))`
-    - `G(((!(div_en_i == 1)) ##1 (div_en_i == 1)) |-> ##3 ((valid_o == 0) && (multdiv_result_o * op_b_i <= op_a_i)))`
-    - `G(((!(div_en_i == 1)) ##1 (div_en_i == 1)) |-> ##3 (multdiv_result_o * op_b_i <= op_a_i))`
-    - `G(((!(div_en_i == 1)) ##1 (div_en_i == 1)) |-> ##[1:40] ((valid_o == 0) && (multdiv_result_o * op_b_i + op_b_i > op_a_i)))`
-    - `G(((!(div_en_i == 1)) ##1 (div_en_i == 1)) |-> ##[1:40] (multdiv_result_o * op_b_i + op_b_i > op_a_i))`
-    - `G(((!(mult_en_i == 1)) ##1 (mult_en_i == 1)) |-> ##4 ((valid_o == 0) && (multdiv_result_o == op_a_i * op_b_i)))`
-    - `G(((!(mult_en_i == 1)) ##1 (mult_en_i == 1)) |-> ##4 (multdiv_result_o == op_a_i * op_b_i))`
-    - `G(((!(mult_en_i == 1)) ##1 (mult_en_i == 1)) |-> ##[1:40] ((valid_o == 0) && (multdiv_result_o * op_b_i + op_b_i > op_a_i)))`
-    - `G(((!(mult_en_i == 1)) ##1 (mult_en_i == 1)) |-> ##[1:40] (multdiv_result_o * op_b_i + op_b_i > op_a_i))`
-    - `G(((!(mult_en_i == 1)) ##1 (mult_en_i == 1)) |-> ((valid_o == 0) && (multdiv_result_o == op_a_i * op_b_i)))`
-    - `G(((!(mult_en_i == 1)) ##1 (mult_en_i == 1)) |-> (multdiv_result_o == op_a_i * op_b_i))`
-    - `G(((!(valid_o == 1)) ##1 (valid_o == 1)) |-> ##[1:40] ((valid_o == 0) && (multdiv_result_o * op_b_i + op_b_i > op_a_i)))`
-    - ... and 346 more (all of them in `results/declared/ibex_multdiv_fast/recovery.json`)
-- **interface**: 551 mined, 3 of them matched an expected clause, 548 with no counterpart (sample, alphabetical):
-    - `G(((!(div_en_i == 1)) ##1 (div_en_i == 1)) |-> ##12 ((valid_o == 0) && (multdiv_result_o * op_b_i + op_b_i > mult_en_i)))`
-    - `G(((!(div_en_i == 1)) ##1 (div_en_i == 1)) |-> ##2 ((valid_o == 0) && (multdiv_result_o * operator_i + operator_i > div_en_i)))`
-    - `G(((!(div_en_i == 1)) ##1 (div_en_i == 1)) |-> ##2 ((valid_o == 0) && (multdiv_result_o * operator_i + operator_i > mult_en_i)))`
-    - `G(((!(div_en_i == 1)) ##1 (div_en_i == 1)) |-> ##2 ((valid_o == 0) && (multdiv_result_o * operator_i + operator_i > rst_n)))`
-    - `G(((!(div_en_i == 1)) ##1 (div_en_i == 1)) |-> ##28 ((valid_o == 0) && (multdiv_result_o * op_b_i + op_b_i > div_en_i)))`
-    - `G(((!(div_en_i == 1)) ##1 (div_en_i == 1)) |-> ##28 ((valid_o == 0) && (multdiv_result_o * op_b_i + op_b_i > rst_n)))`
-    - `G(((!(div_en_i == 1)) ##1 (div_en_i == 1)) |-> ##28 (multdiv_result_o * op_b_i + op_b_i > div_en_i))`
-    - `G(((!(div_en_i == 1)) ##1 (div_en_i == 1)) |-> ##28 (multdiv_result_o * op_b_i + op_b_i > rst_n))`
-    - `G(((!(div_en_i == 1)) ##1 (div_en_i == 1)) |-> ##3 (multdiv_result_o < operator_i))`
-    - `G(((!(div_en_i == 1)) ##1 (div_en_i == 1)) |-> ##3 (multdiv_result_o <= div_en_i))`
-    - `G(((!(div_en_i == 1)) ##1 (div_en_i == 1)) |-> ##3 (multdiv_result_o <= op_a_i))`
-    - `G(((!(div_en_i == 1)) ##1 (div_en_i == 1)) |-> ##3 (multdiv_result_o <= op_b_i))`
-    - ... and 536 more (all of them in `results/interface/ibex_multdiv_fast/recovery.json`)
+- **declared**: 916 mined, 6 of them matched an expected clause, 910 with no counterpart (sample, alphabetical):
+    - `G((div_en_i == 0) |-> (##[1:40] valid_o == 0))`
+    - `G((div_en_i == 0) |-> multdiv_result_o >= -2070389836 && multdiv_result_o <= 2116986644)`
+    - `G((div_en_i == 0) |=> multdiv_result_o >= -2070389836 && multdiv_result_o <= 2116986644)`
+    - `G((mult_en_i == 0) |-> (##[1:40] valid_o == 0))`
+    - `G((mult_en_i == 0) |-> multdiv_result_o >= -2070389836 && multdiv_result_o <= 2116986644)`
+    - `G((mult_en_i == 0) |=> multdiv_result_o >= -2070389836 && multdiv_result_o <= 2116986644)`
+    - `G((multdiv_result_o >= -2070389836 && multdiv_result_o <= 2116986644) |-> (##40 rst_n))`
+    - `G((multdiv_result_o >= -2070389836 && multdiv_result_o <= 2116986644) |-> (##[1:40] valid_o == 0))`
+    - `G((multdiv_result_o >= -390775397 && multdiv_result_o <= 37893198) |-> multdiv_result_o >= -2070389836 && multdiv_result_o <= 2116986644)`
+    - `G((multdiv_result_o >= -390775397 && multdiv_result_o <= 37893198) |=> multdiv_result_o >= -2070389836 && multdiv_result_o <= 2116986644)`
+    - `G((multdiv_result_o >= 112622076 && multdiv_result_o <= 147571470) |-> (##[1:40] multdiv_result_o == op_a_i * op_b_i))`
+    - `G((multdiv_result_o >= 112622076 && multdiv_result_o <= 147571470) |-> multdiv_result_o >= -2070389836 && multdiv_result_o <= 2116986644)`
+    - ... and 898 more (all of them in `results/declared/ibex_multdiv_fast/recovery.json`)
+- **interface**: 4531 mined, 2 of them matched an expected clause, 4529 with no counterpart (sample, alphabetical):
+    - `G((div_en_i) |-> (##[1:40] multdiv_result_o * operator_i + operator_i > div_en_i))`
+    - `G((div_en_i) |-> (##[1:40] multdiv_result_o * operator_i + operator_i > mult_en_i))`
+    - `G((div_en_i) |-> (##[1:40] multdiv_result_o * operator_i + operator_i > rst_n))`
+    - `G((div_en_i) |-> (##[1:40] multdiv_result_o >= div_en_i))`
+    - `G((div_en_i) |-> (##[1:40] multdiv_result_o >= op_b_i))`
+    - `G((div_en_i) |=> multdiv_result_o * mult_en_i <= rst_n)`
+    - `G((mult_en_i) |-> (##34 multdiv_result_o >= mult_en_i))`
+    - `G((mult_en_i) |-> (##35 multdiv_result_o >= mult_en_i))`
+    - `G((mult_en_i) |-> (##36 multdiv_result_o >= mult_en_i))`
+    - `G((mult_en_i) |-> (##40 multdiv_result_o * op_b_i + op_b_i > div_en_i))`
+    - `G((mult_en_i) |-> (##40 multdiv_result_o * op_b_i + op_b_i > mult_en_i))`
+    - `G((mult_en_i) |-> (##40 multdiv_result_o * op_b_i + op_b_i > operator_i))`
+    - ... and 4517 more (all of them in `results/interface/ibex_multdiv_fast/recovery.json`)
 
 ### Assumptions: expected vs mined
 
@@ -781,188 +780,195 @@ Events with no region: `result_o == 0`
 
 **Mined invariants with no expected counterpart**
 
-- **declared**: 17 mined, 3 of them matched an expected clause, 14 with no counterpart (sample, alphabetical):
+- **declared**: 19 mined, 3 of them matched an expected clause, 16 with no counterpart (sample, alphabetical):
     - `div_en_i <= operator_i`
     - `div_en_i <= rst_n`
+    - `div_en_i == 0`
     - `div_en_i >= 0`
     - `mult_en_i <= 1`
     - `mult_en_i <= rst_n`
+    - `mult_en_i == 0`
     - `mult_en_i >= 0`
     - `op_a_i <= 4294967295`
     - `op_a_i >= 0`
     - `op_b_i <= 65535`
     - `op_b_i >= 0`
-    - `operator_i <= 3`
-    - `operator_i >= 0`
-    - ... and 2 more (all of them in `results/declared/ibex_multdiv_fast/recovery.json`)
-- **interface**: 17 mined, 3 of them matched an expected clause, 14 with no counterpart (sample, alphabetical):
+    - ... and 4 more (all of them in `results/declared/ibex_multdiv_fast/recovery.json`)
+- **interface**: 19 mined, 3 of them matched an expected clause, 16 with no counterpart (sample, alphabetical):
     - `div_en_i <= operator_i`
     - `div_en_i <= rst_n`
+    - `div_en_i == 0`
     - `div_en_i >= 0`
     - `mult_en_i <= 1`
     - `mult_en_i <= rst_n`
+    - `mult_en_i == 0`
     - `mult_en_i >= 0`
     - `op_a_i <= 4294967295`
     - `op_a_i >= 0`
     - `op_b_i <= 65535`
     - `op_b_i >= 0`
-    - `operator_i <= 3`
-    - `operator_i >= 0`
-    - ... and 2 more (all of them in `results/interface/ibex_multdiv_fast/recovery.json`)
+    - ... and 4 more (all of them in `results/interface/ibex_multdiv_fast/recovery.json`)
 
 ## multi_16bit
 
-1 region(s), backend `in-process-templates`, 10 invariants and 199 template instances mined against 3 expected assumptions and 9 expected guarantees.
+1 region(s), backend `harm`, 13 invariants and 237 template instances mined against 3 expected assumptions and 8 expected guarantees.
 
 ### Guarantees: expected vs mined
 
 | expected | declared | interface | mined witness, or why nothing matched |
 |---|---|---|---|
-| `G((rst_n == 0) |-> (done == 0))` | < mined-stronger | < | `G((start == 0) && (yout == 0) |-> ((done == 0) && (yout == 0)))` |
-| `G((rst_n == 0) |-> (yout == 0))` | = equivalent | = | `G((rst_n == 0) |-> (yout == 0))` |
-| `G((done == 1) |=> (done == 0))` | = equivalent | < | `G((done == 1) |=> (done == 0))` |
-| `G((done == 1) |-> (yout == ain * bin))` | = equivalent | = | `G((done == 1) |-> (yout == ain * bin))` |
-| `G((done == 1 && ain == 0) |-> (yout == 0))` | < mined-stronger | < | `G((ain == 0) |-> (yout == 0))` |
-| `G((done == 1 && bin == 0) |-> (yout == 0))` | < mined-stronger | < | `G((bin == 0) |-> (yout == 0))` |
-| `G((done == 1 && ain == 1) |-> (yout == bin))` | = equivalent | - | `G((ain == 1) && (done == 1) |-> (yout == bin))` |
-| `G((done == 1) |-> (yout <= 4294836225))` | < mined-stronger | < | `G(((done == 1) ##1 (!(done == 1))) |-> ((done == 0) && (yout == ain * bin)))` |
-| `G((start == 0) |=> (done == 0))` | = equivalent | = | `G((start == 0) |=> (done == 0))` |
+| `G((rst_n == 0) |-> (done == 0))` | < mined-stronger | - | `G((start == 0) |-> done == 0)` |
+| `G((rst_n == 0) |-> (yout == 0))` | = equivalent | - | `G((rst_n == 0) |-> yout == 0)` |
+| `G((done == 1) |=> (done == 0))` | = equivalent | = | `G((done) |=> done == 0)` |
+| `G((done == 1) |-> (yout == ain * bin))` | = equivalent | = | `G((done) |-> yout == ain * bin)` |
+| `G((done == 1 && ain == 0) |-> (yout == 0))` | < mined-stronger | < | `G((ain == 0) |-> yout == 0)` |
+| `G((done == 1 && bin == 0) |-> (yout == 0))` | < mined-stronger | < | `G((bin == 0) |-> yout == 0)` |
+| `G((done == 1 && ain == 1) |-> (yout == bin))` | - missed | - | vocabulary or region |
+| `G((start == 0) |=> (done == 0))` | = equivalent | - | `G((start == 0) |=> done == 0)` |
 
 **Mined guarantees with no expected counterpart**
 
-- **declared**: 199 mined, 9 of them matched an expected clause, 190 with no counterpart (sample, alphabetical):
-    - `G(((!(done == 1)) ##1 (done == 1)) |-> ##[1:20] ((done == 0) && (yout == 0)))`
-    - `G(((!(done == 1)) ##1 (done == 1)) |-> ##[1:20] ((yout == 0) && (done == 0)))`
-    - `G(((!(done == 1)) ##1 (done == 1)) |-> ##[1:20] (yout == 0))`
-    - `G(((!(done == 1)) ##1 (done == 1)) |-> ((done == 1) && (yout == ain * bin)))`
-    - `G(((!(done == 1)) ##1 (done == 1)) |-> (done == 1))`
-    - `G(((!(done == 1)) ##1 (done == 1)) |-> (yout == ain * bin))`
-    - `G(((!(done == 1)) ##1 (done == 1)) |=> ((done == 0) && (yout == ain * bin)))`
-    - `G(((!(done == 1)) ##1 (done == 1)) |=> (done == 0))`
-    - `G(((!(done == 1)) ##1 (done == 1)) |=> (yout == ain * bin))`
-    - `G(((!(start == 1)) ##1 (start == 1)) |-> ##17 ((done == 1) && (yout == ain * bin)))`
-    - `G(((!(start == 1)) ##1 (start == 1)) |-> ##17 (done == 1))`
-    - `G(((!(start == 1)) ##1 (start == 1)) |-> ##17 (yout == ain * bin))`
-    - ... and 178 more (all of them in `results/declared/multi_16bit/recovery.json`)
-- **interface**: 456 mined, 8 of them matched an expected clause, 448 with no counterpart (sample, alphabetical):
-    - `G(((!(done == 1)) ##1 (done == 1)) |-> ##5 (done == (rst_n >> bin)))`
-    - `G(((!(done == 1)) ##1 (done == 1)) |-> ##6 (done == (rst_n >> ain)))`
-    - `G(((!(done == 1)) ##1 (done == 1)) |-> ##8 (done < bin))`
-    - `G(((!(done == 1)) ##1 (done == 1)) |-> (done * start + start > rst_n))`
-    - `G(((!(done == 1)) ##1 (done == 1)) |-> (done == (rst_n | start)))`
-    - `G(((!(done == 1)) ##1 (done == 1)) |-> (done == 1))`
-    - `G(((!(done == 1)) ##1 (done == 1)) |-> (done == rst_n))`
-    - `G(((!(done == 1)) ##1 (done == 1)) |-> (done >= rst_n))`
-    - `G(((!(done == 1)) ##1 (done == 1)) |-> (yout == ain * bin))`
-    - `G(((!(done == 1)) ##1 (done == 1)) |=> (done < start))`
-    - `G(((!(done == 1)) ##1 (done == 1)) |=> (done == (rst_n >> start)))`
-    - `G(((!(done == 1)) ##1 (done == 1)) |=> (done == (rst_n ^ start)))`
-    - ... and 436 more (all of them in `results/interface/multi_16bit/recovery.json`)
+- **declared**: 237 mined, 7 of them matched an expected clause, 230 with no counterpart (sample, alphabetical):
+    - `G((ain == 0) |-> (##2 yout == 0))`
+    - `G((ain == 0) |-> (##[1:20] done))`
+    - `G((ain == 0) |-> (##[1:20] yout == ain * bin))`
+    - `G((ain == 0) |-> yout == ain * bin)`
+    - `G((ain == 0) |=> yout == 0)`
+    - `G((ain == 1) |-> (##[1:20] done))`
+    - `G((ain == 1) |-> (##[1:20] yout == ain * bin))`
+    - `G((ain >= 0 && ain <= 3294) |-> (##[1:20] yout == ain * bin))`
+    - `G((ain >= 0 && ain <= 3294) |-> yout >= -2142877546 && yout <= 2147385345)`
+    - `G((ain >= 0 && ain <= 3294) |=> yout >= -2142877546 && yout <= 2147385345)`
+    - `G((ain >= 10382 && ain <= 15964) |-> (##[1:20] yout == ain * bin))`
+    - `G((ain >= 10382 && ain <= 15964) |-> yout >= -2142877546 && yout <= 2147385345)`
+    - ... and 218 more (all of them in `results/declared/multi_16bit/recovery.json`)
+- **interface**: 3215 mined, 3 of them matched an expected clause, 3212 with no counterpart (sample, alphabetical):
+    - `G((ain >= 0 && ain <= 3294) |-> (##[1:20] done < start))`
+    - `G((ain >= 0 && ain <= 3294) |-> (##[1:20] yout == ain * bin))`
+    - `G((ain >= 0 && ain <= 3294) |-> yout >= -2142877546 && yout <= 2147385345)`
+    - `G((ain >= 0 && ain <= 3294) |=> yout >= -2142877546 && yout <= 2147385345)`
+    - `G((ain >= 10382 && ain <= 15964) |-> (##20 done <= ain))`
+    - `G((ain >= 10382 && ain <= 15964) |-> (##20 done <= bin))`
+    - `G((ain >= 10382 && ain <= 15964) |-> (##[1:20] done * ain + ain > rst_n))`
+    - `G((ain >= 10382 && ain <= 15964) |-> (##[1:20] done * ain + ain > start))`
+    - `G((ain >= 10382 && ain <= 15964) |-> (##[1:20] done < ain))`
+    - `G((ain >= 10382 && ain <= 15964) |-> (##[1:20] done < start))`
+    - `G((ain >= 10382 && ain <= 15964) |-> (##[1:20] yout * ain <= rst_n))`
+    - `G((ain >= 10382 && ain <= 15964) |-> (##[1:20] yout * ain <= start))`
+    - ... and 3200 more (all of them in `results/interface/multi_16bit/recovery.json`)
 
 ### Assumptions: expected vs mined
 
 | expected | declared | interface | mined witness, or why nothing matched |
 |---|---|---|---|
-| `rst_n == 1` | > mined-weaker | > | `ain <= 65535` |
-| `start == 1` | > mined-weaker | > | `ain <= 65535` |
+| `rst_n == 1` | < mined-stronger | < | `start == 1` |
+| `start == 1` | = equivalent | = | `start == 1` |
 | `ain <= 65535 && bin <= 65535` | < mined-stronger | < | `ain == 0` |
 
 **Mined invariants with no expected counterpart**
 
-- **declared**: 10 mined, 2 of them matched an expected clause, 8 with no counterpart (sample, alphabetical):
+- **declared**: 13 mined, 2 of them matched an expected clause, 11 with no counterpart (sample, alphabetical):
+    - `ain <= 65535`
     - `ain >= 0`
     - `bin <= 65535`
     - `bin >= 0`
     - `rst_n <= 1`
+    - `rst_n == 0`
     - `rst_n >= 0`
     - `start <= 1`
     - `start <= rst_n`
+    - `start == 0`
     - `start >= 0`
-- **interface**: 10 mined, 2 of them matched an expected clause, 8 with no counterpart (sample, alphabetical):
+- **interface**: 13 mined, 2 of them matched an expected clause, 11 with no counterpart (sample, alphabetical):
+    - `ain <= 65535`
     - `ain >= 0`
     - `bin <= 65535`
     - `bin >= 0`
     - `rst_n <= 1`
+    - `rst_n == 0`
     - `rst_n >= 0`
     - `start <= 1`
     - `start <= rst_n`
+    - `start == 0`
     - `start >= 0`
 
 ## sqrt
 
-1 region(s), backend `in-process-templates`, 6 invariants and 219 template instances mined against 3 expected assumptions and 13 expected guarantees.
-
-Events with no region: `(!(error == 1)) ##1 (error == 1)`
+2 region(s), backend `harm`, 9 invariants and 798 template instances mined against 3 expected assumptions and 13 expected guarantees.
 
 ### Guarantees: expected vs mined
 
 | expected | declared | interface | mined witness, or why nothing matched |
 |---|---|---|---|
-| `G((rst == 1) |-> (done == 0))` | = equivalent | = | `G((rst == 1) |-> (done == 0))` |
-| `G((rst == 1) |-> (error == 0))` | < mined-stronger | < | `G((done == 0) |-> ((done == 0) && (error == 0)))` |
-| `G((rst == 1) |-> (out == 0))` | = equivalent | < | `G((rst == 1) |-> (out == 0))` |
-| `G((start == 1 && in < 0) |=> (error == 1))` | = equivalent | = | `G((in < 0) |=> ((error == 1) && (out == 0)))` |
-| `G((start == 1 && in < 0) |=> (done == 1))` | = equivalent | = | `G((in < 0) |=> (done == 1))` |
-| `G((start == 1 && in >= 2147483648) |=> (error == 1))` | = equivalent | - | `G((in >= 2147483648) |=> ((error == 1) && (out == 0)))` |
-| `G((start == 1 && in >= 0) |-> (##[1:24] done == 1))` | < mined-stronger | - | `G(((start == 1) ##1 (!(start == 1))) |-> ##[1:24] (done == 1))` |
-| `G((start == 1 && in >= 0) |-> (##[1:24] error == 0))` | < mined-stronger | - | `G(((start == 1) ##1 (!(start == 1))) |-> ##[1:24] (error == 0))` |
-| `G((start == 1 && in < 0) |-> (##[1:3] out == 0))` | < mined-stronger | < | `G((in < 0) |=> ((done == 1) && (out == 0)))` |
-| `G((rst == 1) |=> (done == 0))` | = equivalent | = | `G((rst == 1) |=> ((done == 0) && (error == 0)))` |
-| `G((start == 1 && in == 0) |-> ##[1:24] (done == 1 && out == 0))` | - missed | - | compound consequent |
-| `G((start == 1 && in >= 4 && in <= 8) |-> ##[1:24] (done == 1 && out == 2))` | < mined-stronger | - | `G((out == 1) |-> ##[1:24] (done == 1 && out == 2))` |
-| `G((start == 1 && in >= 1 && in <= 1000) |-> ##[1:24] (done == 1 && out <= 32))` | < mined-stronger | - | `G((in >= 1 && in <= 1000) |-> ##12 (done == 1 && out <= 32))` |
+| `G((rst == 1) |-> (done == 0))` | = equivalent | = | `G((rst) |-> done == 0)` |
+| `G((rst == 1) |-> (error == 0))` | = equivalent | = | `G((rst) |-> error == 0)` |
+| `G((rst == 1) |-> (out == 0))` | = equivalent | = | `G((rst) |-> out == 0)` |
+| `G((start == 1 && in < 0) |=> (error == 1))` | - missed | - | vocabulary or region |
+| `G((start == 1 && in < 0) |=> (done == 1))` | < mined-stronger | - | `G((in < 0) |=> done == 1 && out <= 32)` |
+| `G((start == 1 && in >= 2147483648) |=> (error == 1))` | - missed | - | vocabulary or region |
+| `G((start == 1 && in >= 0) |-> (##[1:24] done == 1))` | < mined-stronger | < | `G((in >= 0) |-> (##[1:24] done == 1))` |
+| `G((start == 1 && in >= 0) |-> (##[1:24] error == 0))` | < mined-stronger | < | `G((in >= 0) |-> (##[1:24] done == 0))` |
+| `G((start == 1 && in < 0) |-> (##[1:3] out == 0))` | - missed | - | vocabulary or region |
+| `G((rst == 1) |=> (done == 0))` | = equivalent | = | `G((rst) |=> done == 0)` |
+| `G((start == 1 && in == 0) |-> ##[1:24] (done == 1 && out == 0))` | < mined-stronger | < | `G((in >= -65407 && in <= 746496) |-> (##[1:24] error == 1))` |
+| `G((start == 1 && in >= 4 && in <= 8) |-> ##[1:24] (done == 1 && out == 2))` | - missed | - | compound consequent |
+| `G((start == 1 && in >= 1 && in <= 1000) |-> ##[1:24] (done == 1 && out <= 32))` | < mined-stronger | < | `G((in >= -65407 && in <= 746496) |-> (##[1:24] error == 1))` |
 
 **Mined guarantees with no expected counterpart**
 
-- **declared**: 219 mined, 12 of them matched an expected clause, 207 with no counterpart (sample, alphabetical):
-    - `G(((!(done == 1)) ##1 (done == 1)) |-> ##[1:24] ((done == 0) && (error == 0)))`
-    - `G(((!(done == 1)) ##1 (done == 1)) |-> ##[1:24] ((error == 0) && (done == 0)))`
-    - `G(((!(done == 1)) ##1 (done == 1)) |-> ##[1:24] (done == 0))`
-    - `G(((!(done == 1)) ##1 (done == 1)) |-> ((done == 1) && (error == 0)))`
-    - `G(((!(done == 1)) ##1 (done == 1)) |-> ((error == 0) && (done == 1)))`
-    - `G(((!(done == 1)) ##1 (done == 1)) |-> (done == 1))`
-    - `G(((!(done == 1)) ##1 (done == 1)) |=> ((done == 1) && (error == 0)))`
-    - `G(((!(done == 1)) ##1 (done == 1)) |=> ((error == 0) && (done == 1)))`
-    - `G(((!(done == 1)) ##1 (done == 1)) |=> (done == 1))`
-    - `G(((!(error == 1)) ##1 (error == 1)) |-> ##14 (error == 0))`
-    - `G(((!(error == 1)) ##1 (error == 1)) |-> ##[1:24] ((done == 0) && (out == 0)))`
-    - `G(((!(error == 1)) ##1 (error == 1)) |-> ##[1:24] ((error == 0) && (out == 0)))`
-    - ... and 195 more (all of them in `results/declared/sqrt/recovery.json`)
-- **interface**: 561 mined, 6 of them matched an expected clause, 555 with no counterpart (sample, alphabetical):
-    - `G(((!(done == 1)) ##1 (done == 1)) |-> (done == 1))`
-    - `G(((!(done == 1)) ##1 (done == 1)) |-> (error == (rst ^ in)))`
-    - `G(((!(done == 1)) ##1 (done == 1)) |-> (error == (rst ^ start)))`
-    - `G(((!(done == 1)) ##1 (done == 1)) |-> (error == (rst | in)))`
-    - `G(((!(done == 1)) ##1 (done == 1)) |-> (error == (rst | start)))`
-    - `G(((!(done == 1)) ##1 (done == 1)) |-> (error == rst + in))`
-    - `G(((!(done == 1)) ##1 (done == 1)) |-> (error == rst + start + in))`
-    - `G(((!(done == 1)) ##1 (done == 1)) |-> (error == rst + start))`
-    - `G(((!(done == 1)) ##1 (done == 1)) |-> (error == rst - in))`
-    - `G(((!(done == 1)) ##1 (done == 1)) |-> (error == rst - start))`
-    - `G(((!(done == 1)) ##1 (done == 1)) |=> ((error == 0) && (done >= start)))`
-    - `G(((!(done == 1)) ##1 (done == 1)) |=> ((error == 0) && (out >= start)))`
-    - ... and 543 more (all of them in `results/interface/sqrt/recovery.json`)
+- **declared**: 798 mined, 8 of them matched an expected clause, 790 with no counterpart (sample, alphabetical):
+    - `G((done) |-> (##[1:24] done == 0))`
+    - `G((done) |-> (##[1:24] done == 1))`
+    - `G((done) |-> (##[1:24] done))`
+    - `G((done) |-> (##[1:24] error == 0))`
+    - `G((done) |-> (##[1:24] error == 1))`
+    - `G((done) |-> (##[1:24] error))`
+    - `G((done) |-> (##[1:24] out <= 32))`
+    - `G((done) |-> (##[1:24] out == 0))`
+    - `G((done) |-> (##[1:24] start))`
+    - `G((done) |-> done == 1)`
+    - `G((error) |-> (##[1:24] done == 0))`
+    - `G((error) |-> done == 1 && out <= 32)`
+    - ... and 778 more (all of them in `results/declared/sqrt/recovery.json`)
+- **interface**: 8008 mined, 7 of them matched an expected clause, 8001 with no counterpart (sample, alphabetical):
+    - `G((done) |-> (##24 done >= rst))`
+    - `G((done) |-> (##24 done >= start))`
+    - `G((done) |-> (##24 error >= rst))`
+    - `G((done) |-> (##24 out >= rst))`
+    - `G((done) |-> (##[1:24] done * 2 <= rst))`
+    - `G((done) |-> (##[1:24] done * 2 <= start))`
+    - `G((done) |-> (##[1:24] done * in <= rst))`
+    - `G((done) |-> (##[1:24] done * in <= start))`
+    - `G((done) |-> (##[1:24] done * start + start > rst))`
+    - `G((done) |-> (##[1:24] done * start <= rst))`
+    - `G((done) |-> (##[1:24] done <= in))`
+    - `G((done) |-> (##[1:24] done <= rst))`
+    - ... and 7989 more (all of them in `results/interface/sqrt/recovery.json`)
 
 ### Assumptions: expected vs mined
 
 | expected | declared | interface | mined witness, or why nothing matched |
 |---|---|---|---|
 | `rst == 0` | > mined-weaker | < | `in <= 4000000000` |
-| `in >= 0` | > mined-weaker | < | `in <= 4000000000` |
-| `in < 0` | > mined-weaker | > | `in <= 4000000000` |
+| `in >= 0` | > mined-weaker | > | `in <= 4000000000` |
+| `in < 0` | > mined-weaker | > | `in <= 2147484125` |
 
 **Mined invariants with no expected counterpart**
 
-- **declared**: 6 mined, 1 of them matched an expected clause, 5 with no counterpart (sample, alphabetical):
+- **declared**: 9 mined, 2 of them matched an expected clause, 7 with no counterpart (sample, alphabetical):
     - `in >= -64654`
+    - `in >= -65407`
     - `rst <= 1`
     - `rst >= 0`
     - `start <= 1`
+    - `start == 0`
     - `start >= 0`
-- **interface**: 8 mined, 3 of them matched an expected clause, 5 with no counterpart (sample, alphabetical):
+- **interface**: 10 mined, 3 of them matched an expected clause, 7 with no counterpart (sample, alphabetical):
     - `in >= -64654`
+    - `in >= -65407`
     - `rst <= 1`
     - `rst >= 0`
     - `start <= 1`
+    - `start == 0`
     - `start >= 0`
 

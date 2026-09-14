@@ -1,0 +1,2 @@
+G({operand_b_i == -2147483648} |-> is_equal_result_o == 1)
+G({operand_a_i == -2147483648} |-> is_equal_result_o == 1)

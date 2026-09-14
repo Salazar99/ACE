@@ -1,14 +1,12 @@
-"""The HARM integration: the parts of it the flow can check without the miner installed.
+"""The HARM integration: the backend the flow requires.
 
 Every test here corresponds to a way the backend was broken with HARM on PATH - a config
-that aborted the whole run, a window clause that came back weaker than the in-process one,
-a substitution that would rewrite a signal name, a failure that took the run down with it.
-The last test runs the real binary when there is one.
+that aborted the whole run, a window clause that came back weaker than the reference, a
+substitution that would rewrite a signal name. Most of them are pure unit tests over the
+configuration and the failure text; the last two need the binary, which is not optional.
 """
-import io
 import sys
 import tempfile
-from contextlib import redirect_stderr
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
@@ -84,41 +82,90 @@ def test_horizon_substitution_leaves_signal_names_alone():
     assert "HREADY" in conf, "a bare replace of 'H' would have rewritten the signal name"
 
 
-def test_a_harm_failure_falls_back_loudly():
+def test_interface_vocabulary_declares_no_shift():
+    """A shift by a signal aborts the whole miner, not just the clause.
+
+    HARM checks the shift amount against the left operand's declared width and calls
+    `messageErrorIf`, which exits; every column the flow writes is retyped `int`, so any
+    stimulus above 32 kills the run - and now that HARM is the only backend, it kills the
+    run rather than costing seven regions quietly.
+    """
+    props = [p["exp"] for p in mining.interface_vocabulary(
+        ["a", "b", "cin"], ["sum", "cout"], limit=0)]
+    assert props, "the family must still emit something"
+    assert not [p for p in props if "<<" in p or ">>" in p], (
+        "shift propositions abort HARM; `{out} * 2 <= {a}` expresses the same thing")
+    assert any("&" in p for p in props), "the rest of the bitwise family must survive"
+
+
+def test_last_message_prefers_the_error_over_warnings():
+    """HARM writes warnings to stdout and errors to stderr, both as `Message:`.
+
+    The two are told apart only by a leading tab. Reset warnings are noisy enough to fill
+    the whole character budget, which once hid the real cause of an abort.
+    """
+    failure = RuntimeError(
+        "\tMessage: Reset 'presetn == 0' is not effective: subtrace of size 1 at time 146\n"
+        "\tMessage: Reset 'presetn == 0' is not effective: subtrace of size 1 at time 157\n"
+        "[ERROR] File: GenericExpression.cc at line 631\n"
+        "Message: right side of left bit shift is greater than left side size, got:103\n")
+    assert backends.last_message(failure) == (
+        "Message: right side of left bit shift is greater than left side size, got:103")
+
+
+def test_last_message_falls_back_to_warnings_when_there_is_no_error():
+    failure = RuntimeError("\tMessage: Reset 'rst_n == 0' is not effective\n")
+    assert "Reset 'rst_n == 0'" in backends.last_message(failure)
+
+
+def test_a_harm_failure_takes_the_run_down():
+    """No second backend, so a failed region is not quietly mined some other way.
+
+    The clauses of a region mined by something else are not comparable with the rest of the
+    run, and the warning that said so was only ever read when someone went looking. The
+    failure now propagates out of `_mine_temporal` with HARM's own message attached.
+    """
     run = fixed_latency()
-    corpus = Corpus(runs=[run])
     rows = list(run.rows)
-    vocabulary = ["start", "in", "done"]
 
     def boom(*args, **kwargs):
         raise RuntimeError("command failed (1): harm ...\nMessage: Antlr parse error")
 
-    if not backends.available("harm"):
-        return                      # the fallback under test is the one from a failure
     original = backends.harm
     backends.harm = boom
     try:
         with tempfile.TemporaryDirectory(prefix="ace_harm_") as tmp:
-            stderr = io.StringIO()
-            with redirect_stderr(stderr):
-                clauses, backend = mining._mine_temporal(
-                    Path(tmp), rows, vocabulary, "G3", 4, tmp, "guarantee",
-                    cfg={"outputs": ["done"]}, runs=corpus.runs)
+            try:
+                mining._mine_temporal(Path(tmp), rows, ["start", "in", "done"], "G3", 4,
+                                      tmp, "guarantee", cfg={"outputs": ["done"]},
+                                      runs=[run])
+            except RuntimeError as exc:
+                assert "Antlr parse error" in str(exc), exc
+            else:
+                raise AssertionError("a HARM failure must not be swallowed")
     finally:
         backends.harm = original
 
-    assert backend.startswith("in-process-templates"), backend
-    assert "harm failed" in backend, backend
-    assert "Antlr parse error" in backend, backend
-    assert "warning:" in stderr.getvalue(), stderr.getvalue()
-    assert clauses, "the run must still produce clauses when the miner fails"
+
+def test_require_names_the_installation_it_wants():
+    """The message a machine without HARM gets is the whole user experience of the gate."""
+    original = backends.harm_bin
+    backends.harm_bin = lambda: None
+    try:
+        try:
+            backends.require()
+        except backends.BackendMissing as exc:
+            assert "HARM_BIN" in str(exc) and "install_harm.sh" in str(exc), exc
+        else:
+            raise AssertionError("require() must refuse when there is no binary")
+    finally:
+        backends.harm_bin = original
+    assert backends.require(), "HARM is required to run these tests"
 
 
 def test_the_real_binary_accepts_a_flag_in_arithmetic():
-    """The adder_8bit shape, end to end, when HARM is installed."""
-    if not backends.available("harm"):
-        print("    (skipped: HARM not installed)")
-        return
+    """The adder_8bit shape, end to end, on the installed binary."""
+    backends.require()
     run = fixed_latency()
     with tempfile.TemporaryDirectory(prefix="ace_harm_") as tmp:
         tmp = Path(tmp)

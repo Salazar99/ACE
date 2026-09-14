@@ -1,7 +1,11 @@
 """The ACE flow, wired end to end.
 
+    export HARM_BIN=/path/to/harm        # required: the temporal backend
     export ACEROOT=/path/to/ACE          # only needed by configs that read ACE traces
     python3 -m ace configs/sqrt.json --out results/sqrt
+
+HARM is checked before anything is read, so a machine without it writes nothing rather than
+an artifact mined some other way under the same command.
 
 Per-stage wall-clock times are recorded for every run. Simulation time is absent by
 construction: the flow never re-simulates the IP.
@@ -16,8 +20,8 @@ import time
 from contextlib import contextmanager
 from pathlib import Path
 
-from . import (backends, episodes as episodes_mod, labeling, mining, templates,
-               traces, triggers, validation)
+from . import (backends, episodes as episodes_mod, labeling, mining, traces, triggers,
+               validation, vocabulary)
 
 REQUIRED = ("name", "traces", "inputs", "outputs", "events", "horizon", "h_pre", "h_post")
 
@@ -78,8 +82,8 @@ def corpus_traces(corpus, out_dir) -> Path:
 
 
 def mine_candidates(corpus, event, cfg, workdir) -> tuple:
-    """Enumerate candidate triggers with HARM, using the event as the consequent.
-    Falls back to predicates read off the observed input values when HARM is absent."""
+    """Enumerate candidate triggers with HARM, using the event as the consequent, unioned
+    with the predicates read off the observed input values."""
     templates = []
     for template in backends.GRAMMARS[cfg.get("grammar", "G3")]:
         slots = sorted(set(re.findall(r"P\d+", template)))
@@ -90,34 +94,29 @@ def mine_candidates(corpus, event, cfg, workdir) -> tuple:
     conf = backends.write_conf(
         backends.harm_conf(templates, booleans, numerics, cfg["horizon"], loc="a,dt"),
         Path(workdir) / "trigger_conf.xml")
-    try:
-        # one directory of mining traces, so HARM mines them all in a single call with each
-        # run kept separate
-        mined = backends.harm(corpus_traces(corpus, Path(workdir).parent / "trigger_traces"),
-                              conf, Path(workdir) / "trigger_harm", reset=cfg.get("reset"),
-                              max_ass=cfg.get("max_ass"), min_frank=cfg.get("min_frank"))
-        found = sorted({a for a in (antecedent_text(m) for m in mined) if a})
-        if found:
-            # union, not replacement. What HARM returns is bounded by its template grammar
-            # and its clustered vocabulary, and on some designs that is one or two
-            # predicates - on the square root, a single artifact value that explains a tenth
-            # of the error events. Adding the observed-value atoms and the input orderings
-            # costs one scoring pass each and cannot remove a candidate HARM found.
-            return (sorted(set(found) | set(observed_predicates(corpus, list(cfg["inputs"])))),
-                    "harm and observed values")
-    except backends.BackendMissing:
-        pass
-    except RuntimeError as exc:
-        print(f"warning: HARM failed to enumerate trigger candidates, falling back to "
-              f"observed predicates ({backends.last_message(exc)})", file=sys.stderr)
-    return (observed_predicates(corpus, list(cfg["inputs"])),
-            "observed values and interface relations (harm unavailable)")
+    # one directory of mining traces, so HARM mines them all in a single call with each
+    # run kept separate
+    mined = backends.harm(corpus_traces(corpus, Path(workdir).parent / "trigger_traces"),
+                          conf, Path(workdir) / "trigger_harm", reset=cfg.get("reset"),
+                          max_ass=cfg.get("max_ass"), min_frank=cfg.get("min_frank"))
+    found = sorted({a for a in (antecedent_text(m) for m in mined) if a})
+    # union, not replacement. What HARM returns is bounded by its template grammar and its
+    # clustered vocabulary, and on some designs that is one or two predicates - on the
+    # square root, a single artifact value that explains a tenth of the error events. Adding
+    # the observed-value atoms and the input orderings costs one scoring pass each and
+    # cannot remove a candidate HARM found.
+    observed = observed_predicates(corpus, list(cfg["inputs"]))
+    if not found:
+        # HARM ran and had nothing to say about this event: a real outcome, not a missing
+        # miner, and the provenance has to tell the two apart.
+        return observed, "observed values and interface relations (harm found no antecedent)"
+    return sorted(set(found) | set(observed)), "harm and observed values"
 
 
 def observed_predicates(corpus, signals, max_candidates: int = 60) -> list:
-    """Trigger vocabulary when no miner is installed, derived from the traces and the
-    interface: equalities against the values a signal actually takes, its observed bounds,
-    the orderings between pairs of inputs, and pairwise conjunctions of all of those.
+    """The trigger vocabulary the flow contributes, alongside the one HARM mines over:
+    equalities against the values a signal actually takes, its observed bounds, the
+    orderings between pairs of inputs, and pairwise conjunctions of all of those.
 
     The pair orderings matter as much as the value predicates and neither a value-clustering
     miner nor a bounds-only vocabulary produces them: what explains a comparator asserting
@@ -126,7 +125,7 @@ def observed_predicates(corpus, signals, max_candidates: int = 60) -> list:
     benchmark was skipped for want of a candidate that discriminates its event.
     """
     rows = [row for run in corpus.runs for row in run.rows]
-    atoms = templates.predicates(rows, signals)
+    atoms = vocabulary.predicates(rows, signals)
     for i, a in enumerate(signals):
         for b in signals[i + 1:]:
             atoms += [f"{a} > {b}", f"{a} == {b}", f"{a} < {b}"]
@@ -198,6 +197,7 @@ def merge_regions(corpus, regions) -> list:
 
 def run_flow(config_path, out_dir, budget=None, seed=0, episode_mode=None,
              overrides=None) -> dict:
+    backends.require()          # before anything is read or any directory is created
     cfg = load_config(config_path)
     base = Path(config_path).parent
     if overrides:
@@ -235,7 +235,7 @@ def run_flow(config_path, out_dir, budget=None, seed=0, episode_mode=None,
                "episode_covers_horizon": int(cfg["h_post"]) >= int(cfg["horizon"]), "ace_version": __import__("ace").__version__,
                "runs": len(corpus.runs), "samples": corpus.samples,
                "trace_budget": budget, "seed": seed,
-               "temporal_backend": backends.temporal_backend(),
+               "temporal_backend": "harm",
                "regions": []}
 
     for raw_event in cfg["events"]:
@@ -366,6 +366,8 @@ def main(argv=None):
 
     try:
         results = run_flow(args.config, args.out, args.budget, args.seed, args.episode_mode)
+    except backends.BackendMissing as exc:
+        raise SystemExit(f"{exc}")
     except (FileNotFoundError, ValueError) as exc:
         raise SystemExit(f"{type(exc).__name__}: {exc}")
     print(f"{Path(args.out) / 'contracts.json'}")

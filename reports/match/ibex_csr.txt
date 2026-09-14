@@ -4,31 +4,26 @@
 == GUARANTEES ==
 -- declared vocabulary --
 [    CSR1] equivalent      G((rst_n == 0) |-> (rd_data_o == 0))
-           witness        G(rst_n == 0 |-> (rd_data_o == 0))
+           witness        G((rst_n == 0) |-> rd_data_o == 0)
 [    CSR2] mined-stronger  G((wr_en_i == 1 && wr_data_i == 0) |=> (rd_data_o == 0))
-           witness        G((wr_data_i == 0) |=> (rd_data_o == 0))
+           witness        G((wr_data_i == 0) |=> rd_data_o == 0)
 [    CSR3] mined-stronger  G((wr_en_i == 1 && wr_data_i == 16777215) |=> (rd_data_o == 16777215))
-           witness        G((wr_data_i == 16777215) |=> (rd_data_o == 16777215))
+           witness        G((wr_data_i == 16777215) |=> rd_data_o == 16777215)
 [    CSR4] mined-stronger  G((wr_en_i == 1 && wr_data_i == 1) |=> (rd_data_o == 1))
-           witness        G((wr_data_i == 1) |=> (rd_data_o == 1))
-[    CSR5] missed          G((rst_n == 1) |-> (rd_error_o == 0))
-[    CSR6] missed          G((wr_en_i == 1) |=> (rd_data_o <= 16777215))
+           witness        G((wr_data_i == 1) |=> rd_data_o == 1)
 
 -- interface vocabulary --
 [    CSR1] equivalent      G((rst_n == 0) |-> (rd_data_o == 0))
            witness        G(rst_n == 0 |-> (rd_data_o == 0))
 [    CSR2] mined-stronger  G((wr_en_i == 1 && wr_data_i == 0) |=> (rd_data_o == 0))
-           witness        G((wr_data_i == 0) |=> ((rd_data_o == 0) && (rd_error_o == (rst_n & wr_data_i))))
+           witness        G((wr_data_i == 0) |=> rd_data_o * 2 <= rst_n)
 [    CSR3] mined-stronger  G((wr_en_i == 1 && wr_data_i == 16777215) |=> (rd_data_o == 16777215))
-           witness        G((wr_data_i == 16777215) |=> (rd_data_o == 16777215))
+           witness        G((wr_data_i == 16777215) |=> rd_data_o == 16777215)
 [    CSR4] mined-stronger  G((wr_en_i == 1 && wr_data_i == 1) |=> (rd_data_o == 1))
-           witness        G((wr_data_i == 1) |=> ((rd_data_o == 1) && (rd_error_o == (wr_en_i & wr_data_i))))
-[    CSR5] missed          G((rst_n == 1) |-> (rd_error_o == 0))
-[    CSR6] mined-stronger  G((wr_en_i == 1) |=> (rd_data_o <= 16777215))
-           witness        G((wr_en_i == 1) |-> ##1 (rd_data_o == (wr_en_i ^ wr_data_i)))
+           witness        G((wr_data_i == 1) |=> rd_data_o == 1)
 
-# declared: 24 mined, 4 matched a golden clause, 20 with no counterpart
-# interface: 865 mined, 5 matched a golden clause, 860 with no counterpart
+# declared: 51 mined, 4 matched a golden clause, 47 with no counterpart
+# interface: 758 mined, 4 matched a golden clause, 754 with no counterpart
 
 == ASSUMPTIONS ==
 -- declared vocabulary --
@@ -43,5 +38,5 @@
 [      A2] equivalent      wr_data_i <= 16777215
            witness        wr_data_i <= 16777215
 
-# declared: 9 mined, 2 matched a golden clause, 7 with no counterpart
-# interface: 14 mined, 2 matched a golden clause, 12 with no counterpart
+# declared: 11 mined, 2 matched a golden clause, 9 with no counterpart
+# interface: 11 mined, 2 matched a golden clause, 9 with no counterpart

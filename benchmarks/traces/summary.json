@@ -19,30 +19,30 @@
   "design": "ibex_csr",
   "runs": 5,
   "samples": 2500,
-  "contracts": 6,
-  "confirmed": 6,
+  "contracts": 4,
+  "confirmed": 4,
   "assumptions": 2
  },
  {
   "design": "accumulator",
-  "runs": 5,
-  "samples": 4000,
-  "contracts": 6,
-  "confirmed": 6,
+  "runs": 10,
+  "samples": 19000,
+  "contracts": 5,
+  "confirmed": 5,
   "assumptions": 3
  },
  {
   "design": "multi_16bit",
   "runs": 5,
   "samples": 5000,
-  "contracts": 9,
-  "confirmed": 9,
+  "contracts": 8,
+  "confirmed": 8,
   "assumptions": 3
  },
  {
   "design": "sqrt",
-  "runs": 5,
-  "samples": 5000,
+  "runs": 10,
+  "samples": 20000,
   "contracts": 13,
   "confirmed": 13,
   "assumptions": 3
@@ -75,8 +75,8 @@
   "design": "fifo_sync",
   "runs": 5,
   "samples": 6000,
-  "contracts": 19,
-  "confirmed": 19,
+  "contracts": 18,
+  "confirmed": 18,
   "assumptions": 2
  },
  {

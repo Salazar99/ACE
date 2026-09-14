@@ -37,7 +37,7 @@ declared event as
 e^{\uparrow}\equiv(\lnot e)\,\texttt{\#\#1}\,e ,
 \end{equation}
 which turns the 2189 samples on which \texttt{done} is high in the square-root corpus into
-247 completions.\footnote{\texttt{ace/\_\_main\_\_.py:50--61}.} Signals that are already
+247 completions.\footnote{\texttt{ace/\_\_main\_\_.py:54--65}.} Signals that are already
 pulses are unaffected, since for them every high sample is a rising edge.
 
 In the running example, choose $e_{done}(t)\equiv[\texttt{done}(t)=1]$ under the onset
@@ -53,17 +53,18 @@ value with a functionality.
 Given $e$, the temporal-property backend enumerates candidates $a\in\Grammar$ that can
 predict $e$ under temporal horizon $H$. \ACE{} obtains them from HARM by pinning the event
 into the last proposition slot of every template of the configured grammar, mining, and
-taking the deduplicated antecedents of what comes back.\footnote{\texttt{ace/\_\_main\_\_.py:64--89};
-grammars \texttt{G1}--\texttt{G5} in \texttt{ace/backends.py:43--59}, default \texttt{G3}
+taking the deduplicated antecedents of what comes back.\footnote{\texttt{ace/\_\_main\_\_.py:84--113};
+grammars \texttt{G1}--\texttt{G5} in \texttt{ace/backends.py:56--72}, default \texttt{G3}
 $=\{G(P_0\!\mid\!\to P_1),\,G(P_0\!\mid\!\Rightarrow P_1),\,G(P_0\!\mid\!\to\,\texttt{\#\#[1:H]}\,P_1)\}$.}
 The miner is therefore used as a candidate generator, not as an oracle: metrics are never
-read back from it, since \ACE{} scores every candidate with its own finite-trace evaluator
-so that the numbers reported for a HARM run and for a run without HARM are the same
-quantity. When no miner is installed the flow falls back to an in-process vocabulary built
-from the observed values, the interval bounds, the three orderings $a>b$, $a=b$, $a<b$ for
-every input pair and their pairwise conjunctions.\footnote{\texttt{ace/\_\_main\_\_.py:92--116}.}
-The fallback is a comparison rather than a dependency: what a real miner adds is its own
-vocabulary construction and ranking.
+read back from it, since \ACE{} scores every candidate with its own finite-trace evaluator,
+which is what keeps labelling, trigger selection and held-out validation in one semantics.
+The mined antecedents are unioned with a vocabulary \ACE{} reads off the traces itself --
+the observed values, the interval bounds, the three orderings $a>b$, $a=b$, $a<b$ for every
+input pair and their pairwise conjunctions.\footnote{\texttt{ace/\_\_main\_\_.py:116--140}.}
+The union is not redundant: value clustering only ever yields comparisons against constants,
+so a relation between two signals -- what explains a comparator asserting its output -- is
+outside the miner's vocabulary by construction.
 
 \subsection{Scoring candidates}
 \label{sec:mining}
@@ -243,7 +244,7 @@ independently, \ACE{} closes the flow with one pass over the finished regions an
 that are the same region. Two regions are grouped when their trigger sets are equivalent on
 the observed traces \emph{and} their guarantee sets are equivalent, where equivalence between
 two sets of clauses means that every member of one is entailed, over the corpus, by some
-member of the other and conversely.\footnote{\texttt{ace/\_\_main\_\_.py:125--171}, reusing the
+member of the other and conversely.\footnote{\texttt{ace/\_\_main\_\_.py:149--193}, reusing the
 trace-bounded entailment check of \texttt{ace/validation.py:80}.} Requiring both halves is
 what keeps two events that happen to share a trigger but impose different obligations in
 separate regions — the paper's criterion that redundant triggers are merged only when their

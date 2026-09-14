@@ -1,4 +1,4 @@
-"""End-to-end: Steps 1-5 on a synthetic square-root IP, with no miner installed.
+"""End-to-end: Steps 1-5 on a synthetic square-root IP, on the HARM backend.
 
 The IP mirrors the running example: a valid non-negative request raises `done` two cycles
 after `start`, a negative request raises `error` instead.
@@ -13,6 +13,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
+from ace import backends
 from ace import episodes as episodes_mod
 from ace import traces
 from ace.__main__ import run_flow
@@ -78,7 +79,7 @@ def build_config(root):
 
 
 def main():
-    assert shutil.which("harm") is None or True  # the flow must work either way
+    backends.require()          # the flow has one temporal backend; this test runs on it
     root = Path(tempfile.mkdtemp(prefix="ace_flow_"))
     try:
         config = build_config(root)

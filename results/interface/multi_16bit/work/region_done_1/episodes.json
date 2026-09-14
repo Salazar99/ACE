@@ -1,0 +1,92 @@
+{
+ "mode": "split",
+ "episodes": 14,
+ "samples": 4950,
+ "provenance_ok": true,
+ "windows": [
+  {
+   "csv": "episode_00000.csv",
+   "run": "mine_seed001",
+   "lo": 1,
+   "hi": 856
+  },
+  {
+   "csv": "episode_00001.csv",
+   "run": "mine_seed001",
+   "lo": 860,
+   "hi": 929
+  },
+  {
+   "csv": "episode_00002.csv",
+   "run": "mine_seed001",
+   "lo": 936,
+   "hi": 999
+  },
+  {
+   "csv": "episode_00003.csv",
+   "run": "mine_seed002",
+   "lo": 1,
+   "hi": 339
+  },
+  {
+   "csv": "episode_00004.csv",
+   "run": "mine_seed002",
+   "lo": 344,
+   "hi": 512
+  },
+  {
+   "csv": "episode_00005.csv",
+   "run": "mine_seed002",
+   "lo": 515,
+   "hi": 999
+  },
+  {
+   "csv": "episode_00006.csv",
+   "run": "mine_seed003",
+   "lo": 1,
+   "hi": 562
+  },
+  {
+   "csv": "episode_00007.csv",
+   "run": "mine_seed003",
+   "lo": 567,
+   "hi": 877
+  },
+  {
+   "csv": "episode_00008.csv",
+   "run": "mine_seed003",
+   "lo": 884,
+   "hi": 999
+  },
+  {
+   "csv": "episode_00009.csv",
+   "run": "mine_seed004",
+   "lo": 1,
+   "hi": 341
+  },
+  {
+   "csv": "episode_00010.csv",
+   "run": "mine_seed004",
+   "lo": 346,
+   "hi": 992
+  },
+  {
+   "csv": "episode_00011.csv",
+   "run": "mine_seed005",
+   "lo": 1,
+   "hi": 311
+  },
+  {
+   "csv": "episode_00012.csv",
+   "run": "mine_seed005",
+   "lo": 314,
+   "hi": 896
+  },
+  {
+   "csv": "episode_00013.csv",
+   "run": "mine_seed005",
+   "lo": 904,
+   "hi": 999
+  }
+ ]
+}

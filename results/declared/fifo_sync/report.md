@@ -6,7 +6,7 @@
 
 ## Event `full == 1`
 - occurrences: 182 (0.0303 of samples)
-- triggers (observed values and interface relations (harm unavailable)):
+- triggers (observed values and interface relations (harm found no antecedent)):
     - `wr_en == 0` R=0.696 P=0.093 ATCT=127 AFCT=55 matches 1084, explains 127
 - coverage 0.698, overlap 0.000, unassigned 0.302
 - episodes: 34 (483 samples, mode split, provenance ok)
@@ -180,7 +180,7 @@
 
 ## Event `empty == 1`
 - occurrences: 2263 (0.3772 of samples)
-- triggers (observed values and interface relations (harm unavailable)):
+- triggers (observed values and interface relations (harm found no antecedent)):
     - `rst_n > rd_en` R=0.603 P=0.582 ATCT=1365 AFCT=898 matches 882, explains 1365
     - `rst_n == 0` R=0.434 P=1.000 ATCT=981 AFCT=1282 matches 250, explains 981
     - `rst_n == rd_en` R=0.591 P=0.514 ATCT=1337 AFCT=926 matches 883, explains 1337
@@ -310,13 +310,13 @@
 
 ## Stage times (s)
 
-- load: 0.0134
-- 1_label:full == 1: 0.001
-- 2_triggers:full == 1: 0.3774
-- 3_episodes:full == 1: 0.003
-- 4_mine:full == 1: 2.5259
-- 1_label:empty == 1: 0.0017
-- 2_triggers:empty == 1: 0.4042
-- 3_episodes:empty == 1: 0.1865
-- 4_mine:empty == 1: 4.6939
-- 5_merge: 0.0036
+- load: 0.0191
+- 1_label:full == 1: 0.0016
+- 2_triggers:full == 1: 0.5633
+- 3_episodes:full == 1: 0.0044
+- 4_mine:full == 1: 3.6432
+- 1_label:empty == 1: 0.0019
+- 2_triggers:empty == 1: 0.6016
+- 3_episodes:empty == 1: 0.2536
+- 4_mine:empty == 1: 6.6909
+- 5_merge: 0.0039

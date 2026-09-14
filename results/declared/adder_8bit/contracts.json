@@ -1007,7 +1007,7 @@
         "density": 0.5268,
         "runs_with_occurrences": 5
       },
-      "candidate_source": "observed values and interface relations (harm unavailable)",
+      "candidate_source": "observed values and interface relations (harm found no antecedent)",
       "trigger_selection": {
         "event": "cout == 1",
         "selected": [
@@ -1115,11 +1115,11 @@
   ],
   "merged_regions": [],
   "timers_s": {
-    "load": 0.0043,
-    "1_label:cout == 1": 0.0007,
-    "2_triggers:cout == 1": 0.185,
-    "3_episodes:cout == 1": 0.0222,
-    "4_mine:cout == 1": 0.3036,
+    "load": 0.0068,
+    "1_label:cout == 1": 0.0012,
+    "2_triggers:cout == 1": 0.2761,
+    "3_episodes:cout == 1": 0.0264,
+    "4_mine:cout == 1": 0.4276,
     "5_merge": 0.0
   }
 }

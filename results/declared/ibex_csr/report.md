@@ -1,18 +1,16 @@
-# ACE2 contracts: ibex_csr
+# ACE contracts: ibex_csr
 
 - traces: 5 runs, 2500 samples
-- temporal backend: in-process-templates
+- temporal backend: harm
 - trace budget: full corpus (seed 0)
 
 ## Event `rd_data_o == 0`
 - occurrences: 341 (0.1364 of samples)
-- triggers (observed values and interface relations (harm unavailable)):
-    - `rst_n == 0 && wr_en_i == 0` R=0.976 ATCT=39 AFCT=0 explains 78
-    - `rst_n < wr_en_i` R=0.525 ATCT=30 AFCT=27 explains 30
-    - `rst_n == 0 && wr_en_i < wr_data_i` R=0.699 ATCT=64 AFCT=27 explains 98
-    - `rst_n == 0` R=0.714 ATCT=69 AFCT=27 explains 108
-- coverage 0.317, overlap 0.317, unassigned 0.683
-- episodes: 63 (435 samples, mode split, provenance ok)
+- triggers (observed values and interface relations (harm found no antecedent)):
+    - `rst_n == 0` R=0.318 P=0.719 ATCT=108 AFCT=233 matches 96, explains 108
+    - `rst_n == 1` R=0.233 P=0.417 ATCT=79 AFCT=262 matches 96, explains 79
+- coverage 0.510, overlap 0.038, unassigned 0.490
+- episodes: 63 (498 samples, mode split, provenance ok)
 
 ### Assumptions
 - `rst_n >= 0` (propositional)
@@ -22,45 +20,61 @@
 - `wr_data_i >= 0` (propositional)
 - `wr_data_i <= 65475` (propositional)
 - `wr_en_i <= wr_data_i` (propositional)
-- `G(rst_n < wr_en_i |-> (wr_data_i >= 1473))` (propositional)
-- `G(rst_n < wr_en_i |-> (wr_data_i <= 62521))` (propositional)
-- `G(rst_n == 0 |-> (wr_en_i >= 0))` (propositional)
-- `G(rst_n == 0 |-> (wr_en_i <= 1))` (propositional)
-- `G(rst_n == 0 |-> (wr_data_i <= 65475))` (propositional)
-- `G(rst_n == 0 |-> (wr_en_i <= wr_data_i))` (propositional)
-- `G(rst_n == 0 |-> (wr_data_i >= 0))` (propositional)
+- `G(rst_n >= 0 && rst_n <= 1 |-> (wr_en_i >= 0))` (propositional)
+- `G(rst_n >= 0 && rst_n <= 1 |-> (wr_en_i <= 1))` (propositional)
+- `G(rst_n >= 0 && rst_n <= 1 |-> (wr_data_i >= 0))` (propositional)
+- `G(rst_n >= 0 && rst_n <= 1 |-> (wr_data_i <= 65475))` (propositional)
+- `G(rst_n >= 0 && rst_n <= 1 |-> (wr_en_i <= wr_data_i))` (propositional)
+- `rst_n == 1` (propositional)
+- `wr_en_i == 0` (propositional)
+- `wr_data_i == 0` (propositional)
 
 ### Guarantees
 - `rd_data_o <= 65475` (propositional)
-- `G(rst_n == 0 |-> (rd_data_o == 0))` (propositional)
-- `G((rst_n == 0) && (wr_en_i == 0) |=> (rd_data_o == 0))` (temporal)
-- `G(((rst_n == 1) ##1 (!(rst_n == 1))) |-> (rd_data_o == 0))` (temporal)
-- `G(((rst_n == 1) ##1 (!(rst_n == 1))) |=> (rd_data_o == 0))` (temporal)
-- `G((wr_data_i == 0) |-> (rd_data_o == 0))` (temporal)
-- `G((wr_data_i == 23130) |-> ##2 (rd_data_o == 0))` (temporal)
-- `G((wr_data_i == 0) |=> (rd_data_o == 0))` (temporal)
-- `G((wr_data_i == 31519) |-> ##2 (rd_data_o == 0))` (temporal)
-- `G((wr_en_i == 0) && (wr_data_i == 31519) |=> (rd_data_o == 0))` (temporal)
-- `G((wr_data_i == 13193) |-> ##2 (rd_data_o == 0))` (temporal)
-- `G((wr_en_i == 0) && (wr_data_i == 13193) |=> (rd_data_o == 0))` (temporal)
-- `G(((wr_en_i == 1) ##1 (!(wr_en_i == 1))) |-> ##2 (rd_data_o == 0))` (temporal)
-- `G((wr_data_i == 21571) |-> ##2 (rd_data_o == 0))` (temporal)
-- `G((wr_en_i == 0) |-> ##[1:2] (rd_data_o == 0))` (temporal)
+- `G((rd_data_o >= 11105 && rd_data_o <= 17174) |-> rst_n)` (temporal)
+- `G((rd_data_o >= 18200 && rd_data_o <= 25284) |-> rst_n)` (temporal)
+- `G((rd_data_o >= 26360 && rd_data_o <= 33784) |-> rst_n)` (temporal)
+- `G((rd_data_o >= 3517 && rd_data_o <= 8973) |-> rst_n)` (temporal)
+- `G((rd_data_o >= 35208 && rd_data_o <= 41297) |-> rst_n)` (temporal)
+- `G((rd_data_o >= 41965 && rd_data_o <= 48143) |-> rst_n)` (temporal)
+- `G((rd_data_o >= 48583 && rd_data_o <= 54965) |-> rst_n)` (temporal)
+- `G((rd_data_o >= 56404 && rd_data_o <= 60784) |-> rst_n)` (temporal)
+- `G((rd_data_o >= 62521 && rd_data_o <= 65475) |-> rst_n)` (temporal)
+- `G((rst_n == 0) |-> rd_data_o == 0)` (temporal)
+- `G((rst_n == 0) |-> rd_data_o >= 0 && rd_data_o <= 2894)` (temporal)
+- `G((wr_data_i == 0) |-> rd_data_o == 0)` (temporal)
+- `G((wr_data_i == 0) |=> rd_data_o == 0)` (temporal)
+- `G((wr_data_i == 0) |=> rd_data_o >= 0 && rd_data_o <= 2894)` (temporal)
+- `G((rd_data_o >= 11105 && rd_data_o <= 17174) |-> (##2 rd_data_o == 0))` (temporal)
+- `G((rd_data_o >= 18200 && rd_data_o <= 25284) |-> (##2 rd_data_o == 0))` (temporal)
+- `G((rd_data_o >= 26360 && rd_data_o <= 33784) |-> (##2 rd_data_o == 0))` (temporal)
+- `G((rd_data_o >= 3517 && rd_data_o <= 8973) |-> (##2 rd_data_o == 0))` (temporal)
+- `G((rd_data_o >= 35208 && rd_data_o <= 41297) |-> (##2 rd_data_o == 0))` (temporal)
+- `G((rd_data_o >= 41965 && rd_data_o <= 48143) |-> (##2 rd_data_o == 0))` (temporal)
+- `G((rd_data_o >= 48583 && rd_data_o <= 54965) |-> (##2 rd_data_o == 0))` (temporal)
+- `G((rd_data_o >= 62521 && rd_data_o <= 65475) |-> (##2 rd_data_o == 0))` (temporal)
+- `G(wr_data_i >= 0 && wr_data_i <= 1 |-> rd_data_o >= 0 && rd_data_o <= 2894)` (temporal)
+- `G((wr_data_i >= 0 && wr_data_i <= 3586) |-> (##[1:2] rd_data_o == 0))` (temporal)
+- `G((wr_data_i >= 17162 && wr_data_i <= 20682) |-> (##[1:2] rd_data_o == 0))` (temporal)
+- `G((wr_data_i >= 46964 && wr_data_i <= 52996) |-> (##[1:2] rd_data_o == 0))` (temporal)
+- `G((wr_data_i >= 61646 && wr_data_i <= 65475) |-> (##[1:2] rd_data_o == 0))` (temporal)
+- `G(rst_n == 1 |-> (wr_en_i <= rd_data_o))` (propositional)
+- `G(rst_n == 1 |-> (rd_data_o <= wr_data_i))` (propositional)
+- `G((rst_n == 0) |-> (##[1:2] rd_data_o == 0))` (temporal)
+- `G(rst_n == 1 |-> (rd_data_o <= 56903))` (propositional)
 
-- trace consistency: 0 violations over 435 positions
-- dropped candidates: 40
-- held-out: 40 episodes of the same region, 16 clauses generalise and survive minimization
-- reference match: equivalent 0.16666666666666666, acceptable 0.3333333333333333
+- trace consistency: 0 violations over 15 positions
+- dropped candidates: 72
+- held-out: 3 episodes of the same region, 22 clauses generalise and survive minimization
+- reference match: equivalent 0.25, acceptable 0.5
 
 ## Event `rd_data_o >= 8388608`
 - occurrences: 20 (0.0080 of samples)
-- triggers (observed values and interface relations (harm unavailable)):
-    - `rst_n < wr_data_i` R=0.857 ATCT=5 AFCT=0 explains 10
-    - `rst_n == 1 && wr_data_i == 16777215` R=0.857 ATCT=5 AFCT=0 explains 10
-    - `wr_data_i == 16777215` R=0.857 ATCT=5 AFCT=0 explains 10
-    - `rst_n == 1 && wr_en_i == wr_data_i` R=0.500 ATCT=5 AFCT=5 explains 5
-- coverage 0.500, overlap 0.500, unassigned 0.500
-- episodes: 5 (40 samples, mode split, provenance ok)
+- triggers (harm and observed values):
+    - `rst_n >= 0 && wr_en_i == 1` R=0.727 P=0.028 ATCT=15 AFCT=5 matches 363, explains 15
+    - `rst_n >= 0 && wr_en_i == 0` R=0.727 P=0.027 ATCT=15 AFCT=5 matches 367, explains 15
+- coverage 1.000, overlap 0.500, unassigned 0.000
+- episodes: 5 (50 samples, mode split, provenance ok)
 
 ### Assumptions
 - `rst_n == 1` (propositional)
@@ -68,35 +82,48 @@
 - `wr_en_i <= 1` (propositional)
 - `wr_data_i >= 0` (propositional)
 - `wr_data_i <= 16777215` (propositional)
-- `G(wr_data_i == 16777215 |-> (rst_n == 1))` (propositional)
-- `G(wr_en_i == wr_data_i |-> (rst_n == 1))` (propositional)
+- `G(rst_n >= 0 && wr_en_i == 0 |-> (wr_data_i >= 0))` (propositional)
+- `G(rst_n >= 0 && wr_en_i == 0 |-> (wr_data_i <= 16777215))` (propositional)
+- `G(wr_en_i >= 0 && wr_en_i <= 1 |-> (rst_n == 1))` (propositional)
+- `G(wr_en_i >= 0 && wr_en_i <= 1 |-> (rst_n >= 0))` (trigger-derived)
 
 ### Guarantees
-- `G((wr_data_i == 16777215) |=> (rd_data_o == 16777215))` (temporal)
-- `G(((wr_en_i == 1) ##1 (!(wr_en_i == 1))) |-> ##2 (rd_data_o == 16777215))` (temporal)
-- `G((rd_data_o == 0) |-> ##2 (rd_data_o == 16777215))` (temporal)
-- `G((rd_data_o == 1) |-> ##2 (rd_data_o == 0))` (temporal)
-- `G((wr_data_i == 0) |=> (rd_data_o == 0))` (temporal)
-- `G((wr_en_i == 0) && (wr_data_i == 16777215) |-> (rd_data_o == 16777215))` (temporal)
-- `G((wr_data_i == 1) |-> (rd_data_o == 1))` (temporal)
-- `G((wr_data_i == 1) |=> (rd_data_o == 1))` (temporal)
-- `G((wr_data_i == 42405) |-> (rd_data_o == 16777215))` (temporal)
-- `G((wr_en_i == 0) && (wr_data_i == 0) |-> (rd_data_o == 0))` (temporal)
-- `G((wr_en_i == 1) && (wr_data_i == 0) |-> (rd_data_o == 1))` (temporal)
+- `G(rst_n >= 0 && wr_en_i == 0 |-> (wr_data_i == rd_data_o))` (propositional)
+- `G((rd_data_o == 0) |=> wr_data_i == 16777215)` (temporal)
+- `G((rd_data_o == 1) |=> wr_data_i == 0)` (temporal)
+- `G((rd_data_o == 42405) |-> wr_en_i)` (temporal)
+- `G((rd_data_o == 42405) |=> rd_data_o == 23130)` (temporal)
+- `G((rd_data_o == 42405) |=> wr_data_i == 23130)` (temporal)
+- `G((wr_data_i == 0) |=> rd_data_o == 0)` (temporal)
+- `G((wr_data_i == 16777215) |=> rd_data_o == 16777215)` (temporal)
+- `G((wr_data_i == 1) |-> rd_data_o == 1)` (temporal)
+- `G((wr_data_i == 1) |=> rd_data_o == 1)` (temporal)
+- `G((wr_data_i == 42405) |-> rd_data_o == 16777215)` (temporal)
+- `G((wr_data_i == 42405) |=> rd_data_o == 42405)` (temporal)
+- `G((rd_data_o == 0) |-> (##2 rd_data_o == 16777215))` (temporal)
+- `G((rd_data_o == 0) |-> (##2 wr_data_i == 16777215))` (temporal)
+- `G((rd_data_o == 1) |-> (##2 rd_data_o == 0))` (temporal)
+- `G((wr_data_i == 42405) |-> (##2 rd_data_o == 23130))` (temporal)
+- `G(rd_data_o >= 0 && rd_data_o <= 16777215 |-> rst_n)` (temporal)
+- `G(rd_data_o >= 0 && rd_data_o <= 16777215 |=> rst_n)` (temporal)
+- `G(rd_data_o >= 0 && rd_data_o <= 16777215 |-> (##2 rst_n))` (temporal)
+- `G(rd_data_o >= 1 && rd_data_o <= 16777215 |-> (##[1:2] wr_en_i))` (temporal)
+- `G(rd_data_o >= 23130 && rd_data_o <= 42405 |-> wr_data_i == 23130)` (temporal)
 
-- trace consistency: 0 violations over 40 positions
-- dropped candidates: 39
-- held-out: 3 episodes of the same region, 12 clauses generalise and survive minimization
-- reference match: equivalent 0.0, acceptable 0.5
+- trace consistency: 0 violations over 50 positions
+- dropped candidates: 117
+- held-out: 3 episodes of the same region, 16 clauses generalise and survive minimization
+- reference match: equivalent 0.0, acceptable 0.75
 
 ## Stage times (s)
 
-- load: 0.0119
-- 1_label:rd_data_o == 0: 0.002
-- 2_triggers:rd_data_o == 0: 0.3519
-- 3_episodes:rd_data_o == 0: 0.0096
-- 4_mine:rd_data_o == 0: 0.4469
-- 1_label:rd_data_o >= 8388608: 0.0017
-- 2_triggers:rd_data_o >= 8388608: 0.3474
-- 3_episodes:rd_data_o >= 8388608: 0.001
-- 4_mine:rd_data_o >= 8388608: 0.2666
+- load: 0.0065
+- 1_label:rd_data_o == 0: 0.0016
+- 2_triggers:rd_data_o == 0: 0.2894
+- 3_episodes:rd_data_o == 0: 0.007
+- 4_mine:rd_data_o == 0: 0.6494
+- 1_label:rd_data_o >= 8388608: 0.0007
+- 2_triggers:rd_data_o >= 8388608: 0.2607
+- 3_episodes:rd_data_o >= 8388608: 0.0009
+- 4_mine:rd_data_o >= 8388608: 0.3217
+- 5_merge: 0.0052

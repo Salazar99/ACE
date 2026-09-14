@@ -6,7 +6,7 @@
 
 ## Event `A_greater == 1`
 - occurrences: 869 (0.4345 of samples)
-- triggers (observed values and interface relations (harm unavailable)):
+- triggers (observed values and interface relations (harm found no antecedent)):
     - `A > B` R=0.245 P=0.460 ATCT=212 AFCT=657 matches 461, explains 212
 - coverage 0.244, overlap 0.000, unassigned 0.756
 - episodes: 179 (834 samples, mode split, provenance ok)
@@ -26,7 +26,6 @@
 - `G((A == 0) |-> A_greater <= B)` (temporal)
 - `G((A == 0) |-> A_greater == (A & B))` (temporal)
 - `G((A == 0) |-> A_greater == A * B)` (temporal)
-- `G((A == 0) |-> A_greater == A << B)` (temporal)
 - `G((A == 0) |-> A_greater == A)` (temporal)
 - `G((A == 0) |-> A_greater >= A)` (temporal)
 - `G((A == 0) |-> A_less >= A)` (temporal)
@@ -41,23 +40,19 @@
 - `G((A_equal) |-> A_greater <= B)` (temporal)
 - `G((A_equal) |-> A_greater == (A ^ B))` (temporal)
 - `G((A_equal) |-> A_greater == A - B)` (temporal)
-- `G((A_equal) |-> A_greater == A >> B)` (temporal)
 - `G((A_equal) |-> A_less * 2 <= A)` (temporal)
 - `G((A_equal) |-> A_less * B <= A)` (temporal)
 - `G((A_equal) |-> A_less <= A)` (temporal)
 - `G((A_equal) |-> A_less == (A ^ B))` (temporal)
 - `G((A_equal) |-> A_less == A - B)` (temporal)
-- `G((A_equal) |-> A_less == A >> B)` (temporal)
 - `G((A_greater) |-> A_equal * 2 <= A)` (temporal)
 - `G((A_greater) |-> A_less * 2 <= A)` (temporal)
 - `G((A_greater) |-> A_less * B <= A)` (temporal)
 - `G((A_less) |-> A_equal * 2 <= A)` (temporal)
 - `G((A_less) |-> A_equal * B + B > A)` (temporal)
 - `G((A_less) |-> A_equal < B)` (temporal)
-- `G((A_less) |-> A_equal == A >> B)` (temporal)
 - `G((A_less) |-> A_greater * B + B > A)` (temporal)
 - `G((A_less) |-> A_greater < B)` (temporal)
-- `G((A_less) |-> A_greater == A >> B)` (temporal)
 - `G((A_less) |-> A_less * B + B > A)` (temporal)
 - `G((B == 0) |-> A_equal >= B)` (temporal)
 - `G((B == 0) |-> A_greater >= B)` (temporal)
@@ -69,7 +64,6 @@
 - `G((B == 0) |-> A_less == B)` (temporal)
 - `G((B == 0) |-> A_less >= B)` (temporal)
 - `G((B == 7) |-> A_equal * B + B > A)` (temporal)
-- `G((B == 7) |-> A_greater == A >> B)` (temporal)
 - `G(A >= 1 && A <= 7 |-> A_equal <= A)` (temporal)
 - `G(A >= 1 && A <= 7 |-> A_equal <= B)` (temporal)
 - `G(A >= 1 && A <= 7 |-> A_less <= A)` (temporal)
@@ -85,17 +79,16 @@
 - `G(B >= 2 && B <= 7 |-> A_less < B)` (temporal)
 - `G(A >= 0 && A <= 1 |-> A_equal * 2 + 1 >= A)` (temporal)
 - `G(A >= 0 && A <= 1 |-> A_greater * 2 + 1 >= A)` (temporal)
-- `G(A >= 0 && A <= 1 |-> A_greater == A >> B)` (temporal)
 - `G(A >= 0 && A <= 1 |-> A_less * 2 + 1 >= A)` (temporal)
 
 - trace consistency: 0 violations over 834 positions
-- dropped candidates: 185
-- held-out: 96 episodes of the same region, 67 clauses generalise and survive minimization
+- dropped candidates: 183
+- held-out: 96 episodes of the same region, 61 clauses generalise and survive minimization
 - reference match: equivalent 0.625, acceptable 0.75
 
 ## Event `A_equal == 1`
 - occurrences: 235 (0.1175 of samples)
-- triggers (observed values and interface relations (harm unavailable)):
+- triggers (observed values and interface relations (harm found no antecedent)):
     - `A > B` R=0.245 P=0.124 ATCT=57 AFCT=178 matches 461, explains 57
 - coverage 0.243, overlap 0.000, unassigned 0.757
 - episodes: 51 (216 samples, mode split, provenance ok)
@@ -115,7 +108,6 @@
 - `G((A == 0) |-> A_greater <= B)` (temporal)
 - `G((A == 0) |-> A_greater == (A & B))` (temporal)
 - `G((A == 0) |-> A_greater == A * B)` (temporal)
-- `G((A == 0) |-> A_greater == A << B)` (temporal)
 - `G((A == 0) |-> A_greater == A)` (temporal)
 - `G((A == 0) |-> A_greater >= A)` (temporal)
 - `G((A == 0) |-> A_less >= A)` (temporal)
@@ -131,23 +123,19 @@
 - `G((A_equal) |-> A_greater <= B)` (temporal)
 - `G((A_equal) |-> A_greater == (A ^ B))` (temporal)
 - `G((A_equal) |-> A_greater == A - B)` (temporal)
-- `G((A_equal) |-> A_greater == A >> B)` (temporal)
 - `G((A_equal) |-> A_less * 2 <= A)` (temporal)
 - `G((A_equal) |-> A_less * B <= A)` (temporal)
 - `G((A_equal) |-> A_less <= A)` (temporal)
 - `G((A_equal) |-> A_less == (A ^ B))` (temporal)
 - `G((A_equal) |-> A_less == A - B)` (temporal)
-- `G((A_equal) |-> A_less == A >> B)` (temporal)
 - `G((A_greater) |-> A_equal * 2 <= A)` (temporal)
 - `G((A_greater) |-> A_less * 2 <= A)` (temporal)
 - `G((A_greater) |-> A_less * B <= A)` (temporal)
 - `G((A_less) |-> A_equal * 2 <= A)` (temporal)
 - `G((A_less) |-> A_equal * B + B > A)` (temporal)
 - `G((A_less) |-> A_equal < B)` (temporal)
-- `G((A_less) |-> A_equal == A >> B)` (temporal)
 - `G((A_less) |-> A_greater * B + B > A)` (temporal)
 - `G((A_less) |-> A_greater < B)` (temporal)
-- `G((A_less) |-> A_greater == A >> B)` (temporal)
 - `G((A_less) |-> A_less * B + B > A)` (temporal)
 - `G((B == 0) |-> A_equal >= B)` (temporal)
 - `G((B == 0) |-> A_greater >= B)` (temporal)
@@ -159,7 +147,6 @@
 - `G((B == 0) |-> A_less == B)` (temporal)
 - `G((B == 0) |-> A_less >= B)` (temporal)
 - `G((B == 7) |-> A_equal * B + B > A)` (temporal)
-- `G((B == 7) |-> A_greater == A >> B)` (temporal)
 - `G(A >= 1 && A <= 7 |-> A_equal <= A)` (temporal)
 - `G(A >= 1 && A <= 7 |-> A_equal <= B)` (temporal)
 - `G(A >= 1 && A <= 7 |-> A_less <= A)` (temporal)
@@ -175,17 +162,16 @@
 - `G(B >= 2 && B <= 7 |-> A_less < B)` (temporal)
 - `G(A >= 0 && A <= 1 |-> A_equal * 2 + 1 >= A)` (temporal)
 - `G(A >= 0 && A <= 1 |-> A_greater * 2 + 1 >= A)` (temporal)
-- `G(A >= 0 && A <= 1 |-> A_greater == A >> B)` (temporal)
 - `G(A >= 0 && A <= 1 |-> A_less * 2 + 1 >= A)` (temporal)
 
 - trace consistency: 0 violations over 216 positions
-- dropped candidates: 187
-- held-out: 69 episodes of the same region, 66 clauses generalise and survive minimization
+- dropped candidates: 185
+- held-out: 69 episodes of the same region, 60 clauses generalise and survive minimization
 - reference match: equivalent 0.625, acceptable 0.75
 
 ## Event `A_less == 1`
 - occurrences: 896 (0.4480 of samples)
-- triggers (observed values and interface relations (harm unavailable)):
+- triggers (observed values and interface relations (harm found no antecedent)):
     - `A < B` R=0.241 P=0.465 ATCT=215 AFCT=681 matches 462, explains 215
 - coverage 0.240, overlap 0.000, unassigned 0.760
 - episodes: 187 (842 samples, mode split, provenance ok)
@@ -205,7 +191,6 @@
 - `G((A == 0) |-> A_greater <= B)` (temporal)
 - `G((A == 0) |-> A_greater == (A & B))` (temporal)
 - `G((A == 0) |-> A_greater == A * B)` (temporal)
-- `G((A == 0) |-> A_greater == A << B)` (temporal)
 - `G((A == 0) |-> A_greater == A)` (temporal)
 - `G((A == 0) |-> A_greater >= A)` (temporal)
 - `G((A == 0) |-> A_less >= A)` (temporal)
@@ -220,23 +205,19 @@
 - `G((A_equal) |-> A_greater <= B)` (temporal)
 - `G((A_equal) |-> A_greater == (A ^ B))` (temporal)
 - `G((A_equal) |-> A_greater == A - B)` (temporal)
-- `G((A_equal) |-> A_greater == A >> B)` (temporal)
 - `G((A_equal) |-> A_less * 2 <= A)` (temporal)
 - `G((A_equal) |-> A_less * B <= A)` (temporal)
 - `G((A_equal) |-> A_less <= A)` (temporal)
 - `G((A_equal) |-> A_less == (A ^ B))` (temporal)
 - `G((A_equal) |-> A_less == A - B)` (temporal)
-- `G((A_equal) |-> A_less == A >> B)` (temporal)
 - `G((A_greater) |-> A_equal * 2 <= A)` (temporal)
 - `G((A_greater) |-> A_less * 2 <= A)` (temporal)
 - `G((A_greater) |-> A_less * B <= A)` (temporal)
 - `G((A_less) |-> A_equal * 2 <= A)` (temporal)
 - `G((A_less) |-> A_equal * B + B > A)` (temporal)
 - `G((A_less) |-> A_equal < B)` (temporal)
-- `G((A_less) |-> A_equal == A >> B)` (temporal)
 - `G((A_less) |-> A_greater * B + B > A)` (temporal)
 - `G((A_less) |-> A_greater < B)` (temporal)
-- `G((A_less) |-> A_greater == A >> B)` (temporal)
 - `G((A_less) |-> A_less * B + B > A)` (temporal)
 - `G((B == 0) |-> A_equal >= B)` (temporal)
 - `G((B == 0) |-> A_greater >= B)` (temporal)
@@ -248,7 +229,6 @@
 - `G((B == 0) |-> A_less == B)` (temporal)
 - `G((B == 0) |-> A_less >= B)` (temporal)
 - `G((B == 7) |-> A_equal * B + B > A)` (temporal)
-- `G((B == 7) |-> A_greater == A >> B)` (temporal)
 - `G(A >= 1 && A <= 7 |-> A_equal <= A)` (temporal)
 - `G(A >= 1 && A <= 7 |-> A_equal <= B)` (temporal)
 - `G(A >= 1 && A <= 7 |-> A_less <= A)` (temporal)
@@ -264,27 +244,26 @@
 - `G(B >= 2 && B <= 7 |-> A_less < B)` (temporal)
 - `G(A >= 0 && A <= 1 |-> A_equal * 2 + 1 >= A)` (temporal)
 - `G(A >= 0 && A <= 1 |-> A_greater * 2 + 1 >= A)` (temporal)
-- `G(A >= 0 && A <= 1 |-> A_greater == A >> B)` (temporal)
 - `G(A >= 0 && A <= 1 |-> A_less * 2 + 1 >= A)` (temporal)
 
 - trace consistency: 0 violations over 842 positions
-- dropped candidates: 185
-- held-out: 91 episodes of the same region, 67 clauses generalise and survive minimization
+- dropped candidates: 183
+- held-out: 91 episodes of the same region, 61 clauses generalise and survive minimization
 - reference match: equivalent 0.375, acceptable 0.375
 
 ## Stage times (s)
 
-- load: 0.0037
-- 1_label:A_greater == 1: 0.0005
-- 2_triggers:A_greater == 1: 0.163
-- 3_episodes:A_greater == 1: 0.0122
-- 4_mine:A_greater == 1: 0.6986
+- load: 0.0052
+- 1_label:A_greater == 1: 0.0008
+- 2_triggers:A_greater == 1: 0.2414
+- 3_episodes:A_greater == 1: 0.0207
+- 4_mine:A_greater == 1: 0.9543
 - 1_label:A_equal == 1: 0.0004
-- 2_triggers:A_equal == 1: 0.1602
-- 3_episodes:A_equal == 1: 0.0041
-- 4_mine:A_equal == 1: 0.5406
-- 1_label:A_less == 1: 0.0005
-- 2_triggers:A_less == 1: 0.1714
-- 3_episodes:A_less == 1: 0.0163
-- 4_mine:A_less == 1: 0.7053
-- 5_merge: 0.088
+- 2_triggers:A_equal == 1: 0.2377
+- 3_episodes:A_equal == 1: 0.0046
+- 4_mine:A_equal == 1: 0.6809
+- 1_label:A_less == 1: 0.0006
+- 2_triggers:A_less == 1: 0.2339
+- 3_episodes:A_less == 1: 0.0196
+- 4_mine:A_less == 1: 0.9619
+- 5_merge: 0.1039

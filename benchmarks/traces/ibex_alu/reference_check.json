@@ -48,6 +48,11 @@
      "exp": "result_o == operand_a_i + operand_b_i",
      "loc": "c",
      "stage": "guarantee"
+    },
+    {
+     "exp": "operator_i == 0",
+     "loc": "a,dt",
+     "stage": "guarantee"
     }
    ],
    "rationale": "ADD without a 32-bit wrap is exact",
@@ -79,6 +84,11 @@
      "exp": "result_o == operand_a_i - operand_b_i",
      "loc": "c",
      "stage": "guarantee"
+    },
+    {
+     "exp": "operator_i == 1",
+     "loc": "a,dt",
+     "stage": "guarantee"
     }
    ],
    "rationale": "SUB without borrow is exact",
@@ -104,6 +114,11 @@
     {
      "exp": "result_o <= operand_a_i",
      "loc": "c",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "operator_i == 4",
+     "loc": "a,dt",
      "stage": "guarantee"
     }
    ],
@@ -131,6 +146,11 @@
      "exp": "result_o <= operand_b_i",
      "loc": "c",
      "stage": "guarantee"
+    },
+    {
+     "exp": "operator_i == 4",
+     "loc": "a,dt",
+     "stage": "guarantee"
     }
    ],
    "rationale": "AND cannot exceed the second operand",
@@ -156,6 +176,11 @@
     {
      "exp": "result_o >= operand_a_i",
      "loc": "c",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "operator_i == 3",
+     "loc": "a,dt",
      "stage": "guarantee"
     }
    ],
@@ -183,6 +208,11 @@
      "exp": "result_o >= operand_b_i",
      "loc": "c",
      "stage": "guarantee"
+    },
+    {
+     "exp": "operator_i == 3",
+     "loc": "a,dt",
+     "stage": "guarantee"
     }
    ],
    "rationale": "OR is at least the second operand",
@@ -208,6 +238,16 @@
     {
      "exp": "result_o == operand_a_i",
      "loc": "c",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "operator_i == 2",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "operand_b_i == 0",
+     "loc": "a,dt",
      "stage": "guarantee"
     }
    ],
@@ -240,6 +280,21 @@
      "exp": "result_o == operand_a_i * 2",
      "loc": "c",
      "stage": "guarantee"
+    },
+    {
+     "exp": "operator_i == 10",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "operand_b_i == 1",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "operand_a_i <= 2147483647",
+     "loc": "a,dt",
+     "stage": "guarantee"
     }
    ],
    "rationale": "a left shift by one doubles, absent a wrap. The two-condition antecedent is one declared proposition, which HARM's proposition grammar allows",
@@ -265,6 +320,16 @@
     {
      "exp": "result_o * 2 <= operand_a_i",
      "loc": "c",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "operator_i == 9",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "operand_b_i == 1",
+     "loc": "a,dt",
      "stage": "guarantee"
     }
    ],
@@ -292,6 +357,16 @@
      "exp": "result_o * 2 + 1 >= operand_a_i",
      "loc": "c",
      "stage": "guarantee"
+    },
+    {
+     "exp": "operator_i == 9",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "operand_b_i == 1",
+     "loc": "a,dt",
+     "stage": "guarantee"
     }
    ],
    "rationale": "a logical right shift by one is a floored halving (upper bound)",
@@ -318,6 +393,16 @@
      "exp": "operand_a_i < operand_b_i",
      "loc": "a,dt",
      "stage": "guarantee"
+    },
+    {
+     "exp": "operator_i == 26",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "comparison_result_o == 1",
+     "loc": "c",
+     "stage": "guarantee"
     }
    ],
    "rationale": "unsigned less-than holds",
@@ -339,7 +424,23 @@
     "A1"
    ],
    "guarantee": "G((operator_i == 26 && operand_a_i >= operand_b_i) |-> (comparison_result_o == 0))",
-   "props": [],
+   "props": [
+    {
+     "exp": "operator_i == 26",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "operand_a_i >= operand_b_i",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "comparison_result_o == 0",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
    "rationale": "unsigned less-than fails",
    "resolved": "G((operator_i == 26 && operand_a_i >= operand_b_i) |-> (comparison_result_o == 0))",
    "support": 258,
@@ -364,6 +465,16 @@
      "exp": "operand_a_i == operand_b_i",
      "loc": "a,dt",
      "stage": "guarantee"
+    },
+    {
+     "exp": "operator_i == 29",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "comparison_result_o == 1",
+     "loc": "c",
+     "stage": "guarantee"
     }
    ],
    "rationale": "equality of identical operands",
@@ -385,7 +496,23 @@
     "A1"
    ],
    "guarantee": "G((operator_i == 29 && operand_a_i == operand_b_i) |-> (is_equal_result_o == 1))",
-   "props": [],
+   "props": [
+    {
+     "exp": "operator_i == 29",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "operand_a_i == operand_b_i",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "is_equal_result_o == 1",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
    "rationale": "the equality output agrees while a comparison operation is selected",
    "resolved": "G((operator_i == 29 && operand_a_i == operand_b_i) |-> (is_equal_result_o == 1))",
    "support": 20,
@@ -405,7 +532,23 @@
     "A1"
    ],
    "guarantee": "G((operator_i == 30 && operand_a_i == operand_b_i) |-> (comparison_result_o == 0))",
-   "props": [],
+   "props": [
+    {
+     "exp": "operator_i == 30",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "operand_a_i == operand_b_i",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "comparison_result_o == 0",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
    "rationale": "inequality of identical operands fails",
    "resolved": "G((operator_i == 30 && operand_a_i == operand_b_i) |-> (comparison_result_o == 0))",
    "support": 20,
@@ -425,7 +568,18 @@
     "A1"
    ],
    "guarantee": "G((operator_i == 32) |-> (result_o <= operand_a_i))",
-   "props": [],
+   "props": [
+    {
+     "exp": "operator_i == 32",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "result_o <= operand_a_i",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
    "rationale": "unsigned minimum is a lower bound",
    "resolved": "G((operator_i == 32) |-> (result_o <= operand_a_i))",
    "support": 329,
@@ -445,7 +599,18 @@
     "A1"
    ],
    "guarantee": "G((operator_i == 34) |-> (result_o >= operand_a_i))",
-   "props": [],
+   "props": [
+    {
+     "exp": "operator_i == 34",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "result_o >= operand_a_i",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
    "rationale": "unsigned maximum is an upper bound",
    "resolved": "G((operator_i == 34) |-> (result_o >= operand_a_i))",
    "support": 353,
@@ -465,7 +630,23 @@
     "A1"
    ],
    "guarantee": "G((operator_i == 0 && operand_b_i == 0) |-> (result_o == operand_a_i))",
-   "props": [],
+   "props": [
+    {
+     "exp": "operator_i == 0",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "operand_b_i == 0",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "result_o == operand_a_i",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
    "rationale": "adding zero is the identity",
    "resolved": "G((operator_i == 0 && operand_b_i == 0) |-> (result_o == operand_a_i))",
    "support": 21,

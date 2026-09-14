@@ -6,7 +6,7 @@
 
 ## Event `comparison_result_o == 1`
 - occurrences: 1787 (0.2978 of samples)
-- triggers (observed values and interface relations (harm unavailable)):
+- triggers (observed values and interface relations (harm found no antecedent)):
     - `operand_a_i > operand_b_i` R=0.240 P=0.359 ATCT=428 AFCT=1359 matches 1193, explains 428
 - coverage 0.240, overlap 0.000, unassigned 0.760
 - episodes: 335 (1654 samples, mode split, provenance ok)
@@ -147,7 +147,7 @@
 
 ## Event `result_o == 0`
 - occurrences: 1569 (0.2615 of samples)
-- triggers (observed values and interface relations (harm unavailable)):
+- triggers (observed values and interface relations (harm found no antecedent)):
     - `operand_a_i > operand_b_i` R=0.234 P=0.307 ATCT=366 AFCT=1203 matches 1193, explains 366
 - coverage 0.233, overlap 0.000, unassigned 0.767
 - episodes: 288 (1362 samples, mode split, provenance ok)
@@ -216,17 +216,17 @@
 
 ## Stage times (s)
 
-- load: 0.0209
-- 1_label:comparison_result_o == 1: 0.0016
-- 2_triggers:comparison_result_o == 1: 0.4123
-- 3_episodes:comparison_result_o == 1: 0.0259
-- 4_mine:comparison_result_o == 1: 1.1092
-- 1_label:is_equal_result_o == 1: 0.0011
-- 2_triggers:is_equal_result_o == 1: 0.366
-- 3_episodes:is_equal_result_o == 1: 0.0064
-- 4_mine:is_equal_result_o == 1: 0.8132
-- 1_label:result_o == 0: 0.0016
-- 2_triggers:result_o == 0: 0.3578
-- 3_episodes:result_o == 0: 0.0181
-- 4_mine:result_o == 0: 0.9526
-- 5_merge: 0.1494
+- load: 0.0182
+- 1_label:comparison_result_o == 1: 0.0025
+- 2_triggers:comparison_result_o == 1: 0.552
+- 3_episodes:comparison_result_o == 1: 0.0338
+- 4_mine:comparison_result_o == 1: 1.7713
+- 1_label:is_equal_result_o == 1: 0.0034
+- 2_triggers:is_equal_result_o == 1: 0.5388
+- 3_episodes:is_equal_result_o == 1: 0.0081
+- 4_mine:is_equal_result_o == 1: 1.2555
+- 1_label:result_o == 0: 0.0027
+- 2_triggers:result_o == 0: 0.5073
+- 3_episodes:result_o == 0: 0.0315
+- 4_mine:result_o == 0: 1.4192
+- 5_merge: 0.2404

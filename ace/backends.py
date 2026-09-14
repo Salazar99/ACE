@@ -19,10 +19,12 @@ is a thin wrapper around its command line, written against its actual interface:
 Metrics are never read back from a backend: the flow scores clauses with its own evaluator,
 so that labeling, selection and held-out validation agree by construction.
 
-Local installation: set `HARM_BIN` to the binary (or put `harm` on PATH), and
-`HARM_LIB` to a directory of shared libraries if it was built against libraries that are
-not installed system-wide. `python3 tools/check_harm.py` verifies the installation by
-mining a known property out of a generated trace.
+HARM is required: it is the temporal backend and there is no other. A run on a machine
+without it fails at startup rather than producing a differently-mined artifact under the
+same command. Set `HARM_BIN` to the binary (or put `harm` on PATH), and `HARM_LIB` to a
+directory of shared libraries if it was built against libraries that are not installed
+system-wide. `tools/install_harm.sh` builds one; `python3 tools/check_harm.py` verifies the
+installation by mining a known property out of a generated trace.
 """
 from __future__ import annotations
 
@@ -87,15 +89,18 @@ def harm_bin() -> str | None:
     return shutil.which("harm")
 
 
-def temporal_backend() -> str:
-    """Which temporal backend a run will use. `ace.templates` instantiates the same
-    templates over the same declared vocabulary when HARM is not installed, so a run
-    without a miner still produces template instances - it just enumerates them itself."""
-    return "harm" if harm_bin() else "in-process-templates"
+def require() -> str:
+    """The HARM binary, or die. HARM is the temporal backend; there is no other.
 
-
-def available(tool: str = "harm") -> bool:
-    return harm_bin() is not None if tool == "harm" else shutil.which(tool) is not None
+    Called once at the top of a run, before any output directory is created, so a machine
+    without a miner writes nothing at all rather than half an artifact.
+    """
+    binary = harm_bin()
+    if binary is None:
+        raise BackendMissing(
+            "HARM is required: set HARM_BIN to the binary or put `harm` on PATH "
+            "(tools/install_harm.sh builds it; tools/check_harm.py verifies it)")
+    return binary
 
 
 def _env() -> dict:
@@ -113,11 +118,22 @@ def last_message(exc, limit: int = 300) -> str:
 
     HARM prints a banner, a source location, the message and the formula it was parsing, and
     ends with an ANSI reset - so the last line is useless and the two that matter are named.
+
+    Errors and warnings use the same `Message:` prefix and both reach us, because the failure
+    text is stdout and stderr concatenated. They are told apart by indentation: an error
+    writes it at column 0, a warning indents it with a tab. Only the error explains why the
+    run died, and `limit` is small enough that a run with many reset warnings would otherwise
+    spend the whole budget on them and truncate before reaching it.
     """
-    lines = [line.strip() for line in _ANSI.sub("", str(exc)).splitlines() if line.strip()]
-    wanted = [line for line in lines
-              if line.startswith("Message:") or line.startswith("In formula:")]
-    return " ".join(wanted or lines[-1:])[:limit]
+    lines = [line for line in _ANSI.sub("", str(exc)).splitlines() if line.strip()]
+    named = [line for line in lines
+             if line.startswith("Message:") or line.startswith("In formula:")]
+    if not named:   # no error line: fall back to the warnings, then to whatever came last
+        named = [line.strip() for line in lines
+                 if line.strip().startswith(("Message:", "In formula:"))]
+    if not named and lines:
+        named = [lines[-1].strip()]
+    return " ".join(named)[:limit]
 
 
 def _run(command, cwd=None, timeout=3600):
@@ -194,12 +210,7 @@ def harm(trace, conf, dump_to, reset=None, max_ass=None, min_frank=None,
     A directory is passed as `--csv-dir`, so every episode in it is mined as its own trace
     and no property can relate samples across an episode boundary.
     """
-    binary = harm_bin()
-    if binary is None:
-        raise BackendMissing(
-            "HARM not found: set HARM_BIN to the binary or put `harm` on PATH "
-            "(tools/install_harm.sh builds it; tools/check_harm.py verifies it)")
-
+    binary = require()
     trace = Path(trace).resolve()
     flag = "--csv-dir" if trace.is_dir() else "--csv"
     dump_to = Path(dump_to)
@@ -240,10 +251,7 @@ def generate_conf(trace, out) -> Path:
     Useful to see the vocabulary it would build for a design."""
     trace = Path(trace)
     flag = "--csv-dir" if trace.is_dir() else "--csv"
-    binary = harm_bin()
-    if binary is None:
-        raise BackendMissing("HARM not found")
-    _run(f'"{binary}" {flag} "{trace}" --conf "{out}" --generate-config --psilent')
+    _run(f'"{require()}" {flag} "{trace}" --conf "{out}" --generate-config --psilent')
     return Path(out)
 
 

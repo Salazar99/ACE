@@ -4,36 +4,31 @@
 == GUARANTEES ==
 -- declared vocabulary --
 [    ADD1] equivalent      G((a + b + cin <= 255) |-> (sum == a + b + cin))
-           witness        G((a + b + cin <= 255) |-> (cout == 0))
+           witness        G((a + b + cin <= 255) |-> cout == 0)
 [    ADD2] equivalent      G((a + b + cin <= 255) |-> (cout == 0))
-           witness        G((a + b + cin <= 255) |-> (cout == 0))
+           witness        G((a + b + cin <= 255) |-> cout == 0)
 [    ADD3] equivalent      G((a + b + cin >= 256) |-> (cout == 1))
-           witness        G((a + b + cin >= 256) |-> (cout == 1))
+           witness        G((a + b + cin >= 256) |-> cout)
 [    ADD4] equivalent      G((a + b + cin >= 256) |-> (sum == a + b + cin - 256))
-           witness        G((a + b + cin >= 256) |-> (cout == 1))
+           witness        G((a + b + cin >= 256) |-> cout)
 [    ADD5] missed          G((a == 0 && b == 0) |-> (sum == cin))
 [    ADD6] mined-stronger  G((a <= 127 && b <= 127) |-> (cout == 0))
-           witness        G((a + b + cin <= 255) |-> (cout == 0))
-[    ADD7] mined-weaker    G((b == 0 && cin == 0) |-> (sum == a))
-           witness        G((a == 6) && (sum == 6) |-> (sum == a))
+           witness        G((a + b + cin <= 255) |-> cout == 0)
+[    ADD7] missed          G((b == 0 && cin == 0) |-> (sum == a))
 
 -- interface vocabulary --
-[    ADD1] equivalent      G((a + b + cin <= 255) |-> (sum == a + b + cin))
-           witness        G((cout == 0) |-> ((cout == 0) && (sum >= a)))
-[    ADD2] equivalent      G((a + b + cin <= 255) |-> (cout == 0))
-           witness        G((cout == 0) |-> ((cout == 0) && (sum >= a)))
+[    ADD1] missed          G((a + b + cin <= 255) |-> (sum == a + b + cin))
+[    ADD2] missed          G((a + b + cin <= 255) |-> (cout == 0))
 [    ADD3] equivalent      G((a + b + cin >= 256) |-> (cout == 1))
-           witness        G((cout == 1) |-> ((cout == 1) && (sum * cin <= a)))
+           witness        G((cout) |-> sum == a + b + cin - 256)
 [    ADD4] equivalent      G((a + b + cin >= 256) |-> (sum == a + b + cin - 256))
-           witness        G((cout == 1) |-> ((cout == 1) && (sum * cin <= a)))
+           witness        G((cout) |-> sum == a + b + cin - 256)
 [    ADD5] missed          G((a == 0 && b == 0) |-> (sum == cin))
-[    ADD6] mined-stronger  G((a <= 127 && b <= 127) |-> (cout == 0))
-           witness        G((cout == 0) |-> ((cout == 0) && (sum >= a)))
-[    ADD7] mined-weaker    G((b == 0 && cin == 0) |-> (sum == a))
-           witness        G((a == 6) && (sum == 6) |-> (sum == (a | b)))
+[    ADD6] missed          G((a <= 127 && b <= 127) |-> (cout == 0))
+[    ADD7] missed          G((b == 0 && cin == 0) |-> (sum == a))
 
-# declared: 26 mined, 3 matched a golden clause, 23 with no counterpart
-# interface: 304 mined, 3 matched a golden clause, 301 with no counterpart
+# declared: 6 mined, 2 matched a golden clause, 4 with no counterpart
+# interface: 190 mined, 1 matched a golden clause, 189 with no counterpart
 
 == ASSUMPTIONS ==
 -- declared vocabulary --

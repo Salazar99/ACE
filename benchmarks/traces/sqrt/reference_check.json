@@ -1,16 +1,16 @@
 {
  "design": "sqrt",
- "runs": 5,
- "samples": 5000,
+ "runs": 10,
+ "samples": 20000,
  "assumptions": [
   {
    "id": "A1",
    "invariant": "rst == 0",
    "why": "the environment holds reset deasserted",
    "resolved": "rst == 0",
-   "positions_checked": 5000,
-   "positions_honoured": 4967,
-   "honoured_rate": 0.9934,
+   "positions_checked": 20000,
+   "positions_honoured": 19952,
+   "honoured_rate": 0.9976,
    "stress_positions_checked": 2000,
    "stress_positions_honoured": 1976,
    "status": "exercised"
@@ -20,9 +20,9 @@
    "invariant": "in >= 0",
    "why": "the environment supplies a non-negative operand. This is the documented assumption of the square root IP; the guarantees for the rejected path are claimed under A3 instead",
    "resolved": "in >= 0",
-   "positions_checked": 5000,
-   "positions_honoured": 4953,
-   "honoured_rate": 0.9906,
+   "positions_checked": 20000,
+   "positions_honoured": 19632,
+   "honoured_rate": 0.9816,
    "stress_positions_checked": 2000,
    "stress_positions_honoured": 1981,
    "status": "exercised"
@@ -32,9 +32,9 @@
    "invariant": "in < 0",
    "why": "the complementary environment, used by the error-path guarantees",
    "resolved": "in < 0",
-   "positions_checked": 5000,
-   "positions_honoured": 47,
-   "honoured_rate": 0.0094,
+   "positions_checked": 20000,
+   "positions_honoured": 368,
+   "honoured_rate": 0.0184,
    "stress_positions_checked": 2000,
    "stress_positions_honoured": 19,
    "status": "exercised"
@@ -47,13 +47,24 @@
    "template": "G1",
    "assumption_ids": [],
    "guarantee": "G((rst == 1) |-> (done == 0))",
-   "props": [],
+   "props": [
+    {
+     "exp": "rst == 1",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "done == 0",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
    "rationale": "reset clears the done flag",
    "resolved": "G((rst == 1) |-> (done == 0))",
-   "support": 33,
+   "support": 48,
    "violations": 0,
    "excluded_by_assumptions": 0,
-   "holdout_support": 12,
+   "holdout_support": 21,
    "holdout_violations": 0,
    "stress_support": 24,
    "stress_violations": 0,
@@ -65,13 +76,24 @@
    "template": "G1",
    "assumption_ids": [],
    "guarantee": "G((rst == 1) |-> (error == 0))",
-   "props": [],
+   "props": [
+    {
+     "exp": "rst == 1",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "error == 0",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
    "rationale": "reset clears the error flag",
    "resolved": "G((rst == 1) |-> (error == 0))",
-   "support": 33,
+   "support": 48,
    "violations": 0,
    "excluded_by_assumptions": 0,
-   "holdout_support": 12,
+   "holdout_support": 21,
    "holdout_violations": 0,
    "stress_support": 24,
    "stress_violations": 0,
@@ -83,13 +105,24 @@
    "template": "G1",
    "assumption_ids": [],
    "guarantee": "G((rst == 1) |-> (out == 0))",
-   "props": [],
+   "props": [
+    {
+     "exp": "rst == 1",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "out == 0",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
    "rationale": "reset clears the result",
    "resolved": "G((rst == 1) |-> (out == 0))",
-   "support": 33,
+   "support": 48,
    "violations": 0,
    "excluded_by_assumptions": 0,
-   "holdout_support": 12,
+   "holdout_support": 21,
    "holdout_violations": 0,
    "stress_support": 24,
    "stress_violations": 0,
@@ -108,14 +141,24 @@
      "exp": "in < 0",
      "loc": "a,dt",
      "stage": "guarantee"
+    },
+    {
+     "exp": "start == 1",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "error == 1",
+     "loc": "c",
+     "stage": "guarantee"
     }
    ],
    "rationale": "a negative request is rejected in one cycle",
    "resolved": "G((start == 1 && in < 0) |=> (error == 1))",
-   "support": 46,
+   "support": 206,
    "violations": 0,
-   "excluded_by_assumptions": 4953,
-   "holdout_support": 33,
+   "excluded_by_assumptions": 19632,
+   "holdout_support": 128,
    "holdout_violations": 0,
    "stress_support": 19,
    "stress_violations": 0,
@@ -129,13 +172,29 @@
     "A3"
    ],
    "guarantee": "G((start == 1 && in < 0) |=> (done == 1))",
-   "props": [],
+   "props": [
+    {
+     "exp": "start == 1",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "in < 0",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "done == 1",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
    "rationale": "a rejected request also raises done",
    "resolved": "G((start == 1 && in < 0) |=> (done == 1))",
-   "support": 46,
+   "support": 206,
    "violations": 0,
-   "excluded_by_assumptions": 4953,
-   "holdout_support": 33,
+   "excluded_by_assumptions": 19632,
+   "holdout_support": 128,
    "holdout_violations": 0,
    "stress_support": 19,
    "stress_violations": 0,
@@ -154,14 +213,24 @@
      "exp": "in >= 2147483648",
      "loc": "a,dt",
      "stage": "guarantee"
+    },
+    {
+     "exp": "start == 1",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "error == 1",
+     "loc": "c",
+     "stage": "guarantee"
     }
    ],
    "rationale": "the design tests bit 31, not the sign of the 33-bit operand, so a positive operand at or above 2^31 is rejected as well",
    "resolved": "G((start == 1 && in >= 2147483648) |=> (error == 1))",
-   "support": 35,
+   "support": 45,
    "violations": 0,
-   "excluded_by_assumptions": 33,
-   "holdout_support": 25,
+   "excluded_by_assumptions": 48,
+   "holdout_support": 31,
    "holdout_violations": 0,
    "stress_support": 18,
    "stress_violations": 0,
@@ -181,14 +250,24 @@
      "exp": "in >= 0",
      "loc": "a,dt",
      "stage": "guarantee"
+    },
+    {
+     "exp": "start == 1",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "done == 1",
+     "loc": "c",
+     "stage": "guarantee"
     }
    ],
    "rationale": "a valid request completes within the horizon (12 cycles nominally). Holds on the nominal traces, where no request is restarted or reset mid-flight",
    "resolved": "G((start == 1 && in >= 0) |-> (##[1:24] done == 1))",
-   "support": 280,
+   "support": 462,
    "violations": 0,
-   "excluded_by_assumptions": 80,
-   "holdout_support": 169,
+   "excluded_by_assumptions": 416,
+   "holdout_support": 278,
    "holdout_violations": 0,
    "stress_support": 121,
    "stress_violations": 2,
@@ -203,13 +282,29 @@
     "A2"
    ],
    "guarantee": "G((start == 1 && in >= 0) |-> (##[1:H] error == 0))",
-   "props": [],
+   "props": [
+    {
+     "exp": "start == 1",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "in >= 0",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "error == 0",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
    "rationale": "a valid request does not raise the error flag",
    "resolved": "G((start == 1 && in >= 0) |-> (##[1:24] error == 0))",
-   "support": 280,
+   "support": 462,
    "violations": 0,
-   "excluded_by_assumptions": 80,
-   "holdout_support": 169,
+   "excluded_by_assumptions": 416,
+   "holdout_support": 278,
    "holdout_violations": 0,
    "stress_support": 121,
    "stress_violations": 0,
@@ -224,13 +319,29 @@
     "A3"
    ],
    "guarantee": "G((start == 1 && in < 0) |-> (##[1:3] out == 0))",
-   "props": [],
+   "props": [
+    {
+     "exp": "start == 1",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "in < 0",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "out == 0",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
    "rationale": "a rejected request never produces a result value",
    "resolved": "G((start == 1 && in < 0) |-> (##[1:3] out == 0))",
-   "support": 46,
+   "support": 206,
    "violations": 0,
-   "excluded_by_assumptions": 4953,
-   "holdout_support": 33,
+   "excluded_by_assumptions": 19632,
+   "holdout_support": 128,
    "holdout_violations": 0,
    "stress_support": 19,
    "stress_violations": 0,
@@ -242,13 +353,24 @@
    "template": "G2",
    "assumption_ids": [],
    "guarantee": "G((rst == 1) |=> (done == 0))",
-   "props": [],
+   "props": [
+    {
+     "exp": "rst == 1",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "done == 0",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
    "rationale": "leaving reset leaves the design idle",
    "resolved": "G((rst == 1) |=> (done == 0))",
-   "support": 33,
+   "support": 48,
    "violations": 0,
    "excluded_by_assumptions": 0,
-   "holdout_support": 12,
+   "holdout_support": 21,
    "holdout_violations": 0,
    "stress_support": 24,
    "stress_violations": 0,
@@ -268,14 +390,34 @@
      "exp": "done == 1 && out == 0",
      "loc": "c",
      "stage": "guarantee"
+    },
+    {
+     "exp": "start == 1",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "in == 0",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "done == 1",
+     "loc": "c",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "out == 0",
+     "loc": "c",
+     "stage": "guarantee"
     }
    ],
    "rationale": "square root of zero. The operand range is in the guarantee's antecedent; the quiet window is an assumption, which is what makes the result cycle well defined",
    "resolved": "G((start == 1 && in == 0) |-> ##[1:24] (done == 1 && out == 0))",
-   "support": 5,
+   "support": 10,
    "violations": 0,
-   "excluded_by_assumptions": 80,
-   "holdout_support": 3,
+   "excluded_by_assumptions": 416,
+   "holdout_support": 6,
    "holdout_violations": 0,
    "stress_support": 2,
    "stress_violations": 0,
@@ -300,14 +442,39 @@
      "exp": "done == 1 && out == 2",
      "loc": "c",
      "stage": "guarantee"
+    },
+    {
+     "exp": "start == 1",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "in >= 4",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "in <= 8",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "done == 1",
+     "loc": "c",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "out == 2",
+     "loc": "c",
+     "stage": "guarantee"
     }
    ],
    "rationale": "integer square root of 4..8 is 2",
    "resolved": "G((start == 1 && in >= 4 && in <= 8) |-> ##[1:24] (done == 1 && out == 2))",
-   "support": 5,
+   "support": 10,
    "violations": 0,
-   "excluded_by_assumptions": 80,
-   "holdout_support": 3,
+   "excluded_by_assumptions": 416,
+   "holdout_support": 6,
    "holdout_violations": 0,
    "stress_support": 2,
    "stress_violations": 0,
@@ -332,14 +499,39 @@
      "exp": "done == 1 && out <= 32",
      "loc": "c",
      "stage": "guarantee"
+    },
+    {
+     "exp": "start == 1",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "in >= 1",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "in <= 1000",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "done == 1",
+     "loc": "c",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "out <= 32",
+     "loc": "c",
+     "stage": "guarantee"
     }
    ],
    "rationale": "for operands up to 1000 the ten Newton iterations have settled, so the result is bounded by 32",
    "resolved": "G((start == 1 && in >= 1 && in <= 1000) |-> ##[1:24] (done == 1 && out <= 32))",
-   "support": 36,
+   "support": 58,
    "violations": 0,
-   "excluded_by_assumptions": 80,
-   "holdout_support": 22,
+   "excluded_by_assumptions": 416,
+   "holdout_support": 35,
    "holdout_violations": 0,
    "stress_support": 16,
    "stress_violations": 2,

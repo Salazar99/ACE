@@ -16,12 +16,12 @@ The benchmark is eleven designs: the eight FDL26 blocks, plus `arbiter4`, `fifo_
 `apb_slave`, which were added because the property shapes a protocol block needs were
 missing entirely. What they add to the picture is the spread at both ends — `arbiter4` is
 the best design in the benchmark (83% exact) and `apb_slave` the worst (17%) — and the two
-bracket the same limit: how many propositions an antecedent may conjoin.
+bracket the same limit: whether a multi-signal antecedent was declared as one proposition.
 
     python3 tools/score_recovery.py benchmarks/*/config.json --out results
     python3 tools/report_recovery.py results --out CONTRACT_RECOVERY.md
     #   ... also writes results/recovery_tables.md (--tables)
-    python3 -m pytest tests -q && python3 tests/test_flow.py
+    python3 tools/check_harm.py && python3 -m pytest tests -q && python3 tests/test_flow.py
 
 `CONTRACT_RECOVERY.md` is the per-contract checklist: every reference clause of every
 design, what came back for it, and the cause when nothing did.
@@ -112,45 +112,43 @@ invariant language can only half express, so the guard search settles for the ha
 
 ## Why the misses happen
 
-Twenty missed guarantees under the declared vocabulary, and every one has a named cause.
+Nineteen missed guarantees under the declared vocabulary, and every one has a named cause.
 
 `CONTRACT_RECOVERY.md` lists them one clause at a time with a cause per clause, but that
 label comes from `cause()` in `tools/report_recovery.py`, which reads the *shape* of the
 reference clause and returns the first thing that matches. It is cheap and it is right
-about thirteen of the twenty. For the seven it files under "3+ proposition antecedent" the
+about thirteen of the nineteen. For the six it files under "3+ proposition antecedent" the
 shape is a coincidence: checking each one against the mined set in
-`results/declared/<design>/recovery.json` — is the conjunct in the vocabulary at all, does
-the design's cap even reach this depth — splits them three ways. The table below is that
+`results/declared/<design>/recovery.json` — is the conjunct in the vocabulary at all, was
+the conjunction declared as a proposition — splits them three ways. The table below is that
 check, not the generated label:
 
 | cause | count | which, and what it needs |
 |---|---|---|
 | vocabulary or region | 6 | a term the declared family still misses (a signed comparison, an operand-conditioned shift), or a region the flow never enters |
-| antecedent depth | 4 | `APB16`, `APB17`, `APB18` conjoin **four** propositions, which is above `max_antecedent_props: 3` — the highest setting there is. `ALU8` conjoins three on a design that leaves the cap at its default of 2 |
+| undeclared conjunction | 5 | `APB12`, `APB14`, `APB16`, `APB17`, `APB18` conjoin three or four propositions over as many signals. The template antecedent is a **single slot** (below), so a conjunction is only reachable when it is declared as one proposition — and `apb_slave` declares none of its 18 `extra_props` as a conjunction |
 | unfalsifiable consequent | 4 | `rd_error_o == 0`, `rd_data_o <= 16777215`, `data_out <= 1020`, `count <= 8`. The consequent holds at every sample of the corpus, so the clause is a signal domain restated and the flow drops it on purpose |
-| instance budget | 2 | `APB12` and `APB14`: cap 3, clause 3, and every conjunct already heads other mined antecedents. The exact conjunction was crowded out |
-| sequence antecedent with a 4-proposition guard | 2 | an edge conjoined with three value predicates. Edges are now vocabulary entries and plain sequence antecedents are recovered exactly; these two need the edge *and* a three-deep decision tree at once |
-| vocabulary — occupancy equalities | 1 | `FIFO16`. Filed as a depth problem, but the cap is 3 and the clause has 3 |
+| sequence antecedent with a 4-proposition guard | 2 | an edge conjoined with three value predicates. Edges are now vocabulary entries and plain sequence antecedents are recovered exactly; these two need the edge *and* the three value predicates declared together, as one proposition |
+| vocabulary — occupancy equalities | 1 | `FIFO16`. Filed as a depth problem; the conjunct it needs is not in the mined vocabulary at all |
 | compound consequent | 1 | a conjunction of three obligations in the consequent slot (pairs are supported) |
 
 Three of those rows are worth their own sentence, because the generated report would send
 a reader to fix the wrong thing:
 
-* **`FIFO16`** — `G((count == 4 && wr_en == 1 && rd_en == 0) |=> (count == 5))`. Neither
-  the depth nor the cap is the problem. `count == 4` appears in no mined antecedent and
+* **`FIFO16`** — `G((count == 4 && wr_en == 1 && rd_en == 0) |=> (count == 5))`. The width
+  of the antecedent is not the problem. `count == 4` appears in no mined antecedent and
   `count == 5` appears nowhere in the mined set at all, so the clause could not have been
-  proposed whatever the cap. The occupancy value-equalities it needs were never generated;
-  `mining.generalize` folding the value-equality family into intervals is the likely
-  reason, and it is the one place where that generalisation costs a reference clause.
-* **`APB12` and `APB14`** — the antecedents are three propositions on a design whose cap
-  is three, and every conjunct is already in the search: `psel == 1` and `penable == 0`
-  head 24 mined antecedents each, `paddr <= 2` and `paddr >= 4` six each, and the mined
-  set does contain three-deep antecedents. So the shape was reachable and the flow simply
-  spent the per-consequent budget elsewhere. The nearest mined clause,
-  `G((penable == 0) && paddr >= 4 && paddr <= 5 && (prdata == 85) |-> ##3 (...))`, answers
-  at `##3` where `APB14` says `##2`, which points at the latency-tightening step as well
-  as at the budget. This is the same ranking problem the precision section describes,
-  showing up as a recall loss.
+  proposed however it was declared. The occupancy value-equalities it needs were never
+  generated; `mining.generalize` folding the value-equality family into intervals is the
+  likely reason, and it is the one place where that generalisation costs a reference clause.
+* **`APB12` and `APB14`** — filed separately for a long time as a ranking loss, on the
+  reading that the conjunction was reachable and merely crowded out of the per-consequent
+  budget. It was not reachable. Every conjunct is in the search — `psel == 1` and
+  `penable == 0` head many mined antecedents each — but a conjunction **over two different
+  signals is never mined at all**: across the 1467 guarantees mined for `apb_slave` and
+  `ibex_alu` in both vocabulary settings, the widest antecedent is two conjuncts and every
+  one of them is an interval on a single signal (`paddr >= 6 && paddr <= 7`), which is what
+  numeric clustering produces. These two are the same cause as `APB16`-`APB18`.
 * **The unfalsifiable four** are not all one thing. `rd_error_o == 0` is a genuine
   stimulus gap: the benchmark never provokes a CSR error, and a stimulus that did would
   make the clause minable. `count <= 8` and `data_out <= 1020` are true by construction —
@@ -166,10 +164,25 @@ takes a flag-and-value conjunction.
 Two further limits are visible in the table rather than in the miss counts. **Region
 coverage** — a reference clause about a region the flow never enters is unreachable, so
 more events per design, or a residual region for the unexplained samples, would raise the
-ceiling. And **the cap is per design, not global**: `max_antecedent_props: 3` is set for
-`fifo_sync` and `apb_slave` and left at the default everywhere else, so `ALU8` is missed
-by a configuration choice rather than by a limit of the method. Raising it costs run time
-cubic in the vocabulary, which is why it is not simply on.
+ceiling.
+
+And **the antecedent is one proposition slot**, which is worth stating precisely because it
+is not a cap that could be raised. Every design runs `G1` or `G3`, and in both the template
+is `G(P0 |-> ...)`: HARM fills `P0` with exactly one proposition from the declared
+vocabulary. The machinery that would build a conjunction for it — HARM's decision tree — is
+only constructed when the template text carries a decision-tree placeholder, which only `G5`
+does; no design uses `G5`, and `formula.py` cannot evaluate what it returns. HARM's own
+`dtLimits` default of three operands is therefore inert here, and it is an XML attribute on
+the template rather than a command-line flag, so nothing the flow passes changes it.
+
+What does change it is the declared vocabulary, because HARM treats a declared `a && b && c`
+as **one** proposition eligible for the slot. That is the whole difference between the
+designs: `ibex_alu` declares exactly one conjunction,
+`operand_b_i == 1 && operand_a_i <= 2147483647` — the tail of `ALU8`'s antecedent — and
+`ALU8` comes back (weaker, matched on the consequent). `apb_slave` declares 18 propositions
+and `fifo_sync` 28, none of them a conjunction, and every one of their three- and four-signal
+antecedents is missed. Declaring those conjunctions is the open recall opportunity in this
+table: on the current corpus it is what five of the `apb_slave` misses are waiting for.
 
 ## The interface-only column
 
@@ -192,9 +205,11 @@ demanded it:
 * orderings and equality of every output against every input;
 * arithmetic: `+ - *` of two inputs, and a sum of three (`sum == a + b + cin` — the 8-bit
   adder went from 0% to 71% acceptable on that alone);
-* bitwise and shift: `& | ^ << >>` of two inputs, which is what an ALU's operations are
-  (`ibex_alu` interface-only: 6% → 56% acceptable). The clause language itself had to learn
-  these operators, with a precedence level below comparison;
+* bitwise: `& | ^` of two inputs, which is what an ALU's operations are (`ibex_alu`
+  interface-only: 6% → 56% acceptable). The clause language itself had to learn these
+  operators, with a precedence level below comparison. `<< >>` were declared here too until
+  they were found to abort HARM outright — a shift by a data signal exceeds the operand width
+  the CSV declares — and a shift is reachable through the output-on-the-left family anyway;
 * output-side arithmetic: the output on the left (`result_o * 2 <= operand_a_i`,
   `multdiv_result_o * op_b_i <= op_a_i`), which is how a shift or a division is specified
   without naming the operation.
@@ -262,12 +277,11 @@ to matching. Each fix now has a test in `tests/test_recovery.py`.
 The numbers above are after a second round of work aimed at recall and precision. What each
 package changed, measured on the benchmark:
 
-**Shapes (edge propositions, compound consequents, three-proposition antecedents).** A
-rising edge is a vocabulary entry, not a new template: the clause language already evaluates
-`(!(x == 1)) ##1 (x == 1)`, so declaring edges for two-valued signals recovers the divider's
-five sequence-antecedent contracts. The consequent slot takes a flag-and-value conjunction
-(`valid_o == 1 && multdiv_result_o == op_a_i`), and `max_antecedent_props: 3` extends the
-existing pair pruning one level. Divider: 3 exact / 7 acceptable → 5 / 11.
+**Shapes (edge propositions, compound consequents).** A rising edge is a vocabulary entry,
+not a new template: the clause language already evaluates `(!(x == 1)) ##1 (x == 1)`, so
+declaring edges for two-valued signals recovers the divider's five sequence-antecedent
+contracts. The consequent slot takes a flag-and-value conjunction
+(`valid_o == 1 && multdiv_result_o == op_a_i`). Divider: 3 exact / 7 acceptable → 5 / 11.
 
 This package also exposed three defects in the instantiator that nothing else could have
 found: it measured delays from the antecedent's START while the evaluator measures from its
@@ -317,15 +331,13 @@ instead of hidden behind a recall percentage.
 
 Two additions were needed rather than fixes:
 
-* **`ace/templates.py`** — an in-process template instantiator. HARM enumerates its
-  templates over a declared vocabulary and keeps what the trace supports; that enumeration
-  is not a contribution of the flow, so the flow can do it itself and stay measurable on a
-  machine with no miner installed. Propositions are propositional, so each is a bitmask over
-  a run's samples and every template becomes a shift and a mask. It only proposes:
-  `validation.evaluate` with the tool's own semantics decides. It also tightens a window
-  instance into a fixed-latency one where the data allows (`##[1:5]` to `##3`), which is
-  what a latency contract is written with.
+* **`mining._tighten_windows`** — HARM fills a template's window slot from the grammar, so a
+  fixed-latency design comes back as `G(a |-> ##[1:5] b)`. The fixed reading is offered
+  alongside it wherever the data supports it (`##[1:5]` to `##3`) and `reduce_subsumed`
+  keeps the stronger, which is what a latency contract is written with.
 * **`mining.interface_vocabulary`** — the mechanical proposition family described above.
+  HARM's clustering only derives comparisons against constants, so a relation between two
+  signals is only ever mined if it is declared.
 
 ## Reproducing
 
@@ -336,7 +348,6 @@ and `results/recovery_tables.md` as a per-design one; both are written by
 cover the whole benchmark. `results/recovery_summary.json` is different: `score_recovery.py`
 writes it with only the designs of that invocation, so it holds a subset whenever the
 scorer was last run on one.
-The flow runs in 10-40 s per design on the mining corpus with no external miner. With HARM
-installed (`HARM_BIN`, verified by `tools/check_harm.py`) the temporal backend switches to
-it and the rest of the flow is unchanged — the instantiator and HARM consume the same
-configuration, so the comparison between them is a direct RQ.
+HARM is required (`HARM_BIN`, verified by `tools/check_harm.py`): without it the flow exits
+before reading the config, so no artifact can be produced by anything else. A full sweep of
+the eleven designs in both vocabulary settings is roughly an hour, dominated by the miner.

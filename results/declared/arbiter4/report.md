@@ -115,7 +115,7 @@
 
 ## Event `gnt0 == 1`
 - occurrences: 641 (0.1282 of samples)
-- triggers (observed values and interface relations (harm unavailable)):
+- triggers (observed values and interface relations (harm found no antecedent)):
     - `req0 == 1` R=0.984 P=1.000 ATCT=632 AFCT=9 matches 455, explains 632
     - `req0 > req1` R=0.655 P=1.000 ATCT=420 AFCT=221 matches 257, explains 420
     - `req0 > req2` R=0.715 P=0.975 ATCT=459 AFCT=182 matches 316, explains 459
@@ -220,13 +220,13 @@
 
 ## Stage times (s)
 
-- load: 0.0144
-- 1_label:gnt_valid == 1: 0.0016
-- 2_triggers:gnt_valid == 1: 0.3551
-- 3_episodes:gnt_valid == 1: 0.3678
-- 4_mine:gnt_valid == 1: 4.7482
-- 1_label:gnt0 == 1: 0.0011
-- 2_triggers:gnt0 == 1: 0.3036
-- 3_episodes:gnt0 == 1: 0.0564
-- 4_mine:gnt0 == 1: 3.1914
-- 5_merge: 0.0057
+- load: 0.0199
+- 1_label:gnt_valid == 1: 0.0023
+- 2_triggers:gnt_valid == 1: 0.5743
+- 3_episodes:gnt_valid == 1: 0.473
+- 4_mine:gnt_valid == 1: 6.5781
+- 1_label:gnt0 == 1: 0.0013
+- 2_triggers:gnt0 == 1: 0.42
+- 3_episodes:gnt0 == 1: 0.0581
+- 4_mine:gnt0 == 1: 4.2538
+- 5_merge: 0.0069

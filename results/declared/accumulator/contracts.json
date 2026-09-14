@@ -3414,7 +3414,7 @@
         "density": 0.059474,
         "runs_with_occurrences": 10
       },
-      "candidate_source": "observed values and interface relations (harm unavailable)",
+      "candidate_source": "observed values and interface relations (harm found no antecedent)",
       "trigger_selection": {
         "event": "valid_out == 1",
         "selected": [
@@ -3506,11 +3506,11 @@
   ],
   "merged_regions": [],
   "timers_s": {
-    "load": 0.0323,
-    "1_label:valid_out == 1": 0.0032,
-    "2_triggers:valid_out == 1": 1.1117,
-    "3_episodes:valid_out == 1": 0.0331,
-    "4_mine:valid_out == 1": 5.9897,
+    "load": 0.0963,
+    "1_label:valid_out == 1": 0.0091,
+    "2_triggers:valid_out == 1": 1.8054,
+    "3_episodes:valid_out == 1": 0.0456,
+    "4_mine:valid_out == 1": 8.6481,
     "5_merge": 0.0
   }
 }

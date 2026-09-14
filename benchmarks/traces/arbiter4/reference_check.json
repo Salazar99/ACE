@@ -35,7 +35,18 @@
    "template": "G2",
    "assumption_ids": [],
    "guarantee": "G((rst_n == 0) |=> (gnt_valid == 0))",
-   "props": [],
+   "props": [
+    {
+     "exp": "rst_n == 0",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "gnt_valid == 0",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
    "rationale": "reset clears the grant register",
    "resolved": "G((rst_n == 0) |=> (gnt_valid == 0))",
    "support": 167,
@@ -53,7 +64,18 @@
    "template": "G2",
    "assumption_ids": [],
    "guarantee": "G((rst_n == 0) |=> (gnt_id == 0))",
-   "props": [],
+   "props": [
+    {
+     "exp": "rst_n == 0",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "gnt_id == 0",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
    "rationale": "reset returns the granted index to zero",
    "resolved": "G((rst_n == 0) |=> (gnt_id == 0))",
    "support": 167,
@@ -75,6 +97,11 @@
     {
      "exp": "gnt0 + gnt1 + gnt2 + gnt3 == 1",
      "loc": "c",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "gnt_valid == 1",
+     "loc": "a,dt",
      "stage": "guarantee"
     }
    ],
@@ -100,6 +127,11 @@
      "exp": "gnt0 + gnt1 + gnt2 + gnt3 == 0",
      "loc": "c",
      "stage": "guarantee"
+    },
+    {
+     "exp": "gnt_valid == 0",
+     "loc": "a,dt",
+     "stage": "guarantee"
     }
    ],
    "rationale": "no grant line is raised without the validity flag",
@@ -123,6 +155,11 @@
     {
      "exp": "req0 + req1 + req2 + req3 == 0",
      "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "gnt_valid == 0",
+     "loc": "c",
      "stage": "guarantee"
     }
    ],
@@ -151,6 +188,16 @@
      "exp": "req0 + req1 + req2 + req3 >= 1",
      "loc": "a,dt",
      "stage": "guarantee"
+    },
+    {
+     "exp": "rst_n == 1",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "gnt_valid == 1",
+     "loc": "c",
+     "stage": "guarantee"
     }
    ],
    "rationale": "grant liveness at one-cycle granularity: any request is answered in the next cycle, because the arbiter is never idle while someone asks",
@@ -170,7 +217,18 @@
    "template": "G1",
    "assumption_ids": [],
    "guarantee": "G((gnt0 == 1) |-> (gnt_id == 0))",
-   "props": [],
+   "props": [
+    {
+     "exp": "gnt0 == 1",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "gnt_id == 0",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
    "rationale": "the index agrees with the grant lines",
    "resolved": "G((gnt0 == 1) |-> (gnt_id == 0))",
    "support": 641,
@@ -188,7 +246,18 @@
    "template": "G1",
    "assumption_ids": [],
    "guarantee": "G((gnt1 == 1) |-> (gnt_id == 1))",
-   "props": [],
+   "props": [
+    {
+     "exp": "gnt1 == 1",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "gnt_id == 1",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
    "rationale": "the index agrees with the grant lines",
    "resolved": "G((gnt1 == 1) |-> (gnt_id == 1))",
    "support": 630,
@@ -206,7 +275,18 @@
    "template": "G1",
    "assumption_ids": [],
    "guarantee": "G((gnt2 == 1) |-> (gnt_id == 2))",
-   "props": [],
+   "props": [
+    {
+     "exp": "gnt2 == 1",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "gnt_id == 2",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
    "rationale": "the index agrees with the grant lines",
    "resolved": "G((gnt2 == 1) |-> (gnt_id == 2))",
    "support": 618,
@@ -224,7 +304,18 @@
    "template": "G1",
    "assumption_ids": [],
    "guarantee": "G((gnt3 == 1) |-> (gnt_id == 3))",
-   "props": [],
+   "props": [
+    {
+     "exp": "gnt3 == 1",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "gnt_id == 3",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
    "rationale": "the index agrees with the grant lines",
    "resolved": "G((gnt3 == 1) |-> (gnt_id == 3))",
    "support": 651,
@@ -249,6 +340,16 @@
      "exp": "req0 + req1 + req2 + req3 == 1",
      "loc": "a,dt",
      "stage": "guarantee"
+    },
+    {
+     "exp": "req0 == 1",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "gnt0 == 1",
+     "loc": "c",
+     "stage": "guarantee"
     }
    ],
    "rationale": "a sole requester is served immediately, whatever the rotation pointer is",
@@ -270,7 +371,23 @@
     "A1"
    ],
    "guarantee": "G((req0 + req1 + req2 + req3 == 1 && req1 == 1) |=> (gnt1 == 1))",
-   "props": [],
+   "props": [
+    {
+     "exp": "req0 + req1 + req2 + req3 == 1",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "req1 == 1",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "gnt1 == 1",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
    "rationale": "a sole requester is served immediately",
    "resolved": "G((req0 + req1 + req2 + req3 == 1 && req1 == 1) |=> (gnt1 == 1))",
    "support": 231,
@@ -290,7 +407,23 @@
     "A1"
    ],
    "guarantee": "G((req0 + req1 + req2 + req3 == 1 && req2 == 1) |=> (gnt2 == 1))",
-   "props": [],
+   "props": [
+    {
+     "exp": "req0 + req1 + req2 + req3 == 1",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "req2 == 1",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "gnt2 == 1",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
    "rationale": "a sole requester is served immediately",
    "resolved": "G((req0 + req1 + req2 + req3 == 1 && req2 == 1) |=> (gnt2 == 1))",
    "support": 258,
@@ -310,7 +443,23 @@
     "A1"
    ],
    "guarantee": "G((req0 + req1 + req2 + req3 == 1 && req3 == 1) |=> (gnt3 == 1))",
-   "props": [],
+   "props": [
+    {
+     "exp": "req0 + req1 + req2 + req3 == 1",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "req3 == 1",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "gnt3 == 1",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
    "rationale": "a sole requester is served immediately",
    "resolved": "G((req0 + req1 + req2 + req3 == 1 && req3 == 1) |=> (gnt3 == 1))",
    "support": 268,
@@ -330,7 +479,23 @@
     "A1"
    ],
    "guarantee": "G((req0 == 1 && gnt0 == 0) |-> ##[1:4] (gnt0 == 1))",
-   "props": [],
+   "props": [
+    {
+     "exp": "req0 == 1",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "gnt0 == 0",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "gnt0 == 1",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
    "rationale": "bounded fairness: a request that has not just been served is served within four cycles, because priority rotates past whoever was served. Four is the exact bound - three at 1:3 - and it is the one contract here that depends on the environment holding its request until granted, which no invariant can state. It breaks on the stress corpus, and that is the point",
    "resolved": "G((req0 == 1 && gnt0 == 0) |-> ##[1:4] (gnt0 == 1))",
    "support": 723,
@@ -350,7 +515,23 @@
     "A1"
    ],
    "guarantee": "G((req1 == 1 && gnt1 == 0) |-> ##[1:4] (gnt1 == 1))",
-   "props": [],
+   "props": [
+    {
+     "exp": "req1 == 1",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "gnt1 == 0",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "gnt1 == 1",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
    "rationale": "bounded fairness for requester 1",
    "resolved": "G((req1 == 1 && gnt1 == 0) |-> ##[1:4] (gnt1 == 1))",
    "support": 797,
@@ -370,7 +551,23 @@
     "A1"
    ],
    "guarantee": "G((req2 == 1 && gnt2 == 0) |-> ##[1:4] (gnt2 == 1))",
-   "props": [],
+   "props": [
+    {
+     "exp": "req2 == 1",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "gnt2 == 0",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "gnt2 == 1",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
    "rationale": "bounded fairness for requester 2",
    "resolved": "G((req2 == 1 && gnt2 == 0) |-> ##[1:4] (gnt2 == 1))",
    "support": 787,
@@ -390,7 +587,23 @@
     "A1"
    ],
    "guarantee": "G((req3 == 1 && gnt3 == 0) |-> ##[1:4] (gnt3 == 1))",
-   "props": [],
+   "props": [
+    {
+     "exp": "req3 == 1",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "gnt3 == 0",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "gnt3 == 1",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
    "rationale": "bounded fairness for requester 3",
    "resolved": "G((req3 == 1 && gnt3 == 0) |-> ##[1:4] (gnt3 == 1))",
    "support": 777,

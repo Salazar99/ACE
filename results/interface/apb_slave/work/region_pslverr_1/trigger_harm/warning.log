@@ -1,17 +1,25 @@
 [
 {
-"time" : "17:11:13",
+"time" : "19:39:00",
 "message" : "Reset 'presetn == 0' is not effective: there is a subtrace of size 1 at time 5998"}
 ,
 {
-"time" : "17:11:13",
+"time" : "19:39:00",
 "message" : "Could not mine any assertions for context 'default'"}
 ,
 {
-"time" : "17:24:43",
+"time" : "20:01:33",
 "message" : "Reset 'presetn == 0' is not effective: there is a subtrace of size 1 at time 5998"}
 ,
 {
-"time" : "17:24:43",
+"time" : "20:01:33",
+"message" : "Could not mine any assertions for context 'default'"}
+,
+{
+"time" : "22:00:58",
+"message" : "Reset 'presetn == 0' is not effective: there is a subtrace of size 1 at time 5998"}
+,
+{
+"time" : "22:00:58",
 "message" : "Could not mine any assertions for context 'default'"}
 ]

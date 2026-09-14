@@ -21,8 +21,6 @@
 		<prop exp="gnt0 == (rst_n &amp; req0)" loc="c"/>
 		<prop exp="gnt0 == (rst_n | req0)" loc="c"/>
 		<prop exp="gnt0 == (rst_n ^ req0)" loc="c"/>
-		<prop exp="gnt0 == (rst_n &lt;&lt; req0)" loc="c"/>
-		<prop exp="gnt0 == (rst_n &gt;&gt; req0)" loc="c"/>
 		<prop exp="gnt0 * req0 &lt;= rst_n" loc="c"/>
 		<prop exp="gnt0 * req0 + req0 &gt; rst_n" loc="c"/>
 		<prop exp="gnt0 &lt; req0" loc="c"/>
@@ -34,8 +32,6 @@
 		<prop exp="gnt0 == (rst_n &amp; req1)" loc="c"/>
 		<prop exp="gnt0 == (rst_n | req1)" loc="c"/>
 		<prop exp="gnt0 == (rst_n ^ req1)" loc="c"/>
-		<prop exp="gnt0 == (rst_n &lt;&lt; req1)" loc="c"/>
-		<prop exp="gnt0 == (rst_n &gt;&gt; req1)" loc="c"/>
 		<prop exp="gnt0 * req1 &lt;= rst_n" loc="c"/>
 		<prop exp="gnt0 * req1 + req1 &gt; rst_n" loc="c"/>
 		<prop exp="gnt0 &lt; req1" loc="c"/>
@@ -45,8 +41,6 @@
 		<prop exp="gnt0 == (rst_n &amp; req2)" loc="c"/>
 		<prop exp="gnt0 == (rst_n | req2)" loc="c"/>
 		<prop exp="gnt0 == (rst_n ^ req2)" loc="c"/>
-		<prop exp="gnt0 == (rst_n &lt;&lt; req2)" loc="c"/>
-		<prop exp="gnt0 == (rst_n &gt;&gt; req2)" loc="c"/>
 		<prop exp="gnt0 * req2 &lt;= rst_n" loc="c"/>
 		<prop exp="gnt0 * req2 + req2 &gt; rst_n" loc="c"/>
 		<prop exp="gnt0 &lt; req2" loc="c"/>
@@ -56,8 +50,6 @@
 		<prop exp="gnt0 == (rst_n &amp; req3)" loc="c"/>
 		<prop exp="gnt0 == (rst_n | req3)" loc="c"/>
 		<prop exp="gnt0 == (rst_n ^ req3)" loc="c"/>
-		<prop exp="gnt0 == (rst_n &lt;&lt; req3)" loc="c"/>
-		<prop exp="gnt0 == (rst_n &gt;&gt; req3)" loc="c"/>
 		<prop exp="gnt0 * req3 &lt;= rst_n" loc="c"/>
 		<prop exp="gnt0 * req3 + req3 &gt; rst_n" loc="c"/>
 		<prop exp="gnt0 &lt; req3" loc="c"/>
@@ -67,8 +59,6 @@
 		<prop exp="gnt0 == (req0 &amp; req1)" loc="c"/>
 		<prop exp="gnt0 == (req0 | req1)" loc="c"/>
 		<prop exp="gnt0 == (req0 ^ req1)" loc="c"/>
-		<prop exp="gnt0 == (req0 &lt;&lt; req1)" loc="c"/>
-		<prop exp="gnt0 == (req0 &gt;&gt; req1)" loc="c"/>
 		<prop exp="gnt0 * req1 &lt;= req0" loc="c"/>
 		<prop exp="gnt0 * req1 + req1 &gt; req0" loc="c"/>
 		<prop exp="gnt0 * 2 &lt;= req0" loc="c"/>
@@ -79,8 +69,6 @@
 		<prop exp="gnt0 == (req0 &amp; req2)" loc="c"/>
 		<prop exp="gnt0 == (req0 | req2)" loc="c"/>
 		<prop exp="gnt0 == (req0 ^ req2)" loc="c"/>
-		<prop exp="gnt0 == (req0 &lt;&lt; req2)" loc="c"/>
-		<prop exp="gnt0 == (req0 &gt;&gt; req2)" loc="c"/>
 		<prop exp="gnt0 * req2 &lt;= req0" loc="c"/>
 		<prop exp="gnt0 * req2 + req2 &gt; req0" loc="c"/>
 		<prop exp="gnt0 == req0 + req3" loc="c"/>
@@ -89,8 +77,6 @@
 		<prop exp="gnt0 == (req0 &amp; req3)" loc="c"/>
 		<prop exp="gnt0 == (req0 | req3)" loc="c"/>
 		<prop exp="gnt0 == (req0 ^ req3)" loc="c"/>
-		<prop exp="gnt0 == (req0 &lt;&lt; req3)" loc="c"/>
-		<prop exp="gnt0 == (req0 &gt;&gt; req3)" loc="c"/>
 		<prop exp="gnt0 * req3 &lt;= req0" loc="c"/>
 		<prop exp="gnt0 * req3 + req3 &gt; req0" loc="c"/>
 		<prop exp="gnt0 == req1 + req2" loc="c"/>
@@ -99,8 +85,6 @@
 		<prop exp="gnt0 == (req1 &amp; req2)" loc="c"/>
 		<prop exp="gnt0 == (req1 | req2)" loc="c"/>
 		<prop exp="gnt0 == (req1 ^ req2)" loc="c"/>
-		<prop exp="gnt0 == (req1 &lt;&lt; req2)" loc="c"/>
-		<prop exp="gnt0 == (req1 &gt;&gt; req2)" loc="c"/>
 		<prop exp="gnt0 * req2 &lt;= req1" loc="c"/>
 		<prop exp="gnt0 * req2 + req2 &gt; req1" loc="c"/>
 		<prop exp="gnt0 * 2 &lt;= req1" loc="c"/>
@@ -111,8 +95,6 @@
 		<prop exp="gnt0 == (req1 &amp; req3)" loc="c"/>
 		<prop exp="gnt0 == (req1 | req3)" loc="c"/>
 		<prop exp="gnt0 == (req1 ^ req3)" loc="c"/>
-		<prop exp="gnt0 == (req1 &lt;&lt; req3)" loc="c"/>
-		<prop exp="gnt0 == (req1 &gt;&gt; req3)" loc="c"/>
 		<prop exp="gnt0 * req3 &lt;= req1" loc="c"/>
 		<prop exp="gnt0 * req3 + req3 &gt; req1" loc="c"/>
 		<prop exp="gnt0 == req2 + req3" loc="c"/>
@@ -121,8 +103,6 @@
 		<prop exp="gnt0 == (req2 &amp; req3)" loc="c"/>
 		<prop exp="gnt0 == (req2 | req3)" loc="c"/>
 		<prop exp="gnt0 == (req2 ^ req3)" loc="c"/>
-		<prop exp="gnt0 == (req2 &lt;&lt; req3)" loc="c"/>
-		<prop exp="gnt0 == (req2 &gt;&gt; req3)" loc="c"/>
 		<prop exp="gnt0 * req3 &lt;= req2" loc="c"/>
 		<prop exp="gnt0 * req3 + req3 &gt; req2" loc="c"/>
 		<prop exp="gnt0 * 2 &lt;= req2" loc="c"/>
@@ -150,6 +130,26 @@
 		<prop exp="gnt1 == rst_n" loc="c"/>
 		<prop exp="gnt1 &lt;= rst_n" loc="c"/>
 		<prop exp="gnt1 &gt;= rst_n" loc="c"/>
+		<prop exp="gnt1 == req0" loc="c"/>
+		<prop exp="gnt1 &lt;= req0" loc="c"/>
+		<prop exp="gnt1 &gt;= req0" loc="c"/>
+		<prop exp="gnt1 == req1" loc="c"/>
+		<prop exp="gnt1 &lt;= req1" loc="c"/>
+		<prop exp="gnt1 &gt;= req1" loc="c"/>
+		<prop exp="gnt1 == req2" loc="c"/>
+		<prop exp="gnt1 &lt;= req2" loc="c"/>
+		<prop exp="gnt1 &gt;= req2" loc="c"/>
+		<prop exp="gnt1 == req3" loc="c"/>
+		<prop exp="gnt1 &lt;= req3" loc="c"/>
+		<prop exp="gnt1 &gt;= req3" loc="c"/>
+		<prop exp="gnt1 == rst_n + req0" loc="c"/>
+		<prop exp="gnt1 == rst_n * req0" loc="c"/>
+		<prop exp="gnt1 == rst_n - req0" loc="c"/>
+		<prop exp="gnt1 == (rst_n &amp; req0)" loc="c"/>
+		<prop exp="gnt1 == (rst_n | req0)" loc="c"/>
+		<prop exp="gnt1 == (rst_n ^ req0)" loc="c"/>
+		<prop exp="gnt1 * req0 &lt;= rst_n" loc="c"/>
+		<prop exp="gnt1 * req0 + req0 &gt; rst_n" loc="c"/>
 		<prop exp="rst_n" loc="a,c,dt"/>
 		<prop exp="req0" loc="a,c,dt"/>
 		<prop exp="req1" loc="a,c,dt"/>

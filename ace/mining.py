@@ -16,12 +16,11 @@ domain rather than the region's behavior, are marked and dropped from the contra
 """
 from __future__ import annotations
 
-import sys
 from dataclasses import dataclass, field, asdict
 from pathlib import Path
 
-from . import (backends, templates as templates_mod, episodes as episodes_mod, traces,
-               validation)
+from . import (backends, episodes as episodes_mod, traces, validation, vocabulary as
+               vocabulary_mod)
 
 
 @dataclass
@@ -154,14 +153,14 @@ def interface_vocabulary(inputs, outputs, arithmetic=True, arity=3, bitwise=True
     * `arithmetic` - every output against a `+ - *` combination of two inputs, and against a
       sum of `arity` inputs (the 8-bit adder's contract is `sum == a + b + cin`, which no
       pairwise family can express);
-    * `bitwise` - `& | ^ << >>` of two inputs, which is what an ALU's operations are;
+    * `bitwise` - `& | ^` of two inputs, which is what an ALU's operations are;
     * `output_arithmetic` - the output on the left of the relation (`result_o * 2 <=
       operand_a_i`, `multdiv_result_o * op_b_i <= op_a_i`), which is how a shift or a
       division is specified without naming the operation.
 
     Nothing here looks at what the reference contracts say, so a mined clause that matches
     one is evidence rather than bookkeeping. The size is what RQ4 measures, and it is now
-    dominated by the pair families: |O| * (3|I| + (3 + 5 + 4)|I|(|I|-1)/2 + C(|I|,3)).
+    dominated by the pair families: |O| * (3|I| + (3 + 3 + 4)|I|(|I|-1)/2 + C(|I|,3)).
     """
     props = []
     for out in outputs:
@@ -173,9 +172,14 @@ def interface_vocabulary(inputs, outputs, arithmetic=True, arity=3, bitwise=True
                     props += [f"{out} == {a} + {b}", f"{out} == {a} * {b}",
                               f"{out} == {a} - {b}"]
                 if bitwise:
+                    # No `a << b` / `a >> b`: HARM aborts the whole run - not the clause, the
+                    # process - whenever the shift amount exceeds the left operand's declared
+                    # width (`GenericExpression.cc`, messageErrorIf), and every column the
+                    # flow writes is retyped `int`, so any 8-bit stimulus above 32 kills it.
+                    # A shift is reachable anyway through the output-side forms below
+                    # (`{out} * 2 <= {a}`), and no reference contract names one.
                     props += [f"{out} == ({a} & {b})", f"{out} == ({a} | {b})",
-                              f"{out} == ({a} ^ {b})", f"{out} == ({a} << {b})",
-                              f"{out} == ({a} >> {b})"]
+                              f"{out} == ({a} ^ {b})"]
                 if output_arithmetic:
                     props += [f"{out} * {b} <= {a}", f"{out} * {b} + {b} > {a}",
                               f"{out} < {b}", f"{out} * 2 <= {a}", f"{out} * 2 + 1 >= {a}"]
@@ -361,61 +365,17 @@ def _rebuild(clause: str, antecedent: str) -> str:
     return f"G({antecedent} {operator} {consequent})"
 
 
-def _declared(cfg, tag, where) -> list:
-    """Declared propositions eligible for one slot: 'a' antecedent, 'c' consequent."""
-    return [p["exp"] for p in _vocabulary(cfg, tag) if where in p.get("loc", "a,c")]
-
-
-def _touches(prop, signals) -> bool:
-    from . import formula
-    try:
-        return bool(formula.parse(prop).signals() & set(signals))
-    except formula.FormulaError:
-        return False
-
-
-def _mine_in_process(runs, rows, vocabulary, grammar, horizon, tag, cfg) -> list:
-    """Instantiate the same templates in process, over the same declared vocabulary.
-
-    The antecedent vocabulary is the observed-value atoms over the pass's signals, the
-    rising and falling edges of its two-valued signals, and the declared propositions marked
-    for the antecedent; the consequent vocabulary is the same
-    set, restricted on the guarantee pass to propositions that mention an output - a
-    guarantee that says nothing about an observable is dropped downstream anyway.
-    """
-    atoms = templates_mod.predicates(rows, vocabulary)
-    edges = (templates_mod.edge_predicates(rows, vocabulary)
-             if cfg.get("edge_props", True) else [])
-    antecedents = atoms + edges + _declared(cfg, tag, "a")
-    consequents = atoms + _declared(cfg, tag, "c")
-    if tag == "guarantee":
-        outputs = list(cfg.get("outputs", ()))
-        consequents = [c for c in consequents if _touches(c, outputs)]
-    return templates_mod.instantiate(
-        runs, backends.GRAMMARS[grammar], antecedents, consequents, horizon,
-        max_ant=int(cfg.get("max_antecedent_props", 2)),
-        max_instances=int(cfg.get("max_instances", 800)),
-        min_support=_min_support(cfg, len(rows)),
-        max_per_consequent=int(cfg.get("max_per_consequent", 12)),
-        compound=bool(cfg.get("compound_consequents", True)))
-
-
-def _min_support(cfg, samples: int) -> int:
-    """How often an instance has to fire to be worth proposing: a share of the region, at
-    least two samples. HARM's --min-frank plays the same role."""
-    return max(3, int(float(cfg.get("min_instance_support", 0.002)) * samples))
-
-
 def _tighten_windows(corpus, clauses) -> list:
     """Offer the fixed-latency reading of every window clause that has one.
 
     `G(a |-> ##[1:H] b)` says b answers somewhere in the window; `G(a |-> ##2 b)` says it
     answers exactly two cycles later. The second is the stronger statement and the one a
-    latency contract is written with. The in-process instantiator derives it itself
-    (`templates._tighten`); HARM emits the template as written, which is why the same design
-    yields a weaker contract on the HARM backend. Both forms are offered and `reduce_subsumed`
-    keeps the fixed one when it holds - existential and fixed delays do not subsume each
-    other, so neither is lost by accident.
+    latency contract is written with, and HARM emits the template as written: it fills the
+    window slot from the grammar, not from the data. So every window clause that holds is
+    re-offered at each fixed delay inside its window, and the fixed form is kept when it
+    holds on exactly the same positions. Both forms reach `reduce_subsumed`, which keeps the
+    fixed one - existential and fixed delays do not subsume each other, so neither is lost
+    by accident.
     """
     import re
 
@@ -445,12 +405,11 @@ def _tighten_windows(corpus, clauses) -> list:
 
 def _mine_temporal(trace, rows, vocabulary, grammar, horizon, workdir, tag,
                    reset=None, cfg=None, runs=None) -> tuple:
-    """One HARM call over the whole region, or the in-process instantiator when HARM is
-    not installed (ace.templates - same templates, same vocabulary, no external binary).
+    """One HARM call over the whole region. HARM is the temporal backend; there is no other.
 
-    Returns `(clauses, backend)`, where `backend` is what actually ran: a HARM failure is a
-    configuration or grammar problem in one region, not a reason to lose the whole run, so
-    it is reported and the in-process instantiator takes over for that region.
+    Returns `(clauses, "harm")`. A HARM failure is not caught: it is a configuration or
+    grammar problem that would otherwise be answered by a differently-mined region under the
+    same command, so it takes the run down and says why.
 
     `trace` is the region directory when episodes were written one per file, in which case
     HARM reads each episode as a separate trace and no mined property can span an episode
@@ -458,12 +417,8 @@ def _mine_temporal(trace, rows, vocabulary, grammar, horizon, workdir, tag,
     to build a usable proposition vocabulary from a multi-bit signal.
     """
     if not vocabulary or trace is None:
-        return [], backends.temporal_backend()
+        return [], "harm"
     cfg = cfg or {}
-    in_process = "in-process-templates"
-    if not backends.available("harm"):
-        return ((_mine_in_process(runs, rows, vocabulary, grammar, horizon, tag, cfg)
-                 if runs else []), in_process)
     booleans, numerics = backends.classify_signals(rows, vocabulary)
     conf = backends.write_conf(
         backends.harm_conf(backends.GRAMMARS[grammar], booleans, numerics, horizon,
@@ -471,17 +426,8 @@ def _mine_temporal(trace, rows, vocabulary, grammar, horizon, workdir, tag,
                                               backends.NUMERIC_CLUSTERING),
                            extra_props=_vocabulary(cfg, tag)),
         Path(workdir) / f"{tag}_conf.xml")
-    try:
-        mined = backends.harm(trace, conf, Path(workdir) / f"{tag}_harm", reset=reset,
-                              max_ass=cfg.get("max_ass"), min_frank=cfg.get("min_frank"))
-    except backends.BackendMissing:
-        return [], in_process
-    except RuntimeError as exc:
-        reason = backends.last_message(exc)
-        print(f"warning: HARM failed on {conf}, mining {tag} clauses in process instead "
-              f"({reason})", file=sys.stderr)
-        return ((_mine_in_process(runs, rows, vocabulary, grammar, horizon, tag, cfg)
-                 if runs else []), f"{in_process} (harm failed: {reason})")
+    mined = backends.harm(trace, conf, Path(workdir) / f"{tag}_harm", reset=reset,
+                          max_ass=cfg.get("max_ass"), min_frank=cfg.get("min_frank"))
     from . import formula
     clauses = [formula.strip_braces(clause) for clause in mined]
     if runs:
@@ -564,7 +510,7 @@ def mine(corpus, region, selection, cfg, workdir, holdout=None) -> Contract:
     region_trace = (Path(csvs[0]).parent
                     if region["write"]["manifest"]["mode"] == "split" else Path(csvs[0]))
     reset = cfg.get("reset")
-    backend = backends.temporal_backend()   # replaced below by what actually ran
+    backend = "harm"                        # the only temporal backend there is
     # Temporal environment clauses are off by default. A contract's A is a conjunction of
     # INVARIANTS - propositional, no temporal operator - so a mined `op_a_i == 100 |-> ##40
     # operator_i == 2` cannot enter A, and on the benchmark that family was 310 of 325
@@ -681,7 +627,7 @@ def mine(corpus, region, selection, cfg, workdir, holdout=None) -> Contract:
         "episodes": region["write"]["manifest"]["episodes"],
         "episode_samples": region["write"]["manifest"]["samples"],
         "episode_provenance_ok": region["write"]["manifest"]["provenance_ok"],
-        "temporal_backend": backend,          # what ran, not what was installed
+        "temporal_backend": backend,          # always "harm"; there is no other
         "propositional_backend": "in-process",
         "region_csvs": csvs[:8] + (["..."] if len(csvs) > 8 else []),
     }
@@ -721,7 +667,7 @@ def refine(contract, region_corpus, rows, violated, inputs, cfg) -> list:
     if not violated:
         return []
     dropped = []
-    candidates = [c for c in templates_mod.predicates(rows, inputs)
+    candidates = [c for c in vocabulary_mod.predicates(rows, inputs)
                   if validation.evaluate(region_corpus, c)["violations"]]
     ranked = sorted(candidates,
                     key=lambda c: -validation.evaluate(region_corpus, c)["support"])

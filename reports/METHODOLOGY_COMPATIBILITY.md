@@ -61,7 +61,7 @@ The plan's justification for `h_pre` / `h_post` is reproduced verbatim in the mo
 
 ## Step 4 — mining and assembly
 
-Episodes reach HARM as the plan asks, one CSV per episode so nothing can relate samples across a boundary. This path only became usable in the current revision: before it, HARM aborted the whole run on `adder_8bit` and `arbiter4`, and every result under `results/` was produced by the in-process instantiator.
+Episodes reach HARM as the plan asks, one CSV per episode so nothing can relate samples across a boundary. This path only became usable once the CSVs were retyped (`traces.numeric_header`) and the shift family was dropped from the declared vocabulary: before that, HARM aborted the whole run on `adder_8bit` and `arbiter4`. Every result under `results/` now comes from HARM, which is the only temporal backend there is.
 
 Two departures:
 

@@ -17,7 +17,7 @@ is unchanged under `legacy/fdl26/` so the two can be compared.
 
 ```bash
 ├── ace/                  # the flow: labeling, triggers, episodes, mining, validation
-│                         #   + formula (evaluator), templates (miner), traces, backends
+│                         #   + formula (evaluator), vocabulary (atoms), traces, backends
 ├── benchmarks/           # the trace benchmark: 11 designs with a confirmed reference set
 │   ├── <design>/         #   tb_<design>.sv, generate.sh, config.json, candidates.json,
 │   │                     #   reference_contracts.txt, and rtl/ for the 3 protocol blocks
@@ -37,11 +37,14 @@ is unchanged under `legacy/fdl26/` so the two can be compared.
 
 ## Quickstart
 
-Python 3.10+ and the standard library are enough for everything except producing new traces.
+Python 3.10+ and a HARM build. HARM is the temporal backend and it is required: without it
+the flow refuses to start rather than mining the same command a different way
+(`tools/install_harm.sh` builds one, `tools/check_harm.py` verifies it).
 
+    python3 tools/check_harm.py                        # the backend is usable (exit 0)
     python3 tests/test_formula.py                      # evaluator semantics
     python3 tests/test_recovery.py                     # selection and comparison traps
-    python3 tests/test_flow.py                         # steps 1-5, no external tools
+    python3 tests/test_flow.py                         # steps 1-5 end to end, on HARM
 
     python3 benchmarks/run.py --validate-only          # re-check all 135 golden contracts
     python3 -m ace benchmarks/sqrt/config.json --out results/declared/sqrt
@@ -59,28 +62,36 @@ finds on its own (`--ace-root` overrides it, for RTL kept outside this repositor
 protocol designs carry their own RTL. All testbenches are plain SystemVerilog driven by
 plusargs (`+seed`, `+cycles`, `+scenario`, `+out`), so QuestaSim runs them the same way.
 
-HARM is optional. Without it, `ace/templates.py` instantiates the same templates over the
-same vocabulary in process; `tools/check_harm.py` reports whether an installation is usable
-and `tools/install_harm.sh` builds one.
+HARM is the temporal backend and there is no other. A run on a machine without it exits
+non-zero and writes nothing, and a HARM failure mid-run takes the run down with HARM's own
+message rather than mining that region some other way - so every number under `results/`
+came from the same miner. `tools/install_harm.sh` builds an installation and
+`tools/check_harm.py` reports whether it is usable by the flow.
 
 ## Where the numbers are
 
 `reports/MINING_REPORT.md` is the headline: mined against golden, per design, in both
 vocabulary settings, plus which golden clauses came back listed by id.
 
+Guarantees, over the 130 golden `G(antecedent -> consequent)` clauses:
+
 | vocabulary | golden | mined | equivalent | refinement | weaker | missed | exact | acceptable |
 |---|---|---|---|---|---|---|---|---|
-| declared | 135 | 2092 | 64 | 41 | 10 | 20 | 47% | 78% |
-| interface | 135 | 6301 | 35 | 37 | 13 | 50 | 26% | 53% |
+| declared | 130 | 2614 | 53 | 27 | 2 | 48 | 41% | 62% |
+| interface | 130 | 21583 | 23 | 14 | 7 | 86 | 18% | 28% |
 
-Every reference set is confirmed on its own traces before it is used as a reference: all 135
+Assumptions are scored separately, as the invariants they are - 28 golden clauses, none of
+them missed in either setting: declared 9 equivalent and 10 refinements (32% exact, 68%
+acceptable), interface 11 and 8 (39%, 68%).
+
+Every reference set is confirmed on its own traces before it is used as a reference: all 130
 guarantees hold on the mining and held-out corpora, and 28 assumptions are exercised.
 Categories are trace-bounded throughout - agreement on the observed corpus, not a proof.
 
 ## Dependencies
 
 * python3 (3.10+), standard library only, for the flow, the scoring and the reports
+* HARM, required, as the temporal backend (see `ace/README.md`)
 * verilator 5.x, to regenerate traces (or QuestaSim, via the same plusargs)
-* HARM, optional, as the temporal backend (see `ace/README.md`)
 * the FDL26 flow additionally needs `legacy/fdl26/third_party/` and QuestaSim, as before,
   and its scripts still hardcode paths that the move one level down invalidated

@@ -1,16 +1,16 @@
 {
  "design": "accumulator",
- "runs": 5,
- "samples": 4000,
+ "runs": 10,
+ "samples": 19000,
  "assumptions": [
   {
    "id": "A1",
    "invariant": "rst_n == 1",
    "why": "the environment holds reset deasserted",
    "resolved": "rst_n == 1",
-   "positions_checked": 4000,
-   "positions_honoured": 3845,
-   "honoured_rate": 0.9613,
+   "positions_checked": 19000,
+   "positions_honoured": 5582,
+   "honoured_rate": 0.2938,
    "stress_positions_checked": 1600,
    "stress_positions_honoured": 1514,
    "status": "exercised"
@@ -20,9 +20,9 @@
    "invariant": "valid_in == 1",
    "why": "the environment keeps offering samples. The design only advances its counter while valid_out is low, so a sample offered and then withdrawn stalls the accumulation: the bounded-response guarantees are owed only under a continuous stream",
    "resolved": "valid_in == 1",
-   "positions_checked": 4000,
-   "positions_honoured": 2494,
-   "honoured_rate": 0.6235,
+   "positions_checked": 19000,
+   "positions_honoured": 3766,
+   "honoured_rate": 0.1982,
    "stress_positions_checked": 1600,
    "stress_positions_honoured": 982,
    "status": "exercised"
@@ -32,8 +32,8 @@
    "invariant": "data_in <= 255",
    "why": "samples are 8 bits wide",
    "resolved": "data_in <= 255",
-   "positions_checked": 4000,
-   "positions_honoured": 4000,
+   "positions_checked": 19000,
+   "positions_honoured": 19000,
    "honoured_rate": 1.0,
    "stress_positions_checked": 1600,
    "stress_positions_honoured": 1600,
@@ -47,13 +47,24 @@
    "template": "G1",
    "assumption_ids": [],
    "guarantee": "G((rst_n == 0) |-> (valid_out == 0))",
-   "props": [],
+   "props": [
+    {
+     "exp": "rst_n == 0",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "valid_out == 0",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
    "rationale": "asynchronous reset clears the valid flag in the same cycle",
    "resolved": "G((rst_n == 0) |-> (valid_out == 0))",
-   "support": 155,
+   "support": 13418,
    "violations": 0,
    "excluded_by_assumptions": 0,
-   "holdout_support": 81,
+   "holdout_support": 8086,
    "holdout_violations": 0,
    "stress_support": 86,
    "stress_violations": 0,
@@ -65,13 +76,24 @@
    "template": "G1",
    "assumption_ids": [],
    "guarantee": "G((rst_n == 0) |-> (data_out == 0))",
-   "props": [],
+   "props": [
+    {
+     "exp": "rst_n == 0",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "data_out == 0",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
    "rationale": "asynchronous reset clears the accumulator in the same cycle",
    "resolved": "G((rst_n == 0) |-> (data_out == 0))",
-   "support": 155,
+   "support": 13418,
    "violations": 0,
    "excluded_by_assumptions": 0,
-   "holdout_support": 81,
+   "holdout_support": 8086,
    "holdout_violations": 0,
    "stress_support": 86,
    "stress_violations": 0,
@@ -85,13 +107,24 @@
     "A1"
    ],
    "guarantee": "G((valid_out == 1) |=> (valid_out == 0))",
-   "props": [],
+   "props": [
+    {
+     "exp": "valid_out == 1",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "valid_out == 0",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
    "rationale": "valid_out is a one-cycle pulse: the counter restarts as soon as it fires",
    "resolved": "G((valid_out == 1) |=> (valid_out == 0))",
-   "support": 831,
+   "support": 1128,
    "violations": 0,
-   "excluded_by_assumptions": 155,
-   "holdout_support": 509,
+   "excluded_by_assumptions": 13418,
+   "holdout_support": 672,
    "holdout_violations": 0,
    "stress_support": 313,
    "stress_violations": 0,
@@ -105,13 +138,29 @@
     "A1"
    ],
    "guarantee": "G((valid_out == 1 && valid_in == 0) |=> (valid_out == 0))",
-   "props": [],
+   "props": [
+    {
+     "exp": "valid_out == 1",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "valid_in == 0",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "valid_out == 0",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
    "rationale": "after a pulse the design needs valid_in to make progress (ready_add = !valid_out | valid_in)",
    "resolved": "G((valid_out == 1 && valid_in == 0) |=> (valid_out == 0))",
-   "support": 253,
+   "support": 318,
    "violations": 0,
-   "excluded_by_assumptions": 155,
-   "holdout_support": 160,
+   "excluded_by_assumptions": 13418,
+   "holdout_support": 187,
    "holdout_violations": 0,
    "stress_support": 97,
    "stress_violations": 0,
@@ -131,42 +180,26 @@
      "exp": "data_out <= 255",
      "loc": "c",
      "stage": "guarantee"
+    },
+    {
+     "exp": "valid_out == 1",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "valid_in == 1",
+     "loc": "a,dt",
+     "stage": "guarantee"
     }
    ],
    "rationale": "the sample accepted right after a pulse starts a new accumulation, so the total is one sample wide",
    "resolved": "G((valid_out == 1 && valid_in == 1) |=> (data_out <= 255))",
-   "support": 578,
+   "support": 810,
    "violations": 0,
-   "excluded_by_assumptions": 155,
-   "holdout_support": 349,
+   "excluded_by_assumptions": 13418,
+   "holdout_support": 485,
    "holdout_violations": 0,
    "stress_support": 216,
-   "stress_violations": 0,
-   "status": "confirmed"
-  },
-  {
-   "id": "ACC6",
-   "kind": "result",
-   "template": "G1",
-   "assumption_ids": [
-    "A1"
-   ],
-   "guarantee": "G((rst_n == 1) |-> (data_out <= 1020))",
-   "props": [
-    {
-     "exp": "data_out <= 1020",
-     "loc": "c",
-     "stage": "guarantee"
-    }
-   ],
-   "rationale": "four 8-bit samples cannot exceed the width of the output register",
-   "resolved": "G((rst_n == 1) |-> (data_out <= 1020))",
-   "support": 3845,
-   "violations": 0,
-   "excluded_by_assumptions": 155,
-   "holdout_support": 2319,
-   "holdout_violations": 0,
-   "stress_support": 1514,
    "stress_violations": 0,
    "status": "confirmed"
   }
@@ -191,6 +224,13 @@
    "assumption": "A: rst_n == 1, valid_in == 1",
    "guarantee": "G(valid_in == 1 |-> ##[1:H] valid_out == 1)",
    "why_not_minable": "same as ACC7, without the valid_out == 0 precondition",
+   "minable": false
+  },
+  {
+   "id": "ACC6",
+   "assumption": "A1",
+   "guarantee": "G((rst_n == 1) |-> (data_out <= 1020))",
+   "why_not_minable": "the consequent `data_out <= 1020` holds at every corpus position, so mining.domain_trivial drops the clause as a restated signal domain. The flow can never emit it, and no refinement of it is mined either, so the bound is simply not observable as a contract",
    "minable": false
   }
  ]

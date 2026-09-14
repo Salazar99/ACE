@@ -19,14 +19,15 @@ unchanged under `legacy/fdl26/`, so the two can still be compared.
 | 5. Semantic validation and minimization | `ace/validation.py` | Held-out violation rates, equivalence grouping with a canonical representative, subsumption removal, and reference-contract matching (`equivalent` / `mined-stronger` / `mined-weaker` / `missed`). |
 
 Support modules: `ace/formula.py` (finite-trace evaluation), `ace/traces.py` (corpus I/O),
-`ace/backends.py` (HARM and friends), `ace/templates.py` (in-process template
-instantiator, used when HARM is not installed), `ace/__main__.py` (the flow and CLI).
+`ace/backends.py` (HARM), `ace/vocabulary.py` (the atoms read off the traces, for the
+trigger candidates and the refinement guards), `ace/__main__.py` (the flow and CLI).
 
 ## Run it
 
+    python3 tools/check_harm.py            # the backend is usable by the flow (exit 0)
     python3 tests/test_formula.py          # semantics of the evaluator
-    python3 tests/test_recovery.py         # selection, comparison and instantiation traps
-    python3 tests/test_flow.py             # Steps 1-5 end to end, no external tools
+    python3 tests/test_recovery.py         # selection and comparison traps
+    python3 tests/test_flow.py             # Steps 1-5 end to end, on HARM
 
     python3 benchmarks/run.py --validate-only          # re-check the reference contracts
     python3 -m ace benchmarks/sqrt/config.json --out results/declared/sqrt
@@ -41,12 +42,12 @@ held-out result, and every dropped candidate with the reason it was dropped) and
 (readable summary). Stage wall-clock times are recorded on every run; IP simulation time is
 absent by construction.
 
-Requirements: Python 3.10+ and the standard library. HARM is optional: without it,
-`ace/templates.py` instantiates the same templates over the same declared vocabulary in
-process, and trigger candidates come from predicates read off the observed values plus the
-orderings between pairs of inputs. The flow is complete either way; what a real miner adds
-is its own vocabulary construction and ranking, which is a comparison rather than a
-dependency.
+Requirements: Python 3.10+, the standard library, and a HARM build. HARM is the temporal
+backend and it is required - `backends.require()` runs before the config is even read, so a
+machine without it writes nothing at all. Trigger candidates are HARM's mined antecedents
+unioned with the predicates `ace/vocabulary.py` reads off the observed values plus the
+orderings between pairs of inputs: clustering only ever produces comparisons against
+constants, and no predicate over A alone explains a comparator asserting `A_greater`.
 
 `ace/config_template.json` documents every configuration field; each design's real
 configuration is `benchmarks/<design>/config.json`.
@@ -126,13 +127,10 @@ subsumed by a stronger clause, or wrong role for its vocabulary.
 - Range invariants are read off observed extremes, so a bound is only as good as the corpus:
   `in >= 0` comes back when a zero-valued request was observed, otherwise a looser bound is
   reported and has to survive the held-out check.
-- `GRAMMARS["G1"]`..`["G5"]` are template vocabularies for the temporal backend and have not
-  been checked against a live HARM build. `ace/templates.py` instantiates every one of them
-  except the `{..#1&..}` sequence placeholder, so a reference contract with a sequence in its
-  antecedent is out of reach without HARM (or an explicit edge proposition).
-- The instantiator conjoins at most two propositions in an antecedent, matching HARM's
-  decision-tree slot, and keeps at most `max_per_consequent` (12) antecedents per consequent
-  and delay. Both bounds are recall-relevant and measured in `RECOVERY.md`.
+- `GRAMMARS["G1"]`..`["G5"]` are template vocabularies for HARM. `G3` is what the benchmark
+  runs; `G5`'s `{..#1&..}` sequence placeholder has not been checked against a live build.
+  A reference contract with a sequence in its antecedent needs that template or an explicit
+  edge proposition in the declared vocabulary.
 - Comparing two clauses is comparing two statements that both hold on the traces: for
   implications, `validation.implies` therefore ranks them by where they fire, how tightly
   they respond and their consequents as predicates, not by satisfaction - which is trivially
@@ -175,12 +173,12 @@ interface, checked against its source rather than guessed:
   column declared `bool` cannot appear in `sum == a + b + cin` - the adder and arbiter
   contracts are exactly that shape. A numeric column is still usable as a boolean
   proposition, so nothing is lost.
-- A HARM failure is reported and the region falls back to the in-process instantiator; the
-  effective backend is recorded per region, e.g.
-  `"in-process-templates (harm failed: Message: Antlr parse error ...)"`.
-- Window clauses come back untightened (`G(a |-> ##[1:H] b)`), so `mining._tighten_windows`
-  offers the fixed-latency reading of each one, which is what the in-process instantiator
-  does for itself.
+- A HARM failure takes the run down, with HARM's own message (`backends.last_message`)
+  attached. There is no second backend to finish the region, and a region mined some other
+  way is not comparable with the rest of the run.
+- Window clauses come back untightened (`G(a |-> ##[1:H] b)`) because HARM fills the window
+  slot from the grammar rather than from the data, so `mining._tighten_windows` offers the
+  fixed-latency reading of each one alongside it and `reduce_subsumed` keeps the stronger.
 - Mined clauses are sorted on read-back: HARM de-duplicates through an `unordered_set` of
   pointers and ranks with a non-stable sort, so its order is not reproducible. This pins the
   order, not the set.
@@ -200,9 +198,11 @@ backend is usable; 4 means the binary works but the configuration or vocabulary 
 network access to lrde.epita.fr (spot), github.com (antlr4) and jfrog.io (boost), so it
 cannot run inside a sandbox with a restricted egress allowlist.
 
-Without HARM the flow still runs end to end: `ace/templates.py` enumerates the same
-templates over the same declared vocabulary (`temporal_backend` in the report reads
-`in-process-templates` instead of `harm`), and trigger candidates fall back to predicates
-read off the observed values plus the orderings between pairs of inputs. Everything the
-instantiator proposes is re-checked by `validation.evaluate`, so the two backends are
-directly comparable on the same benchmark.
+Without HARM the flow does not run: `backends.require()` raises `BackendMissing` before the
+config is read, the CLI prints the install hint and exits non-zero, and no output directory
+is created. That is the point of the gate - the alternative was the same command quietly
+producing a differently-mined artifact, labelled only in a provenance field.
+
+What HARM contributes is candidate generation, not scoring. Metrics are never read back from
+it: `validation.evaluate` re-checks every clause with formula.py's semantics, which is what
+keeps labeling, trigger selection and held-out validation in one vocabulary.
