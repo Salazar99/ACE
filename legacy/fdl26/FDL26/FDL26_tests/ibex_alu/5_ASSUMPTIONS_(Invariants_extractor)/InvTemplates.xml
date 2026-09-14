@@ -1,21 +1,21 @@
 <config>
     <tpls>
-        <!--<temp name="P0&gt; 0"/>-->
-        <!--<temp name="P0&lt; 0"/>-->
-        <!--<temp name="P0&gt;=LOWERB"/>-->
-        <!--<temp name="P0&lt;=UPPERB"/>-->
+        <!--<temp name="P0> 0"/>-->
+        <!--<temp name="P0< 0"/>-->
+        <!--<temp name="P0>=LOWERB"/>-->
+        <!--<temp name="P0<=UPPERB"/>-->
         <!--<temp name="P0==P1"/>-->
         <!--<temp name="P0!=P1"/>-->
-        <!--<temp name="P0&lt;P1"/>-->
-        <!--<temp name="P0&gt;P1"/>-->
-        <!--<temp name="P0&lt;=P1"/>-->
-        <!--<temp name="P0&gt;=P1"/>-->
+        <!--<temp name="P0<P1"/>-->
+        <!--<temp name="P0>P1"/>-->
+        <!--<temp name="P0<=P1"/>-->
+        <!--<temp name="P0>=P1"/>-->
         <!--<temp len="2" name="..##1.."/> -->
-        <temp name="P0&amp;&amp;P1==0"/>
-        <temp name="P0&amp;&amp;P1==1"/>
-        <temp name="P0&amp;&amp;P1==3"/>
-        <temp name="P0&amp;&amp;P1==4"/>
-        <temp name="P0&amp;&amp;P1==29"/>
+        <temp name="P0&&P1==0"/>
+        <temp name="P0&&P1==1"/>
+        <temp name="P0&&P1==3"/>
+        <temp name="P0&&P1==4"/>
+        <temp name="P0&&P1==29"/>
     </tpls>
     <vars>
         <var name="rst_n"/>

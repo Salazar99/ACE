@@ -12,8 +12,9 @@ unchanged under `legacy/fdl26/`, so the two can still be compared.
 | Plan step | Module | What it does |
 |---|---|---|
 | 1. Output-event labeling | `ace/labeling.py` | Evaluates declared output predicates directly on the original traces. One linear scan; no IP encapsulation, no forced signals, no re-simulation. Replaces fault injection and `DU_gen.py`. |
-| 2. Trigger selection | `ace/triggers.py` | Scores candidate input-side predicates by ATCT/AFCT of `G(a \|-> ##[1:H] e)` and selects greedily by **smoothed recall** `(ATCT+1)/(ATCT+AFCT+2)`, counting a match at its onset and requiring it to beat the base event rate at the same support. Precision and F1 are not reported: the miner discards false positives, which pins precision at 1.0. Replaces the `atct-afct` volume sort. |
+| 2. Trigger selection | `ace/triggers.py` | Scores candidate input-side predicates for `G(a \|-> ##[1:H] e)` and selects greedily by marginal coverage plus the lift of **smoothed recall** `(ATCT+1)/(ATCT+AFCT+2)`, where ATCT and AFCT are the event occurrences the candidate explains and leaves unexplained. Matches are counted at their onset, and a candidate must beat what a predicate firing as often would explain by chance - without that test recall is maximised by firing constantly. Precision and the per-sample contingency table are reported, not filtered on. Replaces the `atct-afct` volume sort. |
 | 3. Boundary-preserving episodes | `ace/episodes.py` | Clips `[t-h_pre, t+h_post]` windows out of the anchor's own run, merges them only inside that run, and writes one CSV per episode. Every sample is an original sample, so nothing needs re-simulating. Replaces zero-padding. |
+| 3.5 Cross-event merging | `ace/__main__.py` | Groups regions of different events whose triggers and guarantees are equivalent on the traces, so two names for one behaviour are reported once. Additive: per-event records and episode CSVs are untouched. |
 | 4. Contract mining and assembly | `ace/mining.py` | Feeds the episodes to the backends, fences assumptions to environment signals and guarantees to observable outputs, and assembles `C_r = (A_r, G_r)` with provenance. Temporal environment assumptions are mined, not just propositional invariants. |
 | 5. Semantic validation and minimization | `ace/validation.py` | Held-out violation rates, equivalence grouping with a canonical representative, subsumption removal, and reference-contract matching (`equivalent` / `mined-stronger` / `mined-weaker` / `missed`). |
 
@@ -163,8 +164,26 @@ interface, checked against its source rather than guessed:
   most likely reason for a mining run that returns nothing.
 - `--reset <expr>` from the config's `reset` key; `--max-ass` and `--min-frank` from
   `max_ass` / `min_frank`; `--dump-to <dir>`, read back as `<context>_ass.txt`.
-- `atct`, `afct` and `traceLength` are HARM's metric variables, so smoothed recall is a
-  plain `<sort exp="(atct+1)/(atct+afct+2)"/>` - no patched miner.
+- `atct`, `atcf`, `afct`, ... and `traceLength` are HARM's metric variables, so the flow's
+  smoothed recall is a plain `<sort exp="(atct+1)/(atct+afct+2)"/>` - no patched miner.
+  HARM's table is over samples and its `afct` is antecedent-false -> consequent-true, the
+  false negative, so the expression is a recall there too. Its false positive is `atcf`,
+  which has no counterpart in the occurrence-indexed counts `triggers.py` keeps.
+- The CSVs handed to HARM are written with every column retyped `int`
+  (`traces.numeric_header`). HARM stamps each variable with its declared type before parsing
+  a proposition and its grammar has no boolean alternative under an arithmetic operator, so a
+  column declared `bool` cannot appear in `sum == a + b + cin` - the adder and arbiter
+  contracts are exactly that shape. A numeric column is still usable as a boolean
+  proposition, so nothing is lost.
+- A HARM failure is reported and the region falls back to the in-process instantiator; the
+  effective backend is recorded per region, e.g.
+  `"in-process-templates (harm failed: Message: Antlr parse error ...)"`.
+- Window clauses come back untightened (`G(a |-> ##[1:H] b)`), so `mining._tighten_windows`
+  offers the fixed-latency reading of each one, which is what the in-process instantiator
+  does for itself.
+- Mined clauses are sorted on read-back: HARM de-duplicates through an `unordered_set` of
+  pointers and ranks with a non-stable sort, so its order is not reproducible. This pins the
+  order, not the set.
 
 Point the flow at an installation:
 

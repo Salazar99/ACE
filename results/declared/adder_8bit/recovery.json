@@ -1,5 +1,5 @@
 {
- "backend": "in-process-templates",
+ "backend": "harm",
  "regions": 1,
  "skipped": [],
  "mined_invariants": [
@@ -11,31 +11,11 @@
   "cin >= 0"
  ],
  "mined_instances": [
-  "G(((!(cout == 1)) ##1 (cout == 1)) |-> ((cout == 1) && (sum == a + b + cin - 256)))",
-  "G(((!(cout == 1)) ##1 (cout == 1)) |-> (cout == 1))",
-  "G(((!(cout == 1)) ##1 (cout == 1)) |-> (sum == a + b + cin - 256))",
-  "G(((cout == 1) ##1 (!(cout == 1))) |-> ((cout == 0) && (sum == a + b + cin)))",
-  "G(((cout == 1) ##1 (!(cout == 1))) |-> (cout == 0))",
-  "G(((cout == 1) ##1 (!(cout == 1))) |-> (sum == a + b + cin))",
-  "G((a + b + cin <= 255) |-> (cout == 0))",
-  "G((a + b + cin >= 256) |-> (cout == 1))",
-  "G((a == 1) && (cout == 1) |-> (sum == 0))",
-  "G((a == 6) && (sum == 6) |-> (sum == a))",
-  "G((cin == 0) && (sum == 0) |-> (sum == cin))",
-  "G((cin == 1) && (sum == 1) |-> (sum == cin))",
-  "G((cout == 0) |-> ((cout == 0) && (sum == a + b + cin)))",
-  "G((cout == 0) |-> (sum == a + b + cin))",
-  "G((cout == 1) |-> ((cout == 1) && (sum == a + b + cin - 256)))",
-  "G((cout == 1) |-> (sum == a + b + cin - 256))",
-  "G((sum == 0) && (a + b + cin >= 256) |-> ((cout == 1) && (sum == 0)))",
-  "G((sum == 0) && (a + b + cin >= 256) |-> ((sum == 0) && (cout == 1)))",
-  "G((sum == 1) && (a + b + cin >= 256) |-> ((cout == 1) && (sum == 1)))",
-  "G((sum == 1) && (a + b + cin >= 256) |-> ((sum == 1) && (cout == 1)))",
-  "G((sum == 3) && (a + b + cin >= 256) |-> ((cout == 1) && (sum == 3)))",
-  "G((sum == 4) && (a + b + cin >= 256) |-> ((cout == 1) && (sum == 4)))",
-  "G((sum == 5) && (a + b + cin >= 256) |-> ((cout == 1) && (sum == 5)))",
-  "G((sum == 6) && (a + b + cin <= 255) |-> ((cout == 0) && (sum == 6)))",
-  "G((sum == 6) && (a + b + cin >= 256) |-> ((cout == 1) && (sum == 6)))",
+  "G((a + b + cin <= 255) |-> cout == 0)",
+  "G((a + b + cin <= 255) |-> sum == a + b + cin)",
+  "G((a + b + cin >= 256) |-> cout)",
+  "G((cout) |-> cout == 1)",
+  "G((cout) |-> sum == a + b + cin - 256)",
   "G(cin == 0 |-> (cout <= b))"
  ],
  "assumptions": {
@@ -60,31 +40,30 @@
  },
  "guarantees": {
   "references": 7,
-  "mined": 26,
+  "mined": 6,
   "recall": 0.5714285714285714,
   "acceptable_recall": 0.7142857142857143,
   "categories": {
    "equivalent": 4,
-   "missed": 1,
-   "mined-stronger": 1,
-   "mined-weaker": 1
+   "missed": 2,
+   "mined-stronger": 1
   },
   "detail": {
    "G((a + b + cin <= 255) |-> (sum == a + b + cin))": {
     "category": "equivalent",
-    "mined": "G((a + b + cin <= 255) |-> (cout == 0))"
+    "mined": "G((a + b + cin <= 255) |-> cout == 0)"
    },
    "G((a + b + cin <= 255) |-> (cout == 0))": {
     "category": "equivalent",
-    "mined": "G((a + b + cin <= 255) |-> (cout == 0))"
+    "mined": "G((a + b + cin <= 255) |-> cout == 0)"
    },
    "G((a + b + cin >= 256) |-> (cout == 1))": {
     "category": "equivalent",
-    "mined": "G((a + b + cin >= 256) |-> (cout == 1))"
+    "mined": "G((a + b + cin >= 256) |-> cout)"
    },
    "G((a + b + cin >= 256) |-> (sum == a + b + cin - 256))": {
     "category": "equivalent",
-    "mined": "G((a + b + cin >= 256) |-> (cout == 1))"
+    "mined": "G((a + b + cin >= 256) |-> cout)"
    },
    "G((a == 0 && b == 0) |-> (sum == cin))": {
     "category": "missed",
@@ -92,11 +71,11 @@
    },
    "G((a <= 127 && b <= 127) |-> (cout == 0))": {
     "category": "mined-stronger",
-    "mined": "G((a + b + cin <= 255) |-> (cout == 0))"
+    "mined": "G((a + b + cin <= 255) |-> cout == 0)"
    },
    "G((b == 0 && cin == 0) |-> (sum == a))": {
-    "category": "mined-weaker",
-    "mined": "G((a == 6) && (sum == 6) |-> (sum == a))"
+    "category": "missed",
+    "mined": null
    }
   }
  }

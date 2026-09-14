@@ -6,8 +6,9 @@
 
 It generates a trace in which one property holds by construction, runs HARM on it exactly
 as `ace.backends` does - single trace and directory of traces, boolean and bitvector
-vocabulary, smoothed recall as the ranking metric - and checks that the property comes
-back. Exit code 0 means the backend is usable by the flow.
+vocabulary, a compound proposition mixing a flag into arithmetic, smoothed confidence as the
+ranking metric - and checks that the property comes back. Exit code 0 means the backend is
+usable by the flow.
 """
 from __future__ import annotations
 
@@ -18,7 +19,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from ace import backends
+from ace import backends, traces
 
 HEADER = "bool req,int payload,bool ack"
 
@@ -50,10 +51,10 @@ def main() -> int:
 
     with tempfile.TemporaryDirectory(prefix="harm_check_") as tmp:
         tmp = Path(tmp)
-        traces = tmp / "traces"
-        traces.mkdir()
+        traces_dir = tmp / "traces"
+        traces_dir.mkdir()
         for i in range(3):
-            write_trace(traces / f"trace_{i}.csv", offset=i)
+            write_trace(traces_dir / f"trace_{i}.csv", offset=i)
 
         conf = backends.write_conf(
             backends.harm_conf(backends.GRAMMARS["G3"], booleans=["req", "ack"],
@@ -62,18 +63,41 @@ def main() -> int:
         print(f"\nconfig    : {conf}")
 
         try:
-            single = backends.harm(traces / "trace_0.csv", conf, tmp / "dump_single")
+            single = backends.harm(traces_dir / "trace_0.csv", conf, tmp / "dump_single")
         except Exception as exc:                      # noqa: BLE001 - report, don't raise
             print(f"\nFAILED running HARM on a single trace:\n{exc}")
             return 2
         print(f"--csv     : {len(single)} clauses mined")
 
         try:
-            many = backends.harm(traces, conf, tmp / "dump_dir")
+            many = backends.harm(traces_dir, conf, tmp / "dump_dir")
         except Exception as exc:                      # noqa: BLE001
             print(f"\nFAILED running HARM on a directory of traces:\n{exc}")
             return 3
         print(f"--csv-dir : {len(many)} clauses mined")
+
+        # A compound proposition that puts a boolean signal under an arithmetic operator.
+        # HARM types every variable from the CSV header and its grammar has no boolean
+        # alternative in an arithmetic expression, so this is the shape that aborts the
+        # miner unless the header declares the column numeric (traces.numeric_header). Every
+        # design whose contract counts or sums flags depends on it.
+        retyped = tmp / "retyped"
+        retyped.mkdir()
+        for source in sorted(traces_dir.glob("*.csv")):
+            run = traces.load_run(source)
+            traces.write_rows(run.rows, traces.numeric_header(run.header),
+                              retyped / source.name)
+        arithmetic_conf = backends.write_conf(
+            backends.harm_conf(backends.GRAMMARS["G3"], booleans=["req", "ack"],
+                               numerics=["payload"], horizon=4,
+                               extra_props=["payload + req <= 64"]),
+            tmp / "arithmetic_conf.xml")
+        try:
+            backends.harm(retyped, arithmetic_conf, tmp / "dump_arithmetic")
+        except Exception as exc:                      # noqa: BLE001
+            print(f"\nFAILED on a proposition mixing a boolean signal into arithmetic:\n{exc}")
+            return 6
+        print("arith     : compound proposition over a boolean signal accepted")
 
         if not single and not many:
             print("\nHARM ran but mined nothing. The binary works; the configuration or the\n"

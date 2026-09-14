@@ -130,7 +130,7 @@ def test_a_trigger_may_match_most_samples_and_still_be_explanatory():
     assert selection.selected == ["en == 1"], selection.report(6)
     assert "en <= 1" in selection.rejected                 # true everywhere: no support
     stats = selection.stats["en == 1"]
-    assert stats.support == 5, stats.report()   # one onset per operation, last one truncated
+    assert stats.matches == 5, stats.report()   # one onset per operation, last one truncated
 
 
 def test_undefined_arithmetic_makes_a_proposition_false_not_fatal():

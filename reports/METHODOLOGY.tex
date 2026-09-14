@@ -1,0 +1,285 @@
+% Output-guided behavioral decomposition: the method as implemented in ace/.
+%
+% Drop-in replacement for the earlier section. Every step below describes what the code in
+% `ace/` actually does; file and line references are given in comments so the two can be
+% checked against each other. Requires the macros \ACE, \Tr, \Grammar, \Regions and the
+% packages already used by the paper (amsmath, algorithm, algorithmicx/algpseudocode, tikz).
+
+\subsection{Output-event labeling}
+\label{sec:labeling}
+For each selected event predicate $e$, \ACE{} collects the occurrence set
+\begin{equation}
+E_e(\Tr)=\{(k,t)\mid \tau_k,t\models_f e\},
+\end{equation}
+by a single linear scan of the original traces.\footnote{\texttt{ace/labeling.py:41--54}.}
+This replaces the former output stuck-at wrapper: for a Boolean output, forcing the opposite
+constant and comparing against the original trace yields a label determined entirely by the
+already observed output value, so the wrapper, the re-simulation it required and the
+synthetic detection signal it produced are all redundant. Direct labeling preserves the
+useful anchoring idea without claiming fault propagation or internal cone discovery. The IP
+is never instrumented, encapsulated, forced or re-simulated; the cost of the step is
+$O(|\Tr|)$ predicate evaluations and no simulator time at all.
+
+Two conventions matter for what follows.
+
+\emph{Occurrences are recorded where the match ends.} A multi-sample event has an extent;
+$\ACE$ indexes it by its last sample, because trigger scoring (\S\ref{sec:mining}) reads the
+occurrences it explains off the same match-end positions. Indexing by the first sample
+instead makes the two sets disjoint, every candidate appears to explain nothing, and the
+region comes out empty.
+
+\emph{A held level is a poor event, and is rewritten as its onset.} An output flag that
+stays high between requests is true at a large fraction of samples; then every position has
+the event within the horizon, no trigger can beat that base rate, and the entire response
+family is discarded for want of a candidate. Setting \texttt{event\_onsets} rewrites each
+declared event as
+\begin{equation}
+e^{\uparrow}\equiv(\lnot e)\,\texttt{\#\#1}\,e ,
+\end{equation}
+which turns the 2189 samples on which \texttt{done} is high in the square-root corpus into
+247 completions.\footnote{\texttt{ace/\_\_main\_\_.py:50--61}.} Signals that are already
+pulses are unaffected, since for them every high sample is a rising edge.
+
+In the running example, choose $e_{done}(t)\equiv[\texttt{done}(t)=1]$ under the onset
+rewriting: the event positions are the cycles in which \texttt{done} rises. A second event
+$e_{err}(t)\equiv[\texttt{error}(t)=1]$ anchors the error behavior. Nothing restricts events
+to single output bits: for multi-bit outputs and protocol interfaces the event vocabulary
+supplies transitions, thresholds or handshake milestones (\texttt{pready == 1},
+\texttt{rd\_data\_o >= 8388608}), so the same machinery applies without equating each output
+value with a functionality.
+
+\subsection{Mining explanatory candidates}
+\label{sec:candidates}
+Given $e$, the temporal-property backend enumerates candidates $a\in\Grammar$ that can
+predict $e$ under temporal horizon $H$. \ACE{} obtains them from HARM by pinning the event
+into the last proposition slot of every template of the configured grammar, mining, and
+taking the deduplicated antecedents of what comes back.\footnote{\texttt{ace/\_\_main\_\_.py:64--89};
+grammars \texttt{G1}--\texttt{G5} in \texttt{ace/backends.py:43--59}, default \texttt{G3}
+$=\{G(P_0\!\mid\!\to P_1),\,G(P_0\!\mid\!\Rightarrow P_1),\,G(P_0\!\mid\!\to\,\texttt{\#\#[1:H]}\,P_1)\}$.}
+The miner is therefore used as a candidate generator, not as an oracle: metrics are never
+read back from it, since \ACE{} scores every candidate with its own finite-trace evaluator
+so that the numbers reported for a HARM run and for a run without HARM are the same
+quantity. When no miner is installed the flow falls back to an in-process vocabulary built
+from the observed values, the interval bounds, the three orderings $a>b$, $a=b$, $a<b$ for
+every input pair and their pairwise conjunctions.\footnote{\texttt{ace/\_\_main\_\_.py:92--116}.}
+The fallback is a comparison rather than a dependency: what a real miner adds is its own
+vocabulary construction and ranking.
+
+\subsection{Scoring candidates}
+\label{sec:mining}
+For a candidate $a$, the candidate assertion is $G(a\mid\to\,\texttt{\#\#[1:H]}\,e)$, and
+\ACE{} scores it over the \emph{event occurrences}:
+\begin{align}
+ATCT(a,e) &= |E_{a,e}|,  &&\text{occurrences of } e \text{ that } a \text{ explains},\\
+AFCT(a,e) &= |E_e(\Tr)| - |E_{a,e}|, &&\text{occurrences it leaves unexplained},
+\end{align}
+so $ATCT$ is $TP$, $AFCT$ is $FN$, and $ATCT+AFCT=|E_e(\Tr)|$ for every candidate of one
+event. An occurrence is explained when $a$ matches at a position from which that occurrence
+falls inside the horizon. A match counts only where $a$ was false at the previous sample:
+without this, a request held high for a whole operation contributes one match per held cycle,
+and on a 36-cycle divider whose enable is held throughout, every candidate scores the base
+rate and the design yields no region at all. Write $m(a)$ for that onset-guarded match count,
+which is the candidate's statistical support and is \emph{not} $ATCT+AFCT$.
+
+Candidate quality is summarized by the smoothed recall
+\begin{equation}
+\hat{r}(a)=\frac{ATCT(a,e)+1}{ATCT(a,e)+AFCT(a,e)+2},
+\label{eq:recall}
+\end{equation}
+where the $+1/+2$ smoothing penalises candidates with little statistical support and keeps
+the number comparable across traces of different length, which a raw $ATCT-AFCT$ volume score
+cannot do. \ACE{} also records, per candidate, the precision $|{\rm answered\ firings}|/m(a)$
+and the full per-sample contingency table in the miner's own naming; neither is used to
+select, both are emitted so any other figure of merit can be recomputed from the artifact.
+
+\emph{A note on naming.} A temporal miner's contingency table is indexed by \emph{samples},
+where \texttt{afct} denotes antecedent-false and consequent-true --- the event occurred and
+the antecedent did not predict it. That is the same cell as $AFCT$ above, which is why the
+ranking expression handed to the backend is literally
+Eq.~\ref{eq:recall}.\footnote{\texttt{ace/backends.py}, \texttt{ace/triggers.py:47--79}.} The
+sample-indexed table also has an \texttt{atcf} cell --- the antecedent fired and the event did
+not follow --- which is the false positive and has no counterpart in an occurrence-indexed
+population, since every occurrence of $e$ has the consequent true by construction.
+
+Recall alone would rank a predicate that fires constantly first: matching at every second
+sample is followed by every occurrence of $e$ without predicting any of them. \ACE{} therefore
+compares each candidate against a null model built on its own match count. With $b$ the share
+of positions from which $e$ follows within $H$,
+\begin{equation}
+\hat{r}_0(m)=\frac{\min(b\,m,\ |E_e(\Tr)|)+1}{|E_e(\Tr)|+2},\qquad
+\mathit{lift}(a)=\hat{r}(a)-\hat{r}_0(m(a)),
+\label{eq:lift}
+\end{equation}
+i.e.\ what a predicate firing $m$ times at arbitrary positions would be expected to explain,
+capped because a firing cannot explain an occurrence twice and smoothed the same way as the
+candidate. A candidate that fires thousands of times saturates the expectation and its lift
+falls to zero; a trigger that fires once per operation has a small expectation and a large
+lift.
+
+The test is deliberately strict, and it is strictest when the declared horizon exceeds the
+real response latency: if every position in the corpus has an occurrence of $e$ within $H$,
+no predicate can beat chance and the region is reported unexplained rather than anchored on a
+coincidence. The event coverage of the \emph{selected set},
+\begin{equation}
+\mathit{cov}(P_e)=\frac{|E_{P_e,e}|}{|E_e(\Tr)|},
+\label{eq:cov}
+\end{equation}
+is reported alongside and is the first term of the selection objective below.
+
+\subsection{Selecting a trigger set}
+Algorithm~\ref{alg:decomp} makes the selection policy explicit; it is implemented in
+\texttt{ace/triggers.py:221--307} and the thresholds below are its configuration keys. The
+filter phase rejects a candidate that never matched, that matched too rarely to explain the
+event ($m(a)$ below a fraction $\sigma$ of $|E|$, which separates ``explains the event'' from
+``was true when it happened''), that fails to beat its null model by $\theta_{lift}$, or that
+falls below a plain recall floor $\theta_{r}$. That floor is deliberately low: it asks what a
+\emph{single} trigger explains, and a region with two complementary triggers has no candidate
+above one half by construction. Every rejection is recorded with its reason and reaches the
+output artifact, so nothing is dropped silently.
+
+The greedy phase maximises
+\begin{equation}
+score(a)=\mathit{gain}(a)+\mathit{lift}(a)-\lambda\,\mathit{red}(a),
+\label{eq:score}
+\end{equation}
+with $\mathit{gain}(a)=|E_{a,e}\cap U|/|E|$ the marginal coverage of the still-unexplained
+occurrences $U$ and $\mathit{red}(a)$ the largest Jaccard overlap between the occurrences $a$
+explains and those already explained by a selected trigger. Two points of the implementation
+are worth stating plainly. First, $\theta_{gain}$ thresholds the \emph{combined} score rather
+than the gain term alone, so a candidate with modest marginal coverage but high lift can
+still be admitted; the loop terminates when no candidate clears the threshold, when every
+occurrence is explained, or at $k_{max}$ triggers. Second, the second term is the lift of
+Eq.~\ref{eq:lift} and not the raw recall of Eq.~\ref{eq:recall}, because a predicate that
+fires constantly has recall $1$ and explains nothing. Marginal coverage drives the loop, which is what
+brings complementary triggers out together — a multiplier enable and a divider enable, each
+accounting for its own half of \texttt{valid\_o}.
+
+\begin{algorithm}[t]
+\caption{Output-Guided Behavioral Decomposition}
+\label{alg:decomp}
+\scriptsize
+\begin{algorithmic}[1]
+\Require Trace set $\Tr$; event predicate $e$; grammar $\Grammar$; horizon $H$; thresholds $\theta_{r},\theta_{lift},\theta_{gain}$; support fraction $\sigma$; redundancy weight $\lambda$; trigger budget $k_{max}$; window sizes $h_{pre},h_{post}$
+\Ensure Trigger set $P_e$; behavioral regions $\Regions_e$; episode sets $\{\Tr_r\}$
+\State $E\gets E_e(\Tr)$; $U\gets E$; $P_e\gets\emptyset$ \Comment{\S\ref{sec:labeling}}
+\State $C\gets\textsc{MineCandidates}(\Tr,e,\Grammar,H)$ \Comment{\S\ref{sec:candidates}}
+\State $b\gets\textsc{BaseRate}(\Tr,e,H)$
+\ForAll{$a\in C$}
+  \State compute $E_{a,e}$, $m(a)$, $ATCT(a,e)$, $AFCT(a,e)$, $\hat{r}(a)$, $\mathit{lift}(a)$
+\EndFor
+\State $C\gets\{a\in C\mid m(a)\ge\max(2,\sigma|E|)\ \wedge\ \mathit{lift}(a)\ge\theta_{lift}\ \wedge\ \hat{r}(a)\ge\theta_{r}\}$ \label{alg:filter}
+\While{$U\neq\emptyset$ \textbf{and} $|P_e|<k_{max}$} \label{alg:greedy-start}
+  \ForAll{$a\in C\setminus P_e$}
+    \State $gain(a)\gets |E_{a,e}\cap U|/|E|$
+    \State $red(a)\gets\max_{p\in P_e}\textsc{Jaccard}(E_{a,e},E_{p,e})$
+    \State $score(a)\gets gain(a)+\mathit{lift}(a)-\lambda\,red(a)$
+  \EndFor
+  \State $a^*\gets\arg\max score(a)$
+  \If{$score(a^*)\le\theta_{gain}$} \State \textbf{break} \EndIf
+  \State $P_e\gets P_e\cup\{a^*\}$; $U\gets U\setminus E_{a^*,e}$
+\EndWhile \label{alg:greedy-end}
+\State $A\gets\{(k,t)\in E\mid (k,t)\text{ explained}\}\cup\bigcup_{a\in P_e}\text{answered firings}(a)$ \label{alg:anchors}
+\State $\Tr_r\gets\textsc{ExtractEpisodes}(\Tr,A,h_{pre},h_{post})$
+\State $r\gets(e,P_e,\Tr_r)$; $\Regions_e\gets\Regions_e\cup\{r\}$
+\State \Return $P_e,\Regions_e,\{\Tr_r\}$, $U$ \Comment{$U$: occurrences left unassigned}
+\end{algorithmic}
+\end{algorithm}
+
+The selection is coverage-oriented rather than requiring complete and unique coverage. Two
+triggers explaining the same occurrences are retained only if they are not semantically
+redundant, which is what the $\lambda$ term measures. Disjoint triggers naturally create
+distinct regions. If no candidate passes the filter of Line~\ref{alg:filter} or the
+marginal-score threshold, the corresponding event occurrences remain explicitly unassigned
+rather than being forced into a spurious region, and the region as a whole may be reported
+as skipped.
+
+In the square-root example, a high-quality trigger for $e_{done}$ captures a two-cycle
+relation from a valid request, e.g.\ a predicate equivalent to ``$\texttt{start}=1$ and
+$\texttt{in}\ge0$ two cycles before $\texttt{done}=1$''. This trigger induces the
+normal-completion region. A separate trigger for $e_{err}$ captures the negative-input error
+region.
+
+\subsection{Boundary-preserving episode extraction}
+The region of a trigger set is anchored at two kinds of position (Line~\ref{alg:anchors}):
+the event occurrences that the selected triggers explain, and the $ATCT$ positions of those
+triggers. Both are needed, because an episode must contain the stimulus \emph{and} the
+response; matches with no response are deliberately excluded, being evidence against the
+trigger rather than a region to mine.
+
+For each anchor $(k,t)$, \ACE{} extracts the contiguous window $[t-h_{pre},t+h_{post}]$ from
+the same $\tau_k$, clipped at that run's boundaries.\footnote{\texttt{ace/episodes.py:37--50}.}
+All original input and output values are preserved. Windows that overlap or touch are merged,
+and since windows are accumulated per run index, merging across two executions is not merely
+forbidden but unrepresentable. The window sizes are not padding: a temporal miner cannot
+deduce cause and effect from one isolated sample, so $h_{pre}$ exposes the setup conditions
+before the trigger fires and $h_{post}$ the obligations after the event. If $h_{post}<H$ the
+flow warns and records that bounded-response clauses cannot be decided inside an episode,
+since the response window would leave the episode and every such guarantee would be
+unreachable by construction.
+
+\textbf{Proposition 1 (episode provenance).} Every episode produced by the extraction step is
+a contiguous subsequence of exactly one original execution in $\Tr$.
+
+\emph{Proof sketch.} Episode construction selects a bounded index interval from one $\tau_k$,
+clips it at the trace endpoints, and performs neither value substitution nor concatenation
+across traces. \hfill$\square$
+
+The proposition is not only argued but checked at run time: the predicate
+$0\le lo\le hi<|\tau_k|$ is verified for every episode and its result is written into the
+region manifest and the output artifact, so a violation would be visible rather than
+silent.\footnote{\texttt{ace/episodes.py:81--83}.} Each episode is then re-exported as a run
+of its own, which is what makes an episode boundary semantically real: a delay reaching past
+the end of an episode simply fails to match instead of silently reading the neighbouring
+samples of the original execution. Episodes are written one CSV per episode, so that no
+backend can relate samples across a boundary. A second mode concatenates a region's episodes
+into a single file for speed; it admits matches across an episode seam and is therefore
+reserved for horizons small relative to $h_{pre}+h_{post}$. All results reported here use the
+per-episode mode, which is the default.
+
+\subsection{Cross-event merging}
+Events are declared, and two declarations can name one behavior: a level and its negation, or
+a handshake milestone and the transfer it completes. Since each event is decomposed
+independently, \ACE{} closes the flow with one pass over the finished regions and groups those
+that are the same region. Two regions are grouped when their trigger sets are equivalent on
+the observed traces \emph{and} their guarantee sets are equivalent, where equivalence between
+two sets of clauses means that every member of one is entailed, over the corpus, by some
+member of the other and conversely.\footnote{\texttt{ace/\_\_main\_\_.py:125--171}, reusing the
+trace-bounded entailment check of \texttt{ace/validation.py:80}.} Requiring both halves is
+what keeps two events that happen to share a trigger but impose different obligations in
+separate regions — the paper's criterion that redundant triggers are merged only when their
+downstream regions do not produce meaningfully different contracts. The pass is additive:
+groups are reported, and the per-event regions, their episodes and their contracts are left
+intact for inspection.
+
+\begin{figure}[t]
+\centering
+\begin{tikzpicture}[x=0.43cm,y=0.38cm,font=\scriptsize,>=Latex]
+% axes
+\draw[->] (0,0)--(13,0) node[right]{time};
+\node[left] at (0,2.9) {\texttt{start}};
+\node[left] at (0,2.0) {\texttt{in}$\ge0$};
+\node[left] at (0,1.1) {\texttt{done}};
+\draw (0,2.7)--(1,2.7)--(1,3.2)--(2,3.2)--(2,2.7)--(5,2.7)--(5,3.2)--(6,3.2)--(6,2.7)--(13,2.7);
+\draw (0,1.8)--(4,1.8)--(4,2.3)--(8,2.3)--(8,1.8)--(13,1.8);
+\draw (0,0.9)--(3,0.9)--(3,1.4)--(4,1.4)--(4,0.9)--(7,0.9)--(7,1.4)--(8,1.4)--(8,0.9)--(13,0.9);
+\draw[dashed] (3,0.4)--(3,3.5); \draw[dashed] (7,0.4)--(7,3.5);
+\node[draw,rounded corners,fill=gray!5,align=left] at (6.4,-1.8) {event: $e_{done}\equiv$ rising edge of $done$\\trigger: valid request $\rightarrow$ $e_{done}$ after 2 cycles, counted at its onset\\anchors: the explained events and the request onsets that were answered\\region: original episodes $[t-h_{pre},t+h_{post}]$ around those anchors\\candidate $A$: $in\ge0$ (plus temporal environment clauses, if mined)\\candidate $G$: request $\rightarrow$ completion after 2 cycles};
+\draw[->] (3,0.5)--(4.2,-0.6); \draw[->] (7,0.5)--(7.7,-0.6);
+\end{tikzpicture}
+\caption{Running example of the proposed flow. Output events anchor trigger mining; the
+resulting region contains only original, boundary-preserving trace episodes. The final
+contract is validated semantically against the documented square-root behavior.}
+\label{fig:example}
+\end{figure}
+
+\subsection{What decomposition does and does not guarantee}
+A region states that, in the available observations, a trigger explains an output event with
+measured recall and measured precision. It does not prove causal uniqueness, expose an
+internal logic cone, or guarantee that all implementation behaviors have been observed. The
+recall of Eq.~\ref{eq:recall} is an association on the observed corpus, compared against a
+null model at the candidate's own match count; it is not a measure of causal strength, and a
+trigger can reach a high recall by firing often enough that the event follows it by
+coincidence --- which is precisely what Eq.~\ref{eq:lift} exists to detect and what leaves
+some events unexplained rather than explained badly. Region overlap, unassigned occurrences,
+rejected candidates with their reasons, the per-sample contingency table of every candidate,
+and episode provenance are all measured and emitted rather than hidden.

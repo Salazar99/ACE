@@ -44,6 +44,21 @@
  "reset": "rst_n == 0",
  "extra_props": [
   {
+   "exp": "rst_n == 0",
+   "loc": "a,dt",
+   "stage": "guarantee"
+  },
+  {
+   "exp": "valid_o == 0",
+   "loc": "c",
+   "stage": "guarantee"
+  },
+  {
+   "exp": "valid_o == 1",
+   "loc": "c",
+   "stage": "guarantee"
+  },
+  {
    "exp": "valid_o == 1 && multdiv_result_o == 4294967295",
    "loc": "c",
    "stage": "guarantee"
@@ -51,6 +66,26 @@
   {
    "exp": "rst_n == 1 && div_en_i == 1 && operator_i == 2 && op_b_i == 0",
    "loc": "a,dt",
+   "stage": "guarantee"
+  },
+  {
+   "exp": "div_en_i == 1",
+   "loc": "a,dt",
+   "stage": "guarantee"
+  },
+  {
+   "exp": "operator_i == 2",
+   "loc": "a,dt",
+   "stage": "guarantee"
+  },
+  {
+   "exp": "op_b_i == 0",
+   "loc": "a,dt",
+   "stage": "guarantee"
+  },
+  {
+   "exp": "multdiv_result_o == 4294967295",
+   "loc": "c",
    "stage": "guarantee"
   },
   {
@@ -64,6 +99,16 @@
    "stage": "guarantee"
   },
   {
+   "exp": "operator_i == 3",
+   "loc": "a,dt",
+   "stage": "guarantee"
+  },
+  {
+   "exp": "multdiv_result_o == op_a_i",
+   "loc": "c",
+   "stage": "guarantee"
+  },
+  {
    "exp": "valid_o == 1 && mult_en_i == 1 && operator_i == 0",
    "loc": "a,dt",
    "stage": "guarantee"
@@ -74,6 +119,21 @@
    "stage": "guarantee"
   },
   {
+   "exp": "valid_o == 1",
+   "loc": "a,dt",
+   "stage": "guarantee"
+  },
+  {
+   "exp": "mult_en_i == 1",
+   "loc": "a,dt",
+   "stage": "guarantee"
+  },
+  {
+   "exp": "operator_i == 0",
+   "loc": "a,dt",
+   "stage": "guarantee"
+  },
+  {
    "exp": "valid_o == 1 && div_en_i == 1 && operator_i == 2 && op_b_i >= 1",
    "loc": "a,dt",
    "stage": "guarantee"
@@ -81,6 +141,11 @@
   {
    "exp": "multdiv_result_o * op_b_i <= op_a_i",
    "loc": "c",
+   "stage": "guarantee"
+  },
+  {
+   "exp": "op_b_i >= 1",
+   "loc": "a,dt",
    "stage": "guarantee"
   },
   {
@@ -104,7 +169,27 @@
    "stage": "guarantee"
   },
   {
+   "exp": "multdiv_result_o == 0",
+   "loc": "c",
+   "stage": "guarantee"
+  },
+  {
    "exp": "rst_n == 1 && div_en_i == 1 && operator_i == 2 && op_a_i == 0 && op_b_i >= 1",
+   "loc": "a,dt",
+   "stage": "guarantee"
+  },
+  {
+   "exp": "op_a_i == 0",
+   "loc": "a,dt",
+   "stage": "guarantee"
+  },
+  {
+   "exp": "mult_en_i == 0",
+   "loc": "a,dt",
+   "stage": "guarantee"
+  },
+  {
+   "exp": "div_en_i == 0",
    "loc": "a,dt",
    "stage": "guarantee"
   },

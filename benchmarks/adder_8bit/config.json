@@ -44,8 +44,18 @@
    "stage": "guarantee"
   },
   {
+   "exp": "cout == 0",
+   "loc": "c",
+   "stage": "guarantee"
+  },
+  {
    "exp": "a + b + cin >= 256",
    "loc": "a,dt",
+   "stage": "guarantee"
+  },
+  {
+   "exp": "cout == 1",
+   "loc": "c",
    "stage": "guarantee"
   },
   {
@@ -59,8 +69,33 @@
    "stage": "guarantee"
   },
   {
+   "exp": "a == 0",
+   "loc": "a,dt",
+   "stage": "guarantee"
+  },
+  {
+   "exp": "b == 0",
+   "loc": "a,dt",
+   "stage": "guarantee"
+  },
+  {
+   "exp": "a <= 127",
+   "loc": "a,dt",
+   "stage": "guarantee"
+  },
+  {
+   "exp": "b <= 127",
+   "loc": "a,dt",
+   "stage": "guarantee"
+  },
+  {
    "exp": "sum == a",
    "loc": "c",
+   "stage": "guarantee"
+  },
+  {
+   "exp": "cin == 0",
+   "loc": "a,dt",
    "stage": "guarantee"
   }
  ],

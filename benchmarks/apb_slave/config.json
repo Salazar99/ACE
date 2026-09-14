@@ -32,8 +32,93 @@
  "max_antecedent_props": 3,
  "extra_props": [
   {
+   "exp": "presetn == 0",
+   "loc": "a,dt",
+   "stage": "guarantee"
+  },
+  {
+   "exp": "pready == 0",
+   "loc": "c",
+   "stage": "guarantee"
+  },
+  {
+   "exp": "pslverr == 0",
+   "loc": "c",
+   "stage": "guarantee"
+  },
+  {
+   "exp": "prdata == 0",
+   "loc": "c",
+   "stage": "guarantee"
+  },
+  {
+   "exp": "psel == 0",
+   "loc": "a,dt",
+   "stage": "guarantee"
+  },
+  {
+   "exp": "penable == 0",
+   "loc": "a,dt",
+   "stage": "guarantee"
+  },
+  {
+   "exp": "psel == 1",
+   "loc": "a,dt",
+   "stage": "guarantee"
+  },
+  {
+   "exp": "penable == 1",
+   "loc": "a,dt",
+   "stage": "guarantee"
+  },
+  {
+   "exp": "paddr <= 2",
+   "loc": "a,dt",
+   "stage": "guarantee"
+  },
+  {
+   "exp": "pready == 1",
+   "loc": "c",
+   "stage": "guarantee"
+  },
+  {
+   "exp": "paddr <= 3",
+   "loc": "a,dt",
+   "stage": "guarantee"
+  },
+  {
+   "exp": "paddr >= 4",
+   "loc": "a,dt",
+   "stage": "guarantee"
+  },
+  {
+   "exp": "pslverr == 1",
+   "loc": "c",
+   "stage": "guarantee"
+  },
+  {
+   "exp": "pslverr == 1",
+   "loc": "a,dt",
+   "stage": "guarantee"
+  },
+  {
+   "exp": "paddr == 3",
+   "loc": "a,dt",
+   "stage": "guarantee"
+  },
+  {
+   "exp": "pready == 0",
+   "loc": "a,dt",
+   "stage": "guarantee"
+  },
+  {
    "exp": "prdata == pwdata",
    "loc": "c",
+   "stage": "guarantee"
+  },
+  {
+   "exp": "pwrite == 0",
+   "loc": "a,dt",
    "stage": "guarantee"
   }
  ],

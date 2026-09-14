@@ -99,12 +99,16 @@ def main():
         # would have written would be tuning the flow to the test.
         best = done["triggers"][0]
         assert best["smoothed_recall"] > 0.9, best
-        assert best["afct"] == 0, "a negative request must not be explained by this trigger"
+        assert best["sample_cells"]["atcf"] == 0, \
+            "a negative request must not be explained by this trigger"
         assert done["trigger_selection"]["coverage"] > 0.9, done["trigger_selection"]
 
-        # smoothed recall must equal its definition, not an F1 in disguise
+        # smoothed recall must equal its definition over the OCCURRENCES, not an F1 in
+        # disguise and not the per-sample precision the field used to hold
         expected = (best["atct"] + 1) / (best["atct"] + best["afct"] + 2)
         assert abs(best["smoothed_recall"] - expected) < 1e-6
+        assert best["atct"] + best["afct"] == done["labels"]["occurrences"], best
+        assert best["atct"] == best["explained_occurrences"], best
 
         # Step 3: episode provenance, and no window outside its own run
         prov = done["provenance"]
@@ -156,6 +160,15 @@ def main():
         # separate events must not collapse into the same region
         assert done["provenance"]["triggers"] != error["provenance"]["triggers"] or \
             done["labels"]["occurrences"] != error["labels"]["occurrences"]
+        assert results["merged_regions"] == [], results["merged_regions"]
+
+        # cross-event merging: two names for one event must come back as one group, and
+        # the per-event records must survive it
+        alias = run_flow(config, root / "out_alias",
+                         overrides={"events": ["done == 1", "!(done == 0)"]})
+        assert len(alias["regions"]) == 2, alias["regions"]
+        assert len(alias["merged_regions"]) == 1, alias["merged_regions"]
+        assert set(alias["merged_regions"][0]["events"]) == {"done == 1", "!(done == 0)"}
 
         # RQ-free sanity: a trace budget keeps whole runs
         small = run_flow(config, root / "out_small", budget=0.5, seed=7)

@@ -1,0 +1,5 @@
+int operator_i,int operand_a_i,int operand_b_i,int result_o,int comparison_result_o,int is_equal_result_o
+8,49152,54733,6,0,0
+4,31844,4,4,0,0
+8,25549,9487,0,0,0
+33,32775,5,32775,1,0

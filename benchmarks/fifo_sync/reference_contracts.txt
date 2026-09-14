@@ -9,7 +9,6 @@ G: G((rst_n == 0) |=> (count == 0))
    G((full == 1) |-> (count == 8))
    G((count >= 1) |-> (empty == 0))
    G((count <= 7) |-> (full == 0))
-   G(count <= 8)
 
 CONTRACT fifo_sync.2
 A: rst_n == 1

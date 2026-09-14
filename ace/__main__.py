@@ -17,7 +17,7 @@ from contextlib import contextmanager
 from pathlib import Path
 
 from . import (backends, episodes as episodes_mod, labeling, mining, templates,
-               traces, triggers)
+               traces, triggers, validation)
 
 REQUIRED = ("name", "traces", "inputs", "outputs", "events", "horizon", "h_pre", "h_post")
 
@@ -61,6 +61,22 @@ def onset_event(event: str) -> str:
     return f"(!({event})) ##1 ({event})"
 
 
+def corpus_traces(corpus, out_dir) -> Path:
+    """Write the mining corpus as a directory of CSVs for the temporal backend.
+
+    Not the directory the traces were loaded from: that one also holds the held-out and the
+    stress runs, so pointing `--csv-dir` at it would enumerate trigger candidates on traces
+    the flow promises never to look at until validation. Written once per run and reused by
+    every event; the header is retyped for the same reason episode CSVs are.
+    """
+    out_dir = Path(out_dir)
+    if not any(out_dir.glob("*.csv")):
+        for k, run in enumerate(corpus.runs):
+            traces.write_rows(run.rows, traces.numeric_header(run.header),
+                              out_dir / f"{k:04d}_{Path(run.name).stem}.csv")
+    return out_dir
+
+
 def mine_candidates(corpus, event, cfg, workdir) -> tuple:
     """Enumerate candidate triggers with HARM, using the event as the consequent.
     Falls back to predicates read off the observed input values when HARM is absent."""
@@ -75,16 +91,25 @@ def mine_candidates(corpus, event, cfg, workdir) -> tuple:
         backends.harm_conf(templates, booleans, numerics, cfg["horizon"], loc="a,dt"),
         Path(workdir) / "trigger_conf.xml")
     try:
-        # the traces live in one directory, so HARM mines them all in a single call with
-        # each run kept separate
-        mined = backends.harm(Path(corpus.runs[0].path).parent, conf,
-                              Path(workdir) / "trigger_harm", reset=cfg.get("reset"),
+        # one directory of mining traces, so HARM mines them all in a single call with each
+        # run kept separate
+        mined = backends.harm(corpus_traces(corpus, Path(workdir).parent / "trigger_traces"),
+                              conf, Path(workdir) / "trigger_harm", reset=cfg.get("reset"),
                               max_ass=cfg.get("max_ass"), min_frank=cfg.get("min_frank"))
         found = sorted({a for a in (antecedent_text(m) for m in mined) if a})
         if found:
-            return found, "harm"
+            # union, not replacement. What HARM returns is bounded by its template grammar
+            # and its clustered vocabulary, and on some designs that is one or two
+            # predicates - on the square root, a single artifact value that explains a tenth
+            # of the error events. Adding the observed-value atoms and the input orderings
+            # costs one scoring pass each and cannot remove a candidate HARM found.
+            return (sorted(set(found) | set(observed_predicates(corpus, list(cfg["inputs"])))),
+                    "harm and observed values")
     except backends.BackendMissing:
         pass
+    except RuntimeError as exc:
+        print(f"warning: HARM failed to enumerate trigger candidates, falling back to "
+              f"observed predicates ({backends.last_message(exc)})", file=sys.stderr)
     return (observed_predicates(corpus, list(cfg["inputs"])),
             "observed values and interface relations (harm unavailable)")
 
@@ -118,6 +143,55 @@ def observed_predicates(corpus, signals, max_candidates: int = 60) -> list:
 
 def _num(value):
     return int(value) if float(value).is_integer() else value
+
+
+# ------------------------------------------------------- cross-event region merging
+
+def _mutually_implied(corpus, left, right) -> bool:
+    """Whether two sets of clause texts say the same thing on the observed traces.
+
+    Set equality, not textual: every member of one set is implied by some member of the
+    other and back. `validation.implies` memoises its masks on the corpus, so the pairwise
+    sweep costs one pass per distinct clause, not one per pair.
+    """
+    if not left or not right:
+        return not left and not right
+    return (all(any(validation.implies(corpus, r, l) for r in right) for l in left)
+            and all(any(validation.implies(corpus, l, r) for l in left) for r in right))
+
+
+def merge_regions(corpus, regions) -> list:
+    """Group regions of different events that are the same region.
+
+    Two declared events can name one behaviour - `done == 1` and `!(done == 0)`, a handshake
+    milestone and the transfer it completes - and the per-event loop cannot see it: it mines
+    each event independently. A group is reported only when both halves agree, the triggers
+    are equivalent AND the guarantees are equivalent, which is what keeps two events that
+    happen to share a trigger but describe different obligations apart.
+
+    Merging is additive: the per-event records and their episode CSVs are left alone, so
+    nothing downstream has to know about the grouping.
+    """
+    # ponytail: O(n^2) over events, n <= 3 in every benchmark
+    live = [r for r in regions if not r.get("skipped")]
+    groups = []
+    for region in live:
+        for group in groups:
+            head = group[0]
+            if (_mutually_implied(corpus, head["provenance"]["triggers"],
+                                  region["provenance"]["triggers"])
+                    and _mutually_implied(corpus,
+                                          [c["text"] for c in head["guarantees"]],
+                                          [c["text"] for c in region["guarantees"]])):
+                group.append(region)
+                break
+        else:
+            groups.append([region])
+    return [{"events": [r["event"] for r in g],
+             "triggers": g[0]["provenance"]["triggers"],
+             "guarantees": [c["text"] for c in g[0]["guarantees"]],
+             "reason": "equivalent triggers and equivalent guarantees"}
+            for g in groups if len(g) > 1]
 
 
 # ------------------------------------------------------------------------- the flow
@@ -183,7 +257,7 @@ def run_flow(config_path, out_dir, budget=None, seed=0, episode_mode=None,
                 candidates, source = mine_candidates(corpus, event, cfg, region_dir)
             selection = triggers.select(
                 corpus, candidates, event, int(cfg["horizon"]), labels.occurrences,
-                cfg.get("min_recall", 0.5), cfg.get("min_gain", 0.05),
+                cfg.get("min_recall", 0.2), cfg.get("min_gain", 0.05),
                 cfg.get("redundancy_weight", 0.5), cfg.get("max_triggers", 8),
                 cfg.get("min_lift", 0.0), cfg.get("min_trigger_support", 0.1),
                 cfg.get("trigger_onsets", True))
@@ -212,6 +286,9 @@ def run_flow(config_path, out_dir, budget=None, seed=0, episode_mode=None,
         record["trigger_selection"] = selection.report(labels.count)
         results["regions"].append(record)
 
+    with timers.stage("5_merge"):
+        results["merged_regions"] = merge_regions(corpus, results["regions"])
+
     results["timers_s"] = dict(timers)
     (out / "contracts.json").write_text(json.dumps(results, indent=2, default=str))
     (out / "report.md").write_text(render_report(results))
@@ -235,9 +312,9 @@ def render_report(results) -> str:
                   f"- triggers ({region['candidate_source']}):"]
         for t in region["triggers"]:
             lines.append(f"    - `{t['trigger']}` "
-                         f"R={t['smoothed_recall']:.3f} "
+                         f"R={t['smoothed_recall']:.3f} P={t['precision']:.3f} "
                          f"ATCT={t['atct']} AFCT={t['afct']} "
-                         f"explains {t['explained_occurrences']}")
+                         f"matches {t['matches']}, explains {t['explained_occurrences']}")
         sel = region["trigger_selection"]
         lines += [f"- coverage {sel['coverage']:.3f}, overlap {sel['overlap']:.3f}, "
                   f"unassigned {sel['unassigned']:.3f}",
@@ -263,6 +340,12 @@ def render_report(results) -> str:
                              f"{m['equivalent_recall']}, acceptable {m['acceptable_recall']}")
         else:
             lines.append(f"- held-out: {v.get('note', 'not run')}")
+        lines.append("")
+    if results.get("merged_regions"):
+        lines += ["## Merged regions", ""]
+        for group in results["merged_regions"]:
+            events = ", ".join(f"`{e}`" for e in group["events"])
+            lines.append(f"- {events}: {group['reason']}")
         lines.append("")
     lines += ["## Stage times (s)", ""]
     lines += [f"- {k}: {v}" for k, v in results["timers_s"].items()]

@@ -1,0 +1,24 @@
+<harm>
+	<context name="default">
+		<prop exp="a + b + cin &lt;= 255" loc="a,dt"/>
+		<prop exp="sum == a + b + cin" loc="c"/>
+		<prop exp="cout == 0" loc="c"/>
+		<prop exp="a + b + cin &gt;= 256" loc="a,dt"/>
+		<prop exp="cout == 1" loc="c"/>
+		<prop exp="sum == a + b + cin - 256" loc="c"/>
+		<prop exp="sum == cin" loc="c"/>
+		<prop exp="a == 0" loc="a,dt"/>
+		<prop exp="b == 0" loc="a,dt"/>
+		<prop exp="a &lt;= 127" loc="a,dt"/>
+		<prop exp="b &lt;= 127" loc="a,dt"/>
+		<prop exp="sum == a" loc="c"/>
+		<prop exp="cin == 0" loc="a,dt"/>
+		<prop exp="cin" loc="a,c,dt"/>
+		<prop exp="cout" loc="a,c,dt"/>
+		<numeric clustering="K,10Max,0.01WCSS,&gt;&lt;,==" exp="a" loc="a,c,dt"/>
+		<numeric clustering="K,10Max,0.01WCSS,&gt;&lt;,==" exp="b" loc="a,c,dt"/>
+		<numeric clustering="K,10Max,0.01WCSS,&gt;&lt;,==" exp="sum" loc="a,c,dt"/>
+		<template exp="G(P0 |-&gt; P1)" />
+		<sort name="smoothed_recall" exp="(atct+1)/(atct+afct+2)"/>
+	</context>
+</harm>

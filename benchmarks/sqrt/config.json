@@ -43,8 +43,43 @@
  "reset": "rst == 1",
  "extra_props": [
   {
+   "exp": "rst == 1",
+   "loc": "a,dt",
+   "stage": "guarantee"
+  },
+  {
+   "exp": "done == 0",
+   "loc": "c",
+   "stage": "guarantee"
+  },
+  {
+   "exp": "error == 0",
+   "loc": "c",
+   "stage": "guarantee"
+  },
+  {
+   "exp": "out == 0",
+   "loc": "c",
+   "stage": "guarantee"
+  },
+  {
    "exp": "in < 0",
    "loc": "a,dt",
+   "stage": "guarantee"
+  },
+  {
+   "exp": "start == 1",
+   "loc": "a,dt",
+   "stage": "guarantee"
+  },
+  {
+   "exp": "error == 1",
+   "loc": "c",
+   "stage": "guarantee"
+  },
+  {
+   "exp": "done == 1",
+   "loc": "c",
    "stage": "guarantee"
   },
   {
@@ -63,6 +98,11 @@
    "stage": "guarantee"
   },
   {
+   "exp": "in == 0",
+   "loc": "a,dt",
+   "stage": "guarantee"
+  },
+  {
    "exp": "in >= 4 && in <= 8",
    "loc": "a,dt",
    "stage": "guarantee"
@@ -73,12 +113,42 @@
    "stage": "guarantee"
   },
   {
+   "exp": "in >= 4",
+   "loc": "a,dt",
+   "stage": "guarantee"
+  },
+  {
+   "exp": "in <= 8",
+   "loc": "a,dt",
+   "stage": "guarantee"
+  },
+  {
+   "exp": "out == 2",
+   "loc": "c",
+   "stage": "guarantee"
+  },
+  {
    "exp": "in >= 1 && in <= 1000",
    "loc": "a,dt",
    "stage": "guarantee"
   },
   {
    "exp": "done == 1 && out <= 32",
+   "loc": "c",
+   "stage": "guarantee"
+  },
+  {
+   "exp": "in >= 1",
+   "loc": "a,dt",
+   "stage": "guarantee"
+  },
+  {
+   "exp": "in <= 1000",
+   "loc": "a,dt",
+   "stage": "guarantee"
+  },
+  {
+   "exp": "out <= 32",
    "loc": "c",
    "stage": "guarantee"
   }

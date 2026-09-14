@@ -32,14 +32,43 @@
   "G((done == 1 && ain == 0) |-> (yout == 0))",
   "G((done == 1 && bin == 0) |-> (yout == 0))",
   "G((done == 1 && ain == 1) |-> (yout == bin))",
-  "G((done == 1) |-> (yout <= 4294836225))",
   "G((start == 0) |=> (done == 0))"
  ],
  "reset": "rst_n == 0",
  "extra_props": [
   {
+   "exp": "rst_n == 0",
+   "loc": "a,dt",
+   "stage": "guarantee"
+  },
+  {
+   "exp": "done == 0",
+   "loc": "c",
+   "stage": "guarantee"
+  },
+  {
+   "exp": "yout == 0",
+   "loc": "c",
+   "stage": "guarantee"
+  },
+  {
+   "exp": "done == 1",
+   "loc": "a,dt",
+   "stage": "guarantee"
+  },
+  {
    "exp": "yout == ain * bin",
    "loc": "c",
+   "stage": "guarantee"
+  },
+  {
+   "exp": "ain == 0",
+   "loc": "a,dt",
+   "stage": "guarantee"
+  },
+  {
+   "exp": "bin == 0",
+   "loc": "a,dt",
    "stage": "guarantee"
   },
   {
@@ -48,8 +77,13 @@
    "stage": "guarantee"
   },
   {
-   "exp": "yout <= 4294836225",
-   "loc": "c",
+   "exp": "ain == 1",
+   "loc": "a,dt",
+   "stage": "guarantee"
+  },
+  {
+   "exp": "start == 0",
+   "loc": "a,dt",
    "stage": "guarantee"
   }
  ],

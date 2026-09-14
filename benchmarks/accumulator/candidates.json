@@ -7,7 +7,18 @@
    "template": "G1",
    "assumption_ids": [],
    "guarantee": "G((rst_n == 0) |-> (valid_out == 0))",
-   "props": [],
+   "props": [
+    {
+     "exp": "rst_n == 0",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "valid_out == 0",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
    "rationale": "asynchronous reset clears the valid flag in the same cycle"
   },
   {
@@ -16,7 +27,18 @@
    "template": "G1",
    "assumption_ids": [],
    "guarantee": "G((rst_n == 0) |-> (data_out == 0))",
-   "props": [],
+   "props": [
+    {
+     "exp": "rst_n == 0",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "data_out == 0",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
    "rationale": "asynchronous reset clears the accumulator in the same cycle"
   },
   {
@@ -27,7 +49,18 @@
     "A1"
    ],
    "guarantee": "G((valid_out == 1) |=> (valid_out == 0))",
-   "props": [],
+   "props": [
+    {
+     "exp": "valid_out == 1",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "valid_out == 0",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
    "rationale": "valid_out is a one-cycle pulse: the counter restarts as soon as it fires"
   },
   {
@@ -38,7 +71,23 @@
     "A1"
    ],
    "guarantee": "G((valid_out == 1 && valid_in == 0) |=> (valid_out == 0))",
-   "props": [],
+   "props": [
+    {
+     "exp": "valid_out == 1",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "valid_in == 0",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "valid_out == 0",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
    "rationale": "after a pulse the design needs valid_in to make progress (ready_add = !valid_out | valid_in)"
   },
   {
@@ -55,26 +104,19 @@
      "exp": "data_out <= 255",
      "loc": "c",
      "stage": "guarantee"
-    }
-   ],
-   "rationale": "the sample accepted right after a pulse starts a new accumulation, so the total is one sample wide"
-  },
-  {
-   "id": "ACC6",
-   "kind": "result",
-   "template": "G1",
-   "assumption_ids": [
-    "A1"
-   ],
-   "guarantee": "G((rst_n == 1) |-> (data_out <= 1020))",
-   "props": [
+    },
     {
-     "exp": "data_out <= 1020",
-     "loc": "c",
+     "exp": "valid_out == 1",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "valid_in == 1",
+     "loc": "a,dt",
      "stage": "guarantee"
     }
    ],
-   "rationale": "four 8-bit samples cannot exceed the width of the output register"
+   "rationale": "the sample accepted right after a pulse starts a new accumulation, so the total is one sample wide"
   }
  ],
  "out_of_grammar": [
@@ -95,6 +137,12 @@
    "assumption": "A: rst_n == 1, valid_in == 1",
    "guarantee": "G(valid_in == 1 |-> ##[1:H] valid_out == 1)",
    "why_not_minable": "same as ACC7, without the valid_out == 0 precondition"
+  },
+  {
+   "id": "ACC6",
+   "assumption": "A1",
+   "guarantee": "G((rst_n == 1) |-> (data_out <= 1020))",
+   "why_not_minable": "the consequent `data_out <= 1020` holds at every corpus position, so mining.domain_trivial drops the clause as a restated signal domain. The flow can never emit it, and no refinement of it is mined either, so the bound is simply not observable as a contract"
   }
  ],
  "assumptions": [

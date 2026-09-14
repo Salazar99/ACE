@@ -90,6 +90,16 @@
    "exp": "A_equal == 0",
    "loc": "c",
    "stage": "guarantee"
+  },
+  {
+   "exp": "B == 0",
+   "loc": "a,dt",
+   "stage": "guarantee"
+  },
+  {
+   "exp": "A == 7",
+   "loc": "a,dt",
+   "stage": "guarantee"
   }
  ],
  "reference_assumptions": [

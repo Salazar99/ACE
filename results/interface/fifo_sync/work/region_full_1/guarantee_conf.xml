@@ -1,0 +1,166 @@
+<harm>
+	<context name="default">
+		<prop exp="dout == rst_n" loc="c"/>
+		<prop exp="dout &lt;= rst_n" loc="c"/>
+		<prop exp="dout &gt;= rst_n" loc="c"/>
+		<prop exp="dout == wr_en" loc="c"/>
+		<prop exp="dout &lt;= wr_en" loc="c"/>
+		<prop exp="dout &gt;= wr_en" loc="c"/>
+		<prop exp="dout == rd_en" loc="c"/>
+		<prop exp="dout &lt;= rd_en" loc="c"/>
+		<prop exp="dout &gt;= rd_en" loc="c"/>
+		<prop exp="dout == din" loc="c"/>
+		<prop exp="dout &lt;= din" loc="c"/>
+		<prop exp="dout &gt;= din" loc="c"/>
+		<prop exp="dout == rst_n + wr_en" loc="c"/>
+		<prop exp="dout == rst_n * wr_en" loc="c"/>
+		<prop exp="dout == rst_n - wr_en" loc="c"/>
+		<prop exp="dout == (rst_n &amp; wr_en)" loc="c"/>
+		<prop exp="dout == (rst_n | wr_en)" loc="c"/>
+		<prop exp="dout == (rst_n ^ wr_en)" loc="c"/>
+		<prop exp="dout == (rst_n &lt;&lt; wr_en)" loc="c"/>
+		<prop exp="dout == (rst_n &gt;&gt; wr_en)" loc="c"/>
+		<prop exp="dout * wr_en &lt;= rst_n" loc="c"/>
+		<prop exp="dout * wr_en + wr_en &gt; rst_n" loc="c"/>
+		<prop exp="dout &lt; wr_en" loc="c"/>
+		<prop exp="dout * 2 &lt;= rst_n" loc="c"/>
+		<prop exp="dout * 2 + 1 &gt;= rst_n" loc="c"/>
+		<prop exp="dout == rst_n + rd_en" loc="c"/>
+		<prop exp="dout == rst_n * rd_en" loc="c"/>
+		<prop exp="dout == rst_n - rd_en" loc="c"/>
+		<prop exp="dout == (rst_n &amp; rd_en)" loc="c"/>
+		<prop exp="dout == (rst_n | rd_en)" loc="c"/>
+		<prop exp="dout == (rst_n ^ rd_en)" loc="c"/>
+		<prop exp="dout == (rst_n &lt;&lt; rd_en)" loc="c"/>
+		<prop exp="dout == (rst_n &gt;&gt; rd_en)" loc="c"/>
+		<prop exp="dout * rd_en &lt;= rst_n" loc="c"/>
+		<prop exp="dout * rd_en + rd_en &gt; rst_n" loc="c"/>
+		<prop exp="dout &lt; rd_en" loc="c"/>
+		<prop exp="dout == rst_n + din" loc="c"/>
+		<prop exp="dout == rst_n * din" loc="c"/>
+		<prop exp="dout == rst_n - din" loc="c"/>
+		<prop exp="dout == (rst_n &amp; din)" loc="c"/>
+		<prop exp="dout == (rst_n | din)" loc="c"/>
+		<prop exp="dout == (rst_n ^ din)" loc="c"/>
+		<prop exp="dout == (rst_n &lt;&lt; din)" loc="c"/>
+		<prop exp="dout == (rst_n &gt;&gt; din)" loc="c"/>
+		<prop exp="dout * din &lt;= rst_n" loc="c"/>
+		<prop exp="dout * din + din &gt; rst_n" loc="c"/>
+		<prop exp="dout &lt; din" loc="c"/>
+		<prop exp="dout == wr_en + rd_en" loc="c"/>
+		<prop exp="dout == wr_en * rd_en" loc="c"/>
+		<prop exp="dout == wr_en - rd_en" loc="c"/>
+		<prop exp="dout == (wr_en &amp; rd_en)" loc="c"/>
+		<prop exp="dout == (wr_en | rd_en)" loc="c"/>
+		<prop exp="dout == (wr_en ^ rd_en)" loc="c"/>
+		<prop exp="dout == (wr_en &lt;&lt; rd_en)" loc="c"/>
+		<prop exp="dout == (wr_en &gt;&gt; rd_en)" loc="c"/>
+		<prop exp="dout * rd_en &lt;= wr_en" loc="c"/>
+		<prop exp="dout * rd_en + rd_en &gt; wr_en" loc="c"/>
+		<prop exp="dout * 2 &lt;= wr_en" loc="c"/>
+		<prop exp="dout * 2 + 1 &gt;= wr_en" loc="c"/>
+		<prop exp="dout == wr_en + din" loc="c"/>
+		<prop exp="dout == wr_en * din" loc="c"/>
+		<prop exp="dout == wr_en - din" loc="c"/>
+		<prop exp="dout == (wr_en &amp; din)" loc="c"/>
+		<prop exp="dout == (wr_en | din)" loc="c"/>
+		<prop exp="dout == (wr_en ^ din)" loc="c"/>
+		<prop exp="dout == (wr_en &lt;&lt; din)" loc="c"/>
+		<prop exp="dout == (wr_en &gt;&gt; din)" loc="c"/>
+		<prop exp="dout * din &lt;= wr_en" loc="c"/>
+		<prop exp="dout * din + din &gt; wr_en" loc="c"/>
+		<prop exp="dout == rd_en + din" loc="c"/>
+		<prop exp="dout == rd_en * din" loc="c"/>
+		<prop exp="dout == rd_en - din" loc="c"/>
+		<prop exp="dout == (rd_en &amp; din)" loc="c"/>
+		<prop exp="dout == (rd_en | din)" loc="c"/>
+		<prop exp="dout == (rd_en ^ din)" loc="c"/>
+		<prop exp="dout == (rd_en &lt;&lt; din)" loc="c"/>
+		<prop exp="dout == (rd_en &gt;&gt; din)" loc="c"/>
+		<prop exp="dout * din &lt;= rd_en" loc="c"/>
+		<prop exp="dout * din + din &gt; rd_en" loc="c"/>
+		<prop exp="dout * 2 &lt;= rd_en" loc="c"/>
+		<prop exp="dout * 2 + 1 &gt;= rd_en" loc="c"/>
+		<prop exp="dout == rst_n + wr_en + rd_en" loc="c"/>
+		<prop exp="dout == rst_n + wr_en + rd_en - 256" loc="c"/>
+		<prop exp="dout == rst_n + wr_en + din" loc="c"/>
+		<prop exp="dout == rst_n + wr_en + din - 256" loc="c"/>
+		<prop exp="dout == rst_n + rd_en + din" loc="c"/>
+		<prop exp="dout == rst_n + rd_en + din - 256" loc="c"/>
+		<prop exp="dout == wr_en + rd_en + din" loc="c"/>
+		<prop exp="dout == wr_en + rd_en + din - 256" loc="c"/>
+		<prop exp="full == rst_n" loc="c"/>
+		<prop exp="full &lt;= rst_n" loc="c"/>
+		<prop exp="full &gt;= rst_n" loc="c"/>
+		<prop exp="full == wr_en" loc="c"/>
+		<prop exp="full &lt;= wr_en" loc="c"/>
+		<prop exp="full &gt;= wr_en" loc="c"/>
+		<prop exp="full == rd_en" loc="c"/>
+		<prop exp="full &lt;= rd_en" loc="c"/>
+		<prop exp="full &gt;= rd_en" loc="c"/>
+		<prop exp="full == din" loc="c"/>
+		<prop exp="full &lt;= din" loc="c"/>
+		<prop exp="full &gt;= din" loc="c"/>
+		<prop exp="full == rst_n + wr_en" loc="c"/>
+		<prop exp="full == rst_n * wr_en" loc="c"/>
+		<prop exp="full == rst_n - wr_en" loc="c"/>
+		<prop exp="full == (rst_n &amp; wr_en)" loc="c"/>
+		<prop exp="full == (rst_n | wr_en)" loc="c"/>
+		<prop exp="full == (rst_n ^ wr_en)" loc="c"/>
+		<prop exp="full == (rst_n &lt;&lt; wr_en)" loc="c"/>
+		<prop exp="full == (rst_n &gt;&gt; wr_en)" loc="c"/>
+		<prop exp="full * wr_en &lt;= rst_n" loc="c"/>
+		<prop exp="full * wr_en + wr_en &gt; rst_n" loc="c"/>
+		<prop exp="full &lt; wr_en" loc="c"/>
+		<prop exp="full * 2 &lt;= rst_n" loc="c"/>
+		<prop exp="full * 2 + 1 &gt;= rst_n" loc="c"/>
+		<prop exp="full == rst_n + rd_en" loc="c"/>
+		<prop exp="full == rst_n * rd_en" loc="c"/>
+		<prop exp="full == rst_n - rd_en" loc="c"/>
+		<prop exp="full == (rst_n &amp; rd_en)" loc="c"/>
+		<prop exp="full == (rst_n | rd_en)" loc="c"/>
+		<prop exp="full == (rst_n ^ rd_en)" loc="c"/>
+		<prop exp="full == (rst_n &lt;&lt; rd_en)" loc="c"/>
+		<prop exp="full == (rst_n &gt;&gt; rd_en)" loc="c"/>
+		<prop exp="full * rd_en &lt;= rst_n" loc="c"/>
+		<prop exp="full * rd_en + rd_en &gt; rst_n" loc="c"/>
+		<prop exp="full &lt; rd_en" loc="c"/>
+		<prop exp="full == rst_n + din" loc="c"/>
+		<prop exp="full == rst_n * din" loc="c"/>
+		<prop exp="full == rst_n - din" loc="c"/>
+		<prop exp="full == (rst_n &amp; din)" loc="c"/>
+		<prop exp="full == (rst_n | din)" loc="c"/>
+		<prop exp="full == (rst_n ^ din)" loc="c"/>
+		<prop exp="full == (rst_n &lt;&lt; din)" loc="c"/>
+		<prop exp="full == (rst_n &gt;&gt; din)" loc="c"/>
+		<prop exp="full * din &lt;= rst_n" loc="c"/>
+		<prop exp="full * din + din &gt; rst_n" loc="c"/>
+		<prop exp="full &lt; din" loc="c"/>
+		<prop exp="full == wr_en + rd_en" loc="c"/>
+		<prop exp="full == wr_en * rd_en" loc="c"/>
+		<prop exp="full == wr_en - rd_en" loc="c"/>
+		<prop exp="full == (wr_en &amp; rd_en)" loc="c"/>
+		<prop exp="full == (wr_en | rd_en)" loc="c"/>
+		<prop exp="full == (wr_en ^ rd_en)" loc="c"/>
+		<prop exp="full == (wr_en &lt;&lt; rd_en)" loc="c"/>
+		<prop exp="full == (wr_en &gt;&gt; rd_en)" loc="c"/>
+		<prop exp="full * rd_en &lt;= wr_en" loc="c"/>
+		<prop exp="full * rd_en + rd_en &gt; wr_en" loc="c"/>
+		<prop exp="full * 2 &lt;= wr_en" loc="c"/>
+		<prop exp="full * 2 + 1 &gt;= wr_en" loc="c"/>
+		<prop exp="full == wr_en + din" loc="c"/>
+		<prop exp="full == wr_en * din" loc="c"/>
+		<prop exp="rst_n" loc="a,c,dt"/>
+		<prop exp="wr_en" loc="a,c,dt"/>
+		<prop exp="rd_en" loc="a,c,dt"/>
+		<prop exp="full" loc="a,c,dt"/>
+		<prop exp="empty" loc="a,c,dt"/>
+		<numeric clustering="K,10Max,0.01WCSS,&gt;&lt;,==" exp="din" loc="a,c,dt"/>
+		<numeric clustering="K,10Max,0.01WCSS,&gt;&lt;,==" exp="dout" loc="a,c,dt"/>
+		<numeric clustering="K,10Max,0.01WCSS,&gt;&lt;,==" exp="count" loc="a,c,dt"/>
+		<template exp="G(P0 |-&gt; P1)" />
+		<template exp="G(P0 |=&gt; P1)" />
+		<template exp="G(P0 |-&gt; ##[1:4] P1)" />
+		<sort name="smoothed_recall" exp="(atct+1)/(atct+afct+2)"/>
+	</context>
+</harm>

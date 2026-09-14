@@ -33,7 +33,18 @@
     "A2"
    ],
    "guarantee": "G((a + b + cin <= 255) |-> (cout == 0))",
-   "props": [],
+   "props": [
+    {
+     "exp": "a + b + cin <= 255",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "cout == 0",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
    "rationale": "without overflow no carry leaves the adder"
   },
   {
@@ -49,6 +60,11 @@
     {
      "exp": "a + b + cin >= 256",
      "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "cout == 1",
+     "loc": "c",
      "stage": "guarantee"
     }
    ],
@@ -68,6 +84,11 @@
      "exp": "sum == a + b + cin - 256",
      "loc": "c",
      "stage": "guarantee"
+    },
+    {
+     "exp": "a + b + cin >= 256",
+     "loc": "a,dt",
+     "stage": "guarantee"
     }
    ],
    "rationale": "on overflow the sum is the low 8 bits"
@@ -86,6 +107,16 @@
      "exp": "sum == cin",
      "loc": "c",
      "stage": "guarantee"
+    },
+    {
+     "exp": "a == 0",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "b == 0",
+     "loc": "a,dt",
+     "stage": "guarantee"
     }
    ],
    "rationale": "with both operands zero the sum is the carry in"
@@ -99,7 +130,23 @@
     "A2"
    ],
    "guarantee": "G((a <= 127 && b <= 127) |-> (cout == 0))",
-   "props": [],
+   "props": [
+    {
+     "exp": "a <= 127",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "b <= 127",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "cout == 0",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
    "rationale": "two 7-bit operands plus a carry cannot overflow 8 bits"
   },
   {
@@ -115,6 +162,16 @@
     {
      "exp": "sum == a",
      "loc": "c",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "b == 0",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "cin == 0",
+     "loc": "a,dt",
      "stage": "guarantee"
     }
    ],

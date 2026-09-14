@@ -1,14 +1,14 @@
-# ACE2 contracts: adder_8bit
+# ACE contracts: adder_8bit
 
 - traces: 5 runs, 2500 samples
-- temporal backend: in-process-templates
+- temporal backend: harm
 - trace budget: full corpus (seed 0)
 
 ## Event `cout == 1`
 - occurrences: 1317 (0.5268 of samples)
 - triggers (observed values and interface relations (harm unavailable)):
-    - `cin == 0` R=0.539 ATCT=344 AFCT=294 explains 344
-    - `a > b` R=0.541 ATCT=275 AFCT=233 explains 275
+    - `cin == 0` R=0.262 P=0.539 ATCT=344 AFCT=973 matches 638, explains 344
+    - `a > b` R=0.209 P=0.541 ATCT=275 AFCT=1042 matches 508, explains 275
 - coverage 0.416, overlap 0.054, unassigned 0.584
 - episodes: 214 (1709 samples, mode split, provenance ok)
 
@@ -339,8 +339,9 @@
 
 ## Stage times (s)
 
-- load: 0.0109
-- 1_label:cout == 1: 0.0024
-- 2_triggers:cout == 1: 0.3509
-- 3_episodes:cout == 1: 0.0605
-- 4_mine:cout == 1: 17.5357
+- load: 0.0042
+- 1_label:cout == 1: 0.0007
+- 2_triggers:cout == 1: 0.1826
+- 3_episodes:cout == 1: 0.0254
+- 4_mine:cout == 1: 6.3105
+- 5_merge: 0.0

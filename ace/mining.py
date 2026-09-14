@@ -16,10 +16,12 @@ domain rather than the region's behavior, are marked and dropped from the contra
 """
 from __future__ import annotations
 
+import sys
 from dataclasses import dataclass, field, asdict
 from pathlib import Path
 
-from . import backends, templates as templates_mod, episodes as episodes_mod, validation
+from . import (backends, templates as templates_mod, episodes as episodes_mod, traces,
+               validation)
 
 
 @dataclass
@@ -404,10 +406,51 @@ def _min_support(cfg, samples: int) -> int:
     return max(3, int(float(cfg.get("min_instance_support", 0.002)) * samples))
 
 
+def _tighten_windows(corpus, clauses) -> list:
+    """Offer the fixed-latency reading of every window clause that has one.
+
+    `G(a |-> ##[1:H] b)` says b answers somewhere in the window; `G(a |-> ##2 b)` says it
+    answers exactly two cycles later. The second is the stronger statement and the one a
+    latency contract is written with. The in-process instantiator derives it itself
+    (`templates._tighten`); HARM emits the template as written, which is why the same design
+    yields a weaker contract on the HARM backend. Both forms are offered and `reduce_subsumed`
+    keeps the fixed one when it holds - existential and fixed delays do not subsume each
+    other, so neither is lost by accident.
+    """
+    import re
+
+    from . import formula
+
+    out = list(clauses)
+    for clause in clauses:
+        window = re.search(r"##\[(\d+):(\d+)\]", clause)
+        if not window:
+            continue
+        try:
+            base = validation.evaluate(corpus, clause)
+        except formula.FormulaError:
+            continue
+        if base["violations"] or not base["support"]:
+            continue
+        for delay in range(int(window.group(1)), int(window.group(2)) + 1):
+            fixed = f"{clause[:window.start()]}##{delay}{clause[window.end():]}"
+            try:
+                result = validation.evaluate(corpus, fixed)
+            except formula.FormulaError:
+                continue
+            if not result["violations"] and result["support"] == base["support"]:
+                out.append(fixed)
+    return out
+
+
 def _mine_temporal(trace, rows, vocabulary, grammar, horizon, workdir, tag,
-                   reset=None, cfg=None, runs=None) -> list:
+                   reset=None, cfg=None, runs=None) -> tuple:
     """One HARM call over the whole region, or the in-process instantiator when HARM is
     not installed (ace.templates - same templates, same vocabulary, no external binary).
+
+    Returns `(clauses, backend)`, where `backend` is what actually ran: a HARM failure is a
+    configuration or grammar problem in one region, not a reason to lose the whole run, so
+    it is reported and the in-process instantiator takes over for that region.
 
     `trace` is the region directory when episodes were written one per file, in which case
     HARM reads each episode as a separate trace and no mined property can span an episode
@@ -415,11 +458,12 @@ def _mine_temporal(trace, rows, vocabulary, grammar, horizon, workdir, tag,
     to build a usable proposition vocabulary from a multi-bit signal.
     """
     if not vocabulary or trace is None:
-        return []
+        return [], backends.temporal_backend()
     cfg = cfg or {}
+    in_process = "in-process-templates"
     if not backends.available("harm"):
-        return (_mine_in_process(runs, rows, vocabulary, grammar, horizon, tag, cfg)
-                if runs else [])
+        return ((_mine_in_process(runs, rows, vocabulary, grammar, horizon, tag, cfg)
+                 if runs else []), in_process)
     booleans, numerics = backends.classify_signals(rows, vocabulary)
     conf = backends.write_conf(
         backends.harm_conf(backends.GRAMMARS[grammar], booleans, numerics, horizon,
@@ -431,9 +475,18 @@ def _mine_temporal(trace, rows, vocabulary, grammar, horizon, workdir, tag,
         mined = backends.harm(trace, conf, Path(workdir) / f"{tag}_harm", reset=reset,
                               max_ass=cfg.get("max_ass"), min_frank=cfg.get("min_frank"))
     except backends.BackendMissing:
-        return []
+        return [], in_process
+    except RuntimeError as exc:
+        reason = backends.last_message(exc)
+        print(f"warning: HARM failed on {conf}, mining {tag} clauses in process instead "
+              f"({reason})", file=sys.stderr)
+        return ((_mine_in_process(runs, rows, vocabulary, grammar, horizon, tag, cfg)
+                 if runs else []), f"{in_process} (harm failed: {reason})")
     from . import formula
-    return [formula.strip_braces(clause) for clause in mined]
+    clauses = [formula.strip_braces(clause) for clause in mined]
+    if runs:
+        clauses = _tighten_windows(traces.Corpus(runs), clauses)
+    return clauses, "harm"
 
 
 # --------------------------------------------------------------------- assembly
@@ -511,19 +564,21 @@ def mine(corpus, region, selection, cfg, workdir, holdout=None) -> Contract:
     region_trace = (Path(csvs[0]).parent
                     if region["write"]["manifest"]["mode"] == "split" else Path(csvs[0]))
     reset = cfg.get("reset")
-    backend = backends.temporal_backend()
+    backend = backends.temporal_backend()   # replaced below by what actually ran
     # Temporal environment clauses are off by default. A contract's A is a conjunction of
     # INVARIANTS - propositional, no temporal operator - so a mined `op_a_i == 100 |-> ##40
     # operator_i == 2` cannot enter A, and on the benchmark that family was 310 of 325
     # assumption-side clauses: all true of the stimulus generator, none of them assumptions.
     # `temporal_assumptions: true` keeps them, as environment observations rather than A.
     if cfg.get("temporal_assumptions", False):
-        for text in _mine_temporal(region_trace, rows, inputs, grammar, horizon, workdir,
-                                   "assume", reset, cfg, region_corpus.runs):
+        mined, backend = _mine_temporal(region_trace, rows, inputs, grammar, horizon,
+                                        workdir, "assume", reset, cfg, region_corpus.runs)
+        for text in mined:
             candidates.append(Clause(text, "temporal", "assumption", backend,
                                      scope="episode"))
-    for text in _mine_temporal(region_trace, rows, inputs + outputs, grammar, horizon,
-                               workdir, "guarantee", reset, cfg, region_corpus.runs):
+    mined, backend = _mine_temporal(region_trace, rows, inputs + outputs, grammar, horizon,
+                                    workdir, "guarantee", reset, cfg, region_corpus.runs)
+    for text in mined:
         candidates.append(Clause(text, "temporal", "guarantee", backend, scope="episode"))
 
     contract = Contract(event=selection.event)
@@ -626,7 +681,7 @@ def mine(corpus, region, selection, cfg, workdir, holdout=None) -> Contract:
         "episodes": region["write"]["manifest"]["episodes"],
         "episode_samples": region["write"]["manifest"]["samples"],
         "episode_provenance_ok": region["write"]["manifest"]["provenance_ok"],
-        "temporal_backend": backends.temporal_backend(),
+        "temporal_backend": backend,          # what ran, not what was installed
         "propositional_backend": "in-process",
         "region_csvs": csvs[:8] + (["..."] if len(csvs) > 8 else []),
     }

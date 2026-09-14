@@ -7,7 +7,18 @@
    "template": "G1",
    "assumption_ids": [],
    "guarantee": "G((rst_n == 0) |-> (rd_data_o == 0))",
-   "props": [],
+   "props": [
+    {
+     "exp": "rst_n == 0",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "rd_data_o == 0",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
    "rationale": "asynchronous reset drives the register to its reset value in the same cycle"
   },
   {
@@ -19,7 +30,23 @@
     "A2"
    ],
    "guarantee": "G((wr_en_i == 1 && wr_data_i == 0) |=> (rd_data_o == 0))",
-   "props": [],
+   "props": [
+    {
+     "exp": "wr_en_i == 1",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "wr_data_i == 0",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "rd_data_o == 0",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
    "rationale": "a write of zero is visible on the read port one cycle later"
   },
   {
@@ -36,6 +63,16 @@
      "exp": "rd_data_o == 16777215",
      "loc": "c",
      "stage": "guarantee"
+    },
+    {
+     "exp": "wr_en_i == 1",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "wr_data_i == 16777215",
+     "loc": "a,dt",
+     "stage": "guarantee"
     }
    ],
    "rationale": "a write of all-ones is visible one cycle later"
@@ -49,37 +86,24 @@
     "A2"
    ],
    "guarantee": "G((wr_en_i == 1 && wr_data_i == 1) |=> (rd_data_o == 1))",
-   "props": [],
-   "rationale": "a write of one is visible one cycle later"
-  },
-  {
-   "id": "CSR5",
-   "kind": "result",
-   "template": "G1",
-   "assumption_ids": [
-    "A1"
-   ],
-   "guarantee": "G((rst_n == 1) |-> (rd_error_o == 0))",
-   "props": [],
-   "rationale": "with ShadowCopy disabled the error output is tied low"
-  },
-  {
-   "id": "CSR6",
-   "kind": "protocol",
-   "template": "G2",
-   "assumption_ids": [
-    "A1",
-    "A2"
-   ],
-   "guarantee": "G((wr_en_i == 1) |=> (rd_data_o <= 16777215))",
    "props": [
     {
-     "exp": "rd_data_o <= 16777215",
+     "exp": "wr_en_i == 1",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "wr_data_i == 1",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "rd_data_o == 1",
      "loc": "c",
      "stage": "guarantee"
     }
    ],
-   "rationale": "the read port never leaves the range the environment writes"
+   "rationale": "a write of one is visible one cycle later"
   }
  ],
  "out_of_grammar": [
@@ -100,6 +124,18 @@
    "assumption": "A: ",
    "guarantee": "G(rst_n == 0 |=> rd_data_o == 0)",
    "why_not_minable": "the guarantee is owed only if the environment issues no write in the cycle reset is released. That is an obligation over the NEXT sample, and an assumption made of invariants cannot constrain the future: an invariant restricts the sample it is evaluated at. CSR1 covers the same-cycle part of the reset behaviour"
+  },
+  {
+   "id": "CSR5",
+   "assumption": "A1",
+   "guarantee": "G((rst_n == 1) |-> (rd_error_o == 0))",
+   "why_not_minable": "the consequent `rd_error_o == 0` holds at every corpus position, so mining.domain_trivial drops the clause. The behaviour is still covered: the flow mines a strictly stronger clause that implies it"
+  },
+  {
+   "id": "CSR6",
+   "assumption": "A1 && A2",
+   "guarantee": "G((wr_en_i == 1) |=> (rd_data_o <= 16777215))",
+   "why_not_minable": "the consequent `rd_data_o <= 16777215` holds at every corpus position, so mining.domain_trivial drops the clause. The behaviour is still covered: the flow mines a tighter bound that implies it"
   }
  ],
  "assumptions": [

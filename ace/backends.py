@@ -11,8 +11,10 @@ is a thin wrapper around its command line, written against its actual interface:
   into propositions. Declaring a bitvector as `<prop>` silently gives a useless vocabulary.
 * `--dump-to <dir>` writes one file per context, named `<context>_ass.txt`.
 * `--reset <expr>` tells HARM which samples are a reset.
-* `atct`, `afct` and `traceLength` are the metric variables available in `<sort exp=...>`,
-  so smoothed recall needs no patched miner: `(atct+1)/(atct+afct+2)`.
+* `atct`, `atcf`, `afct`, ... and `traceLength` are the metric variables available in
+  `<sort exp=...>`, so the flow's smoothed recall needs no patched miner:
+  `(atct+1)/(atct+afct+2)`. HARM's cells are over samples and its `afct` is
+  antecedent-false -> consequent-true, the false negative; see SMOOTHED_RECALL below.
 
 Metrics are never read back from a backend: the flow scores clauses with its own evaluator,
 so that labeling, selection and held-out validation agree by construction.
@@ -25,14 +27,23 @@ mining a known property out of a generated trace.
 from __future__ import annotations
 
 import os
+import re
 import shutil
 import subprocess
 from pathlib import Path
 from xml.sax.saxutils import quoteattr
 
+_ANSI = re.compile(r"\x1b\[[0-9;]*m")
+
 ACEROOT = os.environ.get("ACEROOT")
 
-#: HARM accepts metric expressions in <sort>, so smoothed recall needs no patched miner.
+#: HARM accepts metric expressions in <sort>, so the flow's own statistic needs no patched
+#: miner. Written in HARM's vocabulary, where the contingency table is over SAMPLES and
+#: `afct` is antecedent-false -> consequent-true: the event happened and the antecedent did
+#: not predict it, i.e. the false negative. So this expression is a recall, the same
+#: statistic `triggers.smoothed_recall` computes over event occurrences. HARM's false
+#: positive is `atcf`, which is the cell that has no counterpart in an occurrence-indexed
+#: population - do not read `afct` here as `triggers.TriggerStats.cells["atcf"]`.
 SMOOTHED_RECALL = "(atct+1)/(atct+afct+2)"
 
 #: How HARM turns a bitvector into propositions. Same default as `harm --generate-config`.
@@ -97,6 +108,18 @@ def _env() -> dict:
     return env
 
 
+def last_message(exc, limit: int = 300) -> str:
+    """The informative part of a backend failure, for a one-line warning.
+
+    HARM prints a banner, a source location, the message and the formula it was parsing, and
+    ends with an ANSI reset - so the last line is useless and the two that matter are named.
+    """
+    lines = [line.strip() for line in _ANSI.sub("", str(exc)).splitlines() if line.strip()]
+    wanted = [line for line in lines
+              if line.startswith("Message:") or line.startswith("In formula:")]
+    return " ".join(wanted or lines[-1:])[:limit]
+
+
 def _run(command, cwd=None, timeout=3600):
     result = subprocess.run(command, shell=True, cwd=cwd, capture_output=True,
                             text=True, timeout=timeout, env=_env())
@@ -136,7 +159,9 @@ def harm_conf(templates, booleans=(), numerics=(), horizon=None,
         lines.append(f'\t\t<numeric clustering={quoteattr(clustering)} '
                      f'exp={quoteattr(signal)} loc={quoteattr(loc)}/>')
     for template in templates:
-        text = template.replace("H", str(horizon)) if horizon is not None else template
+        # \bH\b, not a bare replace: a template mentioning HREADY must survive
+        text = (re.sub(r"\bH\b", str(horizon), template) if horizon is not None
+                else template)
         lines.append(f'\t\t<template exp={quoteattr(text)} />')
     for name, exp in sorts:
         lines.append(f'\t\t<sort name={quoteattr(name)} exp={quoteattr(exp)}/>')
@@ -175,13 +200,14 @@ def harm(trace, conf, dump_to, reset=None, max_ass=None, min_frank=None,
             "HARM not found: set HARM_BIN to the binary or put `harm` on PATH "
             "(tools/install_harm.sh builds it; tools/check_harm.py verifies it)")
 
-    trace = Path(trace)
+    trace = Path(trace).resolve()
     flag = "--csv-dir" if trace.is_dir() else "--csv"
     dump_to = Path(dump_to)
     dump_to.mkdir(parents=True, exist_ok=True)
+    dump_to = dump_to.resolve()
 
-    options = [f'{flag} "{trace}"', f'--conf "{conf}"', f'--dump-to "{dump_to}"',
-               "--psilent", "--dont-print-ass"]
+    options = [f'{flag} "{trace}"', f'--conf "{Path(conf).resolve()}"',
+               f'--dump-to "{dump_to}"', "--psilent", "--dont-print-ass"]
     if reset:
         options.append(f"--reset {_quote(reset)}")
     if max_ass:
@@ -191,12 +217,18 @@ def harm(trace, conf, dump_to, reset=None, max_ass=None, min_frank=None,
     if extra:
         options.append(extra)
 
-    _run(f'"{binary}" ' + " ".join(options))
+    # HARM writes warning.log, error.log and gmon.out into its working directory; running it
+    # from the dump directory keeps those out of wherever the flow happened to be launched
+    _run(f'"{binary}" ' + " ".join(options), cwd=dump_to)
 
     mined = dump_to / f"{context}_ass.txt"
     if not mined.exists():
         return []
-    return [line.strip() for line in mined.read_text().splitlines() if line.strip()]
+    # sorted, because HARM's own order is not reproducible: it de-duplicates through an
+    # unordered_set of pointers and ranks with a non-stable sort over a frequently tied
+    # score. This pins the ORDER the flow sees, not the SET - two runs can still keep a
+    # different member of a group of equivalent clauses.
+    return sorted(line.strip() for line in mined.read_text().splitlines() if line.strip())
 
 
 def _quote(text: str) -> str:

@@ -1,0 +1,5 @@
+int A,int B,int A_greater,int A_equal,int A_less
+4,0,1,0,0
+2,4,0,0,1
+1,2,0,0,1
+7,4,1,0,0

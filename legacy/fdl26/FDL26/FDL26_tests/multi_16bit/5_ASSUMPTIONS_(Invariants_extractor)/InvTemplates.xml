@@ -1,15 +1,15 @@
 <config>
     <tpls>
-        <!--<temp name="P0&gt; 0"/>-->
-        <!--<temp name="P0&lt; 0"/>-->
-        <!--<temp name="P0&gt;=LOWERB"/>-->
-        <!--<temp name="P0&lt;=UPPERB"/>-->
+        <!--<temp name="P0> 0"/>-->
+        <!--<temp name="P0< 0"/>-->
+        <!--<temp name="P0>=LOWERB"/>-->
+        <!--<temp name="P0<=UPPERB"/>-->
         <!--<temp name="P0==P1"/>-->
         <!--<temp name="P0!=P1"/>-->
-        <!--<temp name="P0&lt;P1"/>-->
-        <!--<temp name="P0&gt;P1"/>-->
-        <!--<temp name="P0&lt;=P1"/>-->
-        <!--<temp name="P0&gt;=P1"/>-->
+        <!--<temp name="P0<P1"/>-->
+        <!--<temp name="P0>P1"/>-->
+        <!--<temp name="P0<=P1"/>-->
+        <!--<temp name="P0>=P1"/>-->
         <temp len="2" name="..##1.."/>
 
     </tpls>

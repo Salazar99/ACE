@@ -1,0 +1,21 @@
+[
+{
+"time" : "17:08:19",
+"message" : "right side of left bit shift is greater than left side size, got:235"
+}
+,
+{
+"time" : "17:18:56",
+"message" : "right side of left bit shift is greater than left side size, got:235"
+}
+,
+{
+"time" : "17:20:53",
+"message" : "right side of left bit shift is greater than left side size, got:235"
+}
+,
+{
+"time" : "17:21:54",
+"message" : "right side of left bit shift is greater than left side size, got:235"
+}
+]

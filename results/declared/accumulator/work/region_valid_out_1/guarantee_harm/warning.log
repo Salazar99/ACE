@@ -1,0 +1,17 @@
+[
+{
+"time" : "17:08:14",
+"message" : "Reset 'rst_n == 0' is not effective: there is a subtrace of size 1 at time 1682"}
+,
+{
+"time" : "17:18:48",
+"message" : "Reset 'rst_n == 0' is not effective: there is a subtrace of size 1 at time 1682"}
+,
+{
+"time" : "17:20:45",
+"message" : "Reset 'rst_n == 0' is not effective: there is a subtrace of size 1 at time 1682"}
+,
+{
+"time" : "17:21:46",
+"message" : "Reset 'rst_n == 0' is not effective: there is a subtrace of size 1 at time 1682"}
+]

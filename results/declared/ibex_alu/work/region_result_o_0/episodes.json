@@ -1,0 +1,1736 @@
+{
+ "mode": "split",
+ "episodes": 288,
+ "samples": 1362,
+ "provenance_ok": true,
+ "windows": [
+  {
+   "csv": "episode_00000.csv",
+   "run": "mine_seed001",
+   "lo": 3,
+   "hi": 10
+  },
+  {
+   "csv": "episode_00001.csv",
+   "run": "mine_seed001",
+   "lo": 16,
+   "hi": 19
+  },
+  {
+   "csv": "episode_00002.csv",
+   "run": "mine_seed001",
+   "lo": 25,
+   "hi": 28
+  },
+  {
+   "csv": "episode_00003.csv",
+   "run": "mine_seed001",
+   "lo": 34,
+   "hi": 39
+  },
+  {
+   "csv": "episode_00004.csv",
+   "run": "mine_seed001",
+   "lo": 43,
+   "hi": 48
+  },
+  {
+   "csv": "episode_00005.csv",
+   "run": "mine_seed001",
+   "lo": 52,
+   "hi": 57
+  },
+  {
+   "csv": "episode_00006.csv",
+   "run": "mine_seed001",
+   "lo": 61,
+   "hi": 66
+  },
+  {
+   "csv": "episode_00007.csv",
+   "run": "mine_seed001",
+   "lo": 70,
+   "hi": 73
+  },
+  {
+   "csv": "episode_00008.csv",
+   "run": "mine_seed001",
+   "lo": 79,
+   "hi": 82
+  },
+  {
+   "csv": "episode_00009.csv",
+   "run": "mine_seed001",
+   "lo": 84,
+   "hi": 87
+  },
+  {
+   "csv": "episode_00010.csv",
+   "run": "mine_seed001",
+   "lo": 90,
+   "hi": 96
+  },
+  {
+   "csv": "episode_00011.csv",
+   "run": "mine_seed001",
+   "lo": 99,
+   "hi": 102
+  },
+  {
+   "csv": "episode_00012.csv",
+   "run": "mine_seed001",
+   "lo": 108,
+   "hi": 118
+  },
+  {
+   "csv": "episode_00013.csv",
+   "run": "mine_seed001",
+   "lo": 124,
+   "hi": 129
+  },
+  {
+   "csv": "episode_00014.csv",
+   "run": "mine_seed001",
+   "lo": 133,
+   "hi": 138
+  },
+  {
+   "csv": "episode_00015.csv",
+   "run": "mine_seed001",
+   "lo": 142,
+   "hi": 145
+  },
+  {
+   "csv": "episode_00016.csv",
+   "run": "mine_seed001",
+   "lo": 151,
+   "hi": 154
+  },
+  {
+   "csv": "episode_00017.csv",
+   "run": "mine_seed001",
+   "lo": 167,
+   "hi": 170
+  },
+  {
+   "csv": "episode_00018.csv",
+   "run": "mine_seed001",
+   "lo": 195,
+   "hi": 200
+  },
+  {
+   "csv": "episode_00019.csv",
+   "run": "mine_seed001",
+   "lo": 240,
+   "hi": 243
+  },
+  {
+   "csv": "episode_00020.csv",
+   "run": "mine_seed001",
+   "lo": 324,
+   "hi": 327
+  },
+  {
+   "csv": "episode_00021.csv",
+   "run": "mine_seed001",
+   "lo": 334,
+   "hi": 337
+  },
+  {
+   "csv": "episode_00022.csv",
+   "run": "mine_seed001",
+   "lo": 377,
+   "hi": 380
+  },
+  {
+   "csv": "episode_00023.csv",
+   "run": "mine_seed001",
+   "lo": 400,
+   "hi": 403
+  },
+  {
+   "csv": "episode_00024.csv",
+   "run": "mine_seed001",
+   "lo": 450,
+   "hi": 453
+  },
+  {
+   "csv": "episode_00025.csv",
+   "run": "mine_seed001",
+   "lo": 465,
+   "hi": 468
+  },
+  {
+   "csv": "episode_00026.csv",
+   "run": "mine_seed001",
+   "lo": 508,
+   "hi": 511
+  },
+  {
+   "csv": "episode_00027.csv",
+   "run": "mine_seed001",
+   "lo": 520,
+   "hi": 523
+  },
+  {
+   "csv": "episode_00028.csv",
+   "run": "mine_seed001",
+   "lo": 555,
+   "hi": 558
+  },
+  {
+   "csv": "episode_00029.csv",
+   "run": "mine_seed001",
+   "lo": 565,
+   "hi": 568
+  },
+  {
+   "csv": "episode_00030.csv",
+   "run": "mine_seed001",
+   "lo": 600,
+   "hi": 603
+  },
+  {
+   "csv": "episode_00031.csv",
+   "run": "mine_seed001",
+   "lo": 606,
+   "hi": 609
+  },
+  {
+   "csv": "episode_00032.csv",
+   "run": "mine_seed001",
+   "lo": 619,
+   "hi": 622
+  },
+  {
+   "csv": "episode_00033.csv",
+   "run": "mine_seed001",
+   "lo": 664,
+   "hi": 667
+  },
+  {
+   "csv": "episode_00034.csv",
+   "run": "mine_seed001",
+   "lo": 676,
+   "hi": 679
+  },
+  {
+   "csv": "episode_00035.csv",
+   "run": "mine_seed001",
+   "lo": 682,
+   "hi": 685
+  },
+  {
+   "csv": "episode_00036.csv",
+   "run": "mine_seed001",
+   "lo": 700,
+   "hi": 703
+  },
+  {
+   "csv": "episode_00037.csv",
+   "run": "mine_seed001",
+   "lo": 717,
+   "hi": 720
+  },
+  {
+   "csv": "episode_00038.csv",
+   "run": "mine_seed001",
+   "lo": 734,
+   "hi": 737
+  },
+  {
+   "csv": "episode_00039.csv",
+   "run": "mine_seed001",
+   "lo": 770,
+   "hi": 773
+  },
+  {
+   "csv": "episode_00040.csv",
+   "run": "mine_seed001",
+   "lo": 782,
+   "hi": 785
+  },
+  {
+   "csv": "episode_00041.csv",
+   "run": "mine_seed001",
+   "lo": 791,
+   "hi": 798
+  },
+  {
+   "csv": "episode_00042.csv",
+   "run": "mine_seed001",
+   "lo": 856,
+   "hi": 859
+  },
+  {
+   "csv": "episode_00043.csv",
+   "run": "mine_seed001",
+   "lo": 870,
+   "hi": 873
+  },
+  {
+   "csv": "episode_00044.csv",
+   "run": "mine_seed001",
+   "lo": 904,
+   "hi": 907
+  },
+  {
+   "csv": "episode_00045.csv",
+   "run": "mine_seed001",
+   "lo": 915,
+   "hi": 918
+  },
+  {
+   "csv": "episode_00046.csv",
+   "run": "mine_seed001",
+   "lo": 920,
+   "hi": 923
+  },
+  {
+   "csv": "episode_00047.csv",
+   "run": "mine_seed001",
+   "lo": 950,
+   "hi": 955
+  },
+  {
+   "csv": "episode_00048.csv",
+   "run": "mine_seed001",
+   "lo": 986,
+   "hi": 989
+  },
+  {
+   "csv": "episode_00049.csv",
+   "run": "mine_seed001",
+   "lo": 1002,
+   "hi": 1005
+  },
+  {
+   "csv": "episode_00050.csv",
+   "run": "mine_seed001",
+   "lo": 1019,
+   "hi": 1022
+  },
+  {
+   "csv": "episode_00051.csv",
+   "run": "mine_seed001",
+   "lo": 1027,
+   "hi": 1030
+  },
+  {
+   "csv": "episode_00052.csv",
+   "run": "mine_seed001",
+   "lo": 1049,
+   "hi": 1052
+  },
+  {
+   "csv": "episode_00053.csv",
+   "run": "mine_seed001",
+   "lo": 1063,
+   "hi": 1066
+  },
+  {
+   "csv": "episode_00054.csv",
+   "run": "mine_seed001",
+   "lo": 1120,
+   "hi": 1125
+  },
+  {
+   "csv": "episode_00055.csv",
+   "run": "mine_seed001",
+   "lo": 1170,
+   "hi": 1173
+  },
+  {
+   "csv": "episode_00056.csv",
+   "run": "mine_seed001",
+   "lo": 1175,
+   "hi": 1178
+  },
+  {
+   "csv": "episode_00057.csv",
+   "run": "mine_seed001",
+   "lo": 1182,
+   "hi": 1185
+  },
+  {
+   "csv": "episode_00058.csv",
+   "run": "mine_seed002",
+   "lo": 3,
+   "hi": 10
+  },
+  {
+   "csv": "episode_00059.csv",
+   "run": "mine_seed002",
+   "lo": 16,
+   "hi": 19
+  },
+  {
+   "csv": "episode_00060.csv",
+   "run": "mine_seed002",
+   "lo": 25,
+   "hi": 28
+  },
+  {
+   "csv": "episode_00061.csv",
+   "run": "mine_seed002",
+   "lo": 34,
+   "hi": 39
+  },
+  {
+   "csv": "episode_00062.csv",
+   "run": "mine_seed002",
+   "lo": 43,
+   "hi": 48
+  },
+  {
+   "csv": "episode_00063.csv",
+   "run": "mine_seed002",
+   "lo": 52,
+   "hi": 57
+  },
+  {
+   "csv": "episode_00064.csv",
+   "run": "mine_seed002",
+   "lo": 61,
+   "hi": 66
+  },
+  {
+   "csv": "episode_00065.csv",
+   "run": "mine_seed002",
+   "lo": 70,
+   "hi": 73
+  },
+  {
+   "csv": "episode_00066.csv",
+   "run": "mine_seed002",
+   "lo": 79,
+   "hi": 82
+  },
+  {
+   "csv": "episode_00067.csv",
+   "run": "mine_seed002",
+   "lo": 84,
+   "hi": 87
+  },
+  {
+   "csv": "episode_00068.csv",
+   "run": "mine_seed002",
+   "lo": 90,
+   "hi": 96
+  },
+  {
+   "csv": "episode_00069.csv",
+   "run": "mine_seed002",
+   "lo": 99,
+   "hi": 102
+  },
+  {
+   "csv": "episode_00070.csv",
+   "run": "mine_seed002",
+   "lo": 108,
+   "hi": 118
+  },
+  {
+   "csv": "episode_00071.csv",
+   "run": "mine_seed002",
+   "lo": 124,
+   "hi": 129
+  },
+  {
+   "csv": "episode_00072.csv",
+   "run": "mine_seed002",
+   "lo": 133,
+   "hi": 138
+  },
+  {
+   "csv": "episode_00073.csv",
+   "run": "mine_seed002",
+   "lo": 142,
+   "hi": 145
+  },
+  {
+   "csv": "episode_00074.csv",
+   "run": "mine_seed002",
+   "lo": 151,
+   "hi": 154
+  },
+  {
+   "csv": "episode_00075.csv",
+   "run": "mine_seed002",
+   "lo": 182,
+   "hi": 189
+  },
+  {
+   "csv": "episode_00076.csv",
+   "run": "mine_seed002",
+   "lo": 204,
+   "hi": 207
+  },
+  {
+   "csv": "episode_00077.csv",
+   "run": "mine_seed002",
+   "lo": 216,
+   "hi": 219
+  },
+  {
+   "csv": "episode_00078.csv",
+   "run": "mine_seed002",
+   "lo": 222,
+   "hi": 228
+  },
+  {
+   "csv": "episode_00079.csv",
+   "run": "mine_seed002",
+   "lo": 270,
+   "hi": 273
+  },
+  {
+   "csv": "episode_00080.csv",
+   "run": "mine_seed002",
+   "lo": 279,
+   "hi": 282
+  },
+  {
+   "csv": "episode_00081.csv",
+   "run": "mine_seed002",
+   "lo": 285,
+   "hi": 288
+  },
+  {
+   "csv": "episode_00082.csv",
+   "run": "mine_seed002",
+   "lo": 313,
+   "hi": 316
+  },
+  {
+   "csv": "episode_00083.csv",
+   "run": "mine_seed002",
+   "lo": 325,
+   "hi": 330
+  },
+  {
+   "csv": "episode_00084.csv",
+   "run": "mine_seed002",
+   "lo": 334,
+   "hi": 337
+  },
+  {
+   "csv": "episode_00085.csv",
+   "run": "mine_seed002",
+   "lo": 340,
+   "hi": 343
+  },
+  {
+   "csv": "episode_00086.csv",
+   "run": "mine_seed002",
+   "lo": 363,
+   "hi": 366
+  },
+  {
+   "csv": "episode_00087.csv",
+   "run": "mine_seed002",
+   "lo": 377,
+   "hi": 382
+  },
+  {
+   "csv": "episode_00088.csv",
+   "run": "mine_seed002",
+   "lo": 397,
+   "hi": 404
+  },
+  {
+   "csv": "episode_00089.csv",
+   "run": "mine_seed002",
+   "lo": 407,
+   "hi": 410
+  },
+  {
+   "csv": "episode_00090.csv",
+   "run": "mine_seed002",
+   "lo": 426,
+   "hi": 429
+  },
+  {
+   "csv": "episode_00091.csv",
+   "run": "mine_seed002",
+   "lo": 433,
+   "hi": 436
+  },
+  {
+   "csv": "episode_00092.csv",
+   "run": "mine_seed002",
+   "lo": 441,
+   "hi": 444
+  },
+  {
+   "csv": "episode_00093.csv",
+   "run": "mine_seed002",
+   "lo": 528,
+   "hi": 531
+  },
+  {
+   "csv": "episode_00094.csv",
+   "run": "mine_seed002",
+   "lo": 555,
+   "hi": 558
+  },
+  {
+   "csv": "episode_00095.csv",
+   "run": "mine_seed002",
+   "lo": 581,
+   "hi": 584
+  },
+  {
+   "csv": "episode_00096.csv",
+   "run": "mine_seed002",
+   "lo": 595,
+   "hi": 598
+  },
+  {
+   "csv": "episode_00097.csv",
+   "run": "mine_seed002",
+   "lo": 606,
+   "hi": 609
+  },
+  {
+   "csv": "episode_00098.csv",
+   "run": "mine_seed002",
+   "lo": 611,
+   "hi": 614
+  },
+  {
+   "csv": "episode_00099.csv",
+   "run": "mine_seed002",
+   "lo": 659,
+   "hi": 665
+  },
+  {
+   "csv": "episode_00100.csv",
+   "run": "mine_seed002",
+   "lo": 667,
+   "hi": 674
+  },
+  {
+   "csv": "episode_00101.csv",
+   "run": "mine_seed002",
+   "lo": 689,
+   "hi": 695
+  },
+  {
+   "csv": "episode_00102.csv",
+   "run": "mine_seed002",
+   "lo": 707,
+   "hi": 710
+  },
+  {
+   "csv": "episode_00103.csv",
+   "run": "mine_seed002",
+   "lo": 720,
+   "hi": 723
+  },
+  {
+   "csv": "episode_00104.csv",
+   "run": "mine_seed002",
+   "lo": 728,
+   "hi": 731
+  },
+  {
+   "csv": "episode_00105.csv",
+   "run": "mine_seed002",
+   "lo": 746,
+   "hi": 749
+  },
+  {
+   "csv": "episode_00106.csv",
+   "run": "mine_seed002",
+   "lo": 781,
+   "hi": 784
+  },
+  {
+   "csv": "episode_00107.csv",
+   "run": "mine_seed002",
+   "lo": 811,
+   "hi": 814
+  },
+  {
+   "csv": "episode_00108.csv",
+   "run": "mine_seed002",
+   "lo": 864,
+   "hi": 867
+  },
+  {
+   "csv": "episode_00109.csv",
+   "run": "mine_seed002",
+   "lo": 878,
+   "hi": 881
+  },
+  {
+   "csv": "episode_00110.csv",
+   "run": "mine_seed002",
+   "lo": 886,
+   "hi": 889
+  },
+  {
+   "csv": "episode_00111.csv",
+   "run": "mine_seed002",
+   "lo": 914,
+   "hi": 917
+  },
+  {
+   "csv": "episode_00112.csv",
+   "run": "mine_seed002",
+   "lo": 939,
+   "hi": 942
+  },
+  {
+   "csv": "episode_00113.csv",
+   "run": "mine_seed002",
+   "lo": 948,
+   "hi": 951
+  },
+  {
+   "csv": "episode_00114.csv",
+   "run": "mine_seed002",
+   "lo": 992,
+   "hi": 995
+  },
+  {
+   "csv": "episode_00115.csv",
+   "run": "mine_seed002",
+   "lo": 1006,
+   "hi": 1009
+  },
+  {
+   "csv": "episode_00116.csv",
+   "run": "mine_seed002",
+   "lo": 1023,
+   "hi": 1026
+  },
+  {
+   "csv": "episode_00117.csv",
+   "run": "mine_seed002",
+   "lo": 1083,
+   "hi": 1086
+  },
+  {
+   "csv": "episode_00118.csv",
+   "run": "mine_seed002",
+   "lo": 1105,
+   "hi": 1108
+  },
+  {
+   "csv": "episode_00119.csv",
+   "run": "mine_seed002",
+   "lo": 1118,
+   "hi": 1121
+  },
+  {
+   "csv": "episode_00120.csv",
+   "run": "mine_seed002",
+   "lo": 1128,
+   "hi": 1137
+  },
+  {
+   "csv": "episode_00121.csv",
+   "run": "mine_seed002",
+   "lo": 1155,
+   "hi": 1160
+  },
+  {
+   "csv": "episode_00122.csv",
+   "run": "mine_seed002",
+   "lo": 1164,
+   "hi": 1167
+  },
+  {
+   "csv": "episode_00123.csv",
+   "run": "mine_seed003",
+   "lo": 3,
+   "hi": 10
+  },
+  {
+   "csv": "episode_00124.csv",
+   "run": "mine_seed003",
+   "lo": 16,
+   "hi": 19
+  },
+  {
+   "csv": "episode_00125.csv",
+   "run": "mine_seed003",
+   "lo": 25,
+   "hi": 28
+  },
+  {
+   "csv": "episode_00126.csv",
+   "run": "mine_seed003",
+   "lo": 34,
+   "hi": 39
+  },
+  {
+   "csv": "episode_00127.csv",
+   "run": "mine_seed003",
+   "lo": 43,
+   "hi": 48
+  },
+  {
+   "csv": "episode_00128.csv",
+   "run": "mine_seed003",
+   "lo": 52,
+   "hi": 57
+  },
+  {
+   "csv": "episode_00129.csv",
+   "run": "mine_seed003",
+   "lo": 61,
+   "hi": 66
+  },
+  {
+   "csv": "episode_00130.csv",
+   "run": "mine_seed003",
+   "lo": 70,
+   "hi": 73
+  },
+  {
+   "csv": "episode_00131.csv",
+   "run": "mine_seed003",
+   "lo": 79,
+   "hi": 82
+  },
+  {
+   "csv": "episode_00132.csv",
+   "run": "mine_seed003",
+   "lo": 84,
+   "hi": 87
+  },
+  {
+   "csv": "episode_00133.csv",
+   "run": "mine_seed003",
+   "lo": 90,
+   "hi": 96
+  },
+  {
+   "csv": "episode_00134.csv",
+   "run": "mine_seed003",
+   "lo": 99,
+   "hi": 102
+  },
+  {
+   "csv": "episode_00135.csv",
+   "run": "mine_seed003",
+   "lo": 108,
+   "hi": 118
+  },
+  {
+   "csv": "episode_00136.csv",
+   "run": "mine_seed003",
+   "lo": 124,
+   "hi": 129
+  },
+  {
+   "csv": "episode_00137.csv",
+   "run": "mine_seed003",
+   "lo": 133,
+   "hi": 138
+  },
+  {
+   "csv": "episode_00138.csv",
+   "run": "mine_seed003",
+   "lo": 142,
+   "hi": 145
+  },
+  {
+   "csv": "episode_00139.csv",
+   "run": "mine_seed003",
+   "lo": 151,
+   "hi": 154
+  },
+  {
+   "csv": "episode_00140.csv",
+   "run": "mine_seed003",
+   "lo": 172,
+   "hi": 175
+  },
+  {
+   "csv": "episode_00141.csv",
+   "run": "mine_seed003",
+   "lo": 187,
+   "hi": 190
+  },
+  {
+   "csv": "episode_00142.csv",
+   "run": "mine_seed003",
+   "lo": 205,
+   "hi": 213
+  },
+  {
+   "csv": "episode_00143.csv",
+   "run": "mine_seed003",
+   "lo": 222,
+   "hi": 225
+  },
+  {
+   "csv": "episode_00144.csv",
+   "run": "mine_seed003",
+   "lo": 291,
+   "hi": 296
+  },
+  {
+   "csv": "episode_00145.csv",
+   "run": "mine_seed003",
+   "lo": 301,
+   "hi": 304
+  },
+  {
+   "csv": "episode_00146.csv",
+   "run": "mine_seed003",
+   "lo": 308,
+   "hi": 311
+  },
+  {
+   "csv": "episode_00147.csv",
+   "run": "mine_seed003",
+   "lo": 316,
+   "hi": 319
+  },
+  {
+   "csv": "episode_00148.csv",
+   "run": "mine_seed003",
+   "lo": 345,
+   "hi": 348
+  },
+  {
+   "csv": "episode_00149.csv",
+   "run": "mine_seed003",
+   "lo": 400,
+   "hi": 403
+  },
+  {
+   "csv": "episode_00150.csv",
+   "run": "mine_seed003",
+   "lo": 407,
+   "hi": 410
+  },
+  {
+   "csv": "episode_00151.csv",
+   "run": "mine_seed003",
+   "lo": 442,
+   "hi": 449
+  },
+  {
+   "csv": "episode_00152.csv",
+   "run": "mine_seed003",
+   "lo": 555,
+   "hi": 558
+  },
+  {
+   "csv": "episode_00153.csv",
+   "run": "mine_seed003",
+   "lo": 562,
+   "hi": 565
+  },
+  {
+   "csv": "episode_00154.csv",
+   "run": "mine_seed003",
+   "lo": 585,
+   "hi": 588
+  },
+  {
+   "csv": "episode_00155.csv",
+   "run": "mine_seed003",
+   "lo": 595,
+   "hi": 598
+  },
+  {
+   "csv": "episode_00156.csv",
+   "run": "mine_seed003",
+   "lo": 611,
+   "hi": 614
+  },
+  {
+   "csv": "episode_00157.csv",
+   "run": "mine_seed003",
+   "lo": 634,
+   "hi": 640
+  },
+  {
+   "csv": "episode_00158.csv",
+   "run": "mine_seed003",
+   "lo": 648,
+   "hi": 651
+  },
+  {
+   "csv": "episode_00159.csv",
+   "run": "mine_seed003",
+   "lo": 670,
+   "hi": 676
+  },
+  {
+   "csv": "episode_00160.csv",
+   "run": "mine_seed003",
+   "lo": 686,
+   "hi": 689
+  },
+  {
+   "csv": "episode_00161.csv",
+   "run": "mine_seed003",
+   "lo": 698,
+   "hi": 701
+  },
+  {
+   "csv": "episode_00162.csv",
+   "run": "mine_seed003",
+   "lo": 725,
+   "hi": 728
+  },
+  {
+   "csv": "episode_00163.csv",
+   "run": "mine_seed003",
+   "lo": 773,
+   "hi": 776
+  },
+  {
+   "csv": "episode_00164.csv",
+   "run": "mine_seed003",
+   "lo": 781,
+   "hi": 784
+  },
+  {
+   "csv": "episode_00165.csv",
+   "run": "mine_seed003",
+   "lo": 835,
+   "hi": 838
+  },
+  {
+   "csv": "episode_00166.csv",
+   "run": "mine_seed003",
+   "lo": 852,
+   "hi": 855
+  },
+  {
+   "csv": "episode_00167.csv",
+   "run": "mine_seed003",
+   "lo": 867,
+   "hi": 874
+  },
+  {
+   "csv": "episode_00168.csv",
+   "run": "mine_seed003",
+   "lo": 905,
+   "hi": 908
+  },
+  {
+   "csv": "episode_00169.csv",
+   "run": "mine_seed003",
+   "lo": 943,
+   "hi": 946
+  },
+  {
+   "csv": "episode_00170.csv",
+   "run": "mine_seed003",
+   "lo": 962,
+   "hi": 965
+  },
+  {
+   "csv": "episode_00171.csv",
+   "run": "mine_seed003",
+   "lo": 1036,
+   "hi": 1039
+  },
+  {
+   "csv": "episode_00172.csv",
+   "run": "mine_seed003",
+   "lo": 1052,
+   "hi": 1055
+  },
+  {
+   "csv": "episode_00173.csv",
+   "run": "mine_seed003",
+   "lo": 1074,
+   "hi": 1077
+  },
+  {
+   "csv": "episode_00174.csv",
+   "run": "mine_seed003",
+   "lo": 1080,
+   "hi": 1083
+  },
+  {
+   "csv": "episode_00175.csv",
+   "run": "mine_seed003",
+   "lo": 1125,
+   "hi": 1128
+  },
+  {
+   "csv": "episode_00176.csv",
+   "run": "mine_seed003",
+   "lo": 1132,
+   "hi": 1135
+  },
+  {
+   "csv": "episode_00177.csv",
+   "run": "mine_seed003",
+   "lo": 1142,
+   "hi": 1145
+  },
+  {
+   "csv": "episode_00178.csv",
+   "run": "mine_seed003",
+   "lo": 1156,
+   "hi": 1159
+  },
+  {
+   "csv": "episode_00179.csv",
+   "run": "mine_seed003",
+   "lo": 1184,
+   "hi": 1187
+  },
+  {
+   "csv": "episode_00180.csv",
+   "run": "mine_seed004",
+   "lo": 3,
+   "hi": 10
+  },
+  {
+   "csv": "episode_00181.csv",
+   "run": "mine_seed004",
+   "lo": 16,
+   "hi": 19
+  },
+  {
+   "csv": "episode_00182.csv",
+   "run": "mine_seed004",
+   "lo": 25,
+   "hi": 28
+  },
+  {
+   "csv": "episode_00183.csv",
+   "run": "mine_seed004",
+   "lo": 34,
+   "hi": 39
+  },
+  {
+   "csv": "episode_00184.csv",
+   "run": "mine_seed004",
+   "lo": 43,
+   "hi": 48
+  },
+  {
+   "csv": "episode_00185.csv",
+   "run": "mine_seed004",
+   "lo": 52,
+   "hi": 57
+  },
+  {
+   "csv": "episode_00186.csv",
+   "run": "mine_seed004",
+   "lo": 61,
+   "hi": 66
+  },
+  {
+   "csv": "episode_00187.csv",
+   "run": "mine_seed004",
+   "lo": 70,
+   "hi": 73
+  },
+  {
+   "csv": "episode_00188.csv",
+   "run": "mine_seed004",
+   "lo": 79,
+   "hi": 82
+  },
+  {
+   "csv": "episode_00189.csv",
+   "run": "mine_seed004",
+   "lo": 84,
+   "hi": 87
+  },
+  {
+   "csv": "episode_00190.csv",
+   "run": "mine_seed004",
+   "lo": 90,
+   "hi": 96
+  },
+  {
+   "csv": "episode_00191.csv",
+   "run": "mine_seed004",
+   "lo": 99,
+   "hi": 102
+  },
+  {
+   "csv": "episode_00192.csv",
+   "run": "mine_seed004",
+   "lo": 108,
+   "hi": 118
+  },
+  {
+   "csv": "episode_00193.csv",
+   "run": "mine_seed004",
+   "lo": 124,
+   "hi": 129
+  },
+  {
+   "csv": "episode_00194.csv",
+   "run": "mine_seed004",
+   "lo": 133,
+   "hi": 138
+  },
+  {
+   "csv": "episode_00195.csv",
+   "run": "mine_seed004",
+   "lo": 142,
+   "hi": 145
+  },
+  {
+   "csv": "episode_00196.csv",
+   "run": "mine_seed004",
+   "lo": 151,
+   "hi": 154
+  },
+  {
+   "csv": "episode_00197.csv",
+   "run": "mine_seed004",
+   "lo": 173,
+   "hi": 176
+  },
+  {
+   "csv": "episode_00198.csv",
+   "run": "mine_seed004",
+   "lo": 183,
+   "hi": 186
+  },
+  {
+   "csv": "episode_00199.csv",
+   "run": "mine_seed004",
+   "lo": 207,
+   "hi": 210
+  },
+  {
+   "csv": "episode_00200.csv",
+   "run": "mine_seed004",
+   "lo": 222,
+   "hi": 229
+  },
+  {
+   "csv": "episode_00201.csv",
+   "run": "mine_seed004",
+   "lo": 232,
+   "hi": 235
+  },
+  {
+   "csv": "episode_00202.csv",
+   "run": "mine_seed004",
+   "lo": 273,
+   "hi": 276
+  },
+  {
+   "csv": "episode_00203.csv",
+   "run": "mine_seed004",
+   "lo": 286,
+   "hi": 289
+  },
+  {
+   "csv": "episode_00204.csv",
+   "run": "mine_seed004",
+   "lo": 302,
+   "hi": 307
+  },
+  {
+   "csv": "episode_00205.csv",
+   "run": "mine_seed004",
+   "lo": 323,
+   "hi": 326
+  },
+  {
+   "csv": "episode_00206.csv",
+   "run": "mine_seed004",
+   "lo": 382,
+   "hi": 385
+  },
+  {
+   "csv": "episode_00207.csv",
+   "run": "mine_seed004",
+   "lo": 396,
+   "hi": 399
+  },
+  {
+   "csv": "episode_00208.csv",
+   "run": "mine_seed004",
+   "lo": 490,
+   "hi": 493
+  },
+  {
+   "csv": "episode_00209.csv",
+   "run": "mine_seed004",
+   "lo": 499,
+   "hi": 502
+  },
+  {
+   "csv": "episode_00210.csv",
+   "run": "mine_seed004",
+   "lo": 514,
+   "hi": 517
+  },
+  {
+   "csv": "episode_00211.csv",
+   "run": "mine_seed004",
+   "lo": 522,
+   "hi": 525
+  },
+  {
+   "csv": "episode_00212.csv",
+   "run": "mine_seed004",
+   "lo": 537,
+   "hi": 540
+  },
+  {
+   "csv": "episode_00213.csv",
+   "run": "mine_seed004",
+   "lo": 548,
+   "hi": 551
+  },
+  {
+   "csv": "episode_00214.csv",
+   "run": "mine_seed004",
+   "lo": 575,
+   "hi": 578
+  },
+  {
+   "csv": "episode_00215.csv",
+   "run": "mine_seed004",
+   "lo": 632,
+   "hi": 635
+  },
+  {
+   "csv": "episode_00216.csv",
+   "run": "mine_seed004",
+   "lo": 645,
+   "hi": 648
+  },
+  {
+   "csv": "episode_00217.csv",
+   "run": "mine_seed004",
+   "lo": 658,
+   "hi": 661
+  },
+  {
+   "csv": "episode_00218.csv",
+   "run": "mine_seed004",
+   "lo": 666,
+   "hi": 669
+  },
+  {
+   "csv": "episode_00219.csv",
+   "run": "mine_seed004",
+   "lo": 699,
+   "hi": 702
+  },
+  {
+   "csv": "episode_00220.csv",
+   "run": "mine_seed004",
+   "lo": 709,
+   "hi": 712
+  },
+  {
+   "csv": "episode_00221.csv",
+   "run": "mine_seed004",
+   "lo": 743,
+   "hi": 746
+  },
+  {
+   "csv": "episode_00222.csv",
+   "run": "mine_seed004",
+   "lo": 759,
+   "hi": 762
+  },
+  {
+   "csv": "episode_00223.csv",
+   "run": "mine_seed004",
+   "lo": 797,
+   "hi": 800
+  },
+  {
+   "csv": "episode_00224.csv",
+   "run": "mine_seed004",
+   "lo": 830,
+   "hi": 833
+  },
+  {
+   "csv": "episode_00225.csv",
+   "run": "mine_seed004",
+   "lo": 852,
+   "hi": 855
+  },
+  {
+   "csv": "episode_00226.csv",
+   "run": "mine_seed004",
+   "lo": 874,
+   "hi": 877
+  },
+  {
+   "csv": "episode_00227.csv",
+   "run": "mine_seed004",
+   "lo": 961,
+   "hi": 964
+  },
+  {
+   "csv": "episode_00228.csv",
+   "run": "mine_seed004",
+   "lo": 1092,
+   "hi": 1095
+  },
+  {
+   "csv": "episode_00229.csv",
+   "run": "mine_seed004",
+   "lo": 1139,
+   "hi": 1142
+  },
+  {
+   "csv": "episode_00230.csv",
+   "run": "mine_seed004",
+   "lo": 1158,
+   "hi": 1161
+  },
+  {
+   "csv": "episode_00231.csv",
+   "run": "mine_seed004",
+   "lo": 1163,
+   "hi": 1166
+  },
+  {
+   "csv": "episode_00232.csv",
+   "run": "mine_seed004",
+   "lo": 1197,
+   "hi": 1199
+  },
+  {
+   "csv": "episode_00233.csv",
+   "run": "mine_seed005",
+   "lo": 3,
+   "hi": 10
+  },
+  {
+   "csv": "episode_00234.csv",
+   "run": "mine_seed005",
+   "lo": 16,
+   "hi": 19
+  },
+  {
+   "csv": "episode_00235.csv",
+   "run": "mine_seed005",
+   "lo": 25,
+   "hi": 28
+  },
+  {
+   "csv": "episode_00236.csv",
+   "run": "mine_seed005",
+   "lo": 34,
+   "hi": 39
+  },
+  {
+   "csv": "episode_00237.csv",
+   "run": "mine_seed005",
+   "lo": 43,
+   "hi": 48
+  },
+  {
+   "csv": "episode_00238.csv",
+   "run": "mine_seed005",
+   "lo": 52,
+   "hi": 57
+  },
+  {
+   "csv": "episode_00239.csv",
+   "run": "mine_seed005",
+   "lo": 61,
+   "hi": 66
+  },
+  {
+   "csv": "episode_00240.csv",
+   "run": "mine_seed005",
+   "lo": 70,
+   "hi": 73
+  },
+  {
+   "csv": "episode_00241.csv",
+   "run": "mine_seed005",
+   "lo": 79,
+   "hi": 82
+  },
+  {
+   "csv": "episode_00242.csv",
+   "run": "mine_seed005",
+   "lo": 84,
+   "hi": 87
+  },
+  {
+   "csv": "episode_00243.csv",
+   "run": "mine_seed005",
+   "lo": 90,
+   "hi": 96
+  },
+  {
+   "csv": "episode_00244.csv",
+   "run": "mine_seed005",
+   "lo": 99,
+   "hi": 102
+  },
+  {
+   "csv": "episode_00245.csv",
+   "run": "mine_seed005",
+   "lo": 108,
+   "hi": 118
+  },
+  {
+   "csv": "episode_00246.csv",
+   "run": "mine_seed005",
+   "lo": 124,
+   "hi": 129
+  },
+  {
+   "csv": "episode_00247.csv",
+   "run": "mine_seed005",
+   "lo": 133,
+   "hi": 138
+  },
+  {
+   "csv": "episode_00248.csv",
+   "run": "mine_seed005",
+   "lo": 142,
+   "hi": 145
+  },
+  {
+   "csv": "episode_00249.csv",
+   "run": "mine_seed005",
+   "lo": 151,
+   "hi": 154
+  },
+  {
+   "csv": "episode_00250.csv",
+   "run": "mine_seed005",
+   "lo": 164,
+   "hi": 167
+  },
+  {
+   "csv": "episode_00251.csv",
+   "run": "mine_seed005",
+   "lo": 183,
+   "hi": 186
+  },
+  {
+   "csv": "episode_00252.csv",
+   "run": "mine_seed005",
+   "lo": 195,
+   "hi": 200
+  },
+  {
+   "csv": "episode_00253.csv",
+   "run": "mine_seed005",
+   "lo": 213,
+   "hi": 216
+  },
+  {
+   "csv": "episode_00254.csv",
+   "run": "mine_seed005",
+   "lo": 223,
+   "hi": 226
+  },
+  {
+   "csv": "episode_00255.csv",
+   "run": "mine_seed005",
+   "lo": 250,
+   "hi": 253
+  },
+  {
+   "csv": "episode_00256.csv",
+   "run": "mine_seed005",
+   "lo": 316,
+   "hi": 322
+  },
+  {
+   "csv": "episode_00257.csv",
+   "run": "mine_seed005",
+   "lo": 333,
+   "hi": 336
+  },
+  {
+   "csv": "episode_00258.csv",
+   "run": "mine_seed005",
+   "lo": 352,
+   "hi": 355
+  },
+  {
+   "csv": "episode_00259.csv",
+   "run": "mine_seed005",
+   "lo": 365,
+   "hi": 368
+  },
+  {
+   "csv": "episode_00260.csv",
+   "run": "mine_seed005",
+   "lo": 382,
+   "hi": 385
+  },
+  {
+   "csv": "episode_00261.csv",
+   "run": "mine_seed005",
+   "lo": 395,
+   "hi": 398
+  },
+  {
+   "csv": "episode_00262.csv",
+   "run": "mine_seed005",
+   "lo": 417,
+   "hi": 420
+  },
+  {
+   "csv": "episode_00263.csv",
+   "run": "mine_seed005",
+   "lo": 429,
+   "hi": 432
+  },
+  {
+   "csv": "episode_00264.csv",
+   "run": "mine_seed005",
+   "lo": 434,
+   "hi": 437
+  },
+  {
+   "csv": "episode_00265.csv",
+   "run": "mine_seed005",
+   "lo": 456,
+   "hi": 459
+  },
+  {
+   "csv": "episode_00266.csv",
+   "run": "mine_seed005",
+   "lo": 472,
+   "hi": 475
+  },
+  {
+   "csv": "episode_00267.csv",
+   "run": "mine_seed005",
+   "lo": 493,
+   "hi": 496
+  },
+  {
+   "csv": "episode_00268.csv",
+   "run": "mine_seed005",
+   "lo": 500,
+   "hi": 503
+  },
+  {
+   "csv": "episode_00269.csv",
+   "run": "mine_seed005",
+   "lo": 550,
+   "hi": 553
+  },
+  {
+   "csv": "episode_00270.csv",
+   "run": "mine_seed005",
+   "lo": 626,
+   "hi": 629
+  },
+  {
+   "csv": "episode_00271.csv",
+   "run": "mine_seed005",
+   "lo": 632,
+   "hi": 635
+  },
+  {
+   "csv": "episode_00272.csv",
+   "run": "mine_seed005",
+   "lo": 690,
+   "hi": 693
+  },
+  {
+   "csv": "episode_00273.csv",
+   "run": "mine_seed005",
+   "lo": 738,
+   "hi": 741
+  },
+  {
+   "csv": "episode_00274.csv",
+   "run": "mine_seed005",
+   "lo": 761,
+   "hi": 764
+  },
+  {
+   "csv": "episode_00275.csv",
+   "run": "mine_seed005",
+   "lo": 774,
+   "hi": 777
+  },
+  {
+   "csv": "episode_00276.csv",
+   "run": "mine_seed005",
+   "lo": 793,
+   "hi": 798
+  },
+  {
+   "csv": "episode_00277.csv",
+   "run": "mine_seed005",
+   "lo": 829,
+   "hi": 832
+  },
+  {
+   "csv": "episode_00278.csv",
+   "run": "mine_seed005",
+   "lo": 891,
+   "hi": 894
+  },
+  {
+   "csv": "episode_00279.csv",
+   "run": "mine_seed005",
+   "lo": 956,
+   "hi": 959
+  },
+  {
+   "csv": "episode_00280.csv",
+   "run": "mine_seed005",
+   "lo": 1009,
+   "hi": 1012
+  },
+  {
+   "csv": "episode_00281.csv",
+   "run": "mine_seed005",
+   "lo": 1020,
+   "hi": 1023
+  },
+  {
+   "csv": "episode_00282.csv",
+   "run": "mine_seed005",
+   "lo": 1054,
+   "hi": 1057
+  },
+  {
+   "csv": "episode_00283.csv",
+   "run": "mine_seed005",
+   "lo": 1081,
+   "hi": 1084
+  },
+  {
+   "csv": "episode_00284.csv",
+   "run": "mine_seed005",
+   "lo": 1101,
+   "hi": 1108
+  },
+  {
+   "csv": "episode_00285.csv",
+   "run": "mine_seed005",
+   "lo": 1116,
+   "hi": 1119
+  },
+  {
+   "csv": "episode_00286.csv",
+   "run": "mine_seed005",
+   "lo": 1141,
+   "hi": 1144
+  },
+  {
+   "csv": "episode_00287.csv",
+   "run": "mine_seed005",
+   "lo": 1191,
+   "hi": 1194
+  }
+ ]
+}

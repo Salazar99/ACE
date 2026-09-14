@@ -1,0 +1,24 @@
+<harm>
+	<context name="default">
+		<prop exp="A &gt; B" loc="a,dt"/>
+		<prop exp="A_greater == 1" loc="c"/>
+		<prop exp="A == B" loc="a,dt"/>
+		<prop exp="A_equal == 1" loc="c"/>
+		<prop exp="A &lt; B" loc="a,dt"/>
+		<prop exp="A_less == 1" loc="c"/>
+		<prop exp="A &gt;= B" loc="a,dt"/>
+		<prop exp="A_less == 0" loc="c"/>
+		<prop exp="A &lt;= B" loc="a,dt"/>
+		<prop exp="A_greater == 0" loc="c"/>
+		<prop exp="A_equal == 0" loc="c"/>
+		<prop exp="B == 0" loc="a,dt"/>
+		<prop exp="A == 7" loc="a,dt"/>
+		<prop exp="A_greater" loc="a,c,dt"/>
+		<prop exp="A_equal" loc="a,c,dt"/>
+		<prop exp="A_less" loc="a,c,dt"/>
+		<numeric clustering="K,10Max,0.01WCSS,&gt;&lt;,==" exp="A" loc="a,c,dt"/>
+		<numeric clustering="K,10Max,0.01WCSS,&gt;&lt;,==" exp="B" loc="a,c,dt"/>
+		<template exp="G(P0 |-&gt; P1)" />
+		<sort name="smoothed_recall" exp="(atct+1)/(atct+afct+2)"/>
+	</context>
+</harm>

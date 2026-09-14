@@ -29,6 +29,20 @@ def signal_name(column: str) -> str:
     return kept[-1] if kept else parts[-1]
 
 
+def numeric_header(header) -> list:
+    """Retype every column as `int`: 'bool cin' -> 'int cin', 'uint64_t x' -> 'int x'.
+
+    A concession to the temporal backend, not a change of data. HARM reads the column type
+    out of the header and stamps it onto every occurrence of that variable before parsing a
+    proposition, and its grammar has no boolean alternative under an arithmetic operator and
+    no cast: a column declared `bool` can never appear in `sum == a + b + cin`, which is
+    exactly what the adder and arbiter contracts are about. A numeric column is still usable
+    as a boolean proposition (HARM's `boolean` rule admits a bare `numeric`), so declaring
+    everything numeric loses nothing and every value stays the value that was observed.
+    """
+    return [f"int {signal_name(column)}" for column in header]
+
+
 def _number(text):
     if text is None or text == "":
         return None
@@ -143,8 +157,9 @@ def load_corpus(patterns, base=".", hold_values=True) -> Corpus:
 
 
 def write_rows(rows, header, path):
-    """Write samples back out with the original typed header, so miners see the same CSV
-    dialect they saw before decomposition."""
+    """Write samples back out under `header`, which carries the C/Verilog type words a miner
+    expects in the first row. Callers writing for a temporal backend pass the header through
+    `numeric_header` first; the values written are the observed values either way."""
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
     names = [signal_name(c) for c in header]

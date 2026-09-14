@@ -1,0 +1,8 @@
+<harm>
+	<context name="default">
+		<numeric clustering="K,10Max,0.01WCSS,&gt;&lt;,==" exp="A" loc="a,dt"/>
+		<numeric clustering="K,10Max,0.01WCSS,&gt;&lt;,==" exp="B" loc="a,dt"/>
+		<template exp="G(P0 |-&gt; (A_less == 1))" />
+		<sort name="smoothed_recall" exp="(atct+1)/(atct+afct+2)"/>
+	</context>
+</harm>

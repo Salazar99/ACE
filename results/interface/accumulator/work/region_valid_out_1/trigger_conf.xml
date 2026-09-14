@@ -1,0 +1,11 @@
+<harm>
+	<context name="default">
+		<prop exp="rst_n" loc="a,dt"/>
+		<prop exp="valid_in" loc="a,dt"/>
+		<numeric clustering="K,10Max,0.01WCSS,&gt;&lt;,==" exp="data_in" loc="a,dt"/>
+		<template exp="G(P0 |-&gt; (valid_out == 1))" />
+		<template exp="G(P0 |=&gt; (valid_out == 1))" />
+		<template exp="G(P0 |-&gt; ##[1:5] (valid_out == 1))" />
+		<sort name="smoothed_recall" exp="(atct+1)/(atct+afct+2)"/>
+	</context>
+</harm>

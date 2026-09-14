@@ -94,7 +94,9 @@ def write_region(corpus, episodes, out_dir, mode: str = "split") -> dict:
     """
     out_dir = Path(out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
-    header = corpus.runs[0].header
+    # retyped: these CSVs exist to be read by a temporal backend, and HARM cannot put a
+    # bool-typed column under an arithmetic operator (traces.numeric_header)
+    header = traces.numeric_header(corpus.runs[0].header)
 
     if mode == "concat":
         paths = [traces.write_rows(rows_of(corpus, episodes), header, out_dir / "region.csv")]

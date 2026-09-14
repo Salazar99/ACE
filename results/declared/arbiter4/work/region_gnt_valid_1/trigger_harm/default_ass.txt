@@ -1,0 +1,5 @@
+G({req0} |=> gnt_valid == 1)
+G({req1} |-> {##[1:4] gnt_valid == 1})
+G({req3} |-> {##[1:4] gnt_valid == 1})
+G({req2} |-> {##[1:4] gnt_valid == 1})
+G({req0} |-> {##[1:4] gnt_valid == 1})

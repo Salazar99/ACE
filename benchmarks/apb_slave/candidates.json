@@ -29,7 +29,18 @@
    "template": "G2",
    "assumption_ids": [],
    "guarantee": "G((presetn == 0) |=> (pready == 0))",
-   "props": [],
+   "props": [
+    {
+     "exp": "presetn == 0",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "pready == 0",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
    "rationale": "reset clears the response"
   },
   {
@@ -38,7 +49,18 @@
    "template": "G2",
    "assumption_ids": [],
    "guarantee": "G((presetn == 0) |=> (pslverr == 0))",
-   "props": [],
+   "props": [
+    {
+     "exp": "presetn == 0",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "pslverr == 0",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
    "rationale": "reset clears the error flag"
   },
   {
@@ -47,7 +69,18 @@
    "template": "G2",
    "assumption_ids": [],
    "guarantee": "G((presetn == 0) |=> (prdata == 0))",
-   "props": [],
+   "props": [
+    {
+     "exp": "presetn == 0",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "prdata == 0",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
    "rationale": "reset clears the read data register"
   },
   {
@@ -56,7 +89,18 @@
    "template": "G2",
    "assumption_ids": [],
    "guarantee": "G((psel == 0) |=> (pready == 0))",
-   "props": [],
+   "props": [
+    {
+     "exp": "psel == 0",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "pready == 0",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
    "rationale": "an unselected slave does not respond"
   },
   {
@@ -65,7 +109,18 @@
    "template": "G2",
    "assumption_ids": [],
    "guarantee": "G((psel == 0) |=> (pslverr == 0))",
-   "props": [],
+   "props": [
+    {
+     "exp": "psel == 0",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "pslverr == 0",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
    "rationale": "an unselected slave raises no error"
   },
   {
@@ -74,43 +129,150 @@
    "template": "G2",
    "assumption_ids": [],
    "guarantee": "G((penable == 0) |=> (pready == 0))",
-   "props": [],
+   "props": [
+    {
+     "exp": "penable == 0",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "pready == 0",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
    "rationale": "no response outside an access phase: pready is only ever raised in answer to psel && penable"
   },
   {
    "id": "APB7",
    "kind": "protocol",
    "template": "G4",
-   "assumption_ids": ["A1", "A2"],
+   "assumption_ids": [
+    "A1",
+    "A2"
+   ],
    "guarantee": "G((psel == 1 && penable == 1 && paddr <= 2) |=> (pready == 1))",
-   "props": [],
+   "props": [
+    {
+     "exp": "psel == 1",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "penable == 1",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "paddr <= 2",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "pready == 1",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
    "rationale": "a fast register never stalls: the access phase is answered in the next cycle"
   },
   {
    "id": "APB8",
    "kind": "protocol",
    "template": "G4",
-   "assumption_ids": ["A1", "A2"],
+   "assumption_ids": [
+    "A1",
+    "A2"
+   ],
    "guarantee": "G((psel == 1 && penable == 1 && paddr <= 3) |=> (pslverr == 0))",
-   "props": [],
+   "props": [
+    {
+     "exp": "psel == 1",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "penable == 1",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "paddr <= 3",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "pslverr == 0",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
    "rationale": "no error response inside the register map"
   },
   {
    "id": "APB9",
    "kind": "error",
    "template": "G4",
-   "assumption_ids": ["A1", "A3"],
+   "assumption_ids": [
+    "A1",
+    "A3"
+   ],
    "guarantee": "G((psel == 1 && penable == 1 && paddr >= 4) |=> (pslverr == 1))",
-   "props": [],
+   "props": [
+    {
+     "exp": "psel == 1",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "penable == 1",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "paddr >= 4",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "pslverr == 1",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
    "rationale": "an access outside the map is answered with an error"
   },
   {
    "id": "APB10",
    "kind": "error",
    "template": "G4",
-   "assumption_ids": ["A1", "A3"],
+   "assumption_ids": [
+    "A1",
+    "A3"
+   ],
    "guarantee": "G((psel == 1 && penable == 1 && paddr >= 4) |=> (pready == 1))",
-   "props": [],
+   "props": [
+    {
+     "exp": "psel == 1",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "penable == 1",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "paddr >= 4",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "pready == 1",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
    "rationale": "an error response completes immediately: the slave never stalls a bad address"
   },
   {
@@ -119,62 +281,226 @@
    "template": "G1",
    "assumption_ids": [],
    "guarantee": "G((pslverr == 1) |-> (pready == 1))",
-   "props": [],
+   "props": [
+    {
+     "exp": "pslverr == 1",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "pready == 1",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
    "rationale": "an error is only signalled together with the completion of the transfer, which is the APB rule"
   },
   {
    "id": "APB12",
    "kind": "latency",
    "template": "G4",
-   "assumption_ids": ["A1", "A2"],
+   "assumption_ids": [
+    "A1",
+    "A2"
+   ],
    "guarantee": "G((psel == 1 && penable == 0 && paddr <= 2) |-> ##2 (pready == 1))",
-   "props": [],
+   "props": [
+    {
+     "exp": "psel == 1",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "penable == 0",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "paddr <= 2",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "pready == 1",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
    "rationale": "a transfer that starts on a fast register completes two cycles later, counted from the setup phase. Keying the latency contract on the setup phase rather than the access phase is what makes it a fixed delay: the access phase is held until pready, so from its last cycle the delay is one and from its first it is the full latency"
   },
   {
    "id": "APB13",
    "kind": "latency",
    "template": "G4",
-   "assumption_ids": ["A1", "A2"],
+   "assumption_ids": [
+    "A1",
+    "A2"
+   ],
    "guarantee": "G((psel == 1 && penable == 0 && paddr == 3) |-> ##4 (pready == 1))",
-   "props": [],
+   "props": [
+    {
+     "exp": "psel == 1",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "penable == 0",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "paddr == 3",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "pready == 1",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
    "rationale": "the slow register's two wait states make the latency four cycles from the setup phase. This is the wait-state contract, and its exact-latency form is only expressible because the environment holds the request until pready"
   },
   {
    "id": "APB14",
    "kind": "latency",
    "template": "G4",
-   "assumption_ids": ["A1", "A3"],
+   "assumption_ids": [
+    "A1",
+    "A3"
+   ],
    "guarantee": "G((psel == 1 && penable == 0 && paddr >= 4) |-> ##2 (pslverr == 1))",
-   "props": [],
+   "props": [
+    {
+     "exp": "psel == 1",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "penable == 0",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "paddr >= 4",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "pslverr == 1",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
    "rationale": "an unmapped transfer reports its error two cycles after it starts"
   },
   {
    "id": "APB15",
    "kind": "latency",
    "template": "G4",
-   "assumption_ids": ["A1", "A2"],
+   "assumption_ids": [
+    "A1",
+    "A2"
+   ],
    "guarantee": "G((psel == 1 && penable == 0 && paddr == 3) |=> (pready == 0))",
-   "props": [],
+   "props": [
+    {
+     "exp": "psel == 1",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "penable == 0",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "paddr == 3",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "pready == 0",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
    "rationale": "the slow register does stall: the cycle after the setup phase carries no response"
   },
   {
    "id": "APB16",
    "kind": "latency",
    "template": "G4",
-   "assumption_ids": ["A1", "A2"],
+   "assumption_ids": [
+    "A1",
+    "A2"
+   ],
    "guarantee": "G((psel == 1 && penable == 1 && paddr == 3 && pready == 0) |-> ##[1:3] (pready == 1))",
-   "props": [],
+   "props": [
+    {
+     "exp": "psel == 1",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "penable == 1",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "paddr == 3",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "pready == 0",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "pready == 1",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
    "rationale": "a stalled access on the slow register completes within three cycles. Four propositions in the antecedent - the fourth excludes the cycle in which the transfer has already completed - so this one needs a three-deep decision tree plus the response signal in the antecedent"
   },
   {
    "id": "APB17",
    "kind": "data",
    "template": "G4",
-   "assumption_ids": ["A1", "A2", "A4"],
+   "assumption_ids": [
+    "A1",
+    "A2",
+    "A4"
+   ],
    "guarantee": "G((psel == 1 && penable == 0 && pwrite == 0 && paddr <= 2) |-> ##2 (prdata == pwdata))",
    "props": [
-    {"exp": "prdata == pwdata", "loc": "c", "stage": "guarantee"}
+    {
+     "exp": "prdata == pwdata",
+     "loc": "c",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "psel == 1",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "penable == 0",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "pwrite == 0",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "paddr <= 2",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    }
    ],
    "rationale": "the register reads back the value that was written to it. Register read-back is a relation between two transactions an unbounded number of cycles apart; it becomes a fixed-delay contract only because the environment drives pwdata with the value it expects, which is an obligation no invariant can state. It breaks on the stress corpus, where pwdata is random"
   },
@@ -182,9 +508,39 @@
    "id": "APB18",
    "kind": "data",
    "template": "G4",
-   "assumption_ids": ["A1", "A2", "A4"],
+   "assumption_ids": [
+    "A1",
+    "A2",
+    "A4"
+   ],
    "guarantee": "G((psel == 1 && penable == 0 && pwrite == 0 && paddr == 3) |-> ##4 (prdata == pwdata))",
-   "props": [],
+   "props": [
+    {
+     "exp": "psel == 1",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "penable == 0",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "pwrite == 0",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "paddr == 3",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "prdata == pwdata",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
    "rationale": "the same read-back contract on the slow register, at its own latency"
   }
  ],

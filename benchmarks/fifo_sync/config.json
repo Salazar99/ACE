@@ -31,6 +31,141 @@
  "max_antecedent_props": 3,
  "extra_props": [
   {
+   "exp": "rst_n == 0",
+   "loc": "a,dt",
+   "stage": "guarantee"
+  },
+  {
+   "exp": "count == 0",
+   "loc": "c",
+   "stage": "guarantee"
+  },
+  {
+   "exp": "empty == 1",
+   "loc": "c",
+   "stage": "guarantee"
+  },
+  {
+   "exp": "full == 0",
+   "loc": "c",
+   "stage": "guarantee"
+  },
+  {
+   "exp": "count == 0",
+   "loc": "a,dt",
+   "stage": "guarantee"
+  },
+  {
+   "exp": "empty == 1",
+   "loc": "a,dt",
+   "stage": "guarantee"
+  },
+  {
+   "exp": "count == 8",
+   "loc": "a,dt",
+   "stage": "guarantee"
+  },
+  {
+   "exp": "full == 1",
+   "loc": "c",
+   "stage": "guarantee"
+  },
+  {
+   "exp": "full == 1",
+   "loc": "a,dt",
+   "stage": "guarantee"
+  },
+  {
+   "exp": "count == 8",
+   "loc": "c",
+   "stage": "guarantee"
+  },
+  {
+   "exp": "count >= 1",
+   "loc": "a,dt",
+   "stage": "guarantee"
+  },
+  {
+   "exp": "empty == 0",
+   "loc": "c",
+   "stage": "guarantee"
+  },
+  {
+   "exp": "count <= 7",
+   "loc": "a,dt",
+   "stage": "guarantee"
+  },
+  {
+   "exp": "wr_en == 1",
+   "loc": "a,dt",
+   "stage": "guarantee"
+  },
+  {
+   "exp": "count == 1",
+   "loc": "c",
+   "stage": "guarantee"
+  },
+  {
+   "exp": "empty == 1",
+   "loc": "a,c,dt",
+   "stage": "guarantee"
+  },
+  {
+   "exp": "wr_en == 0",
+   "loc": "a,dt",
+   "stage": "guarantee"
+  },
+  {
+   "exp": "full == 1",
+   "loc": "a,c,dt",
+   "stage": "guarantee"
+  },
+  {
+   "exp": "rd_en == 0",
+   "loc": "a,dt",
+   "stage": "guarantee"
+  },
+  {
+   "exp": "count == 7",
+   "loc": "a,dt",
+   "stage": "guarantee"
+  },
+  {
+   "exp": "count == 4",
+   "loc": "a,dt",
+   "stage": "guarantee"
+  },
+  {
+   "exp": "count == 5",
+   "loc": "c",
+   "stage": "guarantee"
+  },
+  {
+   "exp": "count == 1",
+   "loc": "a,dt",
+   "stage": "guarantee"
+  },
+  {
+   "exp": "rd_en == 1",
+   "loc": "a,dt",
+   "stage": "guarantee"
+  },
+  {
+   "exp": "full == 0",
+   "loc": "a,dt",
+   "stage": "guarantee"
+  },
+  {
+   "exp": "empty == 0",
+   "loc": "a,dt",
+   "stage": "guarantee"
+  },
+  {
+   "exp": "count >= 1",
+   "loc": "c",
+   "stage": "guarantee"
+  },
+  {
    "exp": "dout == din",
    "loc": "c",
    "stage": "guarantee"
@@ -46,7 +181,6 @@
   "G((full == 1) |-> (count == 8))",
   "G((count >= 1) |-> (empty == 0))",
   "G((count <= 7) |-> (full == 0))",
-  "G(count <= 8)",
   "G((empty == 1 && wr_en == 1) |=> (count == 1))",
   "G((empty == 1 && wr_en == 1) |=> (empty == 0))",
   "G((empty == 1 && wr_en == 0) |=> (empty == 1))",

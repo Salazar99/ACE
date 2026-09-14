@@ -1,0 +1,45 @@
+<harm>
+	<context name="default">
+		<prop exp="operand_a_i + operand_b_i &lt;= 4294967295" loc="a,dt"/>
+		<prop exp="result_o == operand_a_i + operand_b_i" loc="c"/>
+		<prop exp="operator_i == 0" loc="a,dt"/>
+		<prop exp="operand_a_i &gt;= operand_b_i" loc="a,dt"/>
+		<prop exp="result_o == operand_a_i - operand_b_i" loc="c"/>
+		<prop exp="operator_i == 1" loc="a,dt"/>
+		<prop exp="result_o &lt;= operand_a_i" loc="c"/>
+		<prop exp="operator_i == 4" loc="a,dt"/>
+		<prop exp="result_o &lt;= operand_b_i" loc="c"/>
+		<prop exp="result_o &gt;= operand_a_i" loc="c"/>
+		<prop exp="operator_i == 3" loc="a,dt"/>
+		<prop exp="result_o &gt;= operand_b_i" loc="c"/>
+		<prop exp="result_o == operand_a_i" loc="c"/>
+		<prop exp="operator_i == 2" loc="a,dt"/>
+		<prop exp="operand_b_i == 0" loc="a,dt"/>
+		<prop exp="operand_b_i == 1 &amp;&amp; operand_a_i &lt;= 2147483647" loc="a,dt"/>
+		<prop exp="result_o == operand_a_i * 2" loc="c"/>
+		<prop exp="operator_i == 10" loc="a,dt"/>
+		<prop exp="operand_b_i == 1" loc="a,dt"/>
+		<prop exp="operand_a_i &lt;= 2147483647" loc="a,dt"/>
+		<prop exp="result_o * 2 &lt;= operand_a_i" loc="c"/>
+		<prop exp="operator_i == 9" loc="a,dt"/>
+		<prop exp="result_o * 2 + 1 &gt;= operand_a_i" loc="c"/>
+		<prop exp="operand_a_i &lt; operand_b_i" loc="a,dt"/>
+		<prop exp="operator_i == 26" loc="a,dt"/>
+		<prop exp="comparison_result_o == 1" loc="c"/>
+		<prop exp="comparison_result_o == 0" loc="c"/>
+		<prop exp="operand_a_i == operand_b_i" loc="a,dt"/>
+		<prop exp="operator_i == 29" loc="a,dt"/>
+		<prop exp="is_equal_result_o == 1" loc="c"/>
+		<prop exp="operator_i == 30" loc="a,dt"/>
+		<prop exp="operator_i == 32" loc="a,dt"/>
+		<prop exp="operator_i == 34" loc="a,dt"/>
+		<prop exp="comparison_result_o" loc="a,c,dt"/>
+		<prop exp="is_equal_result_o" loc="a,c,dt"/>
+		<numeric clustering="K,10Max,0.01WCSS,&gt;&lt;,==" exp="operator_i" loc="a,c,dt"/>
+		<numeric clustering="K,10Max,0.01WCSS,&gt;&lt;,==" exp="operand_a_i" loc="a,c,dt"/>
+		<numeric clustering="K,10Max,0.01WCSS,&gt;&lt;,==" exp="operand_b_i" loc="a,c,dt"/>
+		<numeric clustering="K,10Max,0.01WCSS,&gt;&lt;,==" exp="result_o" loc="a,c,dt"/>
+		<template exp="G(P0 |-&gt; P1)" />
+		<sort name="smoothed_recall" exp="(atct+1)/(atct+afct+2)"/>
+	</context>
+</harm>

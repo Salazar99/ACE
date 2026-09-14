@@ -19,7 +19,18 @@
    "template": "G2",
    "assumption_ids": [],
    "guarantee": "G((rst_n == 0) |=> (count == 0))",
-   "props": [],
+   "props": [
+    {
+     "exp": "rst_n == 0",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "count == 0",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
    "rationale": "reset empties the queue"
   },
   {
@@ -28,7 +39,18 @@
    "template": "G2",
    "assumption_ids": [],
    "guarantee": "G((rst_n == 0) |=> (empty == 1))",
-   "props": [],
+   "props": [
+    {
+     "exp": "rst_n == 0",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "empty == 1",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
    "rationale": "reset raises the empty flag"
   },
   {
@@ -37,7 +59,18 @@
    "template": "G2",
    "assumption_ids": [],
    "guarantee": "G((rst_n == 0) |=> (full == 0))",
-   "props": [],
+   "props": [
+    {
+     "exp": "rst_n == 0",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "full == 0",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
    "rationale": "reset clears the full flag"
   },
   {
@@ -46,7 +79,18 @@
    "template": "G1",
    "assumption_ids": [],
    "guarantee": "G((count == 0) |-> (empty == 1))",
-   "props": [],
+   "props": [
+    {
+     "exp": "count == 0",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "empty == 1",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
    "rationale": "flag correctness: an empty queue reports empty"
   },
   {
@@ -55,7 +99,18 @@
    "template": "G1",
    "assumption_ids": [],
    "guarantee": "G((empty == 1) |-> (count == 0))",
-   "props": [],
+   "props": [
+    {
+     "exp": "empty == 1",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "count == 0",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
    "rationale": "flag correctness, the other direction: the flag is not raised while the queue holds data"
   },
   {
@@ -64,7 +119,18 @@
    "template": "G1",
    "assumption_ids": [],
    "guarantee": "G((count == 8) |-> (full == 1))",
-   "props": [],
+   "props": [
+    {
+     "exp": "count == 8",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "full == 1",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
    "rationale": "flag correctness: a queue at capacity reports full"
   },
   {
@@ -73,7 +139,18 @@
    "template": "G1",
    "assumption_ids": [],
    "guarantee": "G((full == 1) |-> (count == 8))",
-   "props": [],
+   "props": [
+    {
+     "exp": "full == 1",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "count == 8",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
    "rationale": "flag correctness: the flag is not raised below capacity"
   },
   {
@@ -82,7 +159,18 @@
    "template": "G1",
    "assumption_ids": [],
    "guarantee": "G((count >= 1) |-> (empty == 0))",
-   "props": [],
+   "props": [
+    {
+     "exp": "count >= 1",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "empty == 0",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
    "rationale": "a non-empty queue does not report empty"
   },
   {
@@ -91,98 +179,276 @@
    "template": "G1",
    "assumption_ids": [],
    "guarantee": "G((count <= 7) |-> (full == 0))",
-   "props": [],
+   "props": [
+    {
+     "exp": "count <= 7",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "full == 0",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
    "rationale": "a queue below capacity does not report full"
-  },
-  {
-   "id": "FIFO10",
-   "kind": "bound",
-   "template": "G1",
-   "assumption_ids": [],
-   "guarantee": "G(count <= 8)",
-   "props": [],
-   "rationale": "the occupancy never exceeds the depth. A plain invariant over an output, which is the propositional half of the contract language rather than a template instance"
   },
   {
    "id": "FIFO11",
    "kind": "occupancy",
    "template": "G4",
-   "assumption_ids": ["A1"],
+   "assumption_ids": [
+    "A1"
+   ],
    "guarantee": "G((empty == 1 && wr_en == 1) |=> (count == 1))",
-   "props": [],
+   "props": [
+    {
+     "exp": "empty == 1",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "wr_en == 1",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "count == 1",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
    "rationale": "a write into an empty queue leaves exactly one entry, whatever rd_en does (a read while empty is ignored)"
   },
   {
    "id": "FIFO12",
    "kind": "occupancy",
    "template": "G4",
-   "assumption_ids": ["A1"],
+   "assumption_ids": [
+    "A1"
+   ],
    "guarantee": "G((empty == 1 && wr_en == 1) |=> (empty == 0))",
-   "props": [],
+   "props": [
+    {
+     "exp": "empty == 1",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "wr_en == 1",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "empty == 0",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
    "rationale": "the empty flag drops after a write into an empty queue"
   },
   {
    "id": "FIFO13",
    "kind": "occupancy",
    "template": "G4",
-   "assumption_ids": ["A1"],
+   "assumption_ids": [
+    "A1"
+   ],
    "guarantee": "G((empty == 1 && wr_en == 0) |=> (empty == 1))",
-   "props": [],
+   "props": [
+    {
+     "exp": "empty == 1",
+     "loc": "a,c,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "wr_en == 0",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    }
+   ],
    "rationale": "no underflow effect: without a write the queue stays empty, so a read while empty cannot make the occupancy negative"
   },
   {
    "id": "FIFO14",
    "kind": "occupancy",
    "template": "G4",
-   "assumption_ids": ["A1"],
+   "assumption_ids": [
+    "A1"
+   ],
    "guarantee": "G((full == 1 && rd_en == 0) |=> (full == 1))",
-   "props": [],
+   "props": [
+    {
+     "exp": "full == 1",
+     "loc": "a,c,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "rd_en == 0",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    }
+   ],
    "rationale": "no overflow effect: without a read the queue stays full, so a write while full cannot grow the occupancy past the depth"
   },
   {
    "id": "FIFO15",
    "kind": "occupancy",
    "template": "G4",
-   "assumption_ids": ["A1"],
+   "assumption_ids": [
+    "A1"
+   ],
    "guarantee": "G((count == 7 && wr_en == 1 && rd_en == 0) |=> (full == 1))",
-   "props": [],
+   "props": [
+    {
+     "exp": "count == 7",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "wr_en == 1",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "rd_en == 0",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "full == 1",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
    "rationale": "the last write fills the queue"
   },
   {
    "id": "FIFO16",
    "kind": "occupancy",
    "template": "G4",
-   "assumption_ids": ["A1"],
+   "assumption_ids": [
+    "A1"
+   ],
    "guarantee": "G((count == 4 && wr_en == 1 && rd_en == 0) |=> (count == 5))",
-   "props": [],
+   "props": [
+    {
+     "exp": "count == 4",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "wr_en == 1",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "rd_en == 0",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "count == 5",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
    "rationale": "a write with no read increments the occupancy. Stated at one occupancy because the general form needs a past operator; the recovery measurement should generalise the family of these into an interval"
   },
   {
    "id": "FIFO17",
    "kind": "occupancy",
    "template": "G4",
-   "assumption_ids": ["A1"],
+   "assumption_ids": [
+    "A1"
+   ],
    "guarantee": "G((count == 1 && rd_en == 1 && wr_en == 0) |=> (empty == 1))",
-   "props": [],
+   "props": [
+    {
+     "exp": "count == 1",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "rd_en == 1",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "wr_en == 0",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "empty == 1",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
    "rationale": "the last read empties the queue"
   },
   {
    "id": "FIFO18",
    "kind": "occupancy",
    "template": "G4",
-   "assumption_ids": ["A1"],
+   "assumption_ids": [
+    "A1"
+   ],
    "guarantee": "G((wr_en == 1 && rd_en == 1 && full == 0 && empty == 0) |=> (count >= 1))",
-   "props": [],
+   "props": [
+    {
+     "exp": "wr_en == 1",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "rd_en == 1",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "full == 0",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "empty == 0",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "count >= 1",
+     "loc": "c",
+     "stage": "guarantee"
+    }
+   ],
    "rationale": "a simultaneous read and write leaves the queue non-empty: the occupancy does not move. Four propositions in the antecedent, so it is out of reach of a two-slot decision tree and in reach of a three-slot one"
   },
   {
    "id": "FIFO19",
    "kind": "data",
    "template": "G4",
-   "assumption_ids": ["A1", "A2"],
+   "assumption_ids": [
+    "A1",
+    "A2"
+   ],
    "guarantee": "G((empty == 1 && wr_en == 1) |=> (dout == din))",
    "props": [
-    {"exp": "dout == din", "loc": "c", "stage": "guarantee"}
+    {
+     "exp": "dout == din",
+     "loc": "c",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "empty == 1",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    },
+    {
+     "exp": "wr_en == 1",
+     "loc": "a,dt",
+     "stage": "guarantee"
+    }
    ],
    "rationale": "data integrity, first-word-fall-through: the value written into an empty queue appears at the output on the next cycle. It is only expressible because the environment holds din for that cycle - an obligation no invariant can state, so it breaks on the stress corpus where din changes every cycle"
   }
@@ -205,6 +471,12 @@
    "assumption": "none",
    "guarantee": "G(full && wr_en && !rd_en |=> count == 8) and G(empty && rd_en && !wr_en |=> count == 0)",
    "why_not_minable": "these are true of the RTL and expressible in the grammar, but the nominal environment never writes into a full queue or reads an empty one, so they have zero support on the mining corpus and cannot be confirmed there. They hold with support on the STRESS corpus, which is the one place the reference set is deliberately not validated - a benchmark gap of exactly the kind the CSR error flag has"
+  },
+  {
+   "id": "FIFO10",
+   "assumption": "-",
+   "guarantee": "G(count <= 8)",
+   "why_not_minable": "the clause holds at every corpus position, so mining.domain_trivial drops it as a restated signal domain. A depth bound is a property of the interface, not of a behaviour the decomposition can anchor on"
   }
  ]
 }

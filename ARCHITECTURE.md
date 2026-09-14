@@ -46,22 +46,23 @@ state at the end of another (`traces.py:1-6`).
 | symbol | line | what it is |
 |---|---|---|
 | `signal_name(column)` | `25-29` | strips C/SystemVerilog type words from a header cell — `'unsigned long int x'` → `'x'`, because `vcd2csv` emits typed columns |
-| `Run(name, header, rows, path)` | `45-58` | `rows[t][signal]` is the value at sample `t`; `header` keeps the *original typed* columns so a miner gets them back verbatim |
-| `load_run(path, hold_values=True)` | `61-88` | one CSV → one `Run` |
-| `Corpus(runs, source)` | `91-116` | `.samples`, `.signals()`, `.positions()`, `.subsample(fraction, seed)` |
-| `load_corpus(patterns, base)` | `130-142` | glob → `Corpus`, with interface consistency enforced |
-| `write_rows(rows, header, path)` | `145-156` | re-emits with the original header |
+| `numeric_header(header)` | `32-44` | retypes every column `int` for the miner-facing copies — HARM cannot put a `bool` column under an arithmetic operator |
+| `Run(name, header, rows, path)` | `59-72` | `rows[t][signal]` is the value at sample `t`; `header` keeps the *original typed* columns |
+| `load_run(path, hold_values=True)` | `75-102` | one CSV → one `Run` |
+| `Corpus(runs, source)` | `105-130` | `.samples`, `.signals()`, `.positions()`, `.subsample(fraction, seed)` |
+| `load_corpus(patterns, base)` | `144-156` | glob → `Corpus`, with interface consistency enforced |
+| `write_rows(rows, header, path)` | `159-170` | re-emits under `header`; callers writing for a miner pass it through `numeric_header` first |
 
 Three details that matter downstream:
 
-* **Value holding** (`traces.py:61-88`). A blank cell in a VCD-derived CSV means "unchanged".
+* **Value holding** (`traces.py:75-102`). A blank cell in a VCD-derived CSV means "unchanged".
   `load_run` carries the last known value forward. Cells *before* a signal's first value stay
   `None` on purpose, so a formula reading one raises a clear error instead of silently seeing
   zero.
-* **Whole-run subsampling** (`traces.py:110-116`). `--budget 0.25` keeps a random quarter of
+* **Whole-run subsampling** (`traces.py:124-130`). `--budget 0.25` keeps a random quarter of
   the *runs*, never a slice of one — slicing would invent a trace boundary. Raises outside
   `(0, 1]`.
-* **Path expansion** (`traces.py:119-127`). `expandvars` then `expanduser`, then relative
+* **Path expansion** (`traces.py:133-141`). `expandvars` then `expanduser`, then relative
   patterns resolve against the **config's** directory, so `$ACEROOT` works and a config can be
   moved without rewriting its globs.
 
@@ -234,81 +235,109 @@ base rate, and the whole response family is skipped for want of a candidate. Set
 turning 2189 sqrt "occurrences" into 247 completions. Signals that are already pulses are
 unaffected — for them every high sample is a rising edge.
 
-### Step 2 — trigger selection (`ace/triggers.py`, 232 lines)
+### Step 2 — trigger selection (`ace/triggers.py`, 307 lines)
 
 Replaces the FDL26 `atct-afct` volume sort. For a candidate input-side predicate `a`, the
 candidate assertion is `G(a |-> ##[1:H] e)` (`triggers.py:27-28`).
 
-**Scoring** (`triggers.py:56-91`):
+**Scoring** (`triggers.py:103-155`):
 
 ```python
-for k, run in enumerate(corpus.runs):
-    for t in range(len(run)):
-        if guard is not None and t and guard.holds(run, t - 1): continue  # not an onset
-        if not clause.support(run, t):                          continue  # vacuous/undecidable
-        hits = clause.ends(run, t)
-        if hits: atct += 1; explained.update((k, u) for u in hits); anchors.append((k, t))
-        else:    afct += 1; misses.append((k, t))
+if guard is not None and t and guard.holds(run, t - 1):
+    cells["suppressed"] += 1; continue        # not an onset
+if not clause.support(run, t):
+    cells["afct" if ends[t] else "afcf"] += 1; continue      # the antecedent did not fire
+hits = clause.ends(run, t)
+if hits: cells["atct"] += 1; explained.update((k, u) for u in hits); anchors.append((k, t))
+else:    cells["atcf"] += 1; misses.append((k, t))
 ```
 
-* **ATCT** = trigger matched and the event followed inside the horizon. **AFCT** = matched, no
-  follow-up. Vacuous positions are neither.
+* **ATCT** and **AFCT**, the two numbers the score is built from, are counts over **event
+  occurrences**: `atct = len(explained)`, `afct = |E| - atct`, so `atct + afct = |E|` for every
+  candidate of one event (`triggers.py:49-62`).
+* `cells` is a second, independent record: the per-sample contingency table in HARM's names,
+  plus `suppressed` for the positions the onset guard skipped, which belong to no cell. Nothing
+  selects on it; it is there so precision, accuracy or HARM's own ranking can be recomputed from
+  `contracts.json` without rerunning the flow.
+* `matches` (`triggers.py:63-71`) is the firing count, `len(anchors) + len(misses)`. It is
+  **not** `atct + afct` any more, and it is what the support floor and the null model use.
 * `explained` holds the **consequent's** end positions — i.e. event occurrences, directly
   comparable with Step 1's output.
-* Only ATCT positions become `anchors`: a match with no response is evidence against the
-  trigger, not a region to mine (`triggers.py:87-88`).
+* Only answered firings become `anchors`: a match with no response is evidence against the
+  trigger, not a region to mine.
 * **Onset counting** (`onsets=True`, default). A match counts only where the trigger was false
   at the previous sample. Without it, a request held high for a whole operation contributes one
   match per held cycle and support is inflated by the response latency — on the Ibex divider
   (36-cycle operations, enable held throughout) every candidate scored exactly the base rate and
   the design produced no region at all. `tests/test_recovery.py:120-134` pins it: an enable held
-  36 of 40 cycles has support **5** onsets, not 216 samples.
+  36 of 40 cycles has **5** matches, not 216 samples.
 
-**The score is smoothed recall**, not precision or F1:
+**The score is the smoothed recall of the candidate assertion**:
 
 ```
-R = (ATCT + 1) / (ATCT + AFCT + 2)                    triggers.py:42-43
+R = (ATCT + 1) / (ATCT + AFCT + 2)    = smoothed TP/(TP+FN)     triggers.py:72-74
 ```
 
-The temporal miner discards candidates with false positives, so precision is pinned at 1.0 and
-F1 is a restatement of recall (`triggers.py:11-18`). The `+1/+2` penalises thin support and
-keeps the number comparable across traces of different length, which the old volume score could
-not do. HARM can compute the same expression natively as a `<sort>`
-(`backends.SMOOTHED_RECALL`), so no patched miner is needed.
+ATCT is the occurrences the candidate explains and AFCT the ones it leaves unexplained, so this
+is a recall. Precision — the share of firings the event followed — is computed and reported
+(`triggers.py:76-79`) but nothing filters on it.
 
-**The null model.** `base_rate` (`triggers.py:128-136`) scores the tautology `1 == 1` with
-onsets off: what a predicate that says nothing achieves. `expected_recall(base, support)` =
-`(base*support + 1)/(support + 2)` (`triggers.py:139-148`) smooths that baseline *the same way*
-as the candidate. Without it, `+1/+2` pulls a perfect six-match candidate down to 0.875 and a
-dense event rejects exactly the tight triggers it should keep.
+**A naming collision worth knowing.** HARM's contingency table is over *samples*, and its
+`afct` is antecedent-false → consequent-true: the event happened and the antecedent did not
+predict it, the **false negative**. That is the same cell as the AFCT above, which is why the
+`<sort>` handed to HARM (`backends.SMOOTHED_RECALL`) is literally the same formula. HARM's
+false positive is `atcf`, and it has no counterpart in an occurrence-indexed population —
+every occurrence of `e` has the consequent true by construction. `cells` carries both readings,
+so `cells["atcf"]` is the precision cell and the field `afct` is the recall cell; they are not
+the same number and must not be swapped when quoting HARM's table in a paper.
 
-**Selection** — `select()` (`triggers.py:151-232`), Algorithm 1. Phase 1 filters, in order,
+**The null model.** `base_rate` (`triggers.py:193-202`) is the share of positions from which
+the event follows inside the horizon — the chance that a predicate firing at an arbitrary
+position is followed by the event. `expected_recall(base, matches, total)` =
+`(min(base*matches, total) + 1)/(total + 2)` (`triggers.py:205-218`) is what that predicate
+would be expected to explain, smoothed the same +1/+2 way as the candidate.
+
+This is what keeps recall honest, and it is not optional: recall on its own is maximised by
+firing constantly, since a predicate that matches every other sample is followed by every event
+without predicting any of them. Such a candidate has thousands of `matches`, its expectation
+saturates at `|E|`, and its lift falls to zero. The count is capped at `total` because a firing
+cannot explain an occurrence twice.
+
+The test is strict when the horizon is much longer than the real latency. On `sqrt` the error
+response arrives in exactly **1** cycle while the config sets `horizon: 24` (sized for `done`'s
+iterative latency), so a 24-cycle window puts *some* firing of almost any predicate before
+every error, and no candidate beats chance. The region is reported as skipped rather than
+anchored on a predicate that explains a tenth of the events.
+
+**Selection** — `select()` (`triggers.py:221-307`), Algorithm 1. Phase 1 filters, in order,
 each writing a human-readable reason into `Selection.rejected`:
 
 | # | condition | reason recorded |
 |---|---|---|
 | 1 | `formula.FormulaError` | `not evaluable: {exc}` |
-| 2 | `support == 0` | `never matched in the corpus` |
-| 3 | `support < max(2, min_support_frac * |E|)` | `N matches is below F …: too little support to explain the event` |
-| 4 | `smoothed_recall < expected_recall(base, support) + min_lift` | `does not discriminate the event` |
+| 2 | `matches == 0` | `never matched in the corpus` |
+| 3 | `matches < max(2, min_support_frac * |E|)` | `N matches is below F …: too little support to explain the event` |
+| 4 | `smoothed_recall < expected_recall(base, matches, |E|) + min_lift` | `does not discriminate the event` |
 | 5 | `smoothed_recall < min_recall` | plain threshold |
 
 Filter 3 separates "explains the event" from "was true when it happened": a predicate that is
-simply true has exactly one onset per run and smoothed recall on five matches looks excellent.
-Filter 4 replaced an earlier match-*rate* cap (reject anything true at more than 50% of samples)
-that threw away real triggers such as a held enable.
+simply true has exactly one onset per run, and whatever it explains from there looks like a
+result. Filter 4 is the null-model test above. Filter 5's `min_recall` defaults to **0.2**, not
+a half: it asks what *one* trigger explains, and a region with two complementary triggers has
+no single candidate above 0.5 by construction.
 
-Phase 2 is a greedy coverage loop (`triggers.py:204-227`):
+Phase 2 is a greedy coverage loop (`triggers.py:278-301`):
 
 ```
-value(a) = coverage_gain(a) + (smoothed_recall(a) - expected_recall(base, support(a)))
+value(a) = coverage_gain(a) + (smoothed_recall(a) - expected_recall(base, matches(a), |E|))
                             - redundancy_weight * max_jaccard(a, already_selected)
 ```
 
 picking the argmax above `min_gain`, subtracting its explained set, until nothing is left or
-`max_triggers` is reached. Note the implementation uses **lift**, not raw recall as the
-docstring at `triggers.py:158` says — with a dense event a candidate scoring 0.64 explains
-nothing. Coverage still drives the loop, which is what brings complementary triggers out
+`max_triggers` is reached. `min_gain` thresholds the **combined** value, not the gain term
+alone, so a low-coverage candidate with high lift can still be picked. The second term is
+**lift**, not raw recall — a predicate that fires constantly has recall 1.0 and explains
+nothing. *Marginal* coverage drives the loop, which is what brings complementary triggers out
 together (a multiplier enable and a divider enable each explaining their half of `valid_o`).
 
 Phase 3 annotates every pool member that was neither selected nor rejected with
@@ -318,7 +347,7 @@ Selection is deliberately **not a partition**: two triggers explaining the same 
 both survive, and occurrences nothing explains are reported as `unassigned` rather than forced
 into a spurious region.
 
-Defaults: `min_recall` 0.5, `min_gain` 0.05, `redundancy_weight` 0.5, `max_triggers` 8,
+Defaults: `min_recall` 0.2, `min_gain` 0.05, `redundancy_weight` 0.5, `max_triggers` 8,
 `min_lift` 0.0, `min_trigger_support` 0.1, `trigger_onsets` true.
 
 **Where candidates come from.** `cfg["trigger_candidates"]` if declared. Otherwise
@@ -373,6 +402,30 @@ neighbouring samples of the original run.
   relative to `h_pre + h_post`.
 * `episodes.json` alongside, with `mode`, counts, `provenance_ok` and every window.
 
+### Step 3.5 — cross-event region merging (`ace/__main__.py:125-171`)
+
+The per-event loop mines each declared event in isolation, so two events that name one
+behaviour — `done == 1` and `!(done == 0)`, a handshake milestone and the transfer it completes
+— produce two regions that no step compares. `merge_regions(corpus, regions)` is one post-pass
+over the finished records, run after the loop as stage `5_merge`:
+
+```python
+if (_mutually_implied(corpus, head["provenance"]["triggers"],      # __main__.py:155-165
+                      region["provenance"]["triggers"])
+        and _mutually_implied(corpus, [c["text"] for c in head["guarantees"]],
+                              [c["text"] for c in region["guarantees"]])):
+```
+
+`_mutually_implied` is set equality on the traces, not textual: every member of one set is
+implied by some member of the other and back, via `validation.implies`, whose masks are
+memoised on the corpus so the sweep costs one pass per distinct clause. **Both** halves must
+agree — equivalent triggers *and* equivalent guarantees — which is what keeps two events that
+share a trigger but carry different obligations in separate regions.
+
+The pass is additive: groups of size ≥ 2 land in `results["merged_regions"]` and in the report,
+while the per-event records, their episode CSVs and every mined clause are left untouched.
+Nothing downstream reads the grouping. Skipped regions are excluded.
+
 ### Step 4 — mining and assembly (`ace/mining.py`, 754 lines)
 
 A region yields `C_r = (A_r, G_r)`. **A selected trigger is not copied into `A_r`** — a trigger
@@ -397,7 +450,13 @@ as any other candidate.
    `G(in >= 0 |-> in >= 0)` and yields `G(start == 1 |-> in >= 0)`.
 3. **Trigger-derived assumptions** (`mining.py:495-507`) — each trigger conjunct whose signals
    are a subset of `inputs`.
-4. **Temporal** (`mining.py:509-527`) — `_mine_temporal` on the region (§5).
+4. **Temporal** — `_mine_temporal` on the region (§5), returning `(clauses, backend)` so the
+   provenance records what ran rather than what was installed. On the HARM path the clauses
+   are passed through `_tighten_windows`: HARM emits `G(a |-> ##[1:H] b)` as written, so the
+   fixed-latency reading of every window that has one is offered alongside it and
+   `reduce_subsumed` keeps the stronger — the in-process instantiator does this for itself
+   (`templates._tighten`), which is why the same design used to yield a weaker contract on
+   the HARM backend.
    **Assumption-side temporal mining is off by default** (`temporal_assumptions`): A is a
    conjunction of invariants, so a mined `op_a_i == 100 |-> ##40 operator_i == 2` cannot enter
    it — and on the benchmark that family was **310 of 325** assumption-side clauses.
@@ -576,21 +635,43 @@ selection and held-out validation agree by construction.
 
 `harm_conf` (`backends.py:111-144`) writes the XML: one `<prop exp=... loc=.../>` per boolean,
 one `<numeric clustering="K,10Max,0.01WCSS,><,==" .../>` per bitvector, the templates with `H`
-substituted, and a `<sort>` carrying smoothed recall. `loc` is a placement hint — `a` antecedent,
+substituted (`\bH\b`, so a signal named `HREADY` survives), and a `<sort>` carrying smoothed
+confidence `(atct+1)/(atct+atcf+2)` — `atcf`, not `afct`, which counts positions where the
+antecedent does not hold. `loc` is a placement hint — `a` antecedent,
 `c` consequent, `dt` decision tree. **Declaring a bitvector as `<prop>` is the most likely cause
 of an empty mining run** (`backends.py:10-11`); `classify_signals` (`backends.py:154-160`) makes
 the call from the observed value set.
 
-`harm` (`backends.py:165-199`) invokes the binary: **a directory argument becomes `--csv-dir`, a
+`harm` invokes the binary: **a directory argument becomes `--csv-dir`, a
 file becomes `--csv`**. The directory form is what a split region uses — every episode is mined
 as its own trace, so no mined property can relate samples across an episode boundary. Output is
-read back from `<dump_to>/<context>_ass.txt`.
+read back from `<dump_to>/<context>_ass.txt`, **sorted**: HARM de-duplicates through an
+`unordered_set` of pointers (`Qualifier.cc:81-100`) and ranks with a non-stable sort over a
+frequently tied score (`:436-439`), so its own order is not reproducible between runs. Sorting
+pins the order the flow sees, not the set. The binary runs with its dump directory as CWD,
+because it writes `warning.log`, `error.log` and `gmon.out` beside wherever it was started.
+
+**Every CSV the flow writes for HARM is retyped `int`** (`traces.numeric_header`). HARM stamps
+each variable with the type from the CSV header before parsing a proposition
+(`propositionParsingUtils.cc:263-310`) and its grammar has no boolean alternative inside an
+arithmetic expression and no cast (`proposition.g4:47-60`), so a `bool` column can never appear
+in `sum == a + b + cin`. That is exactly what `adder_8bit` and `arbiter4` declare, and what
+`interface_vocabulary` generates for every design under `auto_vocabulary`; before the retyping,
+HARM aborted the whole run on them. A numeric column remains usable as a boolean proposition
+(HARM's `boolean` rule admits a bare `numeric`), so the vocabulary is unchanged.
+
+**Trigger candidate mining reads its own copy of the corpus** (`__main__.corpus_traces`,
+written to `work/trigger_traces/`). Pointing `--csv-dir` at the directory the traces were
+loaded from would also hand HARM the held-out and stress runs that live beside them.
 
 Installation discovery: `harm_bin()` checks `$HARM_BIN` then `PATH`; `temporal_backend()`
-returns `"harm"` or **`"in-process-templates"`**, and that string is written into
-`contract.provenance` and the top-level results. `tools/check_harm.py` reports whether an
-installation is usable (exit 0 usable, 4 binary works but vocabulary does not);
-`tools/install_harm.sh` builds one.
+returns `"harm"` or **`"in-process-templates"`**. What `contract.provenance` records is what
+actually *ran*: a HARM failure (a proposition its grammar rejects, a missing library) is
+reported on stderr and the region falls back to the in-process instantiator, leaving
+`"in-process-templates (harm failed: ...)"` in the artifact rather than taking the run down.
+`tools/check_harm.py` reports whether an installation is usable (exit 0 usable, 4 binary works
+but vocabulary does not, 6 it rejects a flag used in arithmetic);
+`tools/install_harm.sh` builds one. `tests/test_harm.py` covers the integration itself.
 
 `invgen` (`backends.py:220-227`) needs `$ACEROOT`. `daikon` (`backends.py:230-234`) **always
 raises `BackendMissing`** — it is a named alternative, not an implementation; propositional
@@ -660,8 +741,9 @@ vocabulary setting without copying the file.
 
 Then, per declared event: label → select → episodes → mine (validation runs inside it). An event
 that never occurs is recorded `skipped: "event never occurs"`; one no candidate explains,
-`skipped: "no candidate passed selection"`. Per-stage wall-clock times are always recorded
-(`load`, `1_label:<e>`, `2_triggers:<e>`, `3_episodes:<e>`, `4_mine:<e>`).
+`skipped: "no candidate passed selection"`. Once every event is done, `merge_regions` groups the
+regions that turned out to be the same one (Step 3.5). Per-stage wall-clock times are always
+recorded (`load`, `1_label:<e>`, `2_triggers:<e>`, `3_episodes:<e>`, `4_mine:<e>`, `5_merge`).
 
 **On disk:**
 
@@ -670,12 +752,13 @@ that never occurs is recorded `skipped: "event never occurs"`; one no candidate 
                                               global support, held-out result, kept flag,
                                               plus every dropped candidate and its reason
 <out>/report.md                               rendered summary (render_report, __main__.py:221-269)
+<out>/work/trigger_traces/                    the mining corpus, retyped, for --csv-dir
 <out>/work/region_<slug>/
         episode_00000.csv ...                 split mode: one CSV per episode
         region.csv                            concat mode
         episodes.json                         mode, counts, provenance_ok, every window
-        trigger_conf.xml, trigger_harm/       only when HARM is present
-        guarantee_conf.xml, guarantee_harm/
+        trigger_conf.xml, trigger_harm/       only when HARM is present; the miner's own
+        guarantee_conf.xml, guarantee_harm/    warning.log / error.log land in *_harm/
 ```
 
 One asymmetry to be aware of when reading `contracts.json`: a skipped region records the
@@ -696,6 +779,10 @@ The third one is the subtle one (`mining.py:703-722`). Checking region clauses a
 held-out runs would count every out-of-region sample as a violation and reject exactly the
 region-specific clauses the flow exists to find. So the holdout is decomposed the same way the
 mining corpus was, and only then scored.
+
+The separation is enforced on the backend side too: `__main__.corpus_traces` writes the mining
+corpus to `work/trigger_traces/` and points HARM at *that*, because the directory the traces were
+loaded from also holds the held-out and stress runs.
 
 Run-locality is enforced three separate times: `traces` never concatenates runs,
 `episodes.extract` merges only within a run, and `as_corpus` re-exports each episode as its own
@@ -786,6 +873,8 @@ for each event e in cfg["events"]:
          _mine_temporal → HARM | templates.instantiate
          filter(7) → subsume → generalize → subsume → refine
          holdout_region → validation.validate  (evaluate, minimize, match)
+  [3.5] merge_regions ───────▶ results["merged_regions"]   (after every event, additive)
+         equivalent triggers AND equivalent guarantees, via validation.implies
 
 results["timers_s"] = per-stage seconds
 ──▶ DISK: <out>/contracts.json, <out>/report.md
@@ -845,18 +934,19 @@ Numbers live in `reports/MINING_REPORT.md`; they are not duplicated here.
   correct the config.
 * `GRAMMARS["G5"]` is unverified against a live HARM build, and its `{..#1&..}` sequence
   placeholder is not instantiable in process.
-* `backends.harm_conf` substitutes the horizon with a bare `template.replace("H", ...)`
-  (`backends.py:139`). Safe for the current `GRAMMARS`, wrong for any template mentioning e.g.
-  `HREADY`.
+* HARM's own output is not reproducible run to run (`Qualifier.cc:81-100`, `:436-439`). The
+  flow sorts what it reads back, which pins the order but not which member of a group of
+  equivalent clauses survives.
 * `mining._min_support`'s docstring says "at least two samples"; the code floors at 3
   (`mining.py:401-404`).
 * `mining.refine`'s cap check is `if len(contract.assumptions) and limit <= 0`
   (`mining.py:678`), so a contract that has no assumptions yet admits one guard even under
   `max_refinements: 0`. Harmless at the default, but the cap is not what it says at zero.
-* `triggers.select`'s docstring (`triggers.py:158`) states the score as
-  `gain + smoothed_recall - λ·redundancy`; the code uses lift, `smoothed_recall -
-  expected_recall`. The code is the intended behaviour — see the inline note at
-  `triggers.py:217-219`.
+* `expected_recall` saturates: once `base * matches` exceeds `|E|` every candidate with that
+  many matches is expected to explain everything, so no candidate can pass filter 4. That is
+  correct when the horizon is much longer than the response latency, and it is why `sqrt`'s
+  error region is skipped (latency 1, horizon 24). A per-event horizon would fix it; the config
+  has one horizon per design.
 * Dead branch at `tools/report_bundle.py:188` (`isinstance(mined, set)`; `mined` is always a list
   from JSON).
 
