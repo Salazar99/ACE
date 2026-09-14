@@ -46,12 +46,12 @@ state at the end of another (`traces.py:1-6`).
 | symbol | line | what it is |
 |---|---|---|
 | `signal_name(column)` | `25-29` | strips C/SystemVerilog type words from a header cell — `'unsigned long int x'` → `'x'`, because `vcd2csv` emits typed columns |
-| `numeric_header(header)` | `32-44` | retypes every column `int` for the miner-facing copies — HARM cannot put a `bool` column under an arithmetic operator |
+| `numeric_header(header)` | `32-43` | retypes every column `int` for the miner-facing copies — HARM cannot put a `bool` column under an arithmetic operator |
 | `Run(name, header, rows, path)` | `59-72` | `rows[t][signal]` is the value at sample `t`; `header` keeps the *original typed* columns |
 | `load_run(path, hold_values=True)` | `75-102` | one CSV → one `Run` |
 | `Corpus(runs, source)` | `105-130` | `.samples`, `.signals()`, `.positions()`, `.subsample(fraction, seed)` |
 | `load_corpus(patterns, base)` | `144-156` | glob → `Corpus`, with interface consistency enforced |
-| `write_rows(rows, header, path)` | `159-170` | re-emits under `header`; callers writing for a miner pass it through `numeric_header` first |
+| `write_rows(rows, header, path)` | `159-171` | re-emits under `header`; callers writing for a miner pass it through `numeric_header` first |
 
 Three details that matter downstream:
 
@@ -62,7 +62,7 @@ Three details that matter downstream:
 * **Whole-run subsampling** (`traces.py:124-130`). `--budget 0.25` keeps a random quarter of
   the *runs*, never a slice of one — slicing would invent a trace boundary. Raises outside
   `(0, 1]`.
-* **Path expansion** (`traces.py:133-141`). `expandvars` then `expanduser`, then relative
+* **Path expansion** (`traces.py:133-141`). `expanduser` then `expandvars`, then relative
   patterns resolve against the **config's** directory, so `$ACEROOT` works and a config can be
   moved without rewriting its globs.
 
@@ -79,6 +79,7 @@ agree by construction. Nothing is ever read back from an external miner's own me
 ```
 formula     := 'G' '(' implication ')' | implication
 implication := sere [ ('|->' | '|=>' | '->') sere ]
+sere        := disj
 disj        := conj ('||' conj)*
 conj        := delayed ('&&' delayed)*
 delayed     := DELAY unary | unary (DELAY unary)*
@@ -113,7 +114,7 @@ central choice, and it is what the old `filter.py` did not do (it kept a single 
 |---|---|---|
 | `Compare` | `171-194` | `[t]` when the comparison holds |
 | `Truth` | `197-211` | `[t]` when the value is not `0`/`False` |
-| `Not` | `214-226` | `[] if inner matched else [t]` — negation re-anchors the end at `t` |
+| `Not` | `214-225` | `[] if inner matched else [t]` — negation re-anchors the end at `t` |
 | `And` | `228-241` | **intersection** of the two end sets: both sides must end at the same sample |
 | `Or` | `244-256` | union |
 | `Next` | `259-270` | `inner.ends(run, t+1)`, empty at the last sample |
@@ -215,7 +216,7 @@ def label(corpus, event):                              # labeling.py:41-54
 ```
 
 `E_e(T) = {(k, t) | tau_k, t |=f e}`, **recorded at the sample where the match ENDS**
-(`labeling.py:44-50`). This convention is load-bearing: Step 2 reads its explained occurrences
+(`labeling.py:42-50`). This convention is load-bearing: Step 2 reads its explained occurrences
 off the same `Formula.ends` positions, so the two sets are joinable. Record the *start* of a
 multi-sample event instead — a rising edge `(!(done == 1)) ##1 (done == 1)` — and the two sets
 become disjoint, every candidate looks as if it explained nothing, and the region is empty.
@@ -275,12 +276,13 @@ else:    cells["atcf"] += 1; misses.append((k, t))
 **The score is the smoothed recall of the candidate assertion**:
 
 ```
-R = (ATCT + 1) / (ATCT + AFCT + 2)    = smoothed TP/(TP+FN)     triggers.py:72-74
+R = (ATCT + 1) / (ATCT + AFCT + 2)    = smoothed TP/(TP+FN)     triggers.py:59-61
 ```
 
 ATCT is the occurrences the candidate explains and AFCT the ones it leaves unexplained, so this
-is a recall. Precision — the share of firings the event followed — is computed and reported
-(`triggers.py:76-79`) but nothing filters on it.
+is a recall. Precision — the share of firings the event followed — is computed
+(`triggers.py:72-75`) and reported inside `report()` (`triggers.py:77-83`) but nothing filters
+on it.
 
 **A naming collision worth knowing.** HARM's contingency table is over *samples*, and its
 `afct` is antecedent-false → consequent-true: the event happened and the antecedent did not
@@ -326,7 +328,7 @@ result. Filter 4 is the null-model test above. Filter 5's `min_recall` defaults 
 a half: it asks what *one* trigger explains, and a region with two complementary triggers has
 no single candidate above 0.5 by construction.
 
-Phase 2 is a greedy coverage loop (`triggers.py:278-301`):
+Phase 2 is a greedy coverage loop (`triggers.py:278-302`):
 
 ```
 value(a) = coverage_gain(a) + (smoothed_recall(a) - expected_recall(base, matches(a), |E|))
@@ -359,12 +361,15 @@ observed-value atoms and bounds via `templates.predicates`, **plus** the three o
 pair orderings are not optional: what explains a comparator asserting `A_greater` is `A > B`,
 and a bounds-only vocabulary made every combinational design in the benchmark skip.
 
-### Step 3 — boundary-preserving episodes (`ace/episodes.py`, 117 lines)
+### Step 3 — boundary-preserving episodes (`ace/episodes.py`, 119 lines)
 
 Replaces zero-padding and the re-simulation it forced.
 
+`extract` first checks `h_pre >= 0 and h_post >= 0`, raising `ValueError` otherwise
+(`episodes.py:39-40`).
+
 ```python
-for k, t in sorted(set(anchors)):                       # episodes.py:37-50
+for k, t in sorted(set(anchors)):                       # episodes.py:42-50
     lo = max(0, t - h_pre); hi = min(len(corpus.runs[k]) - 1, t + h_post)
     w = windows.setdefault(k, [])
     if w and lo <= w[-1][1] + 1: w[-1][1] = max(w[-1][1], hi)   # touching or overlapping
@@ -393,7 +398,7 @@ checked directly, not asserted: `provenance_ok` (`episodes.py:81-83`) is
 delay reaching past the end of an episode does not match, instead of silently reading the
 neighbouring samples of the original run.
 
-`write_region` (`episodes.py:86-117`) is the first on-disk artifact:
+`write_region` (`episodes.py:86-119`) is the first on-disk artifact:
 
 * `mode="split"` (**default**) — one CSV per episode, `episode_00000.csv`, … Nothing can relate
   samples across a boundary. HARM consumes this with `--csv-dir`.
@@ -402,7 +407,7 @@ neighbouring samples of the original run.
   relative to `h_pre + h_post`.
 * `episodes.json` alongside, with `mode`, counts, `provenance_ok` and every window.
 
-### Step 3.5 — cross-event region merging (`ace/__main__.py:125-171`)
+### Step 3.5 — cross-event region merging (`ace/__main__.py:148-194`)
 
 The per-event loop mines each declared event in isolation, so two events that name one
 behaviour — `done == 1` and `!(done == 0)`, a handshake milestone and the transfer it completes
@@ -410,7 +415,7 @@ behaviour — `done == 1` and `!(done == 0)`, a handshake milestone and the tran
 over the finished records, run after the loop as stage `5_merge`:
 
 ```python
-if (_mutually_implied(corpus, head["provenance"]["triggers"],      # __main__.py:155-165
+if (_mutually_implied(corpus, head["provenance"]["triggers"],      # __main__.py:181-185
                       region["provenance"]["triggers"])
         and _mutually_implied(corpus, [c["text"] for c in head["guarantees"]],
                               [c["text"] for c in region["guarantees"]])):
@@ -426,29 +431,30 @@ The pass is additive: groups of size ≥ 2 land in `results["merged_regions"]` a
 while the per-event records, their episode CSVs and every mined clause are left untouched.
 Nothing downstream reads the grouping. Skipped regions are excluded.
 
-### Step 4 — mining and assembly (`ace/mining.py`, 754 lines)
+### Step 4 — mining and assembly (`ace/mining.py`, 809 lines)
 
 A region yields `C_r = (A_r, G_r)`. **A selected trigger is not copied into `A_r`** — a trigger
 conjunct over environment signals is only *proposed*, and enters only by passing the same checks
 as any other candidate.
 
-`Clause` (`mining.py:25-40`) carries `text`, `kind` (`propositional` | `temporal` |
-`trigger-derived`), `role`, `backend` (`in-process` | `harm` | `selection` | `refinement`),
-`scope`, `region`, `global_support`, `region_specific`, `held_out`, `kept`.
-`Contract` (`mining.py:42-61`) carries the two clause lists plus `triggers`, `provenance`,
+`Clause` (`mining.py:27-41`) carries `text`, `kind` (`propositional` | `temporal` |
+`trigger-derived`), `role`, `backend` (`in-process` | `in-process-templates` | `harm` |
+`selection` | `refinement`), `scope`, `region`, `global_support`, `region_specific`,
+`held_out`, `kept`.
+`Contract` (`mining.py:44-63`) carries the two clause lists plus `triggers`, `provenance`,
 `metrics`, `dropped` and the validation report.
 
-**Four candidate sources** (`mining.py:465-527`):
+**Four candidate sources** (`mining.py:512-582`):
 
 1. **Episode-scope invariants** — `propositional_invariants(rows, inputs + outputs)`
-   (`mining.py:66-112`): per signal a constant or a `>= min` / `<= max` bound; pairwise
+   (`mining.py:68-114`): per signal a constant or a `>= min` / `<= max` bound; pairwise
    `a == b` / `a <= b` where it holds everywhere, capped at 64 pairs. Pairs involving a constant
    signal are skipped — a relation against a signal that never changes is a bound in disguise.
-2. **Anchor-scope invariants** (`mining.py:473-490`) — the same, computed over the ATCT anchor
+2. **Anchor-scope invariants** (`mining.py:522-543`) — the same, computed over the ATCT anchor
    rows only, then wrapped as `G(<guard> |-> (<invariant>))` where the guard is the trigger's
    conjuncts **minus** any conjunct constraining the same signals. That avoids the tautology
    `G(in >= 0 |-> in >= 0)` and yields `G(start == 1 |-> in >= 0)`.
-3. **Trigger-derived assumptions** (`mining.py:495-507`) — each trigger conjunct whose signals
+3. **Trigger-derived assumptions** (`mining.py:545-560`) — each trigger conjunct whose signals
    are a subset of `inputs`.
 4. **Temporal** — `_mine_temporal` on the region (§5), returning `(clauses, backend)` so the
    provenance records what ran rather than what was installed. On the HARM path the clauses
@@ -461,7 +467,7 @@ as any other candidate.
    conjunction of invariants, so a mined `op_a_i == 100 |-> ##40 operator_i == 2` cannot enter
    it — and on the benchmark that family was **310 of 325** assumption-side clauses.
 
-**Declared vocabulary.** `interface_vocabulary(inputs, outputs)` (`mining.py:138-197`) emits
+**Declared vocabulary.** `interface_vocabulary(inputs, outputs)` (`mining.py:140-199`) emits
 four families per output: orderings/equality against every input; arithmetic over input pairs
 and triples (`o == a + b`, `o == a + b + c - 256`); bitwise and shifts; output-on-the-left forms
 (`o * b <= a`, `o * 2 + 1 >= a`) that specify a division or shift without naming it. Size is
@@ -471,18 +477,18 @@ comparisons against constants** — a proposition relating two signals is mined 
 (`backends.py:120-124`). Nothing in it reads the reference contracts, so a mined clause matching
 one is evidence, not bookkeeping.
 
-**Domain-triviality** (`mining.py:220-266`) returns the *reason* a clause says nothing, computed
+**Domain-triviality** (`mining.py:222-268`) returns the *reason* a clause says nothing, computed
 on the **full corpus**, memoised. Three cases: a non-implication true everywhere; an implication
 whose antecedent holds at every position (not conditional); an implication whose consequent
 holds at every position (the antecedent selects nothing).
 
 The asymmetry is the point. Guarantees are checked with `consequent=True`, **assumptions with
-`consequent=False`** (`mining.py:556-557`), which runs only the antecedent case — because an
+`consequent=False`** (`mining.py:611-612`), which runs only the antecedent case — because an
 environment restriction that holds everywhere *is* the assumption (`rst_n == 1`), and dropping
 it leaves A empty. An earlier version dropped any always-holding clause and thereby rejected
-exactly the well-formed guarantees; `tests/test_recovery.py:147-166` pins the fix.
+exactly the well-formed guarantees; `tests/test_recovery.py:147-156` pins the fix.
 
-**The filter loop** (`mining.py:530-579`), in order, every rejection appended to
+**The filter loop** (`mining.py:586-634`), in order, every rejection appended to
 `contract.dropped` with a `why`:
 
 | # | check | drop reason |
@@ -506,7 +512,7 @@ codebase is Step 2's trigger recall.
 **Post-processing**, in order:
 
 * `reduce_subsumed` per role (§4, Step 5).
-* `generalize` (`mining.py:293-346`, default on) collapses clauses identical except for the
+* `generalize` (`mining.py:295-348`, default on) collapses clauses identical except for the
   value of *one* antecedent equality conjunct into an interval `sig >= min && sig <= max`, then
   **re-verifies the proposal against the region corpus** — an interval with zero support or any
   violation is discarded, so generalization never weakens the set. Up to 3 rounds, one collapsed
@@ -514,7 +520,7 @@ codebase is Step 2's trigger recall.
 * `reduce_subsumed` again, because generalization can equalise strength.
 * `refine` (default on).
 
-**Refinement** (`mining.py:644-700`) is the conceptual step, not a cleanup. A contract's A is not
+**Refinement** (`mining.py:699-755`) is the conceptual step, not a cleanup. A contract's A is not
 a summary of the region — it is the environment restriction *chosen so that G holds*. The Ibex
 divider's `valid_o` region contains reset samples and divide-by-zero requests, so its invariants
 are loose (`div_en_i <= 1`) while the contract wants `rst_n == 1` and `op_b_i >= 1`. So:
@@ -530,7 +536,7 @@ Each restored guarantee is also recorded in `dropped` as ``restored under the as
 an audit trail, not an actual drop. On the divider this took the A side from 0 to 3 of 4.
 Caps: `max_refinements` 4, `max_refinement_candidates` 8.
 
-**Trace consistency — Equation (4)** (`mining.py:725-754`):
+**Trace consistency — Equation (4)** (`mining.py:780-809`):
 
 ```python
 for t in every position of every region run:
@@ -618,12 +624,12 @@ corpus. Every clause gets `held_out` and `kept` written back.
 ## 5. Backends — `ace/backends.py` and `ace/templates.py`
 
 None of this is a contribution of the flow, and **metrics are never read back from a backend**
-(`backends.py:1-24`). The flow scores everything with its own evaluator so that labeling,
+(`backends.py:1-26`). The flow scores everything with its own evaluator so that labeling,
 selection and held-out validation agree by construction.
 
-### HARM (`ace/backends.py`, 240 lines)
+### HARM (`ace/backends.py`, 272 lines)
 
-`GRAMMARS` (`backends.py:43-59`), `H` = horizon, `P0/P1/...` = proposition slots:
+`GRAMMARS` (`backends.py:54-70`), `H` = horizon, `P0/P1/...` = proposition slots:
 
 | key | adds |
 |---|---|
@@ -633,13 +639,13 @@ selection and held-out validation agree by construction.
 | `G4` | `G(P0 && P1 \|-> ##[1:H] P2)` |
 | `G5` | `G({..#1&..} \|-> P0)` — not expressible in process |
 
-`harm_conf` (`backends.py:111-144`) writes the XML: one `<prop exp=... loc=.../>` per boolean,
+`harm_conf` (`backends.py:134-169`) writes the XML: one `<prop exp=... loc=.../>` per boolean,
 one `<numeric clustering="K,10Max,0.01WCSS,><,==" .../>` per bitvector, the templates with `H`
 substituted (`\bH\b`, so a signal named `HREADY` survives), and a `<sort>` carrying smoothed
 confidence `(atct+1)/(atct+atcf+2)` — `atcf`, not `afct`, which counts positions where the
 antecedent does not hold. `loc` is a placement hint — `a` antecedent,
 `c` consequent, `dt` decision tree. **Declaring a bitvector as `<prop>` is the most likely cause
-of an empty mining run** (`backends.py:10-11`); `classify_signals` (`backends.py:154-160`) makes
+of an empty mining run** (`backends.py:10-11`); `classify_signals` (`backends.py:179-185`) makes
 the call from the observed value set.
 
 `harm` invokes the binary: **a directory argument becomes `--csv-dir`, a
@@ -673,7 +679,7 @@ reported on stderr and the region falls back to the in-process instantiator, lea
 but vocabulary does not, 6 it rejects a flag used in arithmetic);
 `tools/install_harm.sh` builds one. `tests/test_harm.py` covers the integration itself.
 
-`invgen` (`backends.py:220-227`) needs `$ACEROOT`. `daikon` (`backends.py:230-234`) **always
+`invgen` (`backends.py:252-259`) needs `$ACEROOT`. `daikon` (`backends.py:262-266`) **always
 raises `BackendMissing`** — it is a named alternative, not an implementation; propositional
 invariants are always computed in process.
 
@@ -693,7 +699,7 @@ vocabulary. The enumeration is not a contribution; the bitmask pass exists to ma
   the sample where a match **ENDS** (`mask |= 1 << (t + depth)`). Working in start space instead
   proposed every edge clause one cycle early and every edge-with-value conjunction as
   satisfiable when the evaluator read it as empty.
-* **Acceptance is strict** (`templates.py:165-173`): `if fires & ~reach: return 0` — any
+* **Acceptance is strict** (`templates.py:165-173`): `if fires & ~r: return 0` — any
   violation on a decidable position kills the instance. The only metric is `support`.
 * `_tighten` (`templates.py:176-192`) turns `##[1:20]` into a fixed `##3` where the data supports
   it, and `_emit` publishes only the tightest such offset — sqrt otherwise offered `##12` and
@@ -725,19 +731,19 @@ python3 -m ace <config.json> --out <dir> [--budget F] [--seed N] [--episode-mode
 `REQUIRED = ("name", "traces", "inputs", "outputs", "events", "horizon", "h_pre", "h_post")`
 (`__main__.py:22`); a missing key is a `SystemExit` naming all of them.
 
-`run_flow` (`__main__.py:125-218`) also takes an `overrides` dict with no CLI flag — that is the
+`run_flow` (`__main__.py:199-295`) also takes an `overrides` dict with no CLI flag — that is the
 programmatic entry point `tools/score_recovery.py` uses to run the same config under a different
 vocabulary setting without copying the file.
 
 **Two guards before any mining:**
 
-* `h_post < horizon` prints a stderr warning and sets `results["episode_covers_horizon"] = False`
-  (`__main__.py:147-153`). An episode shorter than the horizon cannot decide a bounded-response
-  clause; boundary-preserving extraction makes those positions vacuous rather than violated, so
-  **every `##[1:H]` guarantee is unreachable by construction** — worth saying out loud rather
-  than discovering as a zero.
+* `h_post < horizon` prints a stderr warning (`__main__.py:221-227`); `results["episode_covers_horizon"]`
+  is computed separately as `h_post >= horizon` (`__main__.py:235`). An episode shorter than the
+  horizon cannot decide a bounded-response clause; boundary-preserving extraction makes those
+  positions vacuous rather than violated, so **every `##[1:H]` guarantee is unreachable by
+  construction** — worth saying out loud rather than discovering as a zero.
 * Any signal in `inputs + outputs` not present in the corpus is a `SystemExit` listing both the
-  unknown names and the available ones (`__main__.py:155-158`).
+  unknown names and the available ones (`__main__.py:229-232`).
 
 Then, per declared event: label → select → episodes → mine (validation runs inside it). An event
 that never occurs is recorded `skipped: "event never occurs"`; one no candidate explains,
@@ -751,7 +757,7 @@ recorded (`load`, `1_label:<e>`, `2_triggers:<e>`, `3_episodes:<e>`, `4_mine:<e>
 <out>/contracts.json                          every clause with provenance, region support,
                                               global support, held-out result, kept flag,
                                               plus every dropped candidate and its reason
-<out>/report.md                               rendered summary (render_report, __main__.py:221-269)
+<out>/report.md                               rendered summary (render_report, __main__.py:298-352)
 <out>/work/trigger_traces/                    the mining corpus, retyped, for --csv-dir
 <out>/work/region_<slug>/
         episode_00000.csv ...                 split mode: one CSV per episode
@@ -763,7 +769,10 @@ recorded (`load`, `1_label:<e>`, `2_triggers:<e>`, `3_episodes:<e>`, `4_mine:<e>
 
 One asymmetry to be aware of when reading `contracts.json`: a skipped region records the
 selection under the key `triggers`, a successful one under `trigger_selection`
-(`__main__.py:191-213`).
+(`__main__.py:265-286`).
+
+`results` also carries `ace_version` (`ace.__version__`, `__main__.py:235`), stamped on every
+run for provenance.
 
 ---
 
@@ -775,7 +784,7 @@ selection under the key `triggers`, a successful one under `trigger_selection`
 | **region corpus** | `episodes.as_corpus` — one run per episode | region evaluation, subsumption, generalization verification, refinement, `trace_consistency` |
 | **held-out region corpus** | `mining.holdout_region` — the holdout re-decomposed with the *same* event and the *same* selected triggers | `validate`, minimization, reference matching |
 
-The third one is the subtle one (`mining.py:703-722`). Checking region clauses against *whole*
+The third one is the subtle one (`mining.py:758-777`). Checking region clauses against *whole*
 held-out runs would count every out-of-region sample as a violation and reject exactly the
 region-specific clauses the flow exists to find. So the holdout is decomposed the same way the
 mining corpus was, and only then scored.
@@ -797,17 +806,17 @@ This is the complete list of keys the code actually reads.
 
 | key | default | read at |
 |---|---|---|
-| `name` | required | `__main__.py:160` |
-| `traces` | required | `__main__.py:141` (globs relative to the config; `$VAR` expanded) |
-| `holdout` | `[]` | `__main__.py:143-145`; empty skips Step 5's held-out half |
+| `name` | required | `__main__.py:234` |
+| `traces` | required | `__main__.py:215` (globs relative to the config; `$VAR` expanded) |
+| `holdout` | `[]` | `__main__.py:218-219`; empty skips Step 5's held-out half |
 | `inputs`, `outputs` | required | trigger/assumption and event/guarantee vocabularies |
-| `events` | required | the per-region loop, `__main__.py:167` |
+| `events` | required | the per-region loop, `__main__.py:241` |
 | `horizon` | required | `H` in `G(trigger \|-> ##[1:H] event)` |
 | `h_pre`, `h_post` | required | `episodes.extract` |
-| `grammar` | `"G3"` | `backends.GRAMMARS`, `mining.py:447` |
+| `grammar` | `"G3"` | `backends.GRAMMARS`, `mining.py:500` |
 | `episode_mode` | `"split"` | `episodes.write_region`; CLI `--episode-mode` overrides |
-| `event_onsets` | `false` | `__main__.py:168` — label transitions instead of levels |
-| `trigger_candidates` | mined | `__main__.py:180-183` |
+| `event_onsets` | `false` | `__main__.py:242` — label transitions instead of levels |
+| `trigger_candidates` | mined | `__main__.py:254-257` |
 | `min_recall` | `0.5` | `triggers.select` |
 | `min_gain` | `0.05` | greedy loop threshold |
 | `redundancy_weight` | `0.5` | λ in the selection score |
@@ -818,12 +827,12 @@ This is the complete list of keys the code actually reads.
 | `edge_props` | `true` | `templates.edge_predicates` |
 | `compound_consequents` | `true` | flag-and-value conjunctions in the consequent slot |
 | `max_antecedent_props` | `2` | 3 is available but cubic in the vocabulary |
-| `min_instance_support` | `0.002` | share of region samples; floored at 3 (`mining.py:401-404`) |
+| `min_instance_support` | `0.002` | share of region samples; floored at 3 (`mining.py:403-406`) |
 | `max_instances` | `800` | `templates.instantiate` cap |
 | `max_per_consequent` | `12` | per antecedent-depth group |
 | `extra_props` | `[]` | declared vocabulary: `{exp, loc, stage}`; `loc` ∈ `a`/`c`/`dt` |
 | `auto_vocabulary` | `false` | switch on `mining.interface_vocabulary` |
-| `vocabulary_arity` | `3` | three-way sums in the arithmetic family (`mining.py:202-217`) |
+| `vocabulary_arity` | `3` | three-way sums in the arithmetic family (`mining.py:204-219`) |
 | `vocabulary_bitwise` | `true` | bitwise and shift family |
 | `vocabulary_output_arithmetic` | `true` | output-on-the-left family |
 | `max_vocabulary` | `150` | truncation cap, applied in emission order |
@@ -938,9 +947,9 @@ Numbers live in `reports/MINING_REPORT.md`; they are not duplicated here.
   flow sorts what it reads back, which pins the order but not which member of a group of
   equivalent clauses survives.
 * `mining._min_support`'s docstring says "at least two samples"; the code floors at 3
-  (`mining.py:401-404`).
+  (`mining.py:403-406`).
 * `mining.refine`'s cap check is `if len(contract.assumptions) and limit <= 0`
-  (`mining.py:678`), so a contract that has no assumptions yet admits one guard even under
+  (`mining.py:733`), so a contract that has no assumptions yet admits one guard even under
   `max_refinements: 0`. Harmless at the default, but the cap is not what it says at zero.
 * `expected_recall` saturates: once `base * matches` exceeds `|E|` every candidate with that
   many matches is expected to explain everything, so no candidate can pass filter 4. That is
