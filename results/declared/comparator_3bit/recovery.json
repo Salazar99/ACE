@@ -9,16 +9,34 @@
   "B >= 0"
  ],
  "mined_instances": [
+  "G((((!(A_equal == 1)) ##1 (A_equal == 1))) |-> A_equal == 1)",
+  "G((((!(A_equal == 1)) ##1 (A_equal == 1))) |-> A_equal)",
+  "G((((!(A_equal == 1)) ##1 (A_equal == 1))) |-> A_greater == 0)",
+  "G((((!(A_equal == 1)) ##1 (A_equal == 1))) |-> A_less == 0)",
+  "G((((!(A_greater == 1)) ##1 (A_greater == 1))) |-> A_equal == 0)",
+  "G((((!(A_greater == 1)) ##1 (A_greater == 1))) |-> A_greater == 1)",
+  "G((((!(A_greater == 1)) ##1 (A_greater == 1))) |-> A_greater)",
+  "G((((!(A_greater == 1)) ##1 (A_greater == 1))) |-> A_less == 0)",
+  "G((((!(A_less == 1)) ##1 (A_less == 1))) |-> A_equal == 0)",
+  "G((((!(A_less == 1)) ##1 (A_less == 1))) |-> A_greater == 0)",
+  "G((((!(A_less == 1)) ##1 (A_less == 1))) |-> A_less == 1)",
+  "G((((!(A_less == 1)) ##1 (A_less == 1))) |-> A_less)",
+  "G((((A_equal == 1) ##1 (!(A_equal == 1)))) |-> A_equal == 0)",
+  "G((((A_greater == 1) ##1 (!(A_greater == 1)))) |-> A_greater == 0)",
+  "G((((A_less == 1) ##1 (!(A_less == 1)))) |-> A_less == 0)",
   "G((A < B) |-> A_equal == 0)",
   "G((A < B) |-> A_less == 1)",
   "G((A < B) |-> A_less)",
   "G((A <= B) |-> A_greater == 0)",
+  "G((A == 2 && A_less == 1) |-> A == 2)",
   "G((A == B) |-> A_equal == 1)",
   "G((A == B) |-> A_equal)",
   "G((A > B) |-> A_equal == 0)",
   "G((A > B) |-> A_greater == 1)",
   "G((A > B) |-> A_greater)",
-  "G((A >= B) |-> A_less == 0)"
+  "G((A >= B) |-> A_less == 0)",
+  "G((B == 2 && A_less == 1) |-> B == 2)",
+  "G((B == 6 && A_less == 0) |-> B == 6)"
  ],
  "assumptions": {
   "references": 1,
@@ -37,7 +55,7 @@
  },
  "guarantees": {
   "references": 8,
-  "mined": 10,
+  "mined": 28,
   "recall": 0.75,
   "acceptable_recall": 1.0,
   "categories": {

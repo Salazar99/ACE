@@ -9,7 +9,6 @@ Produces, for every design the scorer covered:
     reports/MINING_REPORT.md         the tables: mined vs golden, per design, and which ones
     reports/golden/<design>.txt      the golden contracts, as A/G blocks, with their ids
     reports/mined/<design>.txt       the mined contracts, same shape, declared vocabulary
-    reports/mined_interface/<d>.txt  the same with the vocabulary derived from the interface
     reports/match/<design>.txt       one line per golden clause: category and the witness
 
 The txt files are plain contract text and nothing else, so they can be diffed, grepped and
@@ -29,7 +28,7 @@ sys.path.insert(0, str(ROOT))
 from ace import formula
 
 CATEGORIES = ("equivalent", "mined-stronger", "mined-weaker", "missed")
-SETTINGS = ("declared", "interface")
+SETTINGS = ("declared",)
 
 
 def load(results: Path, benchmarks: Path) -> dict:
@@ -252,31 +251,30 @@ def main():
         raise SystemExit(f"no recovery.json under {args.results}")
 
     out = Path(args.out)
-    for folder in ("golden", "mined", "mined_interface", "match"):
+    for folder in ("golden", "mined", "match"):
         (out / folder).mkdir(parents=True, exist_ok=True)
 
     for design, entry in designs.items():
         (out / "golden" / f"{design}.txt").write_text(golden_text(design, entry))
         (out / "mined" / f"{design}.txt").write_text(mined_text(design, entry, "declared"))
-        (out / "mined_interface" / f"{design}.txt").write_text(
-            mined_text(design, entry, "interface"))
         (out / "match" / f"{design}.txt").write_text(match_text(design, entry))
 
     report = ["# Mining report: golden contracts against what the flow mined", "",
               f"{len(designs)} designs. Golden contracts are the benchmark's reference set - "
               "hand-written, then confirmed on the mining and held-out corpora. Mined "
               "contracts are what the flow produced from the traces alone.", "",
-              "Two vocabulary settings are reported. **declared** uses each design's "
-              "`extra_props`, which for this benchmark were written from the golden "
-              "contracts, so it measures the flow given a good vocabulary. **interface** "
-              "derives the vocabulary mechanically from the interface (`auto_vocabulary`, "
-              "hints removed), so nothing about the golden set reaches the search space.", "",
+              "One vocabulary setting is reported: **declared**, each design's "
+              "`extra_props` - written from the golden contracts, so this measures the flow "
+              "given a good vocabulary - together with the propositions "
+              "`ace/vocabulary.py` reads off each region. The mechanical interface-only "
+              "family is a question about the miner, not about the decomposition, and is "
+              "not reported.", "",
               "Categories are trace-bounded: *equivalent* (a mined clause says exactly "
               "this), *mined-stronger* (a mined clause implies it - a refinement), "
               "*mined-weaker* (the flow found a weaker form), *missed*. `exact` is the "
               "equivalent share; `acceptable` counts equivalent plus refinements.", "",
               "The per-design files: `golden/<design>.txt`, `mined/<design>.txt`, "
-              "`mined_interface/<design>.txt`, `match/<design>.txt`.", ""]
+              "`match/<design>.txt`.", ""]
     report += ["## Guarantees", ""] + overview(designs, "guarantees", "Per design")
     report += which_ones(designs, "guarantees", "Guarantees")
     report += ["## Assumptions", ""] + overview(designs, "assumptions", "Per design")
@@ -290,7 +288,7 @@ def main():
                "and interface relevance all put the golden witnesses at ranks 20-350 of "
                "200-360). `match/<design>.txt` reports the split per design.", ""]
     (out / "MINING_REPORT.md").write_text("\n".join(report) + "\n")
-    print(f"wrote {out}/MINING_REPORT.md and {4 * len(designs)} contract files "
+    print(f"wrote {out}/MINING_REPORT.md and {3 * len(designs)} contract files "
           f"for {len(designs)} designs")
 
 

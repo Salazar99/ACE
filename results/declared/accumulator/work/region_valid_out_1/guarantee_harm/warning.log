@@ -10,4 +10,8 @@
 {
 "time" : "21:58:49",
 "message" : "Reset 'rst_n == 0' is not effective: there is a subtrace of size 1 at time 1682"}
+,
+{
+"time" : "20:12:10",
+"message" : "Reset 'rst_n == 0' is not effective: there is a subtrace of size 1 at time 1682"}
 ]

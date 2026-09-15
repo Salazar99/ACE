@@ -19,8 +19,9 @@ unchanged under `legacy/fdl26/`, so the two can still be compared.
 | 5. Semantic validation and minimization | `ace/validation.py` | Held-out violation rates, equivalence grouping with a canonical representative, subsumption removal, and reference-contract matching (`equivalent` / `mined-stronger` / `mined-weaker` / `missed`). |
 
 Support modules: `ace/formula.py` (finite-trace evaluation), `ace/traces.py` (corpus I/O),
-`ace/backends.py` (HARM), `ace/vocabulary.py` (the atoms read off the traces, for the
-trigger candidates and the refinement guards), `ace/__main__.py` (the flow and CLI).
+`ace/backends.py` (HARM), `ace/vocabulary.py` (the propositions read off the traces: the
+trigger candidates, the refinement guards, and the compound vocabulary declared to the
+miner), `ace/__main__.py` (the flow and CLI).
 
 ## Run it
 
@@ -107,6 +108,28 @@ a region cannot read the samples on the other side of an episode boundary either
 *proposed* as an assumption, then has to pass the same region, domain-triviality,
 subsumption and held-out checks as any other candidate.
 
+**The antecedent slot takes one proposition, so the vocabulary carries the conjunctions.**
+HARM fills a template slot with exactly one declared proposition, and its decision tree is
+built only for a template carrying a decision-tree placeholder, which no grammar the
+benchmark runs has. A contract that keys on a bus phase, an occupancy, a one-hot condition
+or a request edge is therefore unreachable until that whole condition is declared as a
+proposition of its own. `vocabulary.compound` declares them, from the region's samples
+rather than from the reference contracts: conjunctions of up to `compound_arity`
+propositions over distinct signals, kept only where the traces exhibit the combination and
+where each conjunct strictly narrows the one before it; the pair relations, sign splits and
+same-stem sums (`req0 + req1 + req2 + req3 == 1`) that comparisons against constants cannot
+express; and transitions, alone and guarded by what the environment presents with them.
+Within a width the ranking prefers the conjunctions with the fewest data-path signals,
+because an atom over a 256-valued bus splits any sample set near in half and otherwise
+takes the whole budget. `max_compound` is the size knob, and run time follows it.
+
+**An edge goes out as `$rose` and comes back as a sequence.** HARM's proposition grammar has
+no `##` and `formula.py` has no `$rose`, so `vocabulary.edge_props` carries both forms of
+each transition and `mining._readable` swaps one for the other on read-back. The guard sits
+INSIDE the second element of the sequence — `(!(x == 1)) ##1 (x == 1 && operator_i == 2)` —
+because `formula.And` intersects match ends, so an edge conjoined beside a same-sample
+predicate matches nowhere at all.
+
 **Region-scoped held-out check.** The held-out corpus is decomposed with the same event and
 triggers before its episodes are used. Checking region clauses against whole held-out runs
 would count every sample outside the region as a violation and reject precisely the
@@ -129,8 +152,13 @@ subsumed by a stronger clause, or wrong role for its vocabulary.
   reported and has to survive the held-out check.
 - `GRAMMARS["G1"]`..`["G5"]` are template vocabularies for HARM. `G3` is what the benchmark
   runs; `G5`'s `{..#1&..}` sequence placeholder has not been checked against a live build.
-  A reference contract with a sequence in its antecedent needs that template or an explicit
-  edge proposition in the declared vocabulary.
+  A reference contract with a sequence in its antecedent does not need it: the edge is a
+  declared proposition (`$rose`), not a template.
+- The compound vocabulary is what the traces exhibit, so a combination the stimulus never
+  produced is not declared and the contract that keys on it stays unreachable. Two
+  conjunctions with the same sample set are one proposition written two ways and only the
+  shorter survives, which is the weakest sufficient antecedent and not always the one the
+  reference is written with — the clause comes back, related rather than identical.
 - Comparing two clauses is comparing two statements that both hold on the traces: for
   implications, `validation.implies` therefore ranks them by where they fire, how tightly
   they respond and their consequents as predicates, not by satisfaction - which is trivially

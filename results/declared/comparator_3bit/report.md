@@ -18,6 +18,21 @@
 - `B <= 7` (propositional)
 
 ### Guarantees
+- `G((((A_equal == 1) ##1 (!(A_equal == 1)))) |-> A_equal == 0)` (temporal)
+- `G((((A_greater == 1) ##1 (!(A_greater == 1)))) |-> A_greater == 0)` (temporal)
+- `G((((A_less == 1) ##1 (!(A_less == 1)))) |-> A_less == 0)` (temporal)
+- `G((((!(A_equal == 1)) ##1 (A_equal == 1))) |-> A_equal == 1)` (temporal)
+- `G((((!(A_equal == 1)) ##1 (A_equal == 1))) |-> A_equal)` (temporal)
+- `G((((!(A_equal == 1)) ##1 (A_equal == 1))) |-> A_greater == 0)` (temporal)
+- `G((((!(A_equal == 1)) ##1 (A_equal == 1))) |-> A_less == 0)` (temporal)
+- `G((((!(A_greater == 1)) ##1 (A_greater == 1))) |-> A_equal == 0)` (temporal)
+- `G((((!(A_greater == 1)) ##1 (A_greater == 1))) |-> A_greater == 1)` (temporal)
+- `G((((!(A_greater == 1)) ##1 (A_greater == 1))) |-> A_greater)` (temporal)
+- `G((((!(A_greater == 1)) ##1 (A_greater == 1))) |-> A_less == 0)` (temporal)
+- `G((((!(A_less == 1)) ##1 (A_less == 1))) |-> A_equal == 0)` (temporal)
+- `G((((!(A_less == 1)) ##1 (A_less == 1))) |-> A_greater == 0)` (temporal)
+- `G((((!(A_less == 1)) ##1 (A_less == 1))) |-> A_less == 1)` (temporal)
+- `G((((!(A_less == 1)) ##1 (A_less == 1))) |-> A_less)` (temporal)
 - `G((A < B) |-> A_equal == 0)` (temporal)
 - `G((A < B) |-> A_less == 1)` (temporal)
 - `G((A < B) |-> A_less)` (temporal)
@@ -28,10 +43,11 @@
 - `G((A > B) |-> A_greater == 1)` (temporal)
 - `G((A > B) |-> A_greater)` (temporal)
 - `G((A >= B) |-> A_less == 0)` (temporal)
+- `G((B == 2 && A_less == 1) |-> B == 2)` (temporal)
 
 - trace consistency: 0 violations over 834 positions
-- dropped candidates: 29
-- held-out: 96 episodes of the same region, 11 clauses generalise and survive minimization
+- dropped candidates: 153
+- held-out: 96 episodes of the same region, 24 clauses generalise and survive minimization
 - reference match: equivalent 0.75, acceptable 1.0
 
 ## Event `A_equal == 1`
@@ -48,10 +64,21 @@
 - `B <= 7` (propositional)
 
 ### Guarantees
+- `G((((A_equal == 1) ##1 (!(A_equal == 1)))) |-> A_equal == 0)` (temporal)
+- `G((((!(A_equal == 1)) ##1 (A_equal == 1))) |-> A_equal == 1)` (temporal)
+- `G((((!(A_equal == 1)) ##1 (A_equal == 1))) |-> A_equal)` (temporal)
+- `G((((!(A_equal == 1)) ##1 (A_equal == 1))) |-> A_greater == 0)` (temporal)
+- `G((((!(A_greater == 1)) ##1 (A_greater == 1))) |-> A_equal == 0)` (temporal)
+- `G((((!(A_greater == 1)) ##1 (A_greater == 1))) |-> A_greater == 1)` (temporal)
+- `G((((!(A_greater == 1)) ##1 (A_greater == 1))) |-> A_greater)` (temporal)
+- `G((((!(A_greater == 1)) ##1 (A_greater == 1))) |-> A_less == 0)` (temporal)
+- `G((((!(A_less == 1)) ##1 (A_less == 1))) |-> A_less == 1)` (temporal)
+- `G((((!(A_less == 1)) ##1 (A_less == 1))) |-> A_less)` (temporal)
 - `G((A < B) |-> A_equal == 0)` (temporal)
 - `G((A < B) |-> A_less == 1)` (temporal)
 - `G((A < B) |-> A_less)` (temporal)
 - `G((A <= B) |-> A_greater == 0)` (temporal)
+- `G((A == 2 && A_less == 1) |-> A == 2)` (temporal)
 - `G((A == B) |-> A_equal == 1)` (temporal)
 - `G((A == B) |-> A_equal)` (temporal)
 - `G((A > B) |-> A_equal == 0)` (temporal)
@@ -60,8 +87,8 @@
 - `G((A >= B) |-> A_less == 0)` (temporal)
 
 - trace consistency: 0 violations over 216 positions
-- dropped candidates: 29
-- held-out: 69 episodes of the same region, 11 clauses generalise and survive minimization
+- dropped candidates: 158
+- held-out: 69 episodes of the same region, 19 clauses generalise and survive minimization
 - reference match: equivalent 0.75, acceptable 1.0
 
 ## Event `A_less == 1`
@@ -78,6 +105,21 @@
 - `B <= 7` (propositional)
 
 ### Guarantees
+- `G((((A_equal == 1) ##1 (!(A_equal == 1)))) |-> A_equal == 0)` (temporal)
+- `G((((A_greater == 1) ##1 (!(A_greater == 1)))) |-> A_greater == 0)` (temporal)
+- `G((((A_less == 1) ##1 (!(A_less == 1)))) |-> A_less == 0)` (temporal)
+- `G((((!(A_equal == 1)) ##1 (A_equal == 1))) |-> A_equal == 1)` (temporal)
+- `G((((!(A_equal == 1)) ##1 (A_equal == 1))) |-> A_equal)` (temporal)
+- `G((((!(A_equal == 1)) ##1 (A_equal == 1))) |-> A_greater == 0)` (temporal)
+- `G((((!(A_equal == 1)) ##1 (A_equal == 1))) |-> A_less == 0)` (temporal)
+- `G((((!(A_greater == 1)) ##1 (A_greater == 1))) |-> A_equal == 0)` (temporal)
+- `G((((!(A_greater == 1)) ##1 (A_greater == 1))) |-> A_greater == 1)` (temporal)
+- `G((((!(A_greater == 1)) ##1 (A_greater == 1))) |-> A_greater)` (temporal)
+- `G((((!(A_greater == 1)) ##1 (A_greater == 1))) |-> A_less == 0)` (temporal)
+- `G((((!(A_less == 1)) ##1 (A_less == 1))) |-> A_equal == 0)` (temporal)
+- `G((((!(A_less == 1)) ##1 (A_less == 1))) |-> A_greater == 0)` (temporal)
+- `G((((!(A_less == 1)) ##1 (A_less == 1))) |-> A_less == 1)` (temporal)
+- `G((((!(A_less == 1)) ##1 (A_less == 1))) |-> A_less)` (temporal)
 - `G((A < B) |-> A_equal == 0)` (temporal)
 - `G((A < B) |-> A_less == 1)` (temporal)
 - `G((A < B) |-> A_less)` (temporal)
@@ -88,29 +130,26 @@
 - `G((A > B) |-> A_greater == 1)` (temporal)
 - `G((A > B) |-> A_greater)` (temporal)
 - `G((A >= B) |-> A_less == 0)` (temporal)
+- `G((B == 6 && A_less == 0) |-> B == 6)` (temporal)
 
 - trace consistency: 0 violations over 842 positions
-- dropped candidates: 29
-- held-out: 91 episodes of the same region, 11 clauses generalise and survive minimization
+- dropped candidates: 150
+- held-out: 91 episodes of the same region, 24 clauses generalise and survive minimization
 - reference match: equivalent 0.75, acceptable 1.0
-
-## Merged regions
-
-- `A_greater == 1`, `A_equal == 1`: equivalent triggers and equivalent guarantees
 
 ## Stage times (s)
 
-- load: 0.007
-- 1_label:A_greater == 1: 0.0007
-- 2_triggers:A_greater == 1: 0.2365
-- 3_episodes:A_greater == 1: 0.0158
-- 4_mine:A_greater == 1: 0.2906
-- 1_label:A_equal == 1: 0.0004
-- 2_triggers:A_equal == 1: 0.2342
-- 3_episodes:A_equal == 1: 0.0075
-- 4_mine:A_equal == 1: 0.2153
-- 1_label:A_less == 1: 0.0008
-- 2_triggers:A_less == 1: 0.2347
-- 3_episodes:A_less == 1: 0.0147
-- 4_mine:A_less == 1: 0.3042
-- 5_merge: 0.0139
+- load: 0.0028
+- 1_label:A_greater == 1: 0.0005
+- 2_triggers:A_greater == 1: 0.1366
+- 3_episodes:A_greater == 1: 0.011
+- 4_mine:A_greater == 1: 0.526
+- 1_label:A_equal == 1: 0.0003
+- 2_triggers:A_equal == 1: 0.1333
+- 3_episodes:A_equal == 1: 0.0034
+- 4_mine:A_equal == 1: 0.3978
+- 1_label:A_less == 1: 0.0004
+- 2_triggers:A_less == 1: 0.1372
+- 3_episodes:A_less == 1: 0.0124
+- 4_mine:A_less == 1: 0.5144
+- 5_merge: 0.0254

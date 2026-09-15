@@ -15,7 +15,6 @@
 		<prop exp="multdiv_result_o == op_a_i" loc="c"/>
 		<prop exp="valid_o == 1 &amp;&amp; mult_en_i == 1 &amp;&amp; operator_i == 0" loc="a,dt"/>
 		<prop exp="multdiv_result_o == op_a_i * op_b_i" loc="c"/>
-		<prop exp="valid_o == 1" loc="a,dt"/>
 		<prop exp="mult_en_i == 1" loc="a,dt"/>
 		<prop exp="operator_i == 0" loc="a,dt"/>
 		<prop exp="valid_o == 1 &amp;&amp; div_en_i == 1 &amp;&amp; operator_i == 2 &amp;&amp; op_b_i &gt;= 1" loc="a,dt"/>
@@ -31,6 +30,114 @@
 		<prop exp="mult_en_i == 0" loc="a,dt"/>
 		<prop exp="div_en_i == 0" loc="a,dt"/>
 		<prop exp="valid_o == 1 &amp;&amp; mult_en_i == 1 &amp;&amp; op_a_i == 0" loc="a,dt"/>
+		<prop exp="operator_i == op_a_i" loc="a,dt"/>
+		<prop exp="operator_i &gt;= op_a_i" loc="a,dt"/>
+		<prop exp="operator_i &lt; op_a_i" loc="a,dt"/>
+		<prop exp="operator_i + op_a_i &lt;= 4294967295" loc="a,dt"/>
+		<prop exp="operator_i == op_b_i" loc="a,dt"/>
+		<prop exp="operator_i &gt;= op_b_i" loc="a,dt"/>
+		<prop exp="operator_i &lt; op_b_i" loc="a,dt"/>
+		<prop exp="operator_i + op_b_i &lt;= 65535" loc="a,dt"/>
+		<prop exp="operator_i == multdiv_result_o" loc="a,c,dt"/>
+		<prop exp="operator_i &gt;= multdiv_result_o" loc="a,c,dt"/>
+		<prop exp="operator_i &lt; multdiv_result_o" loc="a,c,dt"/>
+		<prop exp="operator_i + multdiv_result_o &lt;= 4294967295" loc="a,c,dt"/>
+		<prop exp="op_a_i == op_b_i" loc="a,dt"/>
+		<prop exp="op_a_i &gt;= op_b_i" loc="a,dt"/>
+		<prop exp="op_a_i &lt; op_b_i" loc="a,dt"/>
+		<prop exp="op_a_i + op_b_i &lt;= 4294967295" loc="a,dt"/>
+		<prop exp="op_a_i == multdiv_result_o" loc="a,c,dt"/>
+		<prop exp="op_a_i &gt;= multdiv_result_o" loc="a,c,dt"/>
+		<prop exp="op_a_i &lt; multdiv_result_o" loc="a,c,dt"/>
+		<prop exp="op_a_i + multdiv_result_o &lt;= 4294967295" loc="a,c,dt"/>
+		<prop exp="op_b_i == multdiv_result_o" loc="a,c,dt"/>
+		<prop exp="op_b_i &gt;= multdiv_result_o" loc="a,c,dt"/>
+		<prop exp="op_b_i &lt; multdiv_result_o" loc="a,c,dt"/>
+		<prop exp="op_b_i + multdiv_result_o &lt;= 4294967295" loc="a,c,dt"/>
+		<prop exp="op_a_i &gt;= 2147483648" loc="a,dt"/>
+		<prop exp="op_a_i &lt;= 2147483647" loc="a,dt"/>
+		<prop exp="multdiv_result_o &gt;= 2147483648" loc="a,c,dt"/>
+		<prop exp="multdiv_result_o &lt;= 2147483647" loc="a,c,dt"/>
+		<prop exp="operator_i == 1" loc="a,dt"/>
+		<prop exp="mult_en_i == 0 &amp;&amp; operator_i == 1" loc="a,dt"/>
+		<prop exp="mult_en_i == 1 &amp;&amp; operator_i == 1" loc="a,dt"/>
+		<prop exp="operator_i == 2 &amp;&amp; valid_o == 1" loc="a,dt"/>
+		<prop exp="operator_i == 0 &amp;&amp; valid_o == 1" loc="a,dt"/>
+		<prop exp="mult_en_i == 1 &amp;&amp; valid_o == 1" loc="a,dt"/>
+		<prop exp="mult_en_i == 0 &amp;&amp; valid_o == 1" loc="a,dt"/>
+		<prop exp="div_en_i == 0 &amp;&amp; operator_i == 3" loc="a,dt"/>
+		<prop exp="mult_en_i == 1 &amp;&amp; operator_i == 0" loc="a,dt"/>
+		<prop exp="div_en_i == 0 &amp;&amp; operator_i == 2" loc="a,dt"/>
+		<prop exp="mult_en_i == 0 &amp;&amp; operator_i == 0" loc="a,dt"/>
+		<prop exp="div_en_i == 1 &amp;&amp; operator_i == 3" loc="a,dt"/>
+		<prop exp="mult_en_i == 0 &amp;&amp; div_en_i == 0" loc="a,dt"/>
+		<prop exp="div_en_i == 1 &amp;&amp; operator_i == 2" loc="a,dt"/>
+		<prop exp="mult_en_i == 1 &amp;&amp; multdiv_result_o &gt;= 2147483648" loc="a,dt"/>
+		<prop exp="operator_i == 2 &amp;&amp; op_b_i == 0" loc="a,dt"/>
+		<prop exp="operator_i == 3 &amp;&amp; operator_i &gt;= op_b_i" loc="a,dt"/>
+		<prop exp="div_en_i == 0 &amp;&amp; operator_i &gt;= op_a_i" loc="a,dt"/>
+		<prop exp="mult_en_i == 0 &amp;&amp; operator_i == multdiv_result_o" loc="a,dt"/>
+		<prop exp="operator_i == 1 &amp;&amp; multdiv_result_o &lt;= 2147483647" loc="a,dt"/>
+		<prop exp="operator_i == 1 &amp;&amp; operator_i &lt; multdiv_result_o" loc="a,dt"/>
+		<prop exp="div_en_i == 1 &amp;&amp; operator_i &gt;= op_a_i" loc="a,dt"/>
+		<prop exp="div_en_i == 0 &amp;&amp; operator_i == 3 &amp;&amp; operator_i &gt;= op_b_i" loc="a,dt"/>
+		<prop exp="div_en_i == 0 &amp;&amp; operator_i == 2 &amp;&amp; operator_i &gt;= op_b_i" loc="a,dt"/>
+		<prop exp="div_en_i == 0 &amp;&amp; operator_i == 2 &amp;&amp; operator_i &gt;= multdiv_result_o" loc="a,dt"/>
+		<prop exp="mult_en_i == 1 &amp;&amp; operator_i == 1 &amp;&amp; multdiv_result_o &lt;= 2147483647" loc="a,dt"/>
+		<prop exp="mult_en_i == 0 &amp;&amp; div_en_i == 0 &amp;&amp; operator_i &gt;= op_a_i" loc="a,dt"/>
+		<prop exp="operator_i == 2 &amp;&amp; valid_o == 1 &amp;&amp; operator_i &lt; op_b_i" loc="a,dt"/>
+		<prop exp="operator_i == 2 &amp;&amp; valid_o == 1 &amp;&amp; operator_i &lt; multdiv_result_o" loc="a,dt"/>
+		<prop exp="operator_i == 0 &amp;&amp; valid_o == 1 &amp;&amp; multdiv_result_o &lt;= 2147483647" loc="a,dt"/>
+		<prop exp="operator_i == 0 &amp;&amp; valid_o == 1 &amp;&amp; operator_i &lt; multdiv_result_o" loc="a,dt"/>
+		<prop exp="operator_i == 1 &amp;&amp; operator_i &lt; multdiv_result_o &amp;&amp; multdiv_result_o &lt;= 2147483647" loc="a,dt"/>
+		<prop exp="operator_i == 0 &amp;&amp; valid_o == 1 &amp;&amp; operator_i &lt; op_b_i" loc="a,dt"/>
+		<prop exp="div_en_i == 0 &amp;&amp; operator_i == 3 &amp;&amp; operator_i &lt; op_b_i" loc="a,dt"/>
+		<prop exp="mult_en_i == 1 &amp;&amp; valid_o == 1 &amp;&amp; multdiv_result_o &lt;= 2147483647" loc="a,dt"/>
+		<prop exp="mult_en_i == 0 &amp;&amp; valid_o == 1 &amp;&amp; operator_i &lt; op_b_i" loc="a,dt"/>
+		<prop exp="mult_en_i == 1 &amp;&amp; valid_o == 1 &amp;&amp; operator_i &lt; op_b_i" loc="a,dt"/>
+		<prop exp="mult_en_i == 0 &amp;&amp; valid_o == 1 &amp;&amp; operator_i &lt; multdiv_result_o" loc="a,dt"/>
+		<prop exp="mult_en_i == 0 &amp;&amp; div_en_i == 0 &amp;&amp; op_b_i == 0" loc="a,dt"/>
+		<prop exp="mult_en_i == 0 &amp;&amp; operator_i == 0 &amp;&amp; multdiv_result_o &gt;= 2147483648" loc="a,dt"/>
+		<prop exp="mult_en_i == 0 &amp;&amp; div_en_i == 0 &amp;&amp; operator_i &gt;= op_b_i" loc="a,dt"/>
+		<prop exp="div_en_i == 1 &amp;&amp; operator_i == 2 &amp;&amp; operator_i &gt;= op_b_i" loc="a,dt"/>
+		<prop exp="valid_o == 1 &amp;&amp; operator_i &lt; multdiv_result_o &amp;&amp; multdiv_result_o &lt;= 2147483647" loc="a,c,dt"/>
+		<prop exp="operator_i == 0 &amp;&amp; valid_o == 1 &amp;&amp; operator_i &lt; multdiv_result_o &amp;&amp; multdiv_result_o &lt;= 2147483647" loc="a,dt"/>
+		<prop exp="mult_en_i == 1 &amp;&amp; operator_i == 0 &amp;&amp; operator_i &lt; multdiv_result_o &amp;&amp; multdiv_result_o &lt;= 2147483647" loc="a,dt"/>
+		<prop exp="div_en_i == 1 &amp;&amp; operator_i == 3 &amp;&amp; operator_i &lt; multdiv_result_o &amp;&amp; multdiv_result_o &lt;= 2147483647" loc="a,dt"/>
+		<prop exp="mult_en_i == 0 &amp;&amp; operator_i == 0 &amp;&amp; operator_i &lt; multdiv_result_o &amp;&amp; multdiv_result_o &lt;= 2147483647" loc="a,dt"/>
+		<prop exp="div_en_i == 1 &amp;&amp; operator_i == 2 &amp;&amp; operator_i &lt; multdiv_result_o &amp;&amp; multdiv_result_o &lt;= 2147483647" loc="a,dt"/>
+		<prop exp="mult_en_i == 0 &amp;&amp; div_en_i == 0 &amp;&amp; operator_i &lt; multdiv_result_o &amp;&amp; multdiv_result_o &lt;= 2147483647" loc="a,dt"/>
+		<prop exp="operator_i == 2 &amp;&amp; valid_o == 1 &amp;&amp; operator_i &lt; op_b_i &amp;&amp; operator_i &lt; multdiv_result_o" loc="a,dt"/>
+		<prop exp="operator_i == 2 &amp;&amp; valid_o == 1 &amp;&amp; operator_i &lt; multdiv_result_o &amp;&amp; op_a_i + multdiv_result_o &lt;= 4294967295" loc="a,dt"/>
+		<prop exp="operator_i == 2 &amp;&amp; valid_o == 1 &amp;&amp; operator_i &lt; multdiv_result_o &amp;&amp; op_a_i &gt;= multdiv_result_o" loc="a,dt"/>
+		<prop exp="operator_i == 2 &amp;&amp; valid_o == 1 &amp;&amp; operator_i &lt; op_b_i &amp;&amp; op_a_i &gt;= op_b_i" loc="a,dt"/>
+		<prop exp="mult_en_i == 1 &amp;&amp; valid_o == 1 &amp;&amp; operator_i &lt; op_b_i &amp;&amp; op_a_i &gt;= op_b_i" loc="a,dt"/>
+		<prop exp="div_en_i == 1 &amp;&amp; operator_i &lt; multdiv_result_o &amp;&amp; op_a_i &gt;= 2147483648 &amp;&amp; multdiv_result_o &lt;= 2147483647" loc="a,dt"/>
+		<prop exp="div_en_i == 0 &amp;&amp; operator_i &lt; multdiv_result_o &amp;&amp; op_a_i &gt;= multdiv_result_o &amp;&amp; op_a_i + multdiv_result_o &lt;= 4294967295" loc="a,dt"/>
+		<prop exp="div_en_i == 0 &amp;&amp; operator_i == 2 &amp;&amp; op_a_i &gt;= multdiv_result_o &amp;&amp; op_a_i + multdiv_result_o &lt;= 4294967295" loc="a,dt"/>
+		<prop exp="mult_en_i == 0 &amp;&amp; valid_o == 1 &amp;&amp; operator_i &lt; op_b_i &amp;&amp; operator_i &lt; multdiv_result_o" loc="a,dt"/>
+		<prop exp="valid_o == 1 &amp;&amp; operator_i &lt; op_b_i &amp;&amp; op_b_i &lt; multdiv_result_o &amp;&amp; multdiv_result_o &lt;= 2147483647" loc="a,dt"/>
+		<prop exp="mult_en_i == 0 &amp;&amp; valid_o == 1 &amp;&amp; operator_i &lt; op_b_i &amp;&amp; op_a_i &gt;= op_b_i" loc="a,dt"/>
+		<prop exp="div_en_i == 1 &amp;&amp; operator_i &lt; multdiv_result_o &amp;&amp; multdiv_result_o &lt;= 2147483647 &amp;&amp; multdiv_result_o == op_a_i" loc="a,dt"/>
+		<prop exp="div_en_i == 0 &amp;&amp; operator_i == 3 &amp;&amp; operator_i &lt; op_b_i &amp;&amp; op_a_i &gt;= op_b_i" loc="a,dt"/>
+		<prop exp="mult_en_i == 1 &amp;&amp; valid_o == 1 &amp;&amp; operator_i &lt; op_b_i &amp;&amp; multdiv_result_o &lt;= 2147483647" loc="a,dt"/>
+		<prop exp="mult_en_i == 0 &amp;&amp; valid_o == 1 &amp;&amp; operator_i &lt; multdiv_result_o &amp;&amp; op_a_i + multdiv_result_o &lt;= 4294967295" loc="a,dt"/>
+		<prop exp="$rose(rst_n)" loc="a,dt"/>
+		<prop exp="$fell(rst_n)" loc="a,dt"/>
+		<prop exp="$rose(mult_en_i)" loc="a,dt"/>
+		<prop exp="$fell(mult_en_i)" loc="a,dt"/>
+		<prop exp="$rose(mult_en_i) &amp;&amp; operator_i == 1" loc="a,dt"/>
+		<prop exp="$rose(mult_en_i) &amp;&amp; operator_i == 0" loc="a,dt"/>
+		<prop exp="$rose(mult_en_i) &amp;&amp; operator_i == 0 &amp;&amp; operator_i &lt; op_a_i" loc="a,dt"/>
+		<prop exp="$rose(mult_en_i) &amp;&amp; operator_i == op_b_i" loc="a,dt"/>
+		<prop exp="$rose(div_en_i)" loc="a,dt"/>
+		<prop exp="$fell(div_en_i)" loc="a,dt"/>
+		<prop exp="$rose(div_en_i) &amp;&amp; operator_i == 3" loc="a,dt"/>
+		<prop exp="$rose(div_en_i) &amp;&amp; operator_i == 2" loc="a,dt"/>
+		<prop exp="$rose(div_en_i) &amp;&amp; operator_i &gt;= op_b_i &amp;&amp; op_b_i &gt;= 1" loc="a,dt"/>
+		<prop exp="$rose(div_en_i) &amp;&amp; operator_i == 2 &amp;&amp; op_b_i == 0" loc="a,dt"/>
+		<prop exp="$rose(valid_o)" loc="a,dt"/>
+		<prop exp="$fell(valid_o)" loc="a,dt"/>
 		<prop exp="rst_n" loc="a,c,dt"/>
 		<prop exp="mult_en_i" loc="a,c,dt"/>
 		<prop exp="div_en_i" loc="a,c,dt"/>

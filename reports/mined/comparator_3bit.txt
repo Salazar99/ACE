@@ -4,7 +4,22 @@
 
 CONTRACT comparator_3bit.mined.1    [event A_greater == 1, triggers A > B, 179 episodes]
 A: A >= 0 && A <= 7 && B >= 0 && B <= 7
-G: G((A < B) |-> A_equal == 0)
+G: G((((A_equal == 1) ##1 (!(A_equal == 1)))) |-> A_equal == 0)
+   G((((A_greater == 1) ##1 (!(A_greater == 1)))) |-> A_greater == 0)
+   G((((A_less == 1) ##1 (!(A_less == 1)))) |-> A_less == 0)
+   G((((!(A_equal == 1)) ##1 (A_equal == 1))) |-> A_equal == 1)
+   G((((!(A_equal == 1)) ##1 (A_equal == 1))) |-> A_equal)
+   G((((!(A_equal == 1)) ##1 (A_equal == 1))) |-> A_greater == 0)
+   G((((!(A_equal == 1)) ##1 (A_equal == 1))) |-> A_less == 0)
+   G((((!(A_greater == 1)) ##1 (A_greater == 1))) |-> A_equal == 0)
+   G((((!(A_greater == 1)) ##1 (A_greater == 1))) |-> A_greater == 1)
+   G((((!(A_greater == 1)) ##1 (A_greater == 1))) |-> A_greater)
+   G((((!(A_greater == 1)) ##1 (A_greater == 1))) |-> A_less == 0)
+   G((((!(A_less == 1)) ##1 (A_less == 1))) |-> A_equal == 0)
+   G((((!(A_less == 1)) ##1 (A_less == 1))) |-> A_greater == 0)
+   G((((!(A_less == 1)) ##1 (A_less == 1))) |-> A_less == 1)
+   G((((!(A_less == 1)) ##1 (A_less == 1))) |-> A_less)
+   G((A < B) |-> A_equal == 0)
    G((A < B) |-> A_less == 1) [*]
    G((A < B) |-> A_less)
    G((A <= B) |-> A_greater == 0) [*]
@@ -14,13 +29,25 @@ G: G((A < B) |-> A_equal == 0)
    G((A > B) |-> A_greater == 1) [*]
    G((A > B) |-> A_greater)
    G((A >= B) |-> A_less == 0) [*]
+   G((B == 2 && A_less == 1) |-> B == 2)
 
 CONTRACT comparator_3bit.mined.2    [event A_equal == 1, triggers A > B, 51 episodes]
 A: A >= 0 && A <= 7 && B >= 0 && B <= 7
-G: G((A < B) |-> A_equal == 0)
+G: G((((A_equal == 1) ##1 (!(A_equal == 1)))) |-> A_equal == 0)
+   G((((!(A_equal == 1)) ##1 (A_equal == 1))) |-> A_equal == 1)
+   G((((!(A_equal == 1)) ##1 (A_equal == 1))) |-> A_equal)
+   G((((!(A_equal == 1)) ##1 (A_equal == 1))) |-> A_greater == 0)
+   G((((!(A_greater == 1)) ##1 (A_greater == 1))) |-> A_equal == 0)
+   G((((!(A_greater == 1)) ##1 (A_greater == 1))) |-> A_greater == 1)
+   G((((!(A_greater == 1)) ##1 (A_greater == 1))) |-> A_greater)
+   G((((!(A_greater == 1)) ##1 (A_greater == 1))) |-> A_less == 0)
+   G((((!(A_less == 1)) ##1 (A_less == 1))) |-> A_less == 1)
+   G((((!(A_less == 1)) ##1 (A_less == 1))) |-> A_less)
+   G((A < B) |-> A_equal == 0)
    G((A < B) |-> A_less == 1) [*]
    G((A < B) |-> A_less)
    G((A <= B) |-> A_greater == 0) [*]
+   G((A == 2 && A_less == 1) |-> A == 2)
    G((A == B) |-> A_equal == 1) [*]
    G((A == B) |-> A_equal)
    G((A > B) |-> A_equal == 0) [*]
@@ -30,7 +57,22 @@ G: G((A < B) |-> A_equal == 0)
 
 CONTRACT comparator_3bit.mined.3    [event A_less == 1, triggers A < B, 187 episodes]
 A: A >= 0 && A <= 7 && B >= 0 && B <= 7
-G: G((A < B) |-> A_equal == 0)
+G: G((((A_equal == 1) ##1 (!(A_equal == 1)))) |-> A_equal == 0)
+   G((((A_greater == 1) ##1 (!(A_greater == 1)))) |-> A_greater == 0)
+   G((((A_less == 1) ##1 (!(A_less == 1)))) |-> A_less == 0)
+   G((((!(A_equal == 1)) ##1 (A_equal == 1))) |-> A_equal == 1)
+   G((((!(A_equal == 1)) ##1 (A_equal == 1))) |-> A_equal)
+   G((((!(A_equal == 1)) ##1 (A_equal == 1))) |-> A_greater == 0)
+   G((((!(A_equal == 1)) ##1 (A_equal == 1))) |-> A_less == 0)
+   G((((!(A_greater == 1)) ##1 (A_greater == 1))) |-> A_equal == 0)
+   G((((!(A_greater == 1)) ##1 (A_greater == 1))) |-> A_greater == 1)
+   G((((!(A_greater == 1)) ##1 (A_greater == 1))) |-> A_greater)
+   G((((!(A_greater == 1)) ##1 (A_greater == 1))) |-> A_less == 0)
+   G((((!(A_less == 1)) ##1 (A_less == 1))) |-> A_equal == 0)
+   G((((!(A_less == 1)) ##1 (A_less == 1))) |-> A_greater == 0)
+   G((((!(A_less == 1)) ##1 (A_less == 1))) |-> A_less == 1)
+   G((((!(A_less == 1)) ##1 (A_less == 1))) |-> A_less)
+   G((A < B) |-> A_equal == 0)
    G((A < B) |-> A_less == 1) [*]
    G((A < B) |-> A_less)
    G((A <= B) |-> A_greater == 0) [*]
@@ -40,3 +82,4 @@ G: G((A < B) |-> A_equal == 0)
    G((A > B) |-> A_greater == 1) [*]
    G((A > B) |-> A_greater)
    G((A >= B) |-> A_less == 0) [*]
+   G((B == 6 && A_less == 0) |-> B == 6)

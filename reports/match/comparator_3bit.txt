@@ -20,35 +20,11 @@
 [    CMP8] mined-stronger  G((A == 7 && B == 0) |-> (A_greater == 1))
            witness        G((A > B) |-> A_greater == 1)
 
--- interface vocabulary --
-[    CMP1] equivalent      G((A > B) |-> (A_greater == 1))
-           witness        G(A > B |-> (A_greater == 1))
-[    CMP2] equivalent      G((A == B) |-> (A_equal == 1))
-           witness        G((A_equal) |-> A_less == A - B)
-[    CMP3] equivalent      G((A < B) |-> (A_less == 1))
-           witness        G((A_less) |-> A_less * B + B > A)
-[    CMP4] mined-weaker    G((A >= B) |-> (A_less == 0))
-           witness        G((A == 7) |-> A_less * B <= A)
-[    CMP5] mined-weaker    G((A <= B) |-> (A_greater == 0))
-           witness        G((A == 0) |-> A_greater * 2 <= A)
-[    CMP6] equivalent      G((A > B) |-> (A_equal == 0))
-           witness        G(A > B |-> (A_equal == 0))
-[    CMP7] equivalent      G((B == 0) |-> (A_less == 0))
-           witness        G((B == 0) |-> A_less * B <= A)
-[    CMP8] mined-stronger  G((A == 7 && B == 0) |-> (A_greater == 1))
-           witness        G(A > B |-> (A_greater == 1))
-
-# declared: 10 mined, 6 matched a golden clause, 4 with no counterpart
-# interface: 67 mined, 7 matched a golden clause, 60 with no counterpart
+# declared: 28 mined, 6 matched a golden clause, 22 with no counterpart
 
 == ASSUMPTIONS ==
 -- declared vocabulary --
 [      A1] mined-stronger  A <= 7 && B <= 7
            witness        A <= 7 && A >= 0 && B <= 7 && B >= 0
 
--- interface vocabulary --
-[      A1] mined-stronger  A <= 7 && B <= 7
-           witness        A <= 7 && A >= 0 && B <= 7 && B >= 0
-
 # declared: 4 mined, 0 matched a golden clause, 4 with no counterpart
-# interface: 4 mined, 0 matched a golden clause, 4 with no counterpart

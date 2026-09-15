@@ -15,58 +15,34 @@
            witness        G((penable == 0) |=> pready == 0)
 [    APB6] equivalent      G((penable == 0) |=> (pready == 0))
            witness        G((penable == 0) |=> pready == 0)
-[    APB7] missed          G((psel == 1 && penable == 1 && paddr <= 2) |=> (pready == 1))
+[    APB7] equivalent      G((psel == 1 && penable == 1 && paddr <= 2) |=> (pready == 1))
+           witness        G(penable == 1 && paddr >= 0 && paddr <= 2 |=> pready == 1)
 [    APB8] mined-stronger  G((psel == 1 && penable == 1 && paddr <= 3) |=> (pslverr == 0))
            witness        G((paddr <= 3) |=> pslverr == 0)
-[    APB9] missed          G((psel == 1 && penable == 1 && paddr >= 4) |=> (pslverr == 1))
-[   APB10] missed          G((psel == 1 && penable == 1 && paddr >= 4) |=> (pready == 1))
+[    APB9] equivalent      G((psel == 1 && penable == 1 && paddr >= 4) |=> (pslverr == 1))
+           witness        G((penable == 1 && paddr >= 4) |=> pslverr == 1)
+[   APB10] equivalent      G((psel == 1 && penable == 1 && paddr >= 4) |=> (pready == 1))
+           witness        G((penable == 1 && paddr >= 4) |=> pready == 1)
 [   APB11] equivalent      G((pslverr == 1) |-> (pready == 1))
            witness        G((pslverr) |-> pready)
-[   APB12] missed          G((psel == 1 && penable == 0 && paddr <= 2) |-> ##2 (pready == 1))
-[   APB13] missed          G((psel == 1 && penable == 0 && paddr == 3) |-> ##4 (pready == 1))
-[   APB14] missed          G((psel == 1 && penable == 0 && paddr >= 4) |-> ##2 (pslverr == 1))
+[   APB12] equivalent      G((psel == 1 && penable == 0 && paddr <= 2) |-> ##2 (pready == 1))
+           witness        G(psel == 1 && penable == 0 && pwrite >= 0 && pwrite <= 1 && paddr <= 2 |-> (##2 pready == 1))
+[   APB13] equivalent      G((psel == 1 && penable == 0 && paddr == 3) |-> ##4 (pready == 1))
+           witness        G(psel == 1 && penable == 0 && pwrite >= 0 && pwrite <= 1 && paddr == 3 |-> (##4 pready == 1))
+[   APB14] mined-stronger  G((psel == 1 && penable == 0 && paddr >= 4) |-> ##2 (pslverr == 1))
+           witness        G((pready == 0 && paddr >= 4) |-> (##2 pslverr == 1))
 [   APB15] mined-stronger  G((psel == 1 && penable == 0 && paddr == 3) |=> (pready == 0))
            witness        G((penable == 0) |=> pready == 0)
 [   APB16] missed          G((psel == 1 && penable == 1 && paddr == 3 && pready == 0) |-> ##[1:3] (pready == 1))
-[   APB17] missed          G((psel == 1 && penable == 0 && pwrite == 0 && paddr <= 2) |-> ##2 (prdata == pwdata))
-[   APB18] missed          G((psel == 1 && penable == 0 && pwrite == 0 && paddr == 3) |-> ##4 (prdata == pwdata))
+[   APB17] equivalent      G((psel == 1 && penable == 0 && pwrite == 0 && paddr <= 2) |-> ##2 (prdata == pwdata))
+           witness        G((psel == 1 && penable == 0 && pwrite == 0 && paddr <= 2) |-> (##2 prdata == pwdata))
+[   APB18] equivalent      G((psel == 1 && penable == 0 && pwrite == 0 && paddr == 3) |-> ##4 (prdata == pwdata))
+           witness        G((psel == 1 && penable == 0 && pwrite == 0 && paddr == 3) |-> (##4 prdata == pwdata))
 
--- interface vocabulary --
-[    APB1] missed          G((presetn == 0) |=> (pready == 0))
-[    APB2] missed          G((presetn == 0) |=> (pslverr == 0))
-[    APB3] missed          G((presetn == 0) |=> (prdata == 0))
-[    APB4] missed          G((psel == 0) |=> (pready == 0))
-[    APB5] missed          G((psel == 0) |=> (pslverr == 0))
-[    APB6] missed          G((penable == 0) |=> (pready == 0))
-[    APB7] missed          G((psel == 1 && penable == 1 && paddr <= 2) |=> (pready == 1))
-[    APB8] missed          G((psel == 1 && penable == 1 && paddr <= 3) |=> (pslverr == 0))
-[    APB9] missed          G((psel == 1 && penable == 1 && paddr >= 4) |=> (pslverr == 1))
-[   APB10] missed          G((psel == 1 && penable == 1 && paddr >= 4) |=> (pready == 1))
-[   APB11] equivalent      G((pslverr == 1) |-> (pready == 1))
-           witness        G((pslverr) |-> pready)
-[   APB12] missed          G((psel == 1 && penable == 0 && paddr <= 2) |-> ##2 (pready == 1))
-[   APB13] missed          G((psel == 1 && penable == 0 && paddr == 3) |-> ##4 (pready == 1))
-[   APB14] missed          G((psel == 1 && penable == 0 && paddr >= 4) |-> ##2 (pslverr == 1))
-[   APB15] missed          G((psel == 1 && penable == 0 && paddr == 3) |=> (pready == 0))
-[   APB16] missed          G((psel == 1 && penable == 1 && paddr == 3 && pready == 0) |-> ##[1:3] (pready == 1))
-[   APB17] missed          G((psel == 1 && penable == 0 && pwrite == 0 && paddr <= 2) |-> ##2 (prdata == pwdata))
-[   APB18] missed          G((psel == 1 && penable == 0 && pwrite == 0 && paddr == 3) |-> ##4 (prdata == pwdata))
-
-# declared: 151 mined, 5 matched a golden clause, 146 with no counterpart
-# interface: 770 mined, 1 matched a golden clause, 769 with no counterpart
+# declared: 1934 mined, 13 matched a golden clause, 1921 with no counterpart
 
 == ASSUMPTIONS ==
 -- declared vocabulary --
-[      A1] mined-stronger  presetn == 1
-           witness        psel == 1
-[      A2] mined-weaker    paddr <= 3
-           witness        paddr <= 7
-[      A3] mined-weaker    paddr >= 4
-           witness        paddr <= 7
-[      A4] equivalent      pwdata <= 255
-           witness        pwdata <= 255
-
--- interface vocabulary --
 [      A1] equivalent      presetn == 1
            witness        presetn == 1
 [      A2] mined-weaker    paddr <= 3
@@ -76,5 +52,4 @@
 [      A4] equivalent      pwdata <= 255
            witness        pwdata <= 255
 
-# declared: 20 mined, 3 matched a golden clause, 17 with no counterpart
-# interface: 21 mined, 3 matched a golden clause, 18 with no counterpart
+# declared: 21 mined, 3 matched a golden clause, 18 with no counterpart

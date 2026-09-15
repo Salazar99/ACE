@@ -2,34 +2,9 @@
  {
   "design": "accumulator",
   "vocabulary": {
-   "interface_family": 82,
    "declared": 7
   },
   "declared": {
-   "backend": "harm",
-   "regions": 1,
-   "assumptions": {
-    "references": 3,
-    "mined": 10,
-    "recall": 0.3333333333333333,
-    "acceptable_recall": 0.3333333333333333,
-    "categories": {
-     "mined-weaker": 2,
-     "equivalent": 1
-    }
-   },
-   "guarantees": {
-    "references": 5,
-    "mined": 60,
-    "recall": 0.4,
-    "acceptable_recall": 0.4,
-    "categories": {
-     "equivalent": 2,
-     "missed": 3
-    }
-   }
-  },
-  "interface": {
    "backend": "harm",
    "regions": 1,
    "assumptions": {
@@ -44,12 +19,14 @@
    },
    "guarantees": {
     "references": 5,
-    "mined": 559,
-    "recall": 0.0,
-    "acceptable_recall": 0.0,
+    "mined": 159,
+    "recall": 0.2,
+    "acceptable_recall": 0.6,
     "categories": {
-     "missed": 4,
-     "mined-weaker": 1
+     "mined-stronger": 2,
+     "mined-weaker": 1,
+     "missed": 1,
+     "equivalent": 1
     }
    }
   }
@@ -57,7 +34,6 @@
  {
   "design": "adder_8bit",
   "vocabulary": {
-   "interface_family": 82,
    "declared": 13
   },
   "declared": {
@@ -75,37 +51,12 @@
    },
    "guarantees": {
     "references": 7,
-    "mined": 6,
-    "recall": 0.5714285714285714,
-    "acceptable_recall": 0.7142857142857143,
-    "categories": {
-     "equivalent": 4,
-     "missed": 2,
-     "mined-stronger": 1
-    }
-   }
-  },
-  "interface": {
-   "backend": "harm",
-   "regions": 1,
-   "assumptions": {
-    "references": 2,
-    "mined": 7,
-    "recall": 0.5,
+    "mined": 81,
+    "recall": 0.7142857142857143,
     "acceptable_recall": 1.0,
     "categories": {
-     "mined-stronger": 1,
-     "equivalent": 1
-    }
-   },
-   "guarantees": {
-    "references": 7,
-    "mined": 190,
-    "recall": 0.2857142857142857,
-    "acceptable_recall": 0.2857142857142857,
-    "categories": {
-     "missed": 5,
-     "equivalent": 2
+     "equivalent": 5,
+     "mined-stronger": 2
     }
    }
   }
@@ -113,36 +64,9 @@
  {
   "design": "apb_slave",
   "vocabulary": {
-   "interface_family": 150,
    "declared": 18
   },
   "declared": {
-   "backend": "harm",
-   "regions": 2,
-   "assumptions": {
-    "references": 4,
-    "mined": 21,
-    "recall": 0.25,
-    "acceptable_recall": 0.5,
-    "categories": {
-     "mined-stronger": 1,
-     "mined-weaker": 2,
-     "equivalent": 1
-    }
-   },
-   "guarantees": {
-    "references": 18,
-    "mined": 151,
-    "recall": 0.2222222222222222,
-    "acceptable_recall": 0.5,
-    "categories": {
-     "equivalent": 4,
-     "mined-stronger": 5,
-     "missed": 9
-    }
-   }
-  },
-  "interface": {
    "backend": "harm",
    "regions": 2,
    "assumptions": {
@@ -157,12 +81,13 @@
    },
    "guarantees": {
     "references": 18,
-    "mined": 770,
-    "recall": 0.05555555555555555,
-    "acceptable_recall": 0.05555555555555555,
+    "mined": 1934,
+    "recall": 0.6111111111111112,
+    "acceptable_recall": 0.9444444444444444,
     "categories": {
-     "missed": 17,
-     "equivalent": 1
+     "equivalent": 11,
+     "mined-stronger": 6,
+     "missed": 1
     }
    }
   }
@@ -170,7 +95,6 @@
  {
   "design": "arbiter4",
   "vocabulary": {
-   "interface_family": 150,
    "declared": 31
   },
   "declared": {
@@ -187,37 +111,14 @@
    },
    "guarantees": {
     "references": 18,
-    "mined": 75,
-    "recall": 0.4444444444444444,
-    "acceptable_recall": 0.5555555555555556,
+    "mined": 1136,
+    "recall": 0.3888888888888889,
+    "acceptable_recall": 0.5,
     "categories": {
      "mined-stronger": 2,
-     "equivalent": 8,
-     "missed": 8
-    }
-   }
-  },
-  "interface": {
-   "backend": "harm",
-   "regions": 2,
-   "assumptions": {
-    "references": 2,
-    "mined": 19,
-    "recall": 0.0,
-    "acceptable_recall": 0.0,
-    "categories": {
-     "mined-weaker": 2
-    }
-   },
-   "guarantees": {
-    "references": 18,
-    "mined": 358,
-    "recall": 0.2222222222222222,
-    "acceptable_recall": 0.2222222222222222,
-    "categories": {
-     "missed": 12,
-     "mined-weaker": 2,
-     "equivalent": 4
+     "equivalent": 7,
+     "mined-weaker": 7,
+     "missed": 2
     }
    }
   }
@@ -225,7 +126,6 @@
  {
   "design": "comparator_3bit",
   "vocabulary": {
-   "interface_family": 51,
    "declared": 13
   },
   "declared": {
@@ -242,7 +142,7 @@
    },
    "guarantees": {
     "references": 8,
-    "mined": 10,
+    "mined": 28,
     "recall": 0.75,
     "acceptable_recall": 1.0,
     "categories": {
@@ -250,36 +150,11 @@
      "mined-stronger": 2
     }
    }
-  },
-  "interface": {
-   "backend": "harm",
-   "regions": 3,
-   "assumptions": {
-    "references": 1,
-    "mined": 5,
-    "recall": 0.0,
-    "acceptable_recall": 1.0,
-    "categories": {
-     "mined-stronger": 1
-    }
-   },
-   "guarantees": {
-    "references": 8,
-    "mined": 67,
-    "recall": 0.625,
-    "acceptable_recall": 0.75,
-    "categories": {
-     "equivalent": 5,
-     "mined-weaker": 2,
-     "mined-stronger": 1
-    }
-   }
   }
  },
  {
   "design": "fifo_sync",
   "vocabulary": {
-   "interface_family": 150,
    "declared": 28
   },
   "declared": {
@@ -287,7 +162,7 @@
    "regions": 2,
    "assumptions": {
     "references": 2,
-    "mined": 16,
+    "mined": 17,
     "recall": 1.0,
     "acceptable_recall": 1.0,
     "categories": {
@@ -296,37 +171,14 @@
    },
    "guarantees": {
     "references": 18,
-    "mined": 205,
-    "recall": 0.5,
-    "acceptable_recall": 0.6111111111111112,
+    "mined": 1358,
+    "recall": 0.5555555555555556,
+    "acceptable_recall": 0.6666666666666666,
     "categories": {
-     "equivalent": 9,
-     "missed": 7,
-     "mined-stronger": 2
-    }
-   }
-  },
-  "interface": {
-   "backend": "harm",
-   "regions": 2,
-   "assumptions": {
-    "references": 2,
-    "mined": 16,
-    "recall": 1.0,
-    "acceptable_recall": 1.0,
-    "categories": {
-     "equivalent": 2
-    }
-   },
-   "guarantees": {
-    "references": 18,
-    "mined": 2765,
-    "recall": 0.2222222222222222,
-    "acceptable_recall": 0.2222222222222222,
-    "categories": {
-     "missed": 13,
-     "equivalent": 4,
-     "mined-weaker": 1
+     "equivalent": 10,
+     "mined-weaker": 4,
+     "mined-stronger": 2,
+     "missed": 2
     }
    }
   }
@@ -334,7 +186,6 @@
  {
   "design": "ibex_alu",
   "vocabulary": {
-   "interface_family": 123,
    "declared": 33
   },
   "declared": {
@@ -342,7 +193,7 @@
    "regions": 3,
    "assumptions": {
     "references": 2,
-    "mined": 10,
+    "mined": 11,
     "recall": 0.5,
     "acceptable_recall": 0.5,
     "categories": {
@@ -352,39 +203,14 @@
    },
    "guarantees": {
     "references": 18,
-    "mined": 105,
+    "mined": 752,
     "recall": 0.3333333333333333,
-    "acceptable_recall": 0.5,
+    "acceptable_recall": 0.7222222222222222,
     "categories": {
-     "missed": 8,
+     "mined-weaker": 4,
      "equivalent": 6,
-     "mined-weaker": 1,
-     "mined-stronger": 3
-    }
-   }
-  },
-  "interface": {
-   "backend": "harm",
-   "regions": 3,
-   "assumptions": {
-    "references": 2,
-    "mined": 10,
-    "recall": 0.5,
-    "acceptable_recall": 0.5,
-    "categories": {
-     "equivalent": 1,
-     "mined-weaker": 1
-    }
-   },
-   "guarantees": {
-    "references": 18,
-    "mined": 362,
-    "recall": 0.0,
-    "acceptable_recall": 0.1111111111111111,
-    "categories": {
-     "missed": 15,
-     "mined-weaker": 1,
-     "mined-stronger": 2
+     "mined-stronger": 7,
+     "missed": 1
     }
    }
   }
@@ -392,7 +218,6 @@
  {
   "design": "ibex_csr",
   "vocabulary": {
-   "interface_family": 82,
    "declared": 8
   },
   "declared": {
@@ -400,7 +225,7 @@
    "regions": 2,
    "assumptions": {
     "references": 2,
-    "mined": 12,
+    "mined": 13,
     "recall": 1.0,
     "acceptable_recall": 1.0,
     "categories": {
@@ -409,35 +234,12 @@
    },
    "guarantees": {
     "references": 4,
-    "mined": 51,
+    "mined": 229,
     "recall": 0.25,
     "acceptable_recall": 1.0,
     "categories": {
-     "equivalent": 1,
-     "mined-stronger": 3
-    }
-   }
-  },
-  "interface": {
-   "backend": "harm",
-   "regions": 2,
-   "assumptions": {
-    "references": 2,
-    "mined": 12,
-    "recall": 1.0,
-    "acceptable_recall": 1.0,
-    "categories": {
-     "equivalent": 2
-    }
-   },
-   "guarantees": {
-    "references": 4,
-    "mined": 758,
-    "recall": 0.25,
-    "acceptable_recall": 1.0,
-    "categories": {
-     "equivalent": 1,
-     "mined-stronger": 3
+     "mined-stronger": 3,
+     "equivalent": 1
     }
    }
   }
@@ -445,7 +247,6 @@
  {
   "design": "ibex_multdiv_fast",
   "vocabulary": {
-   "interface_family": 150,
    "declared": 31
   },
   "declared": {
@@ -463,38 +264,13 @@
    },
    "guarantees": {
     "references": 13,
-    "mined": 916,
+    "mined": 4491,
     "recall": 0.38461538461538464,
-    "acceptable_recall": 0.46153846153846156,
+    "acceptable_recall": 0.6923076923076923,
     "categories": {
+     "mined-stronger": 4,
      "equivalent": 5,
-     "missed": 6,
-     "mined-stronger": 1,
-     "mined-weaker": 1
-    }
-   }
-  },
-  "interface": {
-   "backend": "harm",
-   "regions": 1,
-   "assumptions": {
-    "references": 4,
-    "mined": 20,
-    "recall": 0.0,
-    "acceptable_recall": 0.75,
-    "categories": {
-     "mined-stronger": 3,
-     "mined-weaker": 1
-    }
-   },
-   "guarantees": {
-    "references": 13,
-    "mined": 4531,
-    "recall": 0.0,
-    "acceptable_recall": 0.15384615384615385,
-    "categories": {
-     "mined-stronger": 2,
-     "missed": 11
+     "missed": 4
     }
    }
   }
@@ -502,7 +278,6 @@
  {
   "design": "multi_16bit",
   "vocabulary": {
-   "interface_family": 150,
    "declared": 10
   },
   "declared": {
@@ -520,38 +295,12 @@
    },
    "guarantees": {
     "references": 8,
-    "mined": 237,
-    "recall": 0.5,
-    "acceptable_recall": 0.875,
-    "categories": {
-     "mined-stronger": 3,
-     "equivalent": 4,
-     "missed": 1
-    }
-   }
-  },
-  "interface": {
-   "backend": "harm",
-   "regions": 1,
-   "assumptions": {
-    "references": 3,
-    "mined": 14,
-    "recall": 0.3333333333333333,
+    "mined": 1981,
+    "recall": 0.375,
     "acceptable_recall": 1.0,
     "categories": {
-     "mined-stronger": 2,
-     "equivalent": 1
-    }
-   },
-   "guarantees": {
-    "references": 8,
-    "mined": 3215,
-    "recall": 0.25,
-    "acceptable_recall": 0.5,
-    "categories": {
-     "missed": 4,
-     "equivalent": 2,
-     "mined-stronger": 2
+     "mined-stronger": 5,
+     "equivalent": 3
     }
    }
   }
@@ -559,7 +308,6 @@
  {
   "design": "sqrt",
   "vocabulary": {
-   "interface_family": 123,
    "declared": 22
   },
   "declared": {
@@ -567,47 +315,23 @@
    "regions": 2,
    "assumptions": {
     "references": 3,
-    "mined": 10,
+    "mined": 13,
     "recall": 0.0,
-    "acceptable_recall": 0.0,
+    "acceptable_recall": 0.6666666666666666,
     "categories": {
-     "mined-weaker": 3
+     "mined-stronger": 2,
+     "mined-weaker": 1
     }
    },
    "guarantees": {
     "references": 13,
-    "mined": 798,
-    "recall": 0.3076923076923077,
-    "acceptable_recall": 0.6923076923076923,
+    "mined": 1893,
+    "recall": 0.15384615384615385,
+    "acceptable_recall": 0.8461538461538461,
     "categories": {
-     "equivalent": 4,
-     "missed": 4,
-     "mined-stronger": 5
-    }
-   }
-  },
-  "interface": {
-   "backend": "harm",
-   "regions": 2,
-   "assumptions": {
-    "references": 3,
-    "mined": 11,
-    "recall": 0.0,
-    "acceptable_recall": 0.3333333333333333,
-    "categories": {
-     "mined-stronger": 1,
-     "mined-weaker": 2
-    }
-   },
-   "guarantees": {
-    "references": 13,
-    "mined": 8008,
-    "recall": 0.3076923076923077,
-    "acceptable_recall": 0.6153846153846154,
-    "categories": {
-     "equivalent": 4,
-     "missed": 5,
-     "mined-stronger": 4
+     "mined-stronger": 9,
+     "equivalent": 2,
+     "missed": 2
     }
    }
   }

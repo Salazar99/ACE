@@ -7,6 +7,63 @@
 		<prop exp="valid_in == 0" loc="a,dt"/>
 		<prop exp="data_out &lt;= 255" loc="c"/>
 		<prop exp="valid_in == 1" loc="a,dt"/>
+		<prop exp="data_in == data_out" loc="a,c,dt"/>
+		<prop exp="data_in &gt;= data_out" loc="a,c,dt"/>
+		<prop exp="data_in &lt; data_out" loc="a,c,dt"/>
+		<prop exp="data_in + data_out &lt;= 65535" loc="a,c,dt"/>
+		<prop exp="valid_in == 0 &amp;&amp; valid_out == 1" loc="a,dt"/>
+		<prop exp="valid_in == 1 &amp;&amp; valid_out == 1" loc="a,dt"/>
+		<prop exp="rst_n == 1 &amp;&amp; valid_in == 0" loc="a,dt"/>
+		<prop exp="valid_in == 1 &amp;&amp; valid_out == 0" loc="a,dt"/>
+		<prop exp="valid_in == 0 &amp;&amp; valid_out == 0" loc="a,dt"/>
+		<prop exp="rst_n == 1 &amp;&amp; valid_out == 0" loc="a,dt"/>
+		<prop exp="valid_out == 1 &amp;&amp; data_out &lt;= 255" loc="a,c,dt"/>
+		<prop exp="rst_n == 1 &amp;&amp; data_out == 0" loc="a,dt"/>
+		<prop exp="valid_in == 1 &amp;&amp; data_out &lt;= 255" loc="a,dt"/>
+		<prop exp="valid_in == 0 &amp;&amp; data_out == 0" loc="a,dt"/>
+		<prop exp="valid_out == 0 &amp;&amp; data_out == 0" loc="a,c,dt"/>
+		<prop exp="valid_in == 0 &amp;&amp; data_out &lt;= 255" loc="a,dt"/>
+		<prop exp="rst_n == 1 &amp;&amp; data_out &lt;= 255" loc="a,dt"/>
+		<prop exp="valid_out == 0 &amp;&amp; data_out &lt;= 255" loc="a,c,dt"/>
+		<prop exp="rst_n == 0 &amp;&amp; data_in == data_out" loc="a,dt"/>
+		<prop exp="data_in == data_out &amp;&amp; data_out == 0" loc="a,c,dt"/>
+		<prop exp="valid_in == 0 &amp;&amp; data_in == data_out" loc="a,dt"/>
+		<prop exp="valid_in == 1 &amp;&amp; data_in == data_out" loc="a,dt"/>
+		<prop exp="valid_in == 1 &amp;&amp; data_in &gt;= data_out" loc="a,dt"/>
+		<prop exp="rst_n == 1 &amp;&amp; data_in == data_out" loc="a,dt"/>
+		<prop exp="valid_in == 0 &amp;&amp; data_in &lt; data_out" loc="a,dt"/>
+		<prop exp="rst_n == 1 &amp;&amp; valid_in == 0 &amp;&amp; valid_out == 0" loc="a,dt"/>
+		<prop exp="valid_in == 0 &amp;&amp; valid_out == 1 &amp;&amp; data_out &lt;= 255" loc="a,dt"/>
+		<prop exp="valid_in == 1 &amp;&amp; valid_out == 1 &amp;&amp; data_out &lt;= 255" loc="a,dt"/>
+		<prop exp="rst_n == 1 &amp;&amp; valid_in == 0 &amp;&amp; data_out == 0" loc="a,dt"/>
+		<prop exp="rst_n == 1 &amp;&amp; valid_out == 0 &amp;&amp; data_out == 0" loc="a,dt"/>
+		<prop exp="rst_n == 1 &amp;&amp; valid_in == 0 &amp;&amp; data_out &lt;= 255" loc="a,dt"/>
+		<prop exp="valid_in == 1 &amp;&amp; valid_out == 0 &amp;&amp; data_out &lt;= 255" loc="a,dt"/>
+		<prop exp="rst_n == 1 &amp;&amp; valid_out == 0 &amp;&amp; data_out &lt;= 255" loc="a,dt"/>
+		<prop exp="valid_in == 0 &amp;&amp; valid_out == 0 &amp;&amp; data_out &lt;= 255" loc="a,dt"/>
+		<prop exp="valid_in == 0 &amp;&amp; data_in == data_out &amp;&amp; data_out == 0" loc="a,dt"/>
+		<prop exp="valid_out == 0 &amp;&amp; data_in == data_out &amp;&amp; data_out == 0" loc="a,c,dt"/>
+		<prop exp="valid_out == 1 &amp;&amp; data_in &lt; data_out &amp;&amp; data_out &lt;= 255" loc="a,c,dt"/>
+		<prop exp="valid_in == 0 &amp;&amp; valid_out == 1 &amp;&amp; data_in &lt; data_out" loc="a,dt"/>
+		<prop exp="valid_in == 0 &amp;&amp; data_in &lt; data_out &amp;&amp; data_out &lt;= 255" loc="a,dt"/>
+		<prop exp="rst_n == 1 &amp;&amp; valid_in == 0 &amp;&amp; data_in == data_out" loc="a,dt"/>
+		<prop exp="valid_in == 1 &amp;&amp; valid_out == 0 &amp;&amp; data_in == data_out" loc="a,dt"/>
+		<prop exp="valid_in == 0 &amp;&amp; valid_out == 0 &amp;&amp; data_in &lt; data_out" loc="a,dt"/>
+		<prop exp="rst_n == 1 &amp;&amp; valid_in == 0 &amp;&amp; data_in &gt;= data_out" loc="a,dt"/>
+		<prop exp="valid_in == 1 &amp;&amp; valid_out == 1 &amp;&amp; data_in &lt; data_out" loc="a,dt"/>
+		<prop exp="valid_in == 1 &amp;&amp; valid_out == 0 &amp;&amp; data_in &gt;= data_out" loc="a,dt"/>
+		<prop exp="rst_n == 1 &amp;&amp; valid_out == 0 &amp;&amp; data_in == data_out" loc="a,dt"/>
+		<prop exp="rst_n == 1 &amp;&amp; valid_in == 0 &amp;&amp; valid_out == 0 &amp;&amp; data_out &lt;= 255" loc="a,dt"/>
+		<prop exp="valid_in == 1 &amp;&amp; valid_out == 1 &amp;&amp; data_in &lt; data_out &amp;&amp; data_out &lt;= 255" loc="a,dt"/>
+		<prop exp="valid_in == 0 &amp;&amp; valid_out == 0 &amp;&amp; data_in &lt; data_out &amp;&amp; data_out &lt;= 255" loc="a,dt"/>
+		<prop exp="rst_n == 1 &amp;&amp; valid_in == 0 &amp;&amp; valid_out == 0 &amp;&amp; data_in &gt;= data_out" loc="a,dt"/>
+		<prop exp="valid_in == 1 &amp;&amp; valid_out == 0 &amp;&amp; data_in &lt; data_out &amp;&amp; data_out &lt;= 255" loc="a,dt"/>
+		<prop exp="$rose(rst_n)" loc="a,dt"/>
+		<prop exp="$fell(rst_n)" loc="a,dt"/>
+		<prop exp="$rose(valid_in)" loc="a,dt"/>
+		<prop exp="$fell(valid_in)" loc="a,dt"/>
+		<prop exp="$rose(valid_out)" loc="a,dt"/>
+		<prop exp="$fell(valid_out)" loc="a,dt"/>
 		<prop exp="rst_n" loc="a,c,dt"/>
 		<prop exp="valid_in" loc="a,c,dt"/>
 		<prop exp="valid_out" loc="a,c,dt"/>

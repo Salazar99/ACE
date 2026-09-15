@@ -10,4 +10,8 @@
 {
 "time" : "22:00:11",
 "message" : "Could not mine any assertions for context 'default'"}
+,
+{
+"time" : "20:12:50",
+"message" : "Could not mine any assertions for context 'default'"}
 ]

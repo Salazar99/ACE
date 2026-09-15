@@ -13,6 +13,48 @@
 		<prop exp="A_equal == 0" loc="c"/>
 		<prop exp="B == 0" loc="a,dt"/>
 		<prop exp="A == 7" loc="a,dt"/>
+		<prop exp="A + B &lt;= 255" loc="a,dt"/>
+		<prop exp="A == 0" loc="a,dt"/>
+		<prop exp="A == 1" loc="a,dt"/>
+		<prop exp="A == 2" loc="a,dt"/>
+		<prop exp="A == 3" loc="a,dt"/>
+		<prop exp="A == 4" loc="a,dt"/>
+		<prop exp="A == 5" loc="a,dt"/>
+		<prop exp="A == 6" loc="a,dt"/>
+		<prop exp="B == 1" loc="a,dt"/>
+		<prop exp="B == 2" loc="a,dt"/>
+		<prop exp="B == 3" loc="a,dt"/>
+		<prop exp="B == 4" loc="a,dt"/>
+		<prop exp="B == 5" loc="a,dt"/>
+		<prop exp="B == 6" loc="a,dt"/>
+		<prop exp="B == 7" loc="a,dt"/>
+		<prop exp="A == 0 &amp;&amp; B == 3" loc="a,dt"/>
+		<prop exp="A == 3 &amp;&amp; B == 0" loc="a,dt"/>
+		<prop exp="A == 3 &amp;&amp; B == 4" loc="a,dt"/>
+		<prop exp="A == 4 &amp;&amp; B == 5" loc="a,dt"/>
+		<prop exp="A == 5 &amp;&amp; B == 7" loc="a,dt"/>
+		<prop exp="A == 6 &amp;&amp; B == 0" loc="a,dt"/>
+		<prop exp="A == 7 &amp;&amp; B == 5" loc="a,dt"/>
+		<prop exp="A == 7 &amp;&amp; B == 6" loc="a,dt"/>
+		<prop exp="A == 0 &amp;&amp; B == 2" loc="a,dt"/>
+		<prop exp="A == 0 &amp;&amp; B == 5" loc="a,dt"/>
+		<prop exp="A == 0 &amp;&amp; B == 6" loc="a,dt"/>
+		<prop exp="A == 1 &amp;&amp; B == 4" loc="a,dt"/>
+		<prop exp="A == 2 &amp;&amp; A_less == 1" loc="a,dt"/>
+		<prop exp="A == 3 &amp;&amp; B == 1" loc="a,dt"/>
+		<prop exp="A == 3 &amp;&amp; B == 5" loc="a,dt"/>
+		<prop exp="A == 3 &amp;&amp; B == 7" loc="a,dt"/>
+		<prop exp="A == 4 &amp;&amp; B == 0" loc="a,dt"/>
+		<prop exp="A == 4 &amp;&amp; B == 2" loc="a,dt"/>
+		<prop exp="A == 4 &amp;&amp; B == 3" loc="a,dt"/>
+		<prop exp="A == 4 &amp;&amp; B == 6" loc="a,dt"/>
+		<prop exp="A == 5 &amp;&amp; B == 1" loc="a,dt"/>
+		<prop exp="$rose(A_greater)" loc="a,dt"/>
+		<prop exp="$fell(A_greater)" loc="a,dt"/>
+		<prop exp="$rose(A_equal)" loc="a,dt"/>
+		<prop exp="$fell(A_equal)" loc="a,dt"/>
+		<prop exp="$rose(A_less)" loc="a,dt"/>
+		<prop exp="$fell(A_less)" loc="a,dt"/>
 		<prop exp="A_greater" loc="a,c,dt"/>
 		<prop exp="A_equal" loc="a,c,dt"/>
 		<prop exp="A_less" loc="a,c,dt"/>

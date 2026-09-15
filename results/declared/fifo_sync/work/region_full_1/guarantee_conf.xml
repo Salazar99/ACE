@@ -4,30 +4,109 @@
 		<prop exp="count == 0" loc="c"/>
 		<prop exp="empty == 1" loc="c"/>
 		<prop exp="full == 0" loc="c"/>
-		<prop exp="count == 0" loc="a,dt"/>
-		<prop exp="empty == 1" loc="a,dt"/>
 		<prop exp="count == 8" loc="a,dt"/>
 		<prop exp="full == 1" loc="c"/>
-		<prop exp="full == 1" loc="a,dt"/>
-		<prop exp="count == 8" loc="c"/>
 		<prop exp="count &gt;= 1" loc="a,dt"/>
 		<prop exp="empty == 0" loc="c"/>
 		<prop exp="count &lt;= 7" loc="a,dt"/>
 		<prop exp="wr_en == 1" loc="a,dt"/>
 		<prop exp="count == 1" loc="c"/>
-		<prop exp="empty == 1" loc="a,c,dt"/>
 		<prop exp="wr_en == 0" loc="a,dt"/>
-		<prop exp="full == 1" loc="a,c,dt"/>
 		<prop exp="rd_en == 0" loc="a,dt"/>
 		<prop exp="count == 7" loc="a,dt"/>
 		<prop exp="count == 4" loc="a,dt"/>
 		<prop exp="count == 5" loc="c"/>
-		<prop exp="count == 1" loc="a,dt"/>
 		<prop exp="rd_en == 1" loc="a,dt"/>
-		<prop exp="full == 0" loc="a,dt"/>
-		<prop exp="empty == 0" loc="a,dt"/>
-		<prop exp="count &gt;= 1" loc="c"/>
 		<prop exp="dout == din" loc="c"/>
+		<prop exp="din == dout" loc="a,c,dt"/>
+		<prop exp="din &gt;= dout" loc="a,c,dt"/>
+		<prop exp="din &lt; dout" loc="a,c,dt"/>
+		<prop exp="din + dout &lt;= 255" loc="a,c,dt"/>
+		<prop exp="din == count" loc="a,c,dt"/>
+		<prop exp="din &gt;= count" loc="a,c,dt"/>
+		<prop exp="din &lt; count" loc="a,c,dt"/>
+		<prop exp="din + count &lt;= 255" loc="a,c,dt"/>
+		<prop exp="dout == count" loc="a,c,dt"/>
+		<prop exp="dout &gt;= count" loc="a,c,dt"/>
+		<prop exp="dout &lt; count" loc="a,c,dt"/>
+		<prop exp="dout + count &lt;= 255" loc="a,c,dt"/>
+		<prop exp="count == 6" loc="a,c,dt"/>
+		<prop exp="wr_en == 1 &amp;&amp; rd_en == 1" loc="a,dt"/>
+		<prop exp="rst_n == 0 &amp;&amp; full == 0" loc="a,dt"/>
+		<prop exp="rst_n == 0 &amp;&amp; full == 1" loc="a,dt"/>
+		<prop exp="rd_en == 1 &amp;&amp; count == 6" loc="a,dt"/>
+		<prop exp="rd_en == 1 &amp;&amp; count == 7" loc="a,dt"/>
+		<prop exp="rd_en == 1 &amp;&amp; full == 1" loc="a,dt"/>
+		<prop exp="wr_en == 0 &amp;&amp; count == 5" loc="a,dt"/>
+		<prop exp="wr_en == 1 &amp;&amp; count == 5" loc="a,dt"/>
+		<prop exp="wr_en == 0 &amp;&amp; empty == 1" loc="a,dt"/>
+		<prop exp="wr_en == 1 &amp;&amp; count == 6" loc="a,dt"/>
+		<prop exp="rd_en == 1 &amp;&amp; full == 0" loc="a,dt"/>
+		<prop exp="wr_en == 1 &amp;&amp; count == 7" loc="a,dt"/>
+		<prop exp="wr_en == 0 &amp;&amp; rd_en == 1" loc="a,dt"/>
+		<prop exp="wr_en == 0 &amp;&amp; count == 6" loc="a,dt"/>
+		<prop exp="rd_en == 0 &amp;&amp; count == 6" loc="a,dt"/>
+		<prop exp="wr_en == 0 &amp;&amp; count == 7" loc="a,dt"/>
+		<prop exp="wr_en == 1 &amp;&amp; rd_en == 0" loc="a,dt"/>
+		<prop exp="wr_en == 1 &amp;&amp; empty == 0" loc="a,dt"/>
+		<prop exp="rd_en == 0 &amp;&amp; count == 7" loc="a,dt"/>
+		<prop exp="rd_en == 0 &amp;&amp; full == 1" loc="a,dt"/>
+		<prop exp="wr_en == 0 &amp;&amp; full == 0" loc="a,dt"/>
+		<prop exp="wr_en == 0 &amp;&amp; rd_en == 1 &amp;&amp; count == 6" loc="a,dt"/>
+		<prop exp="wr_en == 0 &amp;&amp; rd_en == 1 &amp;&amp; count == 7" loc="a,dt"/>
+		<prop exp="wr_en == 1 &amp;&amp; rd_en == 0 &amp;&amp; count == 6" loc="a,dt"/>
+		<prop exp="wr_en == 0 &amp;&amp; rd_en == 1 &amp;&amp; full == 0" loc="a,dt"/>
+		<prop exp="wr_en == 1 &amp;&amp; rd_en == 0 &amp;&amp; count == 7" loc="a,dt"/>
+		<prop exp="wr_en == 0 &amp;&amp; rd_en == 0 &amp;&amp; count == 6" loc="a,dt"/>
+		<prop exp="wr_en == 0 &amp;&amp; rd_en == 0 &amp;&amp; count == 7" loc="a,dt"/>
+		<prop exp="wr_en == 1 &amp;&amp; rd_en == 0 &amp;&amp; empty == 0" loc="a,dt"/>
+		<prop exp="wr_en == 0 &amp;&amp; rd_en == 0 &amp;&amp; full == 0" loc="a,dt"/>
+		<prop exp="wr_en == 0 &amp;&amp; full == 0 &amp;&amp; empty == 0" loc="a,dt"/>
+		<prop exp="rd_en == 0 &amp;&amp; full == 0 &amp;&amp; empty == 0" loc="a,dt"/>
+		<prop exp="wr_en == 0 &amp;&amp; rd_en == 0 &amp;&amp; empty == 0" loc="a,dt"/>
+		<prop exp="rd_en == 0 &amp;&amp; full == 1 &amp;&amp; dout &lt; count" loc="a,dt"/>
+		<prop exp="wr_en == 0 &amp;&amp; rd_en == 0 &amp;&amp; dout &lt; count" loc="a,dt"/>
+		<prop exp="rst_n == 0 &amp;&amp; din &gt;= dout &amp;&amp; din + dout &lt;= 255" loc="a,dt"/>
+		<prop exp="rst_n == 0 &amp;&amp; full == 0 &amp;&amp; din + dout &lt;= 255" loc="a,dt"/>
+		<prop exp="rd_en == 1 &amp;&amp; count == 6 &amp;&amp; din &lt; dout" loc="a,dt"/>
+		<prop exp="empty == 1 &amp;&amp; din &lt; dout &amp;&amp; din + dout &lt;= 255" loc="a,c,dt"/>
+		<prop exp="rst_n == 0 &amp;&amp; full == 1 &amp;&amp; din + dout &lt;= 255" loc="a,dt"/>
+		<prop exp="rst_n == 0 &amp;&amp; full == 1 &amp;&amp; din &lt; dout" loc="a,dt"/>
+		<prop exp="rst_n == 0 &amp;&amp; din &lt; dout &amp;&amp; din + dout &lt;= 255" loc="a,dt"/>
+		<prop exp="wr_en == 0 &amp;&amp; rd_en == 0 &amp;&amp; full == 0 &amp;&amp; empty == 0" loc="a,dt"/>
+		<prop exp="wr_en == 0 &amp;&amp; count == 5 &amp;&amp; din &lt; dout &amp;&amp; din + dout &lt;= 255" loc="a,dt"/>
+		<prop exp="rst_n == 0 &amp;&amp; full == 1 &amp;&amp; din &lt; dout &amp;&amp; din + dout &lt;= 255" loc="a,dt"/>
+		<prop exp="rd_en == 1 &amp;&amp; full == 1 &amp;&amp; din &lt; dout &amp;&amp; din + dout &lt;= 255" loc="a,dt"/>
+		<prop exp="wr_en == 1 &amp;&amp; count == 5 &amp;&amp; din &lt; dout &amp;&amp; din + dout &lt;= 255" loc="a,dt"/>
+		<prop exp="wr_en == 1 &amp;&amp; count == 6 &amp;&amp; din &lt; dout &amp;&amp; din + dout &lt;= 255" loc="a,dt"/>
+		<prop exp="wr_en == 0 &amp;&amp; rd_en == 1 &amp;&amp; count == 7 &amp;&amp; din &lt; dout" loc="a,dt"/>
+		<prop exp="rd_en == 1 &amp;&amp; count == 7 &amp;&amp; din &lt; dout &amp;&amp; din + dout &lt;= 255" loc="a,dt"/>
+		<prop exp="rd_en == 1 &amp;&amp; count == 6 &amp;&amp; din &gt;= dout &amp;&amp; din + dout &lt;= 255" loc="a,dt"/>
+		<prop exp="wr_en == 0 &amp;&amp; count == 5 &amp;&amp; din &gt;= dout &amp;&amp; din + dout &lt;= 255" loc="a,dt"/>
+		<prop exp="wr_en == 0 &amp;&amp; rd_en == 1 &amp;&amp; count == 6 &amp;&amp; din &gt;= dout" loc="a,dt"/>
+		<prop exp="rd_en == 1 &amp;&amp; count == 7 &amp;&amp; din &gt;= dout &amp;&amp; din + dout &lt;= 255" loc="a,dt"/>
+		<prop exp="rd_en == 1 &amp;&amp; full == 0 &amp;&amp; din &lt; dout &amp;&amp; din + dout &lt;= 255" loc="a,dt"/>
+		<prop exp="wr_en == 1 &amp;&amp; count == 5 &amp;&amp; din &gt;= dout &amp;&amp; din + dout &lt;= 255" loc="a,dt"/>
+		<prop exp="wr_en == 0 &amp;&amp; count == 6 &amp;&amp; din &lt; dout &amp;&amp; din + dout &lt;= 255" loc="a,dt"/>
+		<prop exp="rd_en == 1 &amp;&amp; full == 1 &amp;&amp; din &gt;= dout &amp;&amp; din + dout &lt;= 255" loc="a,dt"/>
+		<prop exp="wr_en == 0 &amp;&amp; rd_en == 1 &amp;&amp; full == 0 &amp;&amp; din &lt; dout" loc="a,dt"/>
+		<prop exp="wr_en == 1 &amp;&amp; count == 6 &amp;&amp; din &gt;= dout &amp;&amp; din + dout &lt;= 255" loc="a,dt"/>
+		<prop exp="wr_en == 0 &amp;&amp; rd_en == 1 &amp;&amp; din &lt; dout &amp;&amp; din + dout &lt;= 255" loc="a,dt"/>
+		<prop exp="wr_en == 0 &amp;&amp; rd_en == 1 &amp;&amp; count == 7 &amp;&amp; din &gt;= dout" loc="a,dt"/>
+		<prop exp="wr_en == 0 &amp;&amp; rd_en == 1 &amp;&amp; count == 7 &amp;&amp; din + dout &lt;= 255" loc="a,dt"/>
+		<prop exp="$rose(rst_n)" loc="a,dt"/>
+		<prop exp="$fell(rst_n)" loc="a,dt"/>
+		<prop exp="$rose(wr_en)" loc="a,dt"/>
+		<prop exp="$fell(wr_en)" loc="a,dt"/>
+		<prop exp="$rose(wr_en) &amp;&amp; rd_en == 1" loc="a,dt"/>
+		<prop exp="$rose(rd_en)" loc="a,dt"/>
+		<prop exp="$fell(rd_en)" loc="a,dt"/>
+		<prop exp="$rose(rd_en) &amp;&amp; wr_en == 1" loc="a,dt"/>
+		<prop exp="$rose(rd_en) &amp;&amp; wr_en == 0" loc="a,dt"/>
+		<prop exp="$rose(full)" loc="a,dt"/>
+		<prop exp="$fell(full)" loc="a,dt"/>
+		<prop exp="$rose(empty)" loc="a,dt"/>
+		<prop exp="$fell(empty)" loc="a,dt"/>
 		<prop exp="rst_n" loc="a,c,dt"/>
 		<prop exp="wr_en" loc="a,c,dt"/>
 		<prop exp="rd_en" loc="a,c,dt"/>

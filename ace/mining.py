@@ -205,11 +205,14 @@ def interface_vocabulary(inputs, outputs, arithmetic=True, arity=3, bitwise=True
 
 # ---------------------------------------------------------------- temporal mining
 
-def _vocabulary(cfg, tag) -> list:
+def _vocabulary(cfg, tag, rows=None, signals=None) -> list:
     """Propositions to declare for one mining pass.
 
     `auto_vocabulary` builds the interface family (nothing from the reference contracts);
     `extra_props` is an explicit list, used when a design needs a hint the family misses.
+    `compound_vocabulary` adds `vocabulary.compound`: the conjunctions, relations, sums,
+    sign splits and edges that a template's single proposition slot makes unreachable
+    otherwise. It reads the region's own samples, so it is off when there are none to read.
     """
     props = [p for p in cfg.get("extra_props", [])
              if tag in p.get("stage", ("assume", "guarantee"))]
@@ -220,7 +223,40 @@ def _vocabulary(cfg, tag) -> list:
             bitwise=bool(cfg.get("vocabulary_bitwise", True)),
             output_arithmetic=bool(cfg.get("vocabulary_output_arithmetic", True)),
             limit=int(cfg.get("max_vocabulary", 150))) + props
-    return props
+    if rows and cfg.get("compound_vocabulary", True):
+        props = props + vocabulary_mod.compound(
+            rows, list(signals or []), list(cfg.get("outputs", [])), declared=props,
+            arity=int(cfg.get("compound_arity", 4)),
+            limit=int(cfg.get("max_compound", 64)),
+            edges=bool(cfg.get("edge_vocabulary", True)),
+            per_signal=int(cfg.get("max_edge_guards", 4)))
+    # A duplicate declaration is harmless to HARM, which keys propositions by text - but it
+    # costs a slot in every budget downstream, and the caps above are spent before the
+    # duplicates would be seen.
+    seen, unique = set(), []
+    for prop in props:
+        exp = prop["exp"] if isinstance(prop, dict) else prop
+        if exp not in seen:
+            seen.add(exp)
+            unique.append(prop)
+    return unique
+
+
+def _readable(clause: str, props) -> str:
+    """Put a mined clause back into the flow's own clause language.
+
+    A transition has to be declared to HARM as `$rose(x)`: its proposition grammar has no
+    `##` (`proposition.g4` - conjunction, comparison, arithmetic, `inside`, the SVA sampled
+    functions, and nothing temporal), so the two-sample form `formula.py` evaluates cannot be
+    declared at all. HARM prints a declared proposition back verbatim, so every `$rose` in a
+    mined clause is one `vocabulary.edge_props` wrote and carries the form to put back.
+    Longest declaration first, so a guarded edge is restored as one proposition rather than
+    having its `$rose` swapped out from under it.
+    """
+    for prop in sorted((p for p in props if isinstance(p, dict) and p.get("ace")),
+                       key=lambda p: -len(p["exp"])):
+        clause = clause.replace(prop["exp"], prop["ace"])
+    return clause
 
 
 def domain_trivial(corpus, clause: str, cache: dict = None,
@@ -420,16 +456,17 @@ def _mine_temporal(trace, rows, vocabulary, grammar, horizon, workdir, tag,
         return [], "harm"
     cfg = cfg or {}
     booleans, numerics = backends.classify_signals(rows, vocabulary)
+    props = _vocabulary(cfg, tag, rows, vocabulary)
     conf = backends.write_conf(
         backends.harm_conf(backends.GRAMMARS[grammar], booleans, numerics, horizon,
                            clustering=cfg.get("numeric_clustering",
                                               backends.NUMERIC_CLUSTERING),
-                           extra_props=_vocabulary(cfg, tag)),
+                           extra_props=props),
         Path(workdir) / f"{tag}_conf.xml")
     mined = backends.harm(trace, conf, Path(workdir) / f"{tag}_harm", reset=reset,
                           max_ass=cfg.get("max_ass"), min_frank=cfg.get("min_frank"))
     from . import formula
-    clauses = [formula.strip_braces(clause) for clause in mined]
+    clauses = [_readable(formula.strip_braces(clause), props) for clause in mined]
     if runs:
         clauses = _tighten_windows(traces.Corpus(runs), clauses)
     return clauses, "harm"

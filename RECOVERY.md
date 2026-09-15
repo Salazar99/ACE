@@ -176,13 +176,69 @@ does; no design uses `G5`, and `formula.py` cannot evaluate what it returns. HAR
 the template rather than a command-line flag, so nothing the flow passes changes it.
 
 What does change it is the declared vocabulary, because HARM treats a declared `a && b && c`
-as **one** proposition eligible for the slot. That is the whole difference between the
-designs: `ibex_alu` declares exactly one conjunction,
+as **one** proposition eligible for the slot. That was the whole difference between the
+designs: `ibex_alu` declared exactly one conjunction,
 `operand_b_i == 1 && operand_a_i <= 2147483647` — the tail of `ALU8`'s antecedent — and
-`ALU8` comes back (weaker, matched on the consequent). `apb_slave` declares 18 propositions
+`ALU8` came back (weaker, matched on the consequent). `apb_slave` declares 18 propositions
 and `fifo_sync` 28, none of them a conjunction, and every one of their three- and four-signal
-antecedents is missed. Declaring those conjunctions is the open recall opportunity in this
-table: on the current corpus it is what five of the `apb_slave` misses are waiting for.
+antecedents was missed.
+
+### Closing it: the compound vocabulary
+
+Declaring those conjunctions was the open recall opportunity in this table, and the flow now
+declares them itself. `vocabulary.compound`, handed to HARM by `mining._vocabulary` alongside
+`extra_props`, builds the propositions a single template slot cannot otherwise reach, all of
+them off the region's own samples and none of them off the reference contracts:
+
+* **conjunctions** of up to `compound_arity` (4) atoms as ONE proposition, kept only where
+  the traces exhibit the combination and where each conjunct strictly narrows the one before
+  it, ranked fewest-data-path-signals first and then most selective;
+* **relations** between two multi-valued signals — the orderings, and the no-overflow bound
+  `operand_a_i + operand_b_i <= 4294967295`;
+* **sign splits** for a 32-bit or wider column that reaches its top half, which is how
+  `in < 0` is said in the data's own terms (`in >= 2147483648`);
+* **same-stem sums**, `req0 + req1 + req2 + req3 == 1`, for a bus carried one column per bit;
+* **edges**, declared as `$rose`/`$fell` because HARM's proposition grammar has no `##`,
+  alone and guarded by the conditions sampled with them, and swapped back to the two-sample
+  form on read-back (`mining._readable`).
+
+Measured against the same code with `compound_vocabulary: false`, on the declared vocabulary,
+over the whole benchmark. Cells are exact / acceptable / missed, seconds are one serial run:
+
+| design | before | after | before s | after s |
+|---|---|---|---|---|
+| accumulator | 40% / 40% / 3 | 20% / 60% / **1** | 6.0 | 34.8 |
+| adder_8bit | 57% / 71% / 2 | **71% / 100% / 0** | 0.4 | 3.3 |
+| apb_slave | 22% / 50% / 9 | **61% / 94% / 1** | 9.5 | 156.8 |
+| arbiter4 | 39% / 50% / 8 | 39% / 50% / **2** | 6.3 | 143.6 |
+| comparator_3bit | 75% / 100% / 0 | 75% / 100% / 0 | 0.9 | 1.8 |
+| fifo_sync | 50% / 61% / 7 | **56% / 67% / 2** | 5.7 | 93.3 |
+| ibex_alu | 33% / 50% / 8 | 33% / **72%** / **1** | 3.4 | 38.7 |
+| ibex_csr | 25% / 100% / 0 | 25% / 100% / 0 | 0.8 | 4.2 |
+| ibex_multdiv_fast | 38% / 46% / 6 | 38% / **69%** / **4** | 109.4 | 909.2 |
+| multi_16bit | 50% / 88% / 1 | 38% / **100% / 0** | 20.6 | 275.3 |
+| sqrt | 31% / 69% / 4 | 15% / **85%** / **2** | 80.1 | 514.6 |
+| **all eleven** | 41% / 62% / **48** | 44% / **78%** / **13** | 244 | 2176 |
+
+**Forty-eight misses become thirteen**, and no reference assumption is missed on either side
+(the A side goes 32%/68% to 39%/79%). Read the exact column carefully: it barely moves, and
+on `accumulator`, `multi_16bit` and `sqrt` it falls. That is not a loss of recall. A
+reference that had nothing mined for it now comes back as a *refinement*, which counts under
+acceptable and not under exact, and the same conjunction that reaches the clause also lets
+the miner state it more specifically than the datasheet does. `arbiter4` is the extreme: exact
+and acceptable do not move at all, and six references that had nothing related mined for them
+now have a mined clause on either side.
+
+What it costs is run time, roughly 9x over the benchmark. The mined clause set grows 4-20x
+and the quadratic subsumption pass over it grows with the square; the growth is worst where
+the horizon is, because `mining._tighten_windows` offers a fixed-latency reading per cycle of
+the window, so `sqrt` (H=24) and `ibex_multdiv_fast` (H=40) dominate. `max_compound` (64) is
+the knob, and the same cost is what makes `G4` and `G5` unaffordable on eight of the eleven
+designs in the RQ4 sweep.
+
+**The tables at the top of this document predate this and have not been re-measured.** The
+`before` column here reproduces `CONTRACT_RECOVERY.md` exactly (48 misses), so that is the
+baseline to compare against, not the 20-miss figure in the summary above.
 
 ## The interface-only column
 

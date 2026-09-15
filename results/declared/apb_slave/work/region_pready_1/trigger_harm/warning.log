@@ -22,4 +22,12 @@
 {
 "time" : "22:00:16",
 "message" : "Could not mine any assertions for context 'default'"}
+,
+{
+"time" : "20:12:54",
+"message" : "Reset 'presetn == 0' is not effective: there is a subtrace of size 1 at time 5998"}
+,
+{
+"time" : "20:12:54",
+"message" : "Could not mine any assertions for context 'default'"}
 ]

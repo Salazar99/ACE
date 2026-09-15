@@ -11,7 +11,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from ace import backends, mining, traces
+from ace import backends, formula, mining, traces, validation, vocabulary
 from ace.traces import Corpus, Run
 
 HEADER = ["bool start", "int in", "bool done"]
@@ -180,6 +180,46 @@ def test_the_real_binary_accepts_a_flag_in_arithmetic():
             tmp / "conf.xml")
         backends.harm(region, conf, tmp / "dump")     # must not raise
         assert any((tmp / "dump").iterdir()), "HARM ran but wrote nothing to its dump dir"
+
+
+def test_a_declared_edge_survives_the_round_trip():
+    """`$rose` out to HARM, the two-sample form back: the two must mean the same thing.
+
+    HARM's proposition grammar (`proposition.g4`) has no `##`, so the form `formula.py`
+    evaluates cannot be declared to it and the form it accepts cannot be parsed back. The
+    flow declares `$rose(start)` and swaps `vocabulary.edge_props`'s second form in on
+    read-back, which is only sound if the clause that comes back is still true of the trace
+    under the flow's own evaluator - and it is the swap, not the miner, that decides whether
+    a delay is measured from the rise or from the sample before it.
+    """
+    backends.require()
+    run = fixed_latency()
+    props = vocabulary.edge_props(run.rows, ["start", "in", "done"], ["in == 3"])
+    rise = next(p for p in props if p["exp"] == "$rose(start)")
+    assert rise["ace"] == "((!(start == 1)) ##1 (start == 1))", rise
+
+    with tempfile.TemporaryDirectory(prefix="ace_harm_") as tmp:
+        tmp = Path(tmp)
+        region = tmp / "region"
+        region.mkdir()
+        traces.write_rows(run.rows, traces.numeric_header(run.header),
+                          region / "episode_00000.csv")
+        conf = backends.write_conf(
+            backends.harm_conf(["G(P0 |-> ##[1:H] P1)"], booleans=["start", "done"],
+                               numerics=["in"], horizon=4, extra_props=props),
+            tmp / "conf.xml")
+        mined = backends.harm(region, conf, tmp / "dump")
+
+    raw = [formula.strip_braces(c) for c in mined]
+    assert any("$rose(start)" in c for c in raw), raw
+    readable = [mining._readable(c, props) for c in raw]
+    assert not [c for c in readable if "$" in c], readable
+    corpus = Corpus([run])
+    for clause in readable:
+        result = validation.evaluate(corpus, clause)     # parses, and still holds
+        assert not result["violations"], (clause, result)
+    assert any("(!(start == 1)) ##1 (start == 1 && in == 3)" in c for c in readable), (
+        "the guard has to come back INSIDE the sequence, not beside it", readable)
 
 
 def main():

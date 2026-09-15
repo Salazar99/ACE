@@ -27,7 +27,7 @@ from ace import traces as ace_traces
 from ace import validation
 
 MARK = {"equivalent": "=", "mined-stronger": "<", "mined-weaker": ">", "missed": "-"}
-SETTINGS = ("declared", "interface")
+SETTINGS = ("declared",)
 
 
 def cause(reference: str, corpus=None) -> str:
@@ -84,17 +84,16 @@ def witnesses(detail) -> set:
 def expected_table(design, settings, key, corpus) -> list:
     """Every expected clause of one design against what came back for it."""
     detail = settings["declared"][key]["detail"]
-    other = settings["interface"][key]["detail"]
     if not detail:
         return ["_no reference clauses of this kind._", ""]
-    lines = ["| expected | declared | interface | mined witness, or why nothing matched |",
-             "|---|---|---|---|"]
+    lines = ["| expected | verdict | mined witness, or why nothing matched |",
+             "|---|---|---|"]
     for reference, entry in detail.items():
         got = entry.get("mined")
         last = (f"`{got}`" if got else
                 (cause(reference, corpus) if key == "guarantees" else "nothing comparable"))
         lines.append(f"| `{reference}` | {MARK[entry['category']]} {entry['category']} | "
-                     f"{MARK[other.get(reference, {}).get('category', 'missed')]} | {last} |")
+                     f"{last} |")
     return lines + [""]
 
 
@@ -255,9 +254,9 @@ def main():
              "Categories are trace-bounded (`method: trace-bounded` everywhere in this "
              "flow): `=` equivalent, `<` a mined clause implies the reference (a "
              "refinement), `>` the reference implies a mined clause (a weaker form came "
-             "back), `-` nothing related came back. `declared` uses the design's "
-             "`extra_props`; `interface` derives the vocabulary from the interface alone "
-             "(`auto_vocabulary`, hints removed).", "",
+             "back), `-` nothing related came back. The vocabulary is the design's "
+             "`extra_props` together with what `ace/vocabulary.py` reads off the region; "
+             "the mechanical interface-only family is not scored here.", "",
              "## Totals", "", "**Guarantees**", ""]
     lines += totals(designs, "guarantees")
     lines += ["**Assumptions**", ""]
@@ -269,7 +268,7 @@ def main():
             cfg = json.loads(config.read_text())
             corpora[design] = ace_traces.load_corpus(cfg["traces"], config.parent)
 
-    lines += ["## Missed guarantees (declared vocabulary)", ""]
+    lines += ["## Missed guarantees", ""]
     lines += misses(designs, corpora)
     lines += ["## Per design: expected against mined", ""]
     for design, settings in designs.items():

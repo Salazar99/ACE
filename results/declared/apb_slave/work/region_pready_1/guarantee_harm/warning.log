@@ -58,4 +58,24 @@
 {
 "time" : "22:00:17",
 "message" : "Reset 'presetn == 0' is not effective: there is a subtrace of size 1 at time 4247"}
+,
+{
+"time" : "20:12:54",
+"message" : "Reset 'presetn == 0' is not effective: there is a subtrace of size 1 at time 146"}
+,
+{
+"time" : "20:12:54",
+"message" : "Reset 'presetn == 0' is not effective: there is a subtrace of size 1 at time 157"}
+,
+{
+"time" : "20:12:54",
+"message" : "Reset 'presetn == 0' is not effective: there is a subtrace of size 1 at time 1147"}
+,
+{
+"time" : "20:12:54",
+"message" : "Reset 'presetn == 0' is not effective: there is a subtrace of size 1 at time 2047"}
+,
+{
+"time" : "20:12:54",
+"message" : "Reset 'presetn == 0' is not effective: there is a subtrace of size 1 at time 4247"}
 ]

@@ -11,24 +11,14 @@
            witness        G((a + b + cin >= 256) |-> cout)
 [    ADD4] equivalent      G((a + b + cin >= 256) |-> (sum == a + b + cin - 256))
            witness        G((a + b + cin >= 256) |-> cout)
-[    ADD5] missed          G((a == 0 && b == 0) |-> (sum == cin))
+[    ADD5] mined-stronger  G((a == 0 && b == 0) |-> (sum == cin))
+           witness        G(cin >= 0 && cin <= 1 && sum == cin |-> sum == cin)
 [    ADD6] mined-stronger  G((a <= 127 && b <= 127) |-> (cout == 0))
            witness        G((a + b + cin <= 255) |-> cout == 0)
-[    ADD7] missed          G((b == 0 && cin == 0) |-> (sum == a))
+[    ADD7] equivalent      G((b == 0 && cin == 0) |-> (sum == a))
+           witness        G((cin == 0 && a == sum) |-> a == sum)
 
--- interface vocabulary --
-[    ADD1] missed          G((a + b + cin <= 255) |-> (sum == a + b + cin))
-[    ADD2] missed          G((a + b + cin <= 255) |-> (cout == 0))
-[    ADD3] equivalent      G((a + b + cin >= 256) |-> (cout == 1))
-           witness        G((cout) |-> sum == a + b + cin - 256)
-[    ADD4] equivalent      G((a + b + cin >= 256) |-> (sum == a + b + cin - 256))
-           witness        G((cout) |-> sum == a + b + cin - 256)
-[    ADD5] missed          G((a == 0 && b == 0) |-> (sum == cin))
-[    ADD6] missed          G((a <= 127 && b <= 127) |-> (cout == 0))
-[    ADD7] missed          G((b == 0 && cin == 0) |-> (sum == a))
-
-# declared: 6 mined, 2 matched a golden clause, 4 with no counterpart
-# interface: 190 mined, 1 matched a golden clause, 189 with no counterpart
+# declared: 81 mined, 4 matched a golden clause, 77 with no counterpart
 
 == ASSUMPTIONS ==
 -- declared vocabulary --
@@ -37,11 +27,4 @@
 [      A2] equivalent      cin <= 1
            witness        cin <= 1
 
--- interface vocabulary --
-[      A1] mined-stronger  a <= 255 && b <= 255
-           witness        a <= 255 && a >= 0 && b <= 255 && b >= 0 && cin <= 1 && cin >= 0
-[      A2] equivalent      cin <= 1
-           witness        cin <= 1
-
 # declared: 6 mined, 1 matched a golden clause, 5 with no counterpart
-# interface: 6 mined, 1 matched a golden clause, 5 with no counterpart

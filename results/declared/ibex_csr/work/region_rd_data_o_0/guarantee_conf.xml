@@ -8,6 +8,53 @@
 		<prop exp="wr_data_i == 16777215" loc="a,dt"/>
 		<prop exp="wr_data_i == 1" loc="a,dt"/>
 		<prop exp="rd_data_o == 1" loc="c"/>
+		<prop exp="wr_data_i == rd_data_o" loc="a,c,dt"/>
+		<prop exp="wr_data_i &gt;= rd_data_o" loc="a,c,dt"/>
+		<prop exp="wr_data_i &lt; rd_data_o" loc="a,c,dt"/>
+		<prop exp="wr_data_i + rd_data_o &lt;= 65535" loc="a,c,dt"/>
+		<prop exp="rd_error_o == 0" loc="a,c,dt"/>
+		<prop exp="rst_n == 0 &amp;&amp; wr_en_i == 1" loc="a,dt"/>
+		<prop exp="rst_n == 0 &amp;&amp; wr_en_i == 0" loc="a,dt"/>
+		<prop exp="rst_n == 1 &amp;&amp; wr_en_i == 1" loc="a,dt"/>
+		<prop exp="rst_n == 1 &amp;&amp; wr_en_i == 0" loc="a,dt"/>
+		<prop exp="wr_en_i == 1 &amp;&amp; wr_data_i == 1" loc="a,dt"/>
+		<prop exp="rst_n == 1 &amp;&amp; wr_data_i == 0" loc="a,dt"/>
+		<prop exp="wr_en_i == 1 &amp;&amp; rd_data_o == 0" loc="a,dt"/>
+		<prop exp="rst_n == 1 &amp;&amp; rd_data_o == 0" loc="a,dt"/>
+		<prop exp="wr_en_i == 0 &amp;&amp; rd_data_o == 0" loc="a,dt"/>
+		<prop exp="rst_n == 0 &amp;&amp; wr_data_i == rd_data_o" loc="a,dt"/>
+		<prop exp="wr_data_i &lt; rd_data_o &amp;&amp; wr_data_i + rd_data_o &lt;= 65535" loc="a,c,dt"/>
+		<prop exp="wr_en_i == 1 &amp;&amp; wr_data_i == rd_data_o" loc="a,dt"/>
+		<prop exp="wr_data_i == rd_data_o &amp;&amp; wr_data_i + rd_data_o &lt;= 65535" loc="a,c,dt"/>
+		<prop exp="wr_en_i == 1 &amp;&amp; wr_data_i + rd_data_o &lt;= 65535" loc="a,dt"/>
+		<prop exp="wr_en_i == 0 &amp;&amp; wr_data_i == rd_data_o" loc="a,dt"/>
+		<prop exp="rst_n == 1 &amp;&amp; wr_data_i == rd_data_o" loc="a,dt"/>
+		<prop exp="wr_en_i == 1 &amp;&amp; wr_data_i &gt;= rd_data_o" loc="a,dt"/>
+		<prop exp="wr_en_i == 0 &amp;&amp; wr_data_i + rd_data_o &lt;= 65535" loc="a,dt"/>
+		<prop exp="rst_n == 1 &amp;&amp; wr_data_i + rd_data_o &lt;= 65535" loc="a,dt"/>
+		<prop exp="rst_n == 1 &amp;&amp; wr_data_i &gt;= rd_data_o" loc="a,dt"/>
+		<prop exp="wr_data_i &gt;= rd_data_o &amp;&amp; wr_data_i + rd_data_o &lt;= 65535" loc="a,c,dt"/>
+		<prop exp="rst_n == 1 &amp;&amp; wr_en_i == 1 &amp;&amp; rd_data_o == 0" loc="a,dt"/>
+		<prop exp="rst_n == 1 &amp;&amp; wr_en_i == 0 &amp;&amp; rd_data_o == 0" loc="a,dt"/>
+		<prop exp="wr_en_i == 1 &amp;&amp; wr_data_i == rd_data_o &amp;&amp; wr_data_i + rd_data_o &lt;= 65535" loc="a,dt"/>
+		<prop exp="rst_n == 1 &amp;&amp; wr_en_i == 1 &amp;&amp; wr_data_i + rd_data_o &lt;= 65535" loc="a,dt"/>
+		<prop exp="wr_en_i == 0 &amp;&amp; wr_data_i == rd_data_o &amp;&amp; wr_data_i + rd_data_o &lt;= 65535" loc="a,dt"/>
+		<prop exp="rst_n == 1 &amp;&amp; wr_data_i == rd_data_o &amp;&amp; wr_data_i + rd_data_o &lt;= 65535" loc="a,dt"/>
+		<prop exp="rst_n == 1 &amp;&amp; wr_en_i == 1 &amp;&amp; wr_data_i &gt;= rd_data_o" loc="a,dt"/>
+		<prop exp="wr_en_i == 1 &amp;&amp; wr_data_i &gt;= rd_data_o &amp;&amp; wr_data_i + rd_data_o &lt;= 65535" loc="a,dt"/>
+		<prop exp="rst_n == 1 &amp;&amp; wr_en_i == 0 &amp;&amp; wr_data_i == rd_data_o" loc="a,dt"/>
+		<prop exp="rst_n == 1 &amp;&amp; wr_en_i == 0 &amp;&amp; wr_data_i + rd_data_o &lt;= 65535" loc="a,dt"/>
+		<prop exp="rst_n == 1 &amp;&amp; wr_data_i &gt;= rd_data_o &amp;&amp; wr_data_i + rd_data_o &lt;= 65535" loc="a,dt"/>
+		<prop exp="rst_n == 1 &amp;&amp; wr_en_i == 1 &amp;&amp; wr_data_i &gt;= rd_data_o &amp;&amp; wr_data_i + rd_data_o &lt;= 65535" loc="a,dt"/>
+		<prop exp="rst_n == 1 &amp;&amp; wr_en_i == 0 &amp;&amp; wr_data_i == rd_data_o &amp;&amp; wr_data_i + rd_data_o &lt;= 65535" loc="a,dt"/>
+		<prop exp="$rose(rst_n)" loc="a,dt"/>
+		<prop exp="$fell(rst_n)" loc="a,dt"/>
+		<prop exp="$rose(rst_n) &amp;&amp; wr_en_i == 1" loc="a,dt"/>
+		<prop exp="$rose(rst_n) &amp;&amp; wr_en_i == 0" loc="a,dt"/>
+		<prop exp="$rose(rst_n) &amp;&amp; wr_data_i == 0" loc="a,dt"/>
+		<prop exp="$rose(wr_en_i)" loc="a,dt"/>
+		<prop exp="$fell(wr_en_i)" loc="a,dt"/>
+		<prop exp="$rose(wr_en_i) &amp;&amp; wr_data_i == 1" loc="a,dt"/>
 		<prop exp="rst_n" loc="a,c,dt"/>
 		<prop exp="wr_en_i" loc="a,c,dt"/>
 		<prop exp="rd_error_o" loc="a,c,dt"/>

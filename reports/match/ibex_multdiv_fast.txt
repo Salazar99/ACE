@@ -3,46 +3,30 @@
 
 == GUARANTEES ==
 -- declared vocabulary --
-[     MD1] equivalent      G((rst_n == 0) |-> (valid_o == 0))
-           witness        G((rst_n == 0) |-> valid_o == 0)
-[     MD2] missed          G(((mult_en_i == 0) ##1 (mult_en_i == 1)) |-> (##[1:40] valid_o == 1))
-[     MD3] missed          G(((div_en_i == 0) ##1 (div_en_i == 1)) |-> (##[1:40] valid_o == 1))
+[     MD1] mined-stronger  G((rst_n == 0) |-> (valid_o == 0))
+           witness        G((mult_en_i == 0 && div_en_i == 0) |-> valid_o == 0)
+[     MD2] equivalent      G(((mult_en_i == 0) ##1 (mult_en_i == 1)) |-> (##[1:40] valid_o == 1))
+           witness        G((((!(mult_en_i == 1)) ##1 (mult_en_i == 1))) |-> (##[1:40] valid_o == 1))
+[     MD3] equivalent      G(((div_en_i == 0) ##1 (div_en_i == 1)) |-> (##[1:40] valid_o == 1))
+           witness        G((((!(div_en_i == 1)) ##1 (div_en_i == 1))) |-> (##[1:40] valid_o == 1))
 [     MD4] missed          G(((div_en_i == 0) ##1 (rst_n == 1 && div_en_i == 1 && operator_i == 2 && op_b_i == 0)) |-> (##[1:40] (valid_o == 1 && multdiv_result_o == 4294967295)))
 [     MD5] missed          G(((div_en_i == 0) ##1 (rst_n == 1 && div_en_i == 1 && operator_i == 3 && op_b_i == 0)) |-> (##[1:40] (valid_o == 1 && multdiv_result_o == op_a_i)))
 [     MD6] mined-stronger  G((valid_o == 1 && mult_en_i == 1 && operator_i == 0) |-> (multdiv_result_o == op_a_i * op_b_i))
-           witness        G((operator_i == 0) |-> multdiv_result_o == op_a_i * op_b_i)
-[     MD7] equivalent      G((valid_o == 1 && div_en_i == 1 && operator_i == 2 && op_b_i >= 1) |-> (multdiv_result_o * op_b_i <= op_a_i))
-           witness        G((valid_o == 1 && div_en_i == 1 && operator_i == 2 && op_b_i >= 1) |-> multdiv_result_o * op_b_i <= op_a_i)
+           witness        G((((mult_en_i == 1) ##1 (!(mult_en_i == 1)))) |-> multdiv_result_o == op_a_i * op_b_i)
+[     MD7] mined-stronger  G((valid_o == 1 && div_en_i == 1 && operator_i == 2 && op_b_i >= 1) |-> (multdiv_result_o * op_b_i <= op_a_i))
+           witness        G((operator_i == 2 && valid_o == 1) |-> multdiv_result_o * op_b_i <= op_a_i)
 [     MD8] equivalent      G((valid_o == 1 && div_en_i == 1 && operator_i == 2 && op_b_i >= 1) |-> (multdiv_result_o * op_b_i + op_b_i > op_a_i))
            witness        G((valid_o == 1 && div_en_i == 1 && operator_i == 2 && op_b_i >= 1) |-> multdiv_result_o * op_b_i + op_b_i > op_a_i)
 [     MD9] equivalent      G((valid_o == 1 && div_en_i == 1 && operator_i == 3 && op_b_i >= 1) |-> (multdiv_result_o < op_b_i))
            witness        G((valid_o == 1 && div_en_i == 1 && operator_i == 3 && op_b_i >= 1) |-> multdiv_result_o < op_b_i)
 [    MD10] missed          G((mult_en_i == 1 && op_b_i == 0) |-> (##[1:40] (valid_o == 1 && multdiv_result_o == 0)))
 [    MD11] missed          G(((div_en_i == 0) ##1 (rst_n == 1 && div_en_i == 1 && operator_i == 2 && op_a_i == 0 && op_b_i >= 1)) |-> (##[1:40] (valid_o == 1 && multdiv_result_o == 0)))
-[    MD12] mined-weaker    G((mult_en_i == 0 && div_en_i == 0) |-> (valid_o == 0))
-           witness        G((rst_n == 0) |-> valid_o == 0)
-[    MD13] equivalent      G((valid_o == 1 && mult_en_i == 1 && op_a_i == 0) |-> (multdiv_result_o == 0))
-           witness        G((valid_o == 1 && mult_en_i == 1 && op_a_i == 0) |-> multdiv_result_o == 0)
+[    MD12] equivalent      G((mult_en_i == 0 && div_en_i == 0) |-> (valid_o == 0))
+           witness        G((mult_en_i == 0 && div_en_i == 0) |-> valid_o == 0)
+[    MD13] mined-stronger  G((valid_o == 1 && mult_en_i == 1 && op_a_i == 0) |-> (multdiv_result_o == 0))
+           witness        G((operator_i == op_a_i) |-> multdiv_result_o == 0)
 
--- interface vocabulary --
-[     MD1] mined-stronger  G((rst_n == 0) |-> (valid_o == 0))
-           witness        G(div_en_i == operator_i |-> (valid_o == 0))
-[     MD2] missed          G(((mult_en_i == 0) ##1 (mult_en_i == 1)) |-> (##[1:40] valid_o == 1))
-[     MD3] missed          G(((div_en_i == 0) ##1 (div_en_i == 1)) |-> (##[1:40] valid_o == 1))
-[     MD4] missed          G(((div_en_i == 0) ##1 (rst_n == 1 && div_en_i == 1 && operator_i == 2 && op_b_i == 0)) |-> (##[1:40] (valid_o == 1 && multdiv_result_o == 4294967295)))
-[     MD5] missed          G(((div_en_i == 0) ##1 (rst_n == 1 && div_en_i == 1 && operator_i == 3 && op_b_i == 0)) |-> (##[1:40] (valid_o == 1 && multdiv_result_o == op_a_i)))
-[     MD6] mined-stronger  G((valid_o == 1 && mult_en_i == 1 && operator_i == 0) |-> (multdiv_result_o == op_a_i * op_b_i))
-           witness        G((operator_i == 0) |-> multdiv_result_o == op_a_i * op_b_i)
-[     MD7] missed          G((valid_o == 1 && div_en_i == 1 && operator_i == 2 && op_b_i >= 1) |-> (multdiv_result_o * op_b_i <= op_a_i))
-[     MD8] missed          G((valid_o == 1 && div_en_i == 1 && operator_i == 2 && op_b_i >= 1) |-> (multdiv_result_o * op_b_i + op_b_i > op_a_i))
-[     MD9] missed          G((valid_o == 1 && div_en_i == 1 && operator_i == 3 && op_b_i >= 1) |-> (multdiv_result_o < op_b_i))
-[    MD10] missed          G((mult_en_i == 1 && op_b_i == 0) |-> (##[1:40] (valid_o == 1 && multdiv_result_o == 0)))
-[    MD11] missed          G(((div_en_i == 0) ##1 (rst_n == 1 && div_en_i == 1 && operator_i == 2 && op_a_i == 0 && op_b_i >= 1)) |-> (##[1:40] (valid_o == 1 && multdiv_result_o == 0)))
-[    MD12] missed          G((mult_en_i == 0 && div_en_i == 0) |-> (valid_o == 0))
-[    MD13] missed          G((valid_o == 1 && mult_en_i == 1 && op_a_i == 0) |-> (multdiv_result_o == 0))
-
-# declared: 916 mined, 6 matched a golden clause, 910 with no counterpart
-# interface: 4531 mined, 2 matched a golden clause, 4529 with no counterpart
+# declared: 4491 mined, 8 matched a golden clause, 4483 with no counterpart
 
 == ASSUMPTIONS ==
 -- declared vocabulary --
@@ -55,15 +39,4 @@
 [      A4] mined-stronger  op_a_i * op_b_i <= 4294967295
            witness        mult_en_i == 1
 
--- interface vocabulary --
-[      A1] mined-stronger  rst_n == 1
-           witness        mult_en_i == 1
-[      A2] mined-weaker    op_b_i >= 1
-           witness        div_en_i <= 1
-[      A3] mined-stronger  op_b_i == 0
-           witness        rst_n == 0
-[      A4] mined-stronger  op_a_i * op_b_i <= 4294967295
-           witness        mult_en_i == 1
-
 # declared: 19 mined, 3 matched a golden clause, 16 with no counterpart
-# interface: 19 mined, 3 matched a golden clause, 16 with no counterpart

@@ -31,6 +31,11 @@
  "max_ass": "HARM --max-ass: keep at most this many assertions after ranking (optional)",
  "min_frank": "HARM --min-frank: drop assertions below this ranking score (optional)",
  "numeric_clustering": "HARM <numeric clustering=...> for bitvectors (optional; default K,10Max,0.01WCSS,><,==)",
+ "compound_vocabulary": "declare the propositions a single template slot cannot otherwise reach: conjunctions over distinct signals, signal-to-signal relations, sign splits, same-stem sums and edges (default true, see vocabulary.compound)",
+ "compound_arity": "how many propositions a declared conjunction may conjoin (default 4; an APB bus phase needs four)",
+ "max_compound": "cap on the conjunction family, shared evenly across the widths (default 64). This is the knob that trades HARM run time for the three- and four-proposition antecedents",
+ "edge_vocabulary": "declare transitions as `$rose`/`$fell` propositions, alone and guarded by what the environment presents with them (default true)",
+ "max_edge_guards": "guarded edges per environment signal (default 4)",
  "trigger_candidates": [
   "optional explicit candidate list; omit to mine them with HARM"
  ],

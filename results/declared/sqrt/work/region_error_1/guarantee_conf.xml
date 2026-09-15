@@ -22,6 +22,79 @@
 		<prop exp="in &gt;= 1" loc="a,dt"/>
 		<prop exp="in &lt;= 1000" loc="a,dt"/>
 		<prop exp="out &lt;= 32" loc="c"/>
+		<prop exp="in == out" loc="a,c,dt"/>
+		<prop exp="in &gt;= out" loc="a,c,dt"/>
+		<prop exp="in &lt; out" loc="a,c,dt"/>
+		<prop exp="in + out &lt;= 4294967295" loc="a,c,dt"/>
+		<prop exp="start == 1 &amp;&amp; error == 0" loc="a,dt"/>
+		<prop exp="start == 1 &amp;&amp; error == 1" loc="a,dt"/>
+		<prop exp="start == 1 &amp;&amp; done == 1" loc="a,dt"/>
+		<prop exp="error == 0 &amp;&amp; done == 1" loc="a,c,dt"/>
+		<prop exp="start == 0 &amp;&amp; done == 0" loc="a,dt"/>
+		<prop exp="start == 0 &amp;&amp; error == 1" loc="a,dt"/>
+		<prop exp="start == 0 &amp;&amp; error == 0" loc="a,dt"/>
+		<prop exp="start == 0 &amp;&amp; done == 1" loc="a,dt"/>
+		<prop exp="start == 0 &amp;&amp; in &gt;= 4" loc="a,dt"/>
+		<prop exp="start == 0 &amp;&amp; in &lt; 0" loc="a,dt"/>
+		<prop exp="start == 0 &amp;&amp; in &gt;= 1" loc="a,dt"/>
+		<prop exp="start == 1 &amp;&amp; in &lt; 0" loc="a,dt"/>
+		<prop exp="start == 1 &amp;&amp; in &gt;= 4" loc="a,dt"/>
+		<prop exp="start == 1 &amp;&amp; in &gt;= 0" loc="a,dt"/>
+		<prop exp="start == 1 &amp;&amp; in &lt;= 8" loc="a,dt"/>
+		<prop exp="start == 1 &amp;&amp; out == 0" loc="a,dt"/>
+		<prop exp="start == 1 &amp;&amp; in &lt;= 1000" loc="a,dt"/>
+		<prop exp="start == 1 &amp;&amp; out &lt;= 32" loc="a,dt"/>
+		<prop exp="error == 1 &amp;&amp; in &gt;= 4" loc="a,dt"/>
+		<prop exp="done == 1 &amp;&amp; in &gt;= 4" loc="a,dt"/>
+		<prop exp="in &lt; 0 &amp;&amp; error == 0" loc="a,dt"/>
+		<prop exp="start == 1 &amp;&amp; error == 0 &amp;&amp; done == 1" loc="a,dt"/>
+		<prop exp="start == 0 &amp;&amp; error == 0 &amp;&amp; done == 1" loc="a,dt"/>
+		<prop exp="error == 0 &amp;&amp; done == 1 &amp;&amp; out &lt;= 32" loc="a,c,dt"/>
+		<prop exp="start == 1 &amp;&amp; error == 1 &amp;&amp; in &gt;= 4" loc="a,dt"/>
+		<prop exp="start == 1 &amp;&amp; error == 0 &amp;&amp; in &lt;= 1000" loc="a,dt"/>
+		<prop exp="start == 1 &amp;&amp; done == 1 &amp;&amp; in &gt;= 4" loc="a,dt"/>
+		<prop exp="start == 1 &amp;&amp; done == 1 &amp;&amp; out == 0" loc="a,dt"/>
+		<prop exp="start == 1 &amp;&amp; done == 1 &amp;&amp; in &lt;= 1000" loc="a,dt"/>
+		<prop exp="start == 1 &amp;&amp; done == 1 &amp;&amp; out &lt;= 32" loc="a,dt"/>
+		<prop exp="error == 0 &amp;&amp; done == 1 &amp;&amp; in == 0" loc="a,dt"/>
+		<prop exp="in &gt;= 0 &amp;&amp; error == 0 &amp;&amp; done == 1" loc="a,dt"/>
+		<prop exp="error == 0 &amp;&amp; done == 1 &amp;&amp; in &lt;= 8" loc="a,dt"/>
+		<prop exp="start == 0 &amp;&amp; error == 0 &amp;&amp; out == 0" loc="a,dt"/>
+		<prop exp="start == 0 &amp;&amp; error == 0 &amp;&amp; out &lt;= 32" loc="a,dt"/>
+		<prop exp="start == 0 &amp;&amp; error == 1 &amp;&amp; in &lt;= 8" loc="a,dt"/>
+		<prop exp="start == 0 &amp;&amp; error == 1 &amp;&amp; in &lt;= 1000" loc="a,dt"/>
+		<prop exp="in &gt;= 0 &amp;&amp; error == 1 &amp;&amp; in &lt;= 8" loc="a,dt"/>
+		<prop exp="in &gt;= 0 &amp;&amp; error == 1 &amp;&amp; in &lt;= 1000" loc="a,dt"/>
+		<prop exp="start == 0 &amp;&amp; done == 1 &amp;&amp; out == 0" loc="a,dt"/>
+		<prop exp="in &gt;= 0 &amp;&amp; error == 0 &amp;&amp; in &lt;= 1000" loc="a,dt"/>
+		<prop exp="start == 0 &amp;&amp; done == 1 &amp;&amp; out &lt;= 32" loc="a,dt"/>
+		<prop exp="start == 0 &amp;&amp; error == 0 &amp;&amp; done == 1 &amp;&amp; out &lt;= 32" loc="a,dt"/>
+		<prop exp="start == 0 &amp;&amp; in &gt;= 0 &amp;&amp; done == 1 &amp;&amp; in &lt;= 8" loc="a,dt"/>
+		<prop exp="start == 0 &amp;&amp; in &gt;= 0 &amp;&amp; done == 1 &amp;&amp; in &lt;= 1000" loc="a,dt"/>
+		<prop exp="in &gt;= 0 &amp;&amp; error == 0 &amp;&amp; in &lt;= 1000 &amp;&amp; out &lt;= 32" loc="a,dt"/>
+		<prop exp="start == 0 &amp;&amp; done == 1 &amp;&amp; in &gt;= out &amp;&amp; in &lt;= 8" loc="a,dt"/>
+		<prop exp="start == 0 &amp;&amp; done == 1 &amp;&amp; in &gt;= out &amp;&amp; in &lt;= 1000" loc="a,dt"/>
+		<prop exp="start == 0 &amp;&amp; done == 1 &amp;&amp; out == 0 &amp;&amp; in &lt;= 8" loc="a,dt"/>
+		<prop exp="start == 0 &amp;&amp; done == 1 &amp;&amp; out == 0 &amp;&amp; in &lt;= 1000" loc="a,dt"/>
+		<prop exp="in &gt;= 0 &amp;&amp; done == 1 &amp;&amp; in &lt;= 8 &amp;&amp; out &lt;= 32" loc="a,dt"/>
+		<prop exp="in &gt;= 0 &amp;&amp; done == 1 &amp;&amp; in &lt;= 1000 &amp;&amp; out &lt;= 32" loc="a,dt"/>
+		<prop exp="start == 0 &amp;&amp; done == 1 &amp;&amp; in &lt;= 8 &amp;&amp; out &lt;= 32" loc="a,dt"/>
+		<prop exp="start == 0 &amp;&amp; done == 1 &amp;&amp; in &lt;= 1000 &amp;&amp; out &lt;= 32" loc="a,dt"/>
+		<prop exp="start == 0 &amp;&amp; in &gt;= 0 &amp;&amp; done == 1 &amp;&amp; out &lt;= 32" loc="a,dt"/>
+		<prop exp="start == 0 &amp;&amp; in &gt;= 0 &amp;&amp; in &lt;= 8 &amp;&amp; out &lt;= 32" loc="a,dt"/>
+		<prop exp="start == 0 &amp;&amp; in &gt;= 0 &amp;&amp; in &lt;= 1000 &amp;&amp; out &lt;= 32" loc="a,dt"/>
+		<prop exp="$rose(rst)" loc="a,dt"/>
+		<prop exp="$fell(rst)" loc="a,dt"/>
+		<prop exp="$rose(start)" loc="a,dt"/>
+		<prop exp="$fell(start)" loc="a,dt"/>
+		<prop exp="$rose(start) &amp;&amp; in &gt;= 4 &amp;&amp; in &lt;= 8" loc="a,dt"/>
+		<prop exp="$rose(start) &amp;&amp; in &gt;= 4 &amp;&amp; in &lt;= 1000" loc="a,dt"/>
+		<prop exp="$rose(start) &amp;&amp; in &gt;= 0 &amp;&amp; in &lt;= 8" loc="a,dt"/>
+		<prop exp="$rose(start) &amp;&amp; in &gt;= 0 &amp;&amp; in &lt;= 1000" loc="a,dt"/>
+		<prop exp="$rose(error)" loc="a,dt"/>
+		<prop exp="$fell(error)" loc="a,dt"/>
+		<prop exp="$rose(done)" loc="a,dt"/>
+		<prop exp="$fell(done)" loc="a,dt"/>
 		<prop exp="rst" loc="a,c,dt"/>
 		<prop exp="start" loc="a,c,dt"/>
 		<prop exp="error" loc="a,c,dt"/>

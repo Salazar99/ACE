@@ -9,8 +9,8 @@
            witness        G((req0 + req1 + req2 + req3 == 0) |=> gnt0 + gnt1 + gnt2 + gnt3 == 0)
 [    ARB3] equivalent      G((gnt_valid == 1) |-> (gnt0 + gnt1 + gnt2 + gnt3 == 1))
            witness        G((gnt_valid == 1) |-> gnt_valid)
-[    ARB4] equivalent      G((gnt_valid == 0) |-> (gnt0 + gnt1 + gnt2 + gnt3 == 0))
-           witness        G((gnt_valid == 0) |-> gnt0 + gnt1 + gnt2 + gnt3 == 0)
+[    ARB4] mined-weaker    G((gnt_valid == 0) |-> (gnt0 + gnt1 + gnt2 + gnt3 == 0))
+           witness        G((gnt_valid == 0 && req0 + req1 + req2 + req3 == 1) |-> gnt0 + gnt1 + gnt2 + gnt3 == 0)
 [    ARB5] equivalent      G((req0 + req1 + req2 + req3 == 0) |=> (gnt_valid == 0))
            witness        G((req0 + req1 + req2 + req3 == 0) |=> gnt0 + gnt1 + gnt2 + gnt3 == 0)
 [    ARB6] equivalent      G((rst_n == 1 && req0 + req1 + req2 + req3 >= 1) |=> (gnt_valid == 1))
@@ -23,43 +23,22 @@
            witness        G((gnt2 == 1) |-> gnt2)
 [   ARB10] equivalent      G((gnt3 == 1) |-> (gnt_id == 3))
            witness        G((gnt3 == 1) |-> gnt3)
-[   ARB11] missed          G((req0 + req1 + req2 + req3 == 1 && req0 == 1) |=> (gnt0 == 1))
-[   ARB12] missed          G((req0 + req1 + req2 + req3 == 1 && req1 == 1) |=> (gnt1 == 1))
+[   ARB11] mined-weaker    G((req0 + req1 + req2 + req3 == 1 && req0 == 1) |=> (gnt0 == 1))
+           witness        G((req0 == 1 && req0 + req1 + req2 + req3 == 1 && gnt0 + gnt1 + gnt2 + gnt3 == 0) |=> gnt0)
+[   ARB12] mined-weaker    G((req0 + req1 + req2 + req3 == 1 && req1 == 1) |=> (gnt1 == 1))
+           witness        G((req1 == 1 && req0 + req1 + req2 + req3 == 1 && gnt0 + gnt1 + gnt2 + gnt3 == 0) |=> gnt1)
 [   ARB13] missed          G((req0 + req1 + req2 + req3 == 1 && req2 == 1) |=> (gnt2 == 1))
 [   ARB14] missed          G((req0 + req1 + req2 + req3 == 1 && req3 == 1) |=> (gnt3 == 1))
-[   ARB15] missed          G((req0 == 1 && gnt0 == 0) |-> ##[1:4] (gnt0 == 1))
-[   ARB16] missed          G((req1 == 1 && gnt1 == 0) |-> ##[1:4] (gnt1 == 1))
-[   ARB17] missed          G((req2 == 1 && gnt2 == 0) |-> ##[1:4] (gnt2 == 1))
-[   ARB18] missed          G((req3 == 1 && gnt3 == 0) |-> ##[1:4] (gnt3 == 1))
+[   ARB15] mined-weaker    G((req0 == 1 && gnt0 == 0) |-> ##[1:4] (gnt0 == 1))
+           witness        G((gnt0 == 0 && req0 + req1 + req2 + req3 == 4 && gnt0 + gnt1 + gnt2 + gnt3 == 1) |-> (##[1:4] gnt0))
+[   ARB16] mined-weaker    G((req1 == 1 && gnt1 == 0) |-> ##[1:4] (gnt1 == 1))
+           witness        G((gnt0 == 0 && gnt1 == 0 && req0 + req1 + req2 + req3 == 4 && gnt0 + gnt1 + gnt2 + gnt3 == 1) |-> (##[1:4] gnt1))
+[   ARB17] mined-weaker    G((req2 == 1 && gnt2 == 0) |-> ##[1:4] (gnt2 == 1))
+           witness        G((gnt0 == 0 && gnt2 == 0 && req0 + req1 + req2 + req3 == 4 && gnt0 + gnt1 + gnt2 + gnt3 == 1) |-> (##[1:4] gnt2))
+[   ARB18] mined-weaker    G((req3 == 1 && gnt3 == 0) |-> ##[1:4] (gnt3 == 1))
+           witness        G((gnt3 == 0 && req0 + req1 + req2 + req3 == 4) |-> (##[1:4] gnt3))
 
--- interface vocabulary --
-[    ARB1] missed          G((rst_n == 0) |=> (gnt_valid == 0))
-[    ARB2] missed          G((rst_n == 0) |=> (gnt_id == 0))
-[    ARB3] mined-weaker    G((gnt_valid == 1) |-> (gnt0 + gnt1 + gnt2 + gnt3 == 1))
-           witness        G((gnt0) |-> gnt_valid)
-[    ARB4] missed          G((gnt_valid == 0) |-> (gnt0 + gnt1 + gnt2 + gnt3 == 0))
-[    ARB5] missed          G((req0 + req1 + req2 + req3 == 0) |=> (gnt_valid == 0))
-[    ARB6] mined-weaker    G((rst_n == 1 && req0 + req1 + req2 + req3 >= 1) |=> (gnt_valid == 1))
-           witness        G((req0) |=> gnt_valid)
-[    ARB7] equivalent      G((gnt0 == 1) |-> (gnt_id == 0))
-           witness        G((gnt0) |-> gnt_id == 0)
-[    ARB8] equivalent      G((gnt1 == 1) |-> (gnt_id == 1))
-           witness        G((gnt1) |-> gnt_id == 1)
-[    ARB9] equivalent      G((gnt2 == 1) |-> (gnt_id == 2))
-           witness        G((gnt2) |-> gnt_id == 2)
-[   ARB10] equivalent      G((gnt3 == 1) |-> (gnt_id == 3))
-           witness        G((gnt3) |-> gnt_id == 3)
-[   ARB11] missed          G((req0 + req1 + req2 + req3 == 1 && req0 == 1) |=> (gnt0 == 1))
-[   ARB12] missed          G((req0 + req1 + req2 + req3 == 1 && req1 == 1) |=> (gnt1 == 1))
-[   ARB13] missed          G((req0 + req1 + req2 + req3 == 1 && req2 == 1) |=> (gnt2 == 1))
-[   ARB14] missed          G((req0 + req1 + req2 + req3 == 1 && req3 == 1) |=> (gnt3 == 1))
-[   ARB15] missed          G((req0 == 1 && gnt0 == 0) |-> ##[1:4] (gnt0 == 1))
-[   ARB16] missed          G((req1 == 1 && gnt1 == 0) |-> ##[1:4] (gnt1 == 1))
-[   ARB17] missed          G((req2 == 1 && gnt2 == 0) |-> ##[1:4] (gnt2 == 1))
-[   ARB18] missed          G((req3 == 1 && gnt3 == 0) |-> ##[1:4] (gnt3 == 1))
-
-# declared: 75 mined, 8 matched a golden clause, 67 with no counterpart
-# interface: 358 mined, 6 matched a golden clause, 352 with no counterpart
+# declared: 1136 mined, 14 matched a golden clause, 1122 with no counterpart
 
 == ASSUMPTIONS ==
 -- declared vocabulary --
@@ -68,11 +47,4 @@
 [      A2] mined-stronger  req0 + req1 + req2 + req3 >= 1
            witness        req0 == 1
 
--- interface vocabulary --
-[      A1] mined-weaker    rst_n == 1
-           witness        req0 <= 1
-[      A2] mined-weaker    req0 + req1 + req2 + req3 >= 1
-           witness        req0 <= 1
-
 # declared: 19 mined, 1 matched a golden clause, 18 with no counterpart
-# interface: 18 mined, 1 matched a golden clause, 17 with no counterpart

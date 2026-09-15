@@ -11,12 +11,87 @@
   "cin >= 0"
  ],
  "mined_instances": [
+  "G((((!(cin == 1)) ##1 (cin == 1 && a == 0))) |-> a + sum <= 255)",
+  "G((((!(cin == 1)) ##1 (cin == 1 && a == 0))) |-> a < sum)",
+  "G((((!(cin == 1)) ##1 (cin == 1 && a == 0))) |-> b + sum <= 255)",
+  "G((((!(cin == 1)) ##1 (cin == 1 && a == 0))) |-> b < sum)",
+  "G((((!(cin == 1)) ##1 (cin == 1 && b == 0))) |-> a + sum <= 255)",
+  "G((((!(cin == 1)) ##1 (cin == 1 && b == 0))) |-> b + sum <= 255)",
+  "G((((!(cin == 1)) ##1 (cin == 1 && b == 0))) |-> sum >= 0 && sum <= 9)",
+  "G((((!(cout == 1)) ##1 (cout == 1))) |-> a >= sum)",
+  "G((((!(cout == 1)) ##1 (cout == 1))) |-> b >= sum)",
+  "G((((!(cout == 1)) ##1 (cout == 1))) |-> cout == 1)",
+  "G((((!(cout == 1)) ##1 (cout == 1))) |-> cout)",
+  "G((((!(cout == 1)) ##1 (cout == 1))) |-> sum == a + b + cin - 256)",
+  "G((((cout == 1) ##1 (!(cout == 1)))) |-> cout == 0)",
+  "G((((cout == 1) ##1 (!(cout == 1)))) |-> sum == a + b + cin)",
   "G((a + b + cin <= 255) |-> cout == 0)",
   "G((a + b + cin <= 255) |-> sum == a + b + cin)",
   "G((a + b + cin >= 256) |-> cout)",
+  "G((a + b <= 255 && a >= sum && a + sum <= 255 && b <= 127) |-> a + sum <= 255)",
+  "G((a + b <= 255 && a >= sum && a + sum <= 255 && b <= 127) |-> a >= sum)",
+  "G((a + b <= 255 && a >= sum && a + sum <= 255 && b <= 127) |-> b + sum <= 255)",
+  "G((a < b && b >= sum && b + sum <= 255 && a <= 127) |-> a + sum <= 255)",
+  "G((a < b && b >= sum && b + sum <= 255 && a <= 127) |-> b + sum <= 255)",
+  "G((a < b && b >= sum && b + sum <= 255 && a <= 127) |-> b >= sum)",
+  "G((a == 0) |-> a + sum <= 255)",
+  "G((a == 0) |-> b + sum <= 255)",
+  "G((a == sum) |-> a >= sum)",
+  "G((a == sum) |-> sum == a)",
+  "G((a >= sum && b >= sum && b + sum <= 255 && a <= 127) |-> a + sum <= 255)",
+  "G((a >= sum && b >= sum && b + sum <= 255 && a <= 127) |-> a >= sum)",
+  "G((a >= sum && b >= sum && b + sum <= 255 && a <= 127) |-> b + sum <= 255)",
+  "G((a >= sum && b >= sum && b + sum <= 255 && a <= 127) |-> b >= sum)",
+  "G((b == 0) |-> b + sum <= 255)",
+  "G((b == sum && b + sum <= 255) |-> b + sum <= 255)",
+  "G((b == sum && b + sum <= 255) |-> b == sum)",
+  "G((b == sum) |-> b >= sum)",
+  "G((cin == 0 && a < b && a + sum <= 255 && b >= sum) |-> a + sum <= 255)",
+  "G((cin == 0 && a < b && a + sum <= 255 && b >= sum) |-> b >= sum)",
+  "G((cin == 0 && a < b && b <= 127) |-> a < sum)",
+  "G((cin == 0 && a < b && b >= sum && b + sum <= 255) |-> b + sum <= 255)",
+  "G((cin == 0 && a == sum) |-> a == sum)",
+  "G((cin == 0 && a >= b && a + sum <= 255 && b < sum) |-> b < sum)",
+  "G((cin == 0 && a >= b && a < sum && a <= 127) |-> a < sum)",
+  "G((cin == 0 && a >= b && a < sum && a <= 127) |-> b < sum)",
+  "G((cin == 0 && a >= b && a < sum && b + sum <= 255) |-> a < sum)",
+  "G((cin == 0 && a >= b && a < sum && b + sum <= 255) |-> b + sum <= 255)",
+  "G((cin == 0 && a >= b && a < sum && b + sum <= 255) |-> b < sum)",
+  "G((cin == 0 && a >= sum && a <= 127) |-> a + sum <= 255)",
+  "G((cin == 0 && a >= sum && a <= 127) |-> a >= sum)",
+  "G((cin == 0 && a >= sum && b + sum <= 255 && a <= 127) |-> b + sum <= 255)",
+  "G((cin == 0 && a >= sum && b >= sum && a <= 127) |-> b >= sum)",
+  "G((cin == 0 && b >= sum && b + sum <= 255 && a <= 127) |-> a + sum <= 255)",
+  "G((cin == 0 && b >= sum && b + sum <= 255 && a <= 127) |-> b + sum <= 255)",
+  "G((cin == 0 && b >= sum && b + sum <= 255 && a <= 127) |-> b >= sum)",
+  "G((cin == 0 && cout == 0 && a >= b && a + sum <= 255) |-> a + sum <= 255)",
+  "G((cin == 0 && cout == 0 && a >= b && a + sum <= 255) |-> b + sum <= 255)",
+  "G((cin == 0 && cout == 1 && sum == cin) |-> cout == 1 && sum == cin)",
+  "G((cin == 0 && sum == cin) |-> a >= sum)",
+  "G((cin == 0 && sum == cin) |-> b >= sum)",
+  "G((cin == 1 && b == 0) |-> a + sum <= 255)",
+  "G((cin == 1 && cout == 0 && a == b) |-> a + sum <= 255)",
+  "G((cin == 1 && cout == 0 && a == b) |-> a >= 0 && a <= 25)",
+  "G((cin == 1 && cout == 0 && a == b) |-> b + sum <= 255)",
+  "G((cin == 1 && cout == 0) |-> a < sum)",
+  "G((cin == 1 && cout == 0) |-> b < sum)",
+  "G((cin == 1 && cout == 1 && a < b && a + sum <= 255) |-> a + sum <= 255)",
+  "G((cin == 1 && cout == 1 && a < b && b + sum <= 255) |-> b + sum <= 255)",
+  "G((cout == 0 && b == 0) |-> b >= 0 && b <= 10)",
+  "G((cout == 1 && a + b <= 255 && b <= 127) |-> sum >= 0 && sum <= 9)",
+  "G((cout == 1 && a <= 127) |-> a + sum <= 255)",
+  "G((cout == 1 && b <= 127) |-> b + sum <= 255)",
+  "G((cout == 1 && sum == cin && b <= 127) |-> cout == 1 && sum == cin)",
+  "G((cout) |-> a >= sum)",
+  "G((cout) |-> b >= sum)",
   "G((cout) |-> cout == 1)",
   "G((cout) |-> sum == a + b + cin - 256)",
-  "G(cin == 0 |-> (cout <= b))"
+  "G((sum >= 0 && sum <= 9) |-> b + sum <= 255)",
+  "G(cin == 0 |-> (cout <= b))",
+  "G(cin == 1 && cout >= 0 && cout <= 1 |-> cin)",
+  "G(cin >= 0 && cin <= 1 && sum == cin |-> a + sum <= 255)",
+  "G(cin >= 0 && cin <= 1 && sum == cin |-> sum == cin)",
+  "G(cin >= 0 && cin <= 1 && sum == cin |-> sum >= 0 && sum <= 9)"
  ],
  "assumptions": {
   "references": 2,
@@ -40,13 +115,12 @@
  },
  "guarantees": {
   "references": 7,
-  "mined": 6,
-  "recall": 0.5714285714285714,
-  "acceptable_recall": 0.7142857142857143,
+  "mined": 81,
+  "recall": 0.7142857142857143,
+  "acceptable_recall": 1.0,
   "categories": {
-   "equivalent": 4,
-   "missed": 2,
-   "mined-stronger": 1
+   "equivalent": 5,
+   "mined-stronger": 2
   },
   "detail": {
    "G((a + b + cin <= 255) |-> (sum == a + b + cin))": {
@@ -66,16 +140,16 @@
     "mined": "G((a + b + cin >= 256) |-> cout)"
    },
    "G((a == 0 && b == 0) |-> (sum == cin))": {
-    "category": "missed",
-    "mined": null
+    "category": "mined-stronger",
+    "mined": "G(cin >= 0 && cin <= 1 && sum == cin |-> sum == cin)"
    },
    "G((a <= 127 && b <= 127) |-> (cout == 0))": {
     "category": "mined-stronger",
     "mined": "G((a + b + cin <= 255) |-> cout == 0)"
    },
    "G((b == 0 && cin == 0) |-> (sum == a))": {
-    "category": "missed",
-    "mined": null
+    "category": "equivalent",
+    "mined": "G((cin == 0 && a == sum) |-> a == sum)"
    }
   }
  }

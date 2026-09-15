@@ -3,35 +3,20 @@
 
 == GUARANTEES ==
 -- declared vocabulary --
-[    ACC1] equivalent      G((rst_n == 0) |-> (valid_out == 0))
-           witness        G((rst_n == 0) |-> valid_out == 0)
-[    ACC2] equivalent      G((rst_n == 0) |-> (data_out == 0))
-           witness        G((rst_n == 0) |-> data_out == 0)
-[    ACC3] missed          G((valid_out == 1) |=> (valid_out == 0))
-[    ACC4] missed          G((valid_out == 1 && valid_in == 0) |=> (valid_out == 0))
-[    ACC5] missed          G((valid_out == 1 && valid_in == 1) |=> (data_out <= 255))
-
--- interface vocabulary --
-[    ACC1] missed          G((rst_n == 0) |-> (valid_out == 0))
-[    ACC2] missed          G((rst_n == 0) |-> (data_out == 0))
+[    ACC1] mined-stronger  G((rst_n == 0) |-> (valid_out == 0))
+           witness        G((valid_in == 0 && data_out == 0) |-> valid_out == 0 && data_out == 0)
+[    ACC2] mined-stronger  G((rst_n == 0) |-> (data_out == 0))
+           witness        G((valid_in == 0 && data_out == 0) |-> valid_out == 0 && data_out == 0)
 [    ACC3] mined-weaker    G((valid_out == 1) |=> (valid_out == 0))
-           witness        G((valid_out) |=> valid_out <= data_in)
+           witness        G((valid_in == 1 && valid_out == 1) |=> valid_out == 0)
 [    ACC4] missed          G((valid_out == 1 && valid_in == 0) |=> (valid_out == 0))
-[    ACC5] missed          G((valid_out == 1 && valid_in == 1) |=> (data_out <= 255))
+[    ACC5] equivalent      G((valid_out == 1 && valid_in == 1) |=> (data_out <= 255))
+           witness        G((valid_in == 1 && valid_out == 1) |=> data_out <= 255)
 
-# declared: 60 mined, 2 matched a golden clause, 58 with no counterpart
-# interface: 559 mined, 1 matched a golden clause, 558 with no counterpart
+# declared: 159 mined, 3 matched a golden clause, 156 with no counterpart
 
 == ASSUMPTIONS ==
 -- declared vocabulary --
-[      A1] mined-weaker    rst_n == 1
-           witness        data_in <= 255
-[      A2] mined-weaker    valid_in == 1
-           witness        data_in <= 255
-[      A3] equivalent      data_in <= 255
-           witness        data_in <= 255
-
--- interface vocabulary --
 [      A1] equivalent      rst_n == 1
            witness        rst_n == 1
 [      A2] mined-weaker    valid_in == 1
@@ -39,5 +24,4 @@
 [      A3] equivalent      data_in <= 255
            witness        data_in <= 255
 
-# declared: 9 mined, 1 matched a golden clause, 8 with no counterpart
-# interface: 10 mined, 2 matched a golden clause, 8 with no counterpart
+# declared: 10 mined, 2 matched a golden clause, 8 with no counterpart

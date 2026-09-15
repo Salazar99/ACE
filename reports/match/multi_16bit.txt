@@ -5,8 +5,8 @@
 -- declared vocabulary --
 [    MUL1] mined-stronger  G((rst_n == 0) |-> (done == 0))
            witness        G((start == 0) |-> done == 0)
-[    MUL2] equivalent      G((rst_n == 0) |-> (yout == 0))
-           witness        G((rst_n == 0) |-> yout == 0)
+[    MUL2] mined-stronger  G((rst_n == 0) |-> (yout == 0))
+           witness        G((start == 0 && yout == 0) |-> yout == 0)
 [    MUL3] equivalent      G((done == 1) |=> (done == 0))
            witness        G((done) |=> done == 0)
 [    MUL5] equivalent      G((done == 1) |-> (yout == ain * bin))
@@ -15,26 +15,12 @@
            witness        G((ain == 0) |-> yout == 0)
 [    MUL7] mined-stronger  G((done == 1 && bin == 0) |-> (yout == 0))
            witness        G((bin == 0) |-> yout == 0)
-[    MUL8] missed          G((done == 1 && ain == 1) |-> (yout == bin))
+[    MUL8] mined-stronger  G((done == 1 && ain == 1) |-> (yout == bin))
+           witness        G((bin == yout) |-> yout == bin)
 [   MUL10] equivalent      G((start == 0) |=> (done == 0))
            witness        G((start == 0) |=> done == 0)
 
--- interface vocabulary --
-[    MUL1] missed          G((rst_n == 0) |-> (done == 0))
-[    MUL2] missed          G((rst_n == 0) |-> (yout == 0))
-[    MUL3] equivalent      G((done == 1) |=> (done == 0))
-           witness        G((done) |=> done * 2 <= rst_n)
-[    MUL5] equivalent      G((done == 1) |-> (yout == ain * bin))
-           witness        G((done) |-> yout == ain * bin)
-[    MUL6] mined-stronger  G((done == 1 && ain == 0) |-> (yout == 0))
-           witness        G(start |-> (yout == 0))
-[    MUL7] mined-stronger  G((done == 1 && bin == 0) |-> (yout == 0))
-           witness        G(start |-> (yout == 0))
-[    MUL8] missed          G((done == 1 && ain == 1) |-> (yout == bin))
-[   MUL10] missed          G((start == 0) |=> (done == 0))
-
-# declared: 237 mined, 7 matched a golden clause, 230 with no counterpart
-# interface: 3215 mined, 3 matched a golden clause, 3212 with no counterpart
+# declared: 1981 mined, 8 matched a golden clause, 1973 with no counterpart
 
 == ASSUMPTIONS ==
 -- declared vocabulary --
@@ -45,13 +31,4 @@
 [      A3] mined-stronger  ain <= 65535 && bin <= 65535
            witness        ain == 0
 
--- interface vocabulary --
-[      A1] mined-stronger  rst_n == 1
-           witness        start == 1
-[      A2] equivalent      start == 1
-           witness        start == 1
-[      A3] mined-stronger  ain <= 65535 && bin <= 65535
-           witness        ain == 0
-
 # declared: 13 mined, 2 matched a golden clause, 11 with no counterpart
-# interface: 13 mined, 2 matched a golden clause, 11 with no counterpart
