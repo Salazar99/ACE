@@ -1,0 +1,186 @@
+{
+ "cover_thresholds": [
+  0.5,
+  0.8,
+  0.95
+ ],
+ "note": "windowed (##[1:H]) clauses and non-declared consequents are excluded",
+ "designs": [
+  {
+   "design": "accumulator",
+   "declared_props": 63,
+   "obligations": 0,
+   "vacuous_skipped": 0,
+   "statable": {
+    "0.5": 0,
+    "0.8": 0,
+    "0.95": 0
+   },
+   "beyond": {
+    "0.5": 0,
+    "0.8": 0,
+    "0.95": 0
+   }
+  },
+  {
+   "design": "adder_8bit",
+   "declared_props": 96,
+   "obligations": 0,
+   "vacuous_skipped": 0,
+   "statable": {
+    "0.5": 0,
+    "0.8": 0,
+    "0.95": 0
+   },
+   "beyond": {
+    "0.5": 0,
+    "0.8": 0,
+    "0.95": 0
+   }
+  },
+  {
+   "design": "apb_slave",
+   "declared_props": 122,
+   "obligations": 93,
+   "vacuous_skipped": 0,
+   "statable": {
+    "0.5": 43,
+    "0.8": 38,
+    "0.95": 37
+   },
+   "beyond": {
+    "0.5": 50,
+    "0.8": 55,
+    "0.95": 56
+   }
+  },
+  {
+   "design": "arbiter4",
+   "declared_props": 129,
+   "obligations": 2,
+   "vacuous_skipped": 0,
+   "statable": {
+    "0.5": 2,
+    "0.8": 0,
+    "0.95": 0
+   },
+   "beyond": {
+    "0.5": 0,
+    "0.8": 2,
+    "0.95": 2
+   }
+  },
+  {
+   "design": "comparator_3bit",
+   "declared_props": 55,
+   "obligations": 0,
+   "vacuous_skipped": 0,
+   "statable": {
+    "0.5": 0,
+    "0.8": 0,
+    "0.95": 0
+   },
+   "beyond": {
+    "0.5": 0,
+    "0.8": 0,
+    "0.95": 0
+   }
+  },
+  {
+   "design": "fifo_sync",
+   "declared_props": 110,
+   "obligations": 161,
+   "vacuous_skipped": 0,
+   "statable": {
+    "0.5": 74,
+    "0.8": 66,
+    "0.95": 64
+   },
+   "beyond": {
+    "0.5": 87,
+    "0.8": 95,
+    "0.95": 97
+   }
+  },
+  {
+   "design": "ibex_alu",
+   "declared_props": 131,
+   "obligations": 79,
+   "vacuous_skipped": 0,
+   "statable": {
+    "0.5": 79,
+    "0.8": 79,
+    "0.95": 79
+   },
+   "beyond": {
+    "0.5": 0,
+    "0.8": 0,
+    "0.95": 0
+   }
+  },
+  {
+   "design": "ibex_csr",
+   "declared_props": 41,
+   "obligations": 15,
+   "vacuous_skipped": 0,
+   "statable": {
+    "0.5": 6,
+    "0.8": 5,
+    "0.95": 5
+   },
+   "beyond": {
+    "0.5": 9,
+    "0.8": 10,
+    "0.95": 10
+   }
+  },
+  {
+   "design": "ibex_multdiv_fast",
+   "declared_props": 138,
+   "obligations": 0,
+   "vacuous_skipped": 0,
+   "statable": {
+    "0.5": 0,
+    "0.8": 0,
+    "0.95": 0
+   },
+   "beyond": {
+    "0.5": 0,
+    "0.8": 0,
+    "0.95": 0
+   }
+  },
+  {
+   "design": "multi_16bit",
+   "declared_props": 101,
+   "obligations": 0,
+   "vacuous_skipped": 0,
+   "statable": {
+    "0.5": 0,
+    "0.8": 0,
+    "0.95": 0
+   },
+   "beyond": {
+    "0.5": 0,
+    "0.8": 0,
+    "0.95": 0
+   }
+  },
+  {
+   "design": "sqrt",
+   "declared_props": 87,
+   "obligations": 33,
+   "vacuous_skipped": 0,
+   "statable": {
+    "0.5": 24,
+    "0.8": 22,
+    "0.95": 13
+   },
+   "beyond": {
+    "0.5": 9,
+    "0.8": 11,
+    "0.95": 20
+   }
+  }
+ ]
+}
