@@ -95,10 +95,11 @@ DESIGNS = {
 }
 
 
-# Where the eight FDL26 designs keep their RTL. The old flow now lives under
-# legacy/fdl26/, so both layouts are accepted and the repository itself is the default:
-# nothing has to be passed on the command line inside a checkout.
-FDL26_CANDIDATES = ("legacy/fdl26/FDL26/FDL26_tests", "FDL26/FDL26_tests")
+# Where the eight FDL26 designs keep their RTL. That RTL is not carried in this repository -
+# only the traces it produced, under benchmarks/traces/ - so regenerating those eight needs an
+# FDL26 checkout named with --ace-root. The three protocol designs carry their own RTL and do
+# not come through here. --validate-only never calls this.
+FDL26_CANDIDATES = ("FDL26/FDL26_tests", "FDL26_tests")
 
 
 def find_fdl26_tests(ace_root=None):
@@ -106,8 +107,11 @@ def find_fdl26_tests(ace_root=None):
     for relative in FDL26_CANDIDATES:
         if (root / relative).is_dir():
             return root / relative
-    raise SystemExit(f"FDL26 designs not found under {root} "
-                     f"(looked in {', '.join(FDL26_CANDIDATES)}); pass --ace-root")
+    raise SystemExit(
+        f"FDL26 RTL not found under {root} (looked in {', '.join(FDL26_CANDIDATES)}). "
+        f"This repository ships the traces, not that RTL: pass --ace-root pointing at an "
+        f"FDL26 checkout, or use --validate-only to re-check the reference contracts "
+        f"against the committed traces instead.")
 
 
 def sh(command, cwd=None):

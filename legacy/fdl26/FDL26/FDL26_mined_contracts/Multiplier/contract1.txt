@@ -1,6 +1,0 @@
-ASSUMES True
-
-GUARANTEES
-
- G({!rst_n ##1 start} |-> {##17 done}) 
- G({!start ##1 rst_n} |-> {##17 done}) 

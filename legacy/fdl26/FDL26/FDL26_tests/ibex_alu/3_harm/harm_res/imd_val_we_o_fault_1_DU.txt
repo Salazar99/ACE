@@ -1,4 +1,0 @@
-G({!multdiv_sel_i} |-> DU)
-G({!multdiv_operand_b_i} |-> DU)
-G({!multdiv_operand_a_i} |-> DU)
-G({!instr_first_cycle_i} |-> DU)

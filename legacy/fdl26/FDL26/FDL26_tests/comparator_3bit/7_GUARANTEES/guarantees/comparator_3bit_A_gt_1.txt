@@ -1,8 +1,0 @@
-G({A != B} |-> A_less)
-G({!(A >= B)} |-> A_less)
-G({A < B} |-> A_less)
-G({!(A == B)} |-> A_less)
-G({!(A != B)} |-> A_equal)
-G({A >= B} |-> A_equal)
-G({!(A < B)} |-> A_equal)
-G({(A == B)} |-> A_equal)

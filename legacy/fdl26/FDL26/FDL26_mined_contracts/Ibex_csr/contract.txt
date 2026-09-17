@@ -1,5 +1,0 @@
-ASSUMES wr_en_i == 1
-
-GUARANTEES
-G({wr_en_i} |-> X(rd_data_o))   
-G({wr_en_i} |-> {##1 rd_data_o})

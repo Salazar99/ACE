@@ -20,7 +20,7 @@ root=$(cd "$here/../.." && pwd)
 out=${1:-"$here/../traces/$design"}
 cycles=${CYCLES:-3000}
 obj=${OBJ_DIR:-"$root/benchmarks/build/obj_${design}_spaced"}   # where run.py builds too
-rtl="$root/legacy/fdl26/FDL26/FDL26_tests/sqrt"
+rtl="${ACE_FDL26:?set ACE_FDL26 to an FDL26 checkout containing sqrt/}/sqrt"
 
 mkdir -p "$out" "$obj"
 

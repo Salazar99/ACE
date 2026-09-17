@@ -1,9 +1,0 @@
-<harm>
-	<context name="default">
-		<numeric clustering="K,10Max,0.01WCSS,&gt;&lt;,==" exp="operator_i" loc="a,dt"/>
-		<numeric clustering="K,10Max,0.01WCSS,&gt;&lt;,==" exp="operand_a_i" loc="a,dt"/>
-		<numeric clustering="K,10Max,0.01WCSS,&gt;&lt;,==" exp="operand_b_i" loc="a,dt"/>
-		<template exp="G(P0 |-&gt; (comparison_result_o == 1))" />
-		<sort name="smoothed_recall" exp="(atct+1)/(atct+afct+2)"/>
-	</context>
-</harm>

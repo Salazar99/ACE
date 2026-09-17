@@ -20,7 +20,7 @@ root=$(cd "$here/../.." && pwd)
 out=${1:-"$here/../traces/$design"}
 cycles=${CYCLES:-3000}
 obj=${OBJ_DIR:-"$root/benchmarks/build/obj_${design}_spaced"}
-rtl="$root/legacy/fdl26/FDL26/FDL26_tests/accumulator"
+rtl="${ACE_FDL26:?set ACE_FDL26 to an FDL26 checkout containing accumulator/}/accumulator"
 
 mkdir -p "$out" "$obj"
 
