@@ -20,13 +20,13 @@ root=$(cd "$here/../.." && pwd)
 out=${1:-"$here/../traces/$design"}
 cycles=${CYCLES:-3000}
 obj=${OBJ_DIR:-"$root/benchmarks/build/obj_${design}_spaced"}   # where run.py builds too
-rtl="${ACE_FDL26:?set ACE_FDL26 to an FDL26 checkout containing sqrt/}/sqrt"
+rtl="$here/rtl"
 
 mkdir -p "$out" "$obj"
 
 verilator --binary --timing -j 0 -Wno-fatal -Wno-WIDTHTRUNC -Wno-WIDTHEXPAND \
   -Wno-TIMESCALEMOD --top-module tb_sqrt_spaced -Mdir "$obj" -o sim \
-  "$rtl/tb/sqrtintf.sv" "$rtl/rtl/sqrt_calculator.sv" "$here/tb_sqrt_spaced.sv"
+  "$rtl/sqrtintf.sv" "$rtl/sqrt_calculator.sv" "$here/tb_sqrt_spaced.sv"
 
 for seed in 11 12 13 14 15; do
   "$obj/sim" +seed=$seed +cycles=$cycles \

@@ -1,7 +1,7 @@
 {
  "name": "BENCHMARK",
  "traces": [
-  "$ACEROOT/FDL26/FDL26_tests/BENCHMARK/1_csv/*.csv"
+  "benchmarks/traces/BENCHMARK/mine_seed*.csv"
  ],
  "holdout": [
   "independently generated runs, kept out of mining; [] to skip Step 5"

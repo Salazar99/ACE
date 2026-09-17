@@ -21,7 +21,7 @@ region with HARM, and validates and minimizes what comes back.
 │                         #   + formula (evaluator), vocabulary (atoms), traces, backends
 ├── benchmarks/           # 11 designs, each with a confirmed reference set
 │   ├── <design>/         #   tb_<design>.sv, generate.sh, config.json, candidates.json,
-│   │                     #   reference_contracts.txt, and rtl/ for the 3 protocol blocks
+│   │                     #   reference_contracts.txt, rtl/
 │   ├── traces/<design>/  #   mine_seed*, holdout_seed*, stress_seed*, reference_check.json
 │   └── run.py            #   build, simulate, validate the reference contracts
 ├── tools/                # sweeps, scoring, reporting, HARM install and check
@@ -76,18 +76,20 @@ what `--validate-only` re-runs.
 
 ## Regenerating traces
 
-Needs verilator 5.x on PATH. The three protocol designs (`apb_slave`, `arbiter4`, `fifo_sync`)
-carry their own RTL and regenerate standalone:
+Needs verilator 5.x on PATH and nothing else — every design carries its own RTL under
+`benchmarks/<design>/rtl/`, so there is no external checkout to find:
 
-    python3 benchmarks/run.py --design arbiter4
-    cd benchmarks/arbiter4 && ./generate.sh
+    python3 benchmarks/run.py                          # all 11 designs
+    python3 benchmarks/run.py --design arbiter4        # one of them
 
-The other eight designs come from an FDL26 checkout whose RTL is **not carried here** — this
-repository ships the traces it produced, not the RTL. To rebuild those, point `run.py` at a
-checkout:
+`run.py` writes into `benchmarks/traces/`, overwriting the committed corpus every result under
+`results/` was mined from. Point it elsewhere with `--out` if that is not what you want.
 
-    python3 benchmarks/run.py --ace-root /path/to/fdl26
-    ACE_FDL26=/path/to/fdl26/FDL26/FDL26_tests benchmarks/sqrt/generate_spaced.sh
+The protocol designs (`apb_slave`, `arbiter4`, `fifo_sync`) also carry a standalone generator,
+and `accumulator` and `sqrt` carry one for their spaced-stimulus traces:
+
+    cd benchmarks/arbiter4 && ./generate.sh            # ten traces, verilator only
+    benchmarks/sqrt/generate_spaced.sh /tmp/out        # eight extra traces, disjoint seeds
 
 All testbenches are plain SystemVerilog driven by plusargs (`+seed`, `+cycles`, `+scenario`,
 `+out`), so QuestaSim runs them the same way.

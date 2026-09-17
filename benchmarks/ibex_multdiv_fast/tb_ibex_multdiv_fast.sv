@@ -2,7 +2,7 @@
 //
 // The DUT is not self-contained: it needs an external adder on its ALU operand outputs and
 // an external register for its intermediate values. Both are wired here exactly as the
-// existing FDL26 testbench and ibex_ex_block do, and neither is written to the trace: they
+// ibex_ex_block does, and neither is written to the trace: they
 // are internal to the composition, not part of the observable interface.
 //
 // operator_i is written as its ibex_pkg::md_op_e encoding: MULL=0 MULH=1 DIV=2 REM=3.
