@@ -91,9 +91,6 @@ and `accumulator` and `sqrt` carry one for their spaced-stimulus traces:
     cd benchmarks/arbiter4 && ./generate.sh            # ten traces, verilator only
     benchmarks/sqrt/generate_spaced.sh /tmp/out        # eight extra traces, disjoint seeds
 
-All testbenches are plain SystemVerilog driven by plusargs (`+seed`, `+cycles`, `+scenario`,
-`+out`), so QuestaSim runs them the same way.
-
 ## Dependencies
 
 * python3 (3.10+), standard library only, for the flow, the scoring and the reports
